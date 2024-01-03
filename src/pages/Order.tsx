@@ -28,7 +28,10 @@ export const Order = () => {
           endpoint: 'order',
           endpointParams: { orderId: orderId },
         });
-        methods.setValue('orderBasis_orderBasisId', res.payload.order.customerName);
+        methods.setValue(
+          'orderBasis_orderBasisId',
+          res.payload.order.customerName
+        );
         setJaketOrderId(res.payload.order.jaket.jaketOrderId);
         setPantsOrderId(res.payload.order.pants.pantsOrderId);
         setVestOrderId(res.payload.order.vest.vestOrderId);
