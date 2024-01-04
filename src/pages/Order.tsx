@@ -1,13 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Backdrop, CircularProgress } from '@mui/material';
-import { useForm, FormProvider } from 'react-hook-form';
+import {
+  useForm,
+  FormProvider,
+  UseFormReturn,
+  FieldValues,
+} from 'react-hook-form';
 
 import orderApi from '../api/orderApi';
 import { OrderBasis } from '../components/OrderBasis';
 import { OrderJaket } from '../components/OrderJaket';
 import { OrderPants } from '../components/OrderPants';
 import { OrderVest } from '../components/OrderVest';
+
+const setOrderBasis = (
+  methods: UseFormReturn<FieldValues, any, undefined>,
+  order: any
+) => {
+  methods.setValue('orderBasis', order);
+  methods.setValue('orderBasis_orderStatus', order.orderStatus || '');
+  methods.setValue('orderBasis_inputDate', order.inputDate || '');
+};
 
 export const Order = () => {
   const methods = useForm();
@@ -28,10 +42,7 @@ export const Order = () => {
           endpoint: 'order',
           endpointParams: { orderId: orderId },
         });
-        methods.setValue(
-          'orderBasis_orderBasisId',
-          res.payload.order.customerName
-        );
+        setOrderBasis(methods, res.payload.order);
         setJaketOrderId(res.payload.order.jaket.jaketOrderId);
         setPantsOrderId(res.payload.order.pants.pantsOrderId);
         setVestOrderId(res.payload.order.vest.vestOrderId);
@@ -47,7 +58,7 @@ export const Order = () => {
   }, []);
 
   const handleSave = () => {
-    alert(methods.getValues('orderBasis_orderBasisId'));
+    alert(methods.getValues());
     alert('保存');
   };
 

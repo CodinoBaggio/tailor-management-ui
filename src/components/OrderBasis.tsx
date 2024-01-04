@@ -8,23 +8,29 @@ export const OrderBasis = () => {
     getValues,
     formState: { errors },
   } = useFormContext();
-  const [value, setValue] = React.useState({});
+  // const [orderValue, setOrderValue] = React.useState<any>({});
 
-  useEffect(() => {
-    setValue(getValues('orderBasis_orderBasisId'));
-  }, []);
+  // useEffect(() => {
+  //   setOrderValue(getValues('orderBasis'));
+  //   console.log(orderValue);
+  // }, []);
 
   return (
     <>
       <div>OrderBasis</div>
       <TextField
-        label="発注状況"
-        defaultValue={value}
-        {...register('orderBasis_orderBasisId')}
+        label="発注ステータス"
+        defaultValue={'Loading...'}
+        {...register('orderBasis_orderStatus')}
+      />
+      <TextField
+        label="入力日"
+        defaultValue={'Loading...'}
+        {...register('orderBasis_inputDate')}
       />
       <div>
-        {errors.orderBasis_orderBasisId
-          ? errors.orderBasis_orderBasisId.message?.toString()
+        {errors.orderBasis_orderStatus
+          ? errors.orderBasis_orderStatus.message?.toString()
           : ''}
       </div>
     </>

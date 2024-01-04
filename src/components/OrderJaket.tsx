@@ -1,7 +1,5 @@
-import React from 'react'
+import React from 'react';
 
 export const OrderJaket = () => {
-  return (
-    <div>OrderJaket</div>
-  )
-}
+  return <div>OrderJaket</div>;
+};
