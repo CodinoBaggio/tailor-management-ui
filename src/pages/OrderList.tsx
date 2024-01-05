@@ -27,8 +27,8 @@ export const OrderList = () => {
         alert(error);
         console.log(error);
       } finally {
-         // スピナーを非表示にする
-         setOpen(false);
+        // スピナーを非表示にする
+        setOpen(false);
       }
     };
     getOrders();
@@ -46,13 +46,13 @@ export const OrderList = () => {
   return (
     <>
       <button onClick={handleCreate}>新規</button>
-      {orders.map((order: any) => {
+      {orders.map((order: any, index: number) => {
         return (
-          <>
+          <div key={index}>
             <div>{order.orderId}</div>
             <div>{order.customerName}</div>
             <button onClick={() => handleEdit(order.orderId)}>編集</button>
-          </>
+          </div>
         );
       })}
       <Backdrop

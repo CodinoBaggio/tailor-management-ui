@@ -13,19 +13,48 @@ import { OrderBasis } from '../components/OrderBasis';
 import { OrderJaket } from '../components/OrderJaket';
 import { OrderPants } from '../components/OrderPants';
 import { OrderVest } from '../components/OrderVest';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import { OrderBasisType } from '../types/order';
 
-const setOrderBasis = (
+const setOrderBasisValues = (
+  methods: UseFormReturn<FieldValues, any, undefined>,
+  order: OrderBasisType
+) => {
+  methods.setValue('orderBasis_orderStatus', order.orderStatus || '');
+  methods.setValue(
+    'orderBasis_inputDate',
+    dayjs(order.inputDate) || new Date()
+  );
+  methods.setValue(
+    'orderBasis_orderDateTime',
+    dayjs(order.orderDateTime) || new Date()
+  );
+  methods.setValue('orderBasis_shipDate', dayjs(order.shipDate) || new Date());
+  methods.setValue('orderBasis_customerName', order.customerName || '');
+};
+
+const setOrderJaketValues = (
   methods: UseFormReturn<FieldValues, any, undefined>,
   order: any
 ) => {
-  methods.setValue('orderBasis', order);
-  methods.setValue('orderBasis_orderStatus', order.orderStatus || '');
-  methods.setValue('orderBasis_inputDate', order.inputDate || '');
+  methods.setValue('orderJaket_orderStatus', order.orderStatus || '');
+  methods.setValue(
+    'orderBasis_inputDate',
+    dayjs(order.inputDate) || new Date()
+  );
+  methods.setValue(
+    'orderBasis_orderDateTime',
+    dayjs(order.orderDateTime) || new Date()
+  );
+  methods.setValue('orderBasis_shipDate', dayjs(order.shipDate) || new Date());
+  methods.setValue('orderBasis_customerName', order.customerName || '');
 };
 
 export const Order = () => {
   const methods = useForm();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const { orderId } = useParams();
   const navigate = useNavigate();
   const [jaketOrderId, setJaketOrderId] = useState('');
@@ -42,7 +71,8 @@ export const Order = () => {
           endpoint: 'order',
           endpointParams: { orderId: orderId },
         });
-        setOrderBasis(methods, res.payload.order);
+        setOrderBasisValues(methods, res.payload.order);
+        setOrderJaketValues(methods, res.payload.order.jaket);
         setJaketOrderId(res.payload.order.jaket.jaketOrderId);
         setPantsOrderId(res.payload.order.pants.pantsOrderId);
         setVestOrderId(res.payload.order.vest.vestOrderId);
@@ -58,7 +88,25 @@ export const Order = () => {
   }, []);
 
   const handleSave = () => {
-    alert(methods.getValues());
+    dayjs.extend(utc);
+    dayjs.extend(timezone);
+    dayjs.tz.setDefault('Asia/Tokyo');
+    alert(
+      dayjs(methods.getValues('orderBasis_inputDate'))
+        .tz()
+        .format('YYYY/MM/DD HH:mm:ss')
+    );
+    alert(
+      dayjs(methods.getValues('orderBasis_orderDateTime'))
+        .tz()
+        .format('YYYY/MM/DD HH:mm:ss')
+    );
+    alert(
+      dayjs(methods.getValues('orderBasis_shipDate'))
+        .tz()
+        .format('YYYY/MM/DD HH:mm:ss')
+    );
+    alert(methods.getValues('orderBasis_customerName'));
     alert('保存');
   };
 
