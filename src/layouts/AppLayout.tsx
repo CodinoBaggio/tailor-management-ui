@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 import authUtils from '../features/auth/utils/authUtils';
-import { setUser } from '../features/auth/states/userSlice';
+import { setUser } from '../features/auth/stores/userSlice';
 
 export const AppLayout = () => {
   const navigate = useNavigate();

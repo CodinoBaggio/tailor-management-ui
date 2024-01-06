@@ -12,6 +12,9 @@ export const OrderBasis = () => {
   return (
     <>
       <div className="font-bold text-blue-600">OrderBasis</div>
+      <div>発注_ID：{getValues('basis-orderId')}</div>
+      <div>ショップID：{getValues('basis-shopId')}</div>
+      <div>連番：{getValues('basis-seq')}</div>
       <div>発注ステータス：{getValues('basis-orderStatus')}</div>
       <RhfSelect
         label="品名"
