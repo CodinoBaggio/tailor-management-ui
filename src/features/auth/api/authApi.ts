@@ -1,4 +1,4 @@
-import axiosClient from './axiosClient';
+import axiosClient from '../../../api/axiosClient';
 
 // interface AuthParams {
 //   loginId: string;

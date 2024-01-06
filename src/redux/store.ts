@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './features/userSlice';
-import orderReducer from './features/orderSlice';
+import userReducer from '../features/auth/states/userSlice';
+import orderReducer from '../features/order/states/orderSlice';
 
 export const store = configureStore({
   reducer: {

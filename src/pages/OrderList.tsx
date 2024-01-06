@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import orderApi from '../api/orderApi';
-import { setOrder } from '../redux/features/orderSlice';
+import orderApi from '../features/order/api/orderApi';
+import { setOrder } from '../features/order/states/orderSlice';
 import { useNavigate } from 'react-router-dom';
 import { Backdrop, CircularProgress } from '@mui/material';
 
@@ -40,7 +40,8 @@ export const OrderList = () => {
   };
 
   const handleCreate = () => {
-    alert('新規');
+    navigate('/order/new');
+    // alert('新規');
   };
 
   return (

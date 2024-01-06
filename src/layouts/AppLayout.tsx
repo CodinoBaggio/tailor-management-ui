@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
-import authUtils from '../../utils/authUtils';
-import { setUser } from '../../redux/features/userSlice';
+import authUtils from '../features/auth/utils/authUtils';
+import { setUser } from '../features/auth/states/userSlice';
 
 export const AppLayout = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export const AppLayout = () => {
       }
     };
     checkAuth();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
 
   return (

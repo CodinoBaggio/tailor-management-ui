@@ -8,6 +8,12 @@ export type OrderBasisType = {
   customerName: string;
   inputUserId: number;
   inputUserName: string;
-  customerName: string;
-  customerName: string;
+  productName: string;
+  fabricMaker: string;
+  fabricProductNo: string;
+  yield: number;
+  blendRateFabric1: string;
+  blendRate1: number;
+  blendRateFabric2: string;
+  blendRate2: number;
 };

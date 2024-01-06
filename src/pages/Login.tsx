@@ -2,7 +2,7 @@ import { Box, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { LoadingButton } from '@mui/lab';
 import { useNavigate } from 'react-router-dom';
-import authApi from '../api/authApi';
+import authApi from '../features/auth/api/authApi';
 import { useForm } from 'react-hook-form';
 
 export const Login = () => {
@@ -18,10 +18,10 @@ export const Login = () => {
   const onSubmit = async () => {
     try {
       setLoading(true);
-      
+
       const loginId = getValues('loginId');
       const password = getValues('password') as string;
-      
+
       // ログインAPIを叩く
       const res: any = await authApi.login({
         endpoint: 'login',
@@ -41,11 +41,7 @@ export const Login = () => {
 
   return (
     <>
-      <Box
-        component="form"
-        onSubmit={handleSubmit(onSubmit)}
-        noValidate
-      >
+      <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <TextField
           fullWidth
           id="loginId"

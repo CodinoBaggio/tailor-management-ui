@@ -8,48 +8,44 @@ import {
   FieldValues,
 } from 'react-hook-form';
 
-import orderApi from '../api/orderApi';
-import { OrderBasis } from '../components/OrderBasis';
-import { OrderJaket } from '../components/OrderJaket';
-import { OrderPants } from '../components/OrderPants';
-import { OrderVest } from '../components/OrderVest';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import { OrderBasisType } from '../types/order';
+
+import orderApi from '../features/order/api/orderApi';
+import { OrderBasis } from '../features/order/components/OrderBasis';
+import { OrderJaket } from '../features/order/components/OrderJaket';
+import { OrderPants } from '../features/order/components/OrderPants';
+import { OrderVest } from '../features/order/components/OrderVest';
+import { OrderBasisType } from '../features/order/types/order';
 
 const setOrderBasisValues = (
   methods: UseFormReturn<FieldValues, any, undefined>,
   order: OrderBasisType
 ) => {
-  methods.setValue('orderBasis_orderStatus', order.orderStatus || '');
+  methods.setValue('basis-orderStatus', order.orderStatus || '');
+  methods.setValue('basis-inputDate', dayjs(order.inputDate) || new Date());
   methods.setValue(
-    'orderBasis_inputDate',
-    dayjs(order.inputDate) || new Date()
-  );
-  methods.setValue(
-    'orderBasis_orderDateTime',
+    'basis-orderDateTime',
     dayjs(order.orderDateTime) || new Date()
   );
-  methods.setValue('orderBasis_shipDate', dayjs(order.shipDate) || new Date());
-  methods.setValue('orderBasis_customerName', order.customerName || '');
+  methods.setValue('basis-shipDate', dayjs(order.shipDate) || new Date());
+  methods.setValue('basis-customerName', order.customerName || '');
+  methods.setValue('basis-productName', order.productName || '');
+  methods.setValue('basis-fabricMaker', order.fabricMaker || '');
+  methods.setValue('basis-fabricProductNo', order.fabricProductNo || '');
+  methods.setValue('basis-yield', order.yield || 0);
+  methods.setValue('basis-blendRateFabric1', order.blendRateFabric1 || '');
+  methods.setValue('basis-blendRate1', order.blendRate1 || 0);
+  methods.setValue('basis-blendRateFabric2', order.blendRateFabric2 || '');
+  methods.setValue('basis-blendRate2', order.blendRate2 || 0);
 };
 
 const setOrderJaketValues = (
   methods: UseFormReturn<FieldValues, any, undefined>,
   order: any
 ) => {
-  methods.setValue('orderJaket_orderStatus', order.orderStatus || '');
-  methods.setValue(
-    'orderBasis_inputDate',
-    dayjs(order.inputDate) || new Date()
-  );
-  methods.setValue(
-    'orderBasis_orderDateTime',
-    dayjs(order.orderDateTime) || new Date()
-  );
-  methods.setValue('orderBasis_shipDate', dayjs(order.shipDate) || new Date());
-  methods.setValue('orderBasis_customerName', order.customerName || '');
+  methods.setValue('orderJaket_jaketOrderId', order.jaketOrderId || '');
 };
 
 export const Order = () => {
@@ -57,9 +53,6 @@ export const Order = () => {
   const [open, setOpen] = useState(false);
   const { orderId } = useParams();
   const navigate = useNavigate();
-  const [jaketOrderId, setJaketOrderId] = useState('');
-  const [pantsOrderId, setPantsOrderId] = useState('');
-  const [vestOrderId, setVestOrderId] = useState('');
 
   useEffect(() => {
     const getOrder = async () => {
@@ -73,9 +66,6 @@ export const Order = () => {
         });
         setOrderBasisValues(methods, res.payload.order);
         setOrderJaketValues(methods, res.payload.order.jaket);
-        setJaketOrderId(res.payload.order.jaket.jaketOrderId);
-        setPantsOrderId(res.payload.order.pants.pantsOrderId);
-        setVestOrderId(res.payload.order.vest.vestOrderId);
       } catch (error) {
         alert(error);
         console.log(error);
@@ -92,21 +82,21 @@ export const Order = () => {
     dayjs.extend(timezone);
     dayjs.tz.setDefault('Asia/Tokyo');
     alert(
-      dayjs(methods.getValues('orderBasis_inputDate'))
+      dayjs(methods.getValues('basis-inputDate'))
         .tz()
         .format('YYYY/MM/DD HH:mm:ss')
     );
     alert(
-      dayjs(methods.getValues('orderBasis_orderDateTime'))
+      dayjs(methods.getValues('basis-orderDateTime'))
         .tz()
         .format('YYYY/MM/DD HH:mm:ss')
     );
     alert(
-      dayjs(methods.getValues('orderBasis_shipDate'))
+      dayjs(methods.getValues('basis-shipDate'))
         .tz()
         .format('YYYY/MM/DD HH:mm:ss')
     );
-    alert(methods.getValues('orderBasis_customerName'));
+    alert(methods.getValues('basis-customerName'));
     alert('保存');
   };
 
@@ -129,9 +119,6 @@ export const Order = () => {
       <OrderJaket />
       <OrderPants />
       <OrderVest />
-      <div>{jaketOrderId}</div>
-      <div>{pantsOrderId}</div>
-      <div>{vestOrderId}</div>
       <button onClick={handleSave}>保存</button>
       <button onClick={handleUpdate}>更新</button>
       <button onClick={handleDelete}>削除</button>
