@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import orderApi from '../features/order/api/orderApi';
-import { setOrder } from '../features/order/stores/orderSlice';
+import { setOrder, setOrderResources } from '../features/order/stores/orderSlice';
 import { useNavigate } from 'react-router-dom';
 import { Backdrop, CircularProgress } from '@mui/material';
 
 export const OrderList = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state: any) => state.user.value);
@@ -18,11 +18,19 @@ export const OrderList = () => {
       setOpen(true);
 
       try {
+        // 発注リスト取得
         const res: any = await orderApi.getOrders({
           endpoint: 'orders',
           endpointParams: { shopId: user.shopId, roleId: user.roleId },
         });
         dispatch(setOrder(res.payload.orders));
+
+        // リソース取得
+        const res2: any = await orderApi.getOrderResources({
+          endpoint: 'order-resources',
+          endpointParams: {},
+        });
+        dispatch(setOrderResources(res2.payload));
       } catch (error) {
         alert(error);
         console.log(error);
