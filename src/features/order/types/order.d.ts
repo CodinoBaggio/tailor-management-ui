@@ -60,7 +60,9 @@ export type OrderJaketType = {
   waistPocket: string;
   flapWidth: number;
   changePocket: string;
+  secretPocket: string;
   backSpec: string;
+  daiba: string;
   insidePocket: string;
   penPocket: string;
   ticketPocket: string;
@@ -99,7 +101,7 @@ export type OrderJaketType = {
   ahFrontOpening: number;
   sleeveOpeningWidth: number;
   collarMitsu: number;
-  collarBack: number;
+  collarShift: number;
   buttonPosition: number;
   backCurve: number;
   sickleRaising: number;
@@ -140,7 +142,7 @@ export type OrderPantsType = {
   tackSpec: string;
   sideSatinFabric: string;
   pisPocketJadeGreen: string;
-  pisPocketJadeGreen: string;
+  pisPocket: string;
   plaket: string;
   buttocks: number;
   flatButt: number;

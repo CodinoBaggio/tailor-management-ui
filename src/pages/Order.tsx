@@ -104,7 +104,9 @@ const setOrderJaketValues = (
   methods.setValue('jaket-waistPocket', order.waistPocket || '');
   methods.setValue('jaket-flapWidth', order.flapWidth || 0);
   methods.setValue('jaket-changePocket', order.changePocket || '');
+  methods.setValue('jaket-secretPocket', order.secretPocket || '');
   methods.setValue('jaket-backSpec', order.backSpec || '');
+  methods.setValue('jaket-daiba', order.daiba || '');
   methods.setValue('jaket-insidePocket', order.insidePocket || '');
   methods.setValue('jaket-penPocket', order.penPocket || '');
   methods.setValue('jaket-ticketPocket', order.ticketPocket || '');
@@ -155,7 +157,7 @@ const setOrderJaketValues = (
   methods.setValue('jaket-ahFrontOpening', order.ahFrontOpening || 0);
   methods.setValue('jaket-sleeveOpeningWidth', order.sleeveOpeningWidth || 0);
   methods.setValue('jaket-collarMitsu', order.collarMitsu || 0);
-  methods.setValue('jaket-collarBack', order.collarBack || 0);
+  methods.setValue('jaket-collarShift', order.collarShift || 0);
   methods.setValue('jaket-buttonPosition', order.buttonPosition || 0);
   methods.setValue('jaket-backCurve', order.backCurve || 0);
   methods.setValue('jaket-sickleRaising', order.sickleRaising || 0);
@@ -205,7 +207,7 @@ const setOrderPantsValues = (
   methods.setValue('pants-tackSpec', order.tackSpec || '');
   methods.setValue('pants-sideSatinFabric', order.sideSatinFabric || '');
   methods.setValue('pants-pisPocketJadeGreen', order.pisPocketJadeGreen || '');
-  methods.setValue('pants-pisPocketJadeGreen', order.pisPocketJadeGreen || '');
+  methods.setValue('pants-pisPocket', order.pisPocket || '');
   methods.setValue('pants-plaket', order.plaket || '');
   methods.setValue('pants-buttocks', order.buttocks || 0);
   methods.setValue('pants-flatButt', order.flatButt || 0);
@@ -275,9 +277,15 @@ const setOrderVestValues = (
   methods.setValue('vest-buttonPosition', order.buttonPosition || 0);
   methods.setValue('vest-frontLength', order.frontLength || 0);
   methods.setValue('vest-isDelete', order.isDelete || false);
-  methods.setValue('vest-createDateTime', dayjs(order.createDateTime) || dayjs());
+  methods.setValue(
+    'vest-createDateTime',
+    dayjs(order.createDateTime) || dayjs()
+  );
   methods.setValue('vest-createUserId', order.createUserId || '');
-  methods.setValue('vest-updateDateTime', dayjs(order.updateDateTime) || dayjs());
+  methods.setValue(
+    'vest-updateDateTime',
+    dayjs(order.updateDateTime) || dayjs()
+  );
   methods.setValue('vest-updateUserId', order.updateUserId || '');
 };
 
@@ -354,10 +362,12 @@ export const Order = () => {
       <OrderJaket />
       <OrderPants />
       <OrderVest />
-      <button onClick={handleSave}>保存</button>
-      <button onClick={handleUpdate}>更新</button>
-      <button onClick={handleDelete}>削除</button>
-      <button onClick={handleBack}>戻る</button>
+      <div>
+        <button onClick={handleSave}>保存</button>
+        <button onClick={handleUpdate}>更新</button>
+        <button onClick={handleDelete}>削除</button>
+        <button onClick={handleBack}>戻る</button>
+      </div>
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={open}

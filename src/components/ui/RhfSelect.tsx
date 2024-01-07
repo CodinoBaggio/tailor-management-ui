@@ -11,6 +11,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 type Props = {
   label: string;
   name: string;
+  disabled?: boolean;
   menuItems: {
     value: string;
     label: string;
@@ -18,7 +19,7 @@ type Props = {
 };
 
 export const RhfSelect: FC<Props> = (props) => {
-  const { label, name, menuItems } = props;
+  const { label, name, menuItems, disabled=false } = props;
   const { control } = useFormContext();
 
   return (
@@ -34,6 +35,7 @@ export const RhfSelect: FC<Props> = (props) => {
             id={name}
             label="Select"
             {...field}
+            disabled={disabled}
           >
             {menuItems.map((item, index) => {
               return (
