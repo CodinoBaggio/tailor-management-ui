@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import orderApi from '../features/order/api/orderApi';
-import { setOrder, setOrderResources } from '../features/order/stores/orderSlice';
+import { setOrder } from '../features/order/stores/orderSlice';
 import { useNavigate } from 'react-router-dom';
 import { Backdrop, CircularProgress } from '@mui/material';
+import { setOrderResources } from '../features/order/stores/orderResourceSlice';
 
 export const OrderList = () => {
   const [open, setOpen] = useState(false);

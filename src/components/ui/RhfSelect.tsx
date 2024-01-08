@@ -16,10 +16,11 @@ type Props = {
     value: string;
     label: string;
   }[];
+  onChange?: (e: React.ChangeEvent<{ value: unknown }>) => void;
 };
 
 export const RhfSelect: FC<Props> = (props) => {
-  const { label, name, menuItems, disabled=false } = props;
+  const { label, name, menuItems, disabled = false, onChange: handleChange } = props;
   const { control } = useFormContext();
 
   return (
@@ -36,6 +37,10 @@ export const RhfSelect: FC<Props> = (props) => {
             label="Select"
             {...field}
             disabled={disabled}
+            onChange={(event) => {
+              field.onChange(event);
+              if (handleChange) handleChange(event as React.ChangeEvent<{ value: unknown }>);
+            }}
           >
             {menuItems.map((item, index) => {
               return (
