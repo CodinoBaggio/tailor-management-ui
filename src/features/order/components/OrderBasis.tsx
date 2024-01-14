@@ -1,35 +1,30 @@
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
 import 'dayjs/locale/ja';
+
 import { RhfSelect } from '../../../components/ui/RhfSelect';
 import { RhfTextField } from '../../../components/ui/RhfTextField';
 import { RhfDatePicker } from '../../../components/ui/RhfDatePicker';
 import { RhfDateTimePicker } from '../../../components/ui/RhfDateTimePicker';
+import { GridContainer } from './ui/GridContainer';
 
 export const OrderBasis = () => {
-  const { getValues } = useFormContext();
-
   return (
-    <>
-      <div className="font-bold text-blue-600">OrderBasis</div>
-      <div>発注_ID：{getValues('basis-orderId')}</div>
-      <div>ショップID：{getValues('basis-shopId')}</div>
-      <div>連番：{getValues('basis-seq')}</div>
-      <div>発注ステータス：{getValues('basis-orderStatus')}</div>
+    <GridContainer>
       <RhfSelect
         label="品名"
         name="basis-productName"
         menuItems={[
           { value: 'empty', label: '' },
           { value: 'S', label: 'S：？？' },
-          { value: '2P', label: '2P：ジャケット＋パンツ' },
+          { value: '2P', label: '2P：ジャケット+パンツ' },
           { value: 'JK', label: 'JK：ジャケット' },
           { value: 'PT', label: 'PT：パンツ' },
           { value: 'VT', label: 'VT：ベスト' },
-          { value: '3P', label: '3P：ジャケット＋パンツ＋ベスト' },
-          { value: '2PP', label: '2PP：ジャケット＋パンツ＋パンツ' },
-          { value: '3PP', label: '3PP：ジャケット＋パンツ＋パンツ＋ベスト' },
+          { value: '3P', label: '3P：ジャケット+パンツ+ベスト' },
+          { value: '2PP', label: '2PP：ジャケット+パンツ+パンツ' },
+          { value: '3PP', label: '3PP：ジャケット+パンツ+パンツ+ベスト' },
         ]}
+        width={345}
       />
       <RhfTextField
         label="生地メーカー"
@@ -118,6 +113,6 @@ export const OrderBasis = () => {
         type="number"
         defaultValue={0}
       />
-    </>
+    </GridContainer>
   );
 };

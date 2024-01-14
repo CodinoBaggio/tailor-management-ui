@@ -42,6 +42,7 @@ export const RhfTextField: FC<Props> = (props) => {
           required={required}
           error={errors.text ? true : false}
           helperText={errors.text?.message as string}
+          size="small"
         />
       )}
     />

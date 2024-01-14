@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Backdrop, CircularProgress } from '@mui/material';
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Divider,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import {
   useForm,
   FormProvider,
@@ -11,6 +19,12 @@ import {
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import SaveIcon from '@mui/icons-material/Save';
+import { green, pink } from '@mui/material/colors';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ClearIcon from '@mui/icons-material/Clear';
+import PermMediaIcon from '@mui/icons-material/PermMedia';
 
 import orderApi from '../features/order/api/orderApi';
 import { OrderBasis } from '../features/order/components/OrderBasis';
@@ -23,6 +37,7 @@ import {
   OrderPantsType,
   OrderVestType,
 } from '../features/order/types/order';
+import { VerticalTabs } from '../features/order/components/ui/VerticalTabs';
 
 const setOrderBasisValues = (
   methods: UseFormReturn<FieldValues, any, undefined>,
@@ -294,6 +309,7 @@ export const Order = () => {
   const [open, setOpen] = useState(false);
   const { orderId } = useParams();
   const navigate = useNavigate();
+  const [orderStatus, setOrderStatus] = useState<string>('');
 
   useEffect(() => {
     const getOrder = async () => {
@@ -309,15 +325,17 @@ export const Order = () => {
         setOrderJaketValues(methods, res.payload.order.jaket);
         setOrderPantsValues(methods, res.payload.order.pants);
         setOrderVestValues(methods, res.payload.order.vest);
+        setOrderStatus(res.payload.order.orderStatus);
       } catch (error) {
         alert(error);
-        console.log(error);
+        // console.log(error);
       } finally {
         // スピナーを非表示にする
         setOpen(false);
       }
     };
     getOrder();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSave = () => {
@@ -343,8 +361,12 @@ export const Order = () => {
     alert('保存');
   };
 
-  const handleUpdate = () => {
+  const handleEntry = () => {
     alert('更新');
+  };
+
+  const handleReuse = () => {
+    alert('流用');
   };
 
   const handleDelete = () => {
@@ -357,17 +379,89 @@ export const Order = () => {
 
   return (
     <FormProvider {...methods}>
-      <div>Order</div>
-      <OrderBasis />
+      <Button onClick={handleBack} startIcon={<ArrowBackIcon />} color='inherit' size='small'>戻る</Button>
+      <Box className="flex items-center justify-between my-5">
+        <Box>
+          <Box className="flex items-center">
+            <Typography sx={{ marginRight: '10px' }}>
+              {orderStatus === '保存' ? (
+                <Tooltip title="保存" arrow>
+                  <SaveIcon fontSize="large" sx={{ color: green[500] }} />
+                </Tooltip>
+              ) : (
+                <Tooltip title="発注済み" arrow>
+                  <CloudUploadIcon fontSize="large" sx={{ color: pink[500] }} />
+                </Tooltip>
+              )}
+            </Typography>
+            <Typography variant="body1">{`オーダーID：${orderId}`}</Typography>
+          </Box>
+          <Box className="mb-2">
+            <Button
+              variant="outlined"
+              onClick={handleEntry}
+              sx={{ marginRight: '3px' }}
+              disabled={orderStatus === '発注済み' ? true : false}
+              startIcon={<CloudUploadIcon />}
+            >
+              登録
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={handleSave}
+              sx={{ marginRight: '3px' }}
+              disabled={orderStatus === '発注済み' ? true : false}
+              startIcon={<SaveIcon />}
+            >
+              保存
+            </Button>
+          </Box>
+        </Box>
+        <Box display="flex" flexDirection="column">
+          <Button
+            // variant="outlined"
+            onClick={handleReuse}
+            startIcon={<PermMediaIcon />}
+          >
+            流用
+          </Button>
+          <Button
+            // variant="outlined"
+            onClick={handleDelete}
+            disabled={orderStatus === '発注済み' ? true : false}
+            startIcon={<ClearIcon />}
+          >
+            削除
+          </Button>
+        </Box>
+      </Box>
+      {/* <Divider /> */}
+      <Box className="mt-5">
+        <VerticalTabs
+          tabItems={[
+            {
+              label: 'オーダー',
+              component: <OrderBasis />,
+            },
+            {
+              label: 'ジャケット',
+              component: <OrderJaket />,
+            },
+            {
+              label: 'パンツ',
+              component: <OrderPants />,
+            },
+            {
+              label: 'ベスト',
+              component: <OrderVest />,
+            },
+          ]}
+        />
+      </Box>
+      {/* <OrderBasis />
       <OrderJaket />
       <OrderPants />
-      <OrderVest />
-      <div>
-        <button onClick={handleSave}>保存</button>
-        <button onClick={handleUpdate}>更新</button>
-        <button onClick={handleDelete}>削除</button>
-        <button onClick={handleBack}>戻る</button>
-      </div>
+      <OrderVest /> */}
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={open}

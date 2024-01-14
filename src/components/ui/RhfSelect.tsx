@@ -17,10 +17,11 @@ type Props = {
     label: string;
   }[];
   onChange?: (e: React.ChangeEvent<{ value: unknown }>) => void;
+  width?: number
 };
 
 export const RhfSelect: FC<Props> = (props) => {
-  const { label, name, menuItems, disabled = false, onChange: handleChange } = props;
+  const { label, name, menuItems, disabled = false, onChange: handleChange, width = 200 } = props;
   const { control } = useFormContext();
 
   return (
@@ -29,7 +30,7 @@ export const RhfSelect: FC<Props> = (props) => {
       control={control}
       defaultValue={menuItems[0].value}
       render={({ field, formState: { errors } }) => (
-        <FormControl error={errors.select ? true : false}>
+        <FormControl error={errors.select ? true : false} size="small">
           <InputLabel id="select-label">{label}</InputLabel>
           <Select
             labelId="select-label"
@@ -41,6 +42,8 @@ export const RhfSelect: FC<Props> = (props) => {
               field.onChange(event);
               if (handleChange) handleChange(event as React.ChangeEvent<{ value: unknown }>);
             }}
+            sx={{ width: width }}
+            autoWidth
           >
             {menuItems.map((item, index) => {
               return (

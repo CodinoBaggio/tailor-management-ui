@@ -27,6 +27,7 @@ export const RhfDatePicker: FC<Props> = (props) => {
               textField: {
                 required: required,
                 id: name,
+                size: 'small',
               },
             }}
             {...field}

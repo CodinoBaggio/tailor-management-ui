@@ -1,13 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Divider,
+  SwipeableDrawer,
+  Typography,
+} from '@mui/material';
+import 'dayjs/locale/ja';
+import AddIcon from '@mui/icons-material/Add';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
 import orderApi from '../features/order/api/orderApi';
 import { setOrder } from '../features/order/stores/orderSlice';
-import { useNavigate } from 'react-router-dom';
-import { Backdrop, CircularProgress } from '@mui/material';
 import { setOrderResources } from '../features/order/stores/orderResourceSlice';
+import { OrderCard } from '../features/order/components/ui/OrderCard';
+import { SearchPanel } from '../features/order/components/ui/SearchPanel';
+import { useSearchPanel } from '../features/order/hooks/useSearchPanel';
 
 export const OrderList = () => {
+  const searchStates = useSearchPanel();
   const [open, setOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state: any) => state.user.value);
@@ -34,7 +51,7 @@ export const OrderList = () => {
         dispatch(setOrderResources(res2.payload));
       } catch (error) {
         alert(error);
-        console.log(error);
+        // console.log(error);
       } finally {
         // スピナーを非表示にする
         setOpen(false);
@@ -53,18 +70,89 @@ export const OrderList = () => {
     // alert('新規');
   };
 
+  const handleSearch = async () => {
+    // スピナーを表示する
+    setOpen(true);
+
+    try {
+      // 発注リスト取得
+      const res: any = await orderApi.getOrders({
+        endpoint: 'orders',
+        endpointParams: {
+          shopId: user.shopId,
+          roleId: user.roleId,
+          dateType: searchStates.dateType,
+          dateFrom: searchStates.dateFrom?.toISOString(),
+          dateTo: searchStates.dateTo?.toISOString(),
+          orderId: searchStates.orderId,
+          customerName: searchStates.customerName,
+          orderStatausType: searchStates.orderStatausType,
+        },
+      });
+      dispatch(setOrder(res.payload.orders));
+      setDrawerOpen(false);
+    } catch (error) {
+      alert(error);
+      // console.log(error);
+    } finally {
+      // スピナーを非表示にする
+      setOpen(false);
+    }
+  };
+
+  const toggleDrawer =
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event &&
+        event.type === 'keydown' &&
+        event instanceof KeyboardEvent &&
+        (event.key === 'Tab' || event.key === 'Shift')
+      ) {
+        return;
+      }
+
+      setDrawerOpen(open);
+    };
+
   return (
     <>
-      <button onClick={handleCreate}>新規</button>
-      {orders.map((order: any, index: number) => {
-        return (
-          <div key={index}>
-            <div>{order.orderId}</div>
-            <div>{order.customerName}</div>
-            <button onClick={() => handleEdit(order.orderId)}>編集</button>
-          </div>
-        );
-      })}
+      <Box display="flex" justifyContent="space-between">
+        <Button
+          onClick={toggleDrawer(true)}
+          startIcon={<ArrowForwardIosIcon />}
+        >
+          検索
+        </Button>
+        <Button onClick={handleCreate} startIcon={<AddIcon />}>
+          新規オーダー
+        </Button>
+        <SwipeableDrawer
+          anchor="left"
+          open={drawerOpen}
+          onClose={toggleDrawer(false)}
+          onOpen={toggleDrawer(true)}
+        >
+          <SearchPanel
+            searchStates={searchStates}
+            handleSearch={handleSearch}
+            toggleDrawer={toggleDrawer}
+          />
+        </SwipeableDrawer>
+      </Box>
+      <Divider sx={{ marginBottom: '10px' }} />
+      <Box>
+        {0 < orders.length ? (
+          orders.map((order: any, index: number) => {
+            return (
+              <div key={index}>
+                <OrderCard order={order} handleEdit={handleEdit} />
+              </div>
+            );
+          })
+        ) : (
+          <Typography>オーダー情報はありません</Typography>
+        )}
+      </Box>
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={open}
