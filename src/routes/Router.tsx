@@ -36,5 +36,8 @@ export const router = createBrowserRouter(
       ],
     },
   ],
-  { basename: import.meta.env.PUBLIC_URL }
+  {
+    basename:
+      'https://codinobaggio.github.io/tailor-management-ui/deploy/hosting',
+  }
 );
