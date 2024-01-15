@@ -8,7 +8,7 @@ import { Order } from '../pages/Order';
 export const router = createBrowserRouter(
   [
     {
-      path: '/',
+      path: 'https://codinobaggio.github.io/tailor-management-ui/deploy/hosting/',
       element: <AuthLayout />,
       children: [
         {
@@ -18,7 +18,7 @@ export const router = createBrowserRouter(
       ],
     },
     {
-      path: '/',
+      path: 'https://codinobaggio.github.io/tailor-management-ui/deploy/hosting/',
       element: <AppLayout />,
       children: [
         {
@@ -36,8 +36,5 @@ export const router = createBrowserRouter(
       ],
     },
   ],
-  {
-    basename:
-      'https://codinobaggio.github.io/tailor-management-ui/deploy/hosting',
-  }
+  // { basename: import.meta.env.PUBLIC_URL }
 );
