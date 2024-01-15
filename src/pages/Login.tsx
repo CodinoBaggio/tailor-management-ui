@@ -1,7 +1,7 @@
 import { Box, TextField } from '@mui/material';
 import { useState } from 'react';
 import { LoadingButton } from '@mui/lab';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import authApi from '../features/auth/api/authApi';
 import { useForm } from 'react-hook-form';
 
@@ -12,7 +12,7 @@ export const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async () => {
@@ -31,7 +31,7 @@ export const Login = () => {
         },
       });
       localStorage.setItem('token', res.payload.token);
-      // navigate('/');
+      navigate('/');
     } catch (err: any) {
       alert(errors);
     } finally {
