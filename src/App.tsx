@@ -3,9 +3,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import './App.css';
 import { blue } from '@mui/material/colors';
+import { Login } from './pages/Login';
 // import { RouterProvider } from 'react-router-dom';
 // import { router } from './routes/Router';
-import { Login } from '@mui/icons-material';
 
 function App() {
   const theme = createTheme({
