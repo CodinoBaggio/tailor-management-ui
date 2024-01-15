@@ -1,5 +1,5 @@
 import { Box, TextField } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { LoadingButton } from '@mui/lab';
 import { useNavigate } from 'react-router-dom';
 import authApi from '../features/auth/api/authApi';

@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 
 import { RhfSelect } from '../../../components/ui/RhfSelect';
 import { RhfTextField } from '../../../components/ui/RhfTextField';
@@ -266,96 +266,98 @@ export const OrderVest = () => {
           />
         </GridContainer>
       </Box>
-      <GridContainer>
-        <RhfSelect
-          label="腰P"
-          name="vest-waistPocket"
-          menuItems={[
-            { value: 'empty', label: '' },
-            { value: '腰Ｐ箱', label: '腰Ｐ箱' },
-            { value: '腰Ｐフラップ両玉', label: '腰Ｐフラップ両玉' },
-            { value: '腰Ｐフラップ無し両玉', label: '腰Ｐフラップ無し両玉' },
-          ]}
-        />
-        <RhfSelect
-          label="背裏"
-          name="vest-backSide"
-          menuItems={[
-            { value: 'empty', label: '' },
-            { value: '表地', label: '表地' },
-            { value: '裏地', label: '裏地' },
-          ]}
-        />
-        <RhfSelect
-          label="尾錠"
-          name="vest-buckle"
-          menuItems={[
-            { value: 'empty', label: '' },
-            { value: '有', label: '有' },
-            { value: '無', label: '無' },
-          ]}
-        />
-        <RhfSelect
-          label="穴糸色"
-          name="vest-holeThreadColor"
-          menuItems={[
-            { value: 'empty', label: '' },
-            { value: '無', label: '無' },
-            { value: '生地色', label: '生地色' },
-            { value: 'C1', label: 'C1' },
-            { value: 'C2', label: 'C2' },
-            { value: 'C3', label: 'C3' },
-            { value: 'C4', label: 'C4' },
-            { value: 'C5', label: 'C5' },
-            { value: 'C6', label: 'C6' },
-            { value: 'C7', label: 'C7' },
-            { value: 'C8', label: 'C8' },
-            { value: 'C9', label: 'C9' },
-            { value: 'C10', label: 'C10' },
-            { value: 'C11', label: 'C11' },
-            { value: 'C12', label: 'C12' },
-            { value: 'C13', label: 'C13' },
-            { value: 'C14', label: 'C14' },
-            { value: 'C15', label: 'C15' },
-            { value: 'C16', label: 'C16' },
-            { value: 'C17', label: 'C17' },
-            { value: 'C18', label: 'C18' },
-            { value: 'C19', label: 'C19' },
-            { value: 'C20', label: 'C20' },
-            { value: 'C21', label: 'C21' },
-            { value: 'C22', label: 'C22' },
-            { value: 'C23', label: 'C23' },
-            { value: 'C24', label: 'C24' },
-            { value: 'C25', label: 'C25' },
-            { value: 'C26', label: 'C26' },
-            { value: 'C27', label: 'C27' },
-            { value: 'C28', label: 'C28' },
-            { value: 'C29', label: 'C29' },
-            { value: 'C30', label: 'C30' },
-            { value: 'C31', label: 'C31' },
-            { value: 'C32', label: 'C32' },
-          ]}
-        />
-        <RhfSelect
-          label="ステッチ"
-          name="vest-stitch"
-          menuItems={[
-            { value: 'empty', label: '' },
-            { value: 'ＡＭＦ0.2', label: 'ＡＭＦ0.2' },
-            { value: 'ＡＭＦ0.6', label: 'ＡＭＦ0.6' },
-            { value: '無', label: '無' },
-          ]}
-        />
-        <RhfSelect
-          label="穴かがり"
-          name="vest-hole"
-          menuItems={[
-            { value: 'empty', label: '' },
-            { value: 'ミシン', label: 'ミシン' },
-            { value: 'ハンド', label: 'ハンド' },
-          ]}
-        />
-      </GridContainer>
+      <Box>
+        <GridContainer>
+          <RhfSelect
+            label="腰P"
+            name="vest-waistPocket"
+            menuItems={[
+              { value: 'empty', label: '' },
+              { value: '腰Ｐ箱', label: '腰Ｐ箱' },
+              { value: '腰Ｐフラップ両玉', label: '腰Ｐフラップ両玉' },
+              { value: '腰Ｐフラップ無し両玉', label: '腰Ｐフラップ無し両玉' },
+            ]}
+          />
+          <RhfSelect
+            label="背裏"
+            name="vest-backSide"
+            menuItems={[
+              { value: 'empty', label: '' },
+              { value: '表地', label: '表地' },
+              { value: '裏地', label: '裏地' },
+            ]}
+          />
+          <RhfSelect
+            label="尾錠"
+            name="vest-buckle"
+            menuItems={[
+              { value: 'empty', label: '' },
+              { value: '有', label: '有' },
+              { value: '無', label: '無' },
+            ]}
+          />
+          <RhfSelect
+            label="穴糸色"
+            name="vest-holeThreadColor"
+            menuItems={[
+              { value: 'empty', label: '' },
+              { value: '無', label: '無' },
+              { value: '生地色', label: '生地色' },
+              { value: 'C1', label: 'C1' },
+              { value: 'C2', label: 'C2' },
+              { value: 'C3', label: 'C3' },
+              { value: 'C4', label: 'C4' },
+              { value: 'C5', label: 'C5' },
+              { value: 'C6', label: 'C6' },
+              { value: 'C7', label: 'C7' },
+              { value: 'C8', label: 'C8' },
+              { value: 'C9', label: 'C9' },
+              { value: 'C10', label: 'C10' },
+              { value: 'C11', label: 'C11' },
+              { value: 'C12', label: 'C12' },
+              { value: 'C13', label: 'C13' },
+              { value: 'C14', label: 'C14' },
+              { value: 'C15', label: 'C15' },
+              { value: 'C16', label: 'C16' },
+              { value: 'C17', label: 'C17' },
+              { value: 'C18', label: 'C18' },
+              { value: 'C19', label: 'C19' },
+              { value: 'C20', label: 'C20' },
+              { value: 'C21', label: 'C21' },
+              { value: 'C22', label: 'C22' },
+              { value: 'C23', label: 'C23' },
+              { value: 'C24', label: 'C24' },
+              { value: 'C25', label: 'C25' },
+              { value: 'C26', label: 'C26' },
+              { value: 'C27', label: 'C27' },
+              { value: 'C28', label: 'C28' },
+              { value: 'C29', label: 'C29' },
+              { value: 'C30', label: 'C30' },
+              { value: 'C31', label: 'C31' },
+              { value: 'C32', label: 'C32' },
+            ]}
+          />
+          <RhfSelect
+            label="ステッチ"
+            name="vest-stitch"
+            menuItems={[
+              { value: 'empty', label: '' },
+              { value: 'ＡＭＦ0.2', label: 'ＡＭＦ0.2' },
+              { value: 'ＡＭＦ0.6', label: 'ＡＭＦ0.6' },
+              { value: '無', label: '無' },
+            ]}
+          />
+          <RhfSelect
+            label="穴かがり"
+            name="vest-hole"
+            menuItems={[
+              { value: 'empty', label: '' },
+              { value: 'ミシン', label: 'ミシン' },
+              { value: 'ハンド', label: 'ハンド' },
+            ]}
+          />
+        </GridContainer>
+      </Box>
     </>
   );
 };
