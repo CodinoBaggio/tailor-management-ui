@@ -5,7 +5,6 @@ import {
   Box,
   Button,
   CircularProgress,
-  Divider,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -435,7 +434,6 @@ export const Order = () => {
           </Button>
         </Box>
       </Box>
-      {/* <Divider /> */}
       <Box className="mt-5">
         <VerticalTabs
           tabItems={[
@@ -458,10 +456,6 @@ export const Order = () => {
           ]}
         />
       </Box>
-      {/* <OrderBasis />
-      <OrderJaket />
-      <OrderPants />
-      <OrderVest /> */}
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={open}

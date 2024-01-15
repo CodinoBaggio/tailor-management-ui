@@ -23,16 +23,17 @@ export const RhfDatePicker: FC<Props> = (props) => {
         render={({ field }) => (
           <DatePicker
             label={label}
+            {...field}
+            onChange={(value) => field.onChange(value)}
+            value={field.value ?? dayjs()}
             slotProps={{
               textField: {
                 required: required,
                 id: name,
                 size: 'small',
+                sx: { width: '150px' },
               },
             }}
-            {...field}
-            onChange={(value) => field.onChange(value)}
-            value={field.value ?? dayjs()}
           />
         )}
       />

@@ -9,6 +9,7 @@ type Props = {
   message: string;
   type?: string;
   defaultValue?: string | number;
+  width?: number;
 };
 
 export const RhfTextField: FC<Props> = (props) => {
@@ -19,6 +20,7 @@ export const RhfTextField: FC<Props> = (props) => {
     message,
     type = 'text',
     defaultValue = 'Loading...',
+    width
   } = props;
   const { control } = useFormContext();
 
@@ -43,6 +45,8 @@ export const RhfTextField: FC<Props> = (props) => {
           error={errors.text ? true : false}
           helperText={errors.text?.message as string}
           size="small"
+          inputProps={{ style: { fontSize: '0.8rem' } }}
+          sx={{ width: {width} }}
         />
       )}
     />

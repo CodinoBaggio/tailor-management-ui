@@ -32,7 +32,7 @@ export const AppLayout = () => {
           <div>{`${user.shopName}：${user.userName}`}</div>
         </header>
       </Box>
-      <Container>
+      <Container maxWidth="xl">
         <Outlet />
       </Container>
     </>

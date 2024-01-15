@@ -42,7 +42,7 @@ export const RhfSelect: FC<Props> = (props) => {
               field.onChange(event);
               if (handleChange) handleChange(event as React.ChangeEvent<{ value: unknown }>);
             }}
-            sx={{ width: width }}
+            sx={{ width: width,fontSize: '0.8rem' }}
             autoWidth
           >
             {menuItems.map((item, index) => {
