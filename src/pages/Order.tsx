@@ -369,6 +369,7 @@ export const Order = () => {
   };
 
   const handleDelete = () => {
+    alert(import.meta.env.VITE_PUBLIC_URL)
     alert('削除');
   };
 
