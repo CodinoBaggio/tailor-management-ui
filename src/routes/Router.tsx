@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { Login } from '../pages/Login';
 import { AuthLayout } from '../layouts/AuthLayout';
 import { AppLayout } from '../layouts/AppLayout';
-import { OrderList } from '../pages/OrderList';
+// import { OrderList } from '../pages/OrderList';
 import { Order } from '../pages/Order';
 
 export const router = createBrowserRouter([
@@ -22,7 +22,8 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <OrderList />,
+        element: <Login />,
+        // element: <OrderList />,
       },
       {
         path: 'order/:orderId',
