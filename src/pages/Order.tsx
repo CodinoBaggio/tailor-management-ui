@@ -303,6 +303,212 @@ const setOrderVestValues = (
   methods.setValue('vest-updateUserId', order.updateUserId || '');
 };
 
+const createDefaultOrderValues = () => {
+  // 新規オーダーの場合は、デフォルト値を設定する
+  const defaultOrderJaket: OrderJaketType = {
+    jaketOrderId: '',
+    orderId: '',
+    selectPattern1: '',
+    selectPattern2: '',
+    selectPattern3: '',
+    totalLength: 0,
+    jaketLength: 0,
+    shoulderWidth: 0,
+    sleeveLengthLeft: 0,
+    sleeveLengthRight: 0,
+    bust: 0,
+    waist: 0,
+    bustTop: 0,
+    waistTop: 0,
+    canvas: '',
+    shoulderType: '',
+    collarType: '',
+    frontButton: '',
+    collarWidth: '',
+    sleeveButton: '',
+    sleeveOpening: '',
+    chestPocket: '',
+    sewingMethod: '',
+    frontCut: '',
+    labelSatinFabric: '',
+    stitch: '',
+    stitchLocation: '',
+    pinpointStitch: '',
+    pinpointStitchThreadColor: '',
+    chestBoxSatinFabric: '',
+    waistPocket: '',
+    flapWidth: 0,
+    changePocket: '',
+    secretPocket: '',
+    backSpec: '',
+    daiba: '',
+    insidePocket: '',
+    penPocket: '',
+    ticketPocket: '',
+    pat: 0,
+    lining: '',
+    collarBack: '',
+    vents: '',
+    inName: '',
+    nameFont: '',
+    namePosition: '',
+    nameColor: '',
+    name: '',
+    labelHole: '',
+    stitchThreadColor: '',
+    labelThreadColor: '',
+    frontButtonThreadColor: '',
+    sleeveButtonThreadColor: '',
+    brandName: '',
+    fabricMark: '',
+    buttonProductNo: '',
+    sleeveOpeningTape: '',
+    sleeveElbowPatch: '',
+    hole: '',
+    sleeveButtonHoleColor: '',
+    uchiai: 0,
+    hanmi: 0,
+    kutsumi: 0,
+    squareShoulderLeft: 0,
+    squareShoulderRight: 0,
+    slopingShoulderLeft: 0,
+    slopingShoulderRight: 0,
+    totsuRyo: 0,
+    hip: 0,
+    frontLength: 0,
+    frontSleeveHem: 0,
+    ahFrontOpening: 0,
+    sleeveOpeningWidth: 0,
+    collarMitsu: 0,
+    collarShift: 0,
+    buttonPosition: 0,
+    backCurve: 0,
+    sickleRaising: 0,
+    sleeveWidth: 0,
+    backWidth: 0,
+    sleeveBack: '',
+    isDelete: false,
+    createDateTime: dayjs(),
+    createUserId: '',
+    updateDateTime: dayjs(),
+    updateUserId: '',
+  };
+  const defaultOrderPants: OrderPantsType = {
+    pantsOrderId: '',
+    orderId: '',
+    selectPattern1: '',
+    selectPattern2: '',
+    selectPattern3: '',
+    waist: 0,
+    hip: 0,
+    hipTop: 0,
+    rise: 0,
+    inseamLeft: 0,
+    inseamRight: 0,
+    crossingWidth: 0,
+    kneeWidth: 0,
+    hemOpening: 0,
+    tack: '',
+    sidePocket: '',
+    foldedHem: '',
+    secretPocket: '',
+    kneeBack: '',
+    holeThreadColor: '',
+    sideAmf: '',
+    stitchThreadColor: '',
+    kneepadColor: '',
+    tackSpec: '',
+    sideSatinFabric: '',
+    pisPocketJadeGreen: '',
+    pisPocket: '',
+    plaket: '',
+    buttocks: 0,
+    flatButt: 0,
+    frontRise: 0,
+    backRise: 0,
+    wedgie: 0,
+    pancherina: '',
+    loopCount: '',
+    qiLoop: '',
+    hole: '',
+    chic: '',
+    loopAdd: '',
+    plushLoop: '',
+    setFinishing: '',
+    creaseWire: '',
+    buttholeTape: '',
+    isDelete: false,
+    createDateTime: dayjs(),
+    createUserId: '',
+    updateDateTime: dayjs(),
+    updateUserId: '',
+  };
+  const defaultOrderVest: OrderVestType = {
+    vestOrderId: '',
+    orderId: '',
+    selectPattern1: '',
+    selectPattern2: '',
+    selectPattern3: '',
+    backLength: 0,
+    bustTop: 0,
+    waistTop: 0,
+    collar: '',
+    chestPocket: '',
+    frontButton: '',
+    frontButtonHolePosition: '',
+    waistPocket: '',
+    backSide: '',
+    buckle: '',
+    holeThreadColor: '',
+    stitch: '',
+    hole: '',
+    uchiai: 0,
+    hanmi: 0,
+    kutsumi: 0,
+    squareShoulderLeft: 0,
+    squareShoulderRight: 0,
+    slopingShoulderLeft: 0,
+    slopingShoulderRight: 0,
+    sickleRaising: 0,
+    shoulderWidth: 0,
+    buttonPosition: 0,
+    frontLength: 0,
+    isDelete: false,
+    createDateTime: dayjs(),
+    createUserId: '',
+    updateDateTime: dayjs(),
+    updateUserId: '',
+  };
+  const defaultOrderBasis: OrderBasisType = {
+    orderId: '',
+    shopId: '',
+    seq: 0,
+    orderStatus: '保存',
+    inputDate: dayjs(),
+    orderDateTime: dayjs(),
+    shipDate: dayjs(),
+    customerName: '',
+    productName: '',
+    fabricMaker: '',
+    fabricProductNo: '',
+    yield: 0,
+    blendRateFabric1: '',
+    blendRate1: 0,
+    blendRateFabric2: '',
+    blendRate2: 0,
+    inputUserId: '',
+    isDelete: false,
+    createDateTime: dayjs(),
+    createUserId: '',
+    updateDateTime: dayjs(),
+    updateUserId: '',
+    jaket: defaultOrderJaket,
+    pants: defaultOrderPants,
+    vest: defaultOrderVest,
+  };
+  return defaultOrderBasis;
+};
+
 export const Order = () => {
   const methods = useForm();
   const [open, setOpen] = useState(false);
@@ -316,15 +522,19 @@ export const Order = () => {
       setOpen(true);
 
       try {
-        const res: any = await orderApi.getOrder({
-          endpoint: 'order',
-          endpointParams: { orderId: orderId },
-        });
-        setOrderBasisValues(methods, res.payload.order);
-        setOrderJaketValues(methods, res.payload.order.jaket);
-        setOrderPantsValues(methods, res.payload.order.pants);
-        setOrderVestValues(methods, res.payload.order.vest);
-        setOrderStatus(res.payload.order.orderStatus);
+        let order = createDefaultOrderValues();
+        if (orderId) {
+          const res: any = await orderApi.getOrder({
+            endpoint: 'order',
+            endpointParams: { orderId: orderId },
+          });
+          order = res.payload.order;
+        }
+        setOrderBasisValues(methods, order);
+        setOrderJaketValues(methods, order.jaket);
+        setOrderPantsValues(methods, order.pants);
+        setOrderVestValues(methods, order.vest);
+        setOrderStatus(order.orderStatus);
       } catch (error) {
         alert(error);
         // console.log(error);
@@ -333,7 +543,7 @@ export const Order = () => {
         setOpen(false);
       }
     };
-    getOrder();
+    if (orderId) getOrder();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -369,7 +579,7 @@ export const Order = () => {
   };
 
   const handleDelete = () => {
-    alert(import.meta.env.VITE_PUBLIC_URL)
+    alert(import.meta.env.VITE_PUBLIC_URL);
     alert('削除');
   };
 
@@ -379,7 +589,14 @@ export const Order = () => {
 
   return (
     <FormProvider {...methods}>
-      <Button onClick={handleBack} startIcon={<ArrowBackIcon />} color='inherit' size='small'>戻る</Button>
+      <Button
+        onClick={handleBack}
+        startIcon={<ArrowBackIcon />}
+        color="inherit"
+        size="small"
+      >
+        戻る
+      </Button>
       <Box className="flex items-center justify-between my-5">
         <Box>
           <Box className="flex items-center">
@@ -394,7 +611,9 @@ export const Order = () => {
                 </Tooltip>
               )}
             </Typography>
-            <Typography variant="body1">{`オーダーID：${orderId}`}</Typography>
+            <Typography variant="body1">{`オーダーID：${
+              orderId ? orderId : '(新規)'
+            }`}</Typography>
           </Box>
           <Box className="mb-2">
             <Button

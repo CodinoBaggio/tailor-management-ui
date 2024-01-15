@@ -19,7 +19,7 @@ export const RhfTextField: FC<Props> = (props) => {
     required = false,
     message,
     type = 'text',
-    defaultValue = 'Loading...',
+    defaultValue = '',
     width
   } = props;
   const { control } = useFormContext();
@@ -47,6 +47,7 @@ export const RhfTextField: FC<Props> = (props) => {
           size="small"
           inputProps={{ style: { fontSize: '0.8rem' } }}
           sx={{ width: {width} }}
+          InputLabelProps={{ shrink: true }}
         />
       )}
     />

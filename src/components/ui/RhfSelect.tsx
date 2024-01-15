@@ -44,6 +44,7 @@ export const RhfSelect: FC<Props> = (props) => {
             }}
             sx={{ width: width,fontSize: '0.8rem' }}
             autoWidth
+            placeholder={label}
           >
             {menuItems.map((item, index) => {
               return (
