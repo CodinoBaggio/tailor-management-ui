@@ -15,7 +15,7 @@ export type OrderBasisType = {
   blendRate1: number;
   blendRateFabric2: string;
   blendRate2: number;
-  inputUserId: string;
+  inputLoginId: string;
   isDelete: bit;
   createDateTime: datetime;
   createUserId: string;

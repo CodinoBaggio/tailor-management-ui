@@ -30,9 +30,10 @@ export const RhfSelect: FC<Props> = (props) => {
       control={control}
       defaultValue={menuItems[0].value}
       render={({ field, formState: { errors } }) => (
-        <FormControl error={errors.select ? true : false} size="small">
-          <InputLabel id="select-label">{label}</InputLabel>
+        <FormControl error={errors.select ? true : false} size="small" variant="standard">
+          <InputLabel id="select-label" shrink>{label}</InputLabel>
           <Select
+            notched
             labelId="select-label"
             id={name}
             label="Select"

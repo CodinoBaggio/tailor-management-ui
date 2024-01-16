@@ -48,6 +48,7 @@ export const RhfTextField: FC<Props> = (props) => {
           inputProps={{ style: { fontSize: '0.8rem' } }}
           sx={{ width: {width} }}
           InputLabelProps={{ shrink: true }}
+          variant="standard"
         />
       )}
     />

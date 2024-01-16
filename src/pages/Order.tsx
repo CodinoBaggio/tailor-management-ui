@@ -37,6 +37,7 @@ import {
   OrderVestType,
 } from '../features/order/types/order';
 import { VerticalTabs } from '../features/order/components/ui/VerticalTabs';
+import { useSelector } from 'react-redux';
 
 const setOrderBasisValues = (
   methods: UseFormReturn<FieldValues, any, undefined>,
@@ -61,7 +62,7 @@ const setOrderBasisValues = (
   methods.setValue('basis-blendRate1', order.blendRate1 || 0);
   methods.setValue('basis-blendRateFabric2', order.blendRateFabric2 || '');
   methods.setValue('basis-blendRate2', order.blendRate2 || 0);
-  methods.setValue('basis-inputUserId', order.inputUserId || '');
+  methods.setValue('basis-inputLoginId', order.inputLoginId || '');
   methods.setValue('basis-isDelete', order.isDelete || false);
   methods.setValue(
     'basis-createDateTime',
@@ -303,7 +304,7 @@ const setOrderVestValues = (
   methods.setValue('vest-updateUserId', order.updateUserId || '');
 };
 
-const createDefaultOrderValues = () => {
+const createDefaultOrderValues = (user: any) => {
   // 新規オーダーの場合は、デフォルト値を設定する
   const defaultOrderJaket: OrderJaketType = {
     jaketOrderId: '',
@@ -389,9 +390,9 @@ const createDefaultOrderValues = () => {
     sleeveBack: '',
     isDelete: false,
     createDateTime: dayjs(),
-    createUserId: '',
+    createUserId: user.loginId,
     updateDateTime: dayjs(),
-    updateUserId: '',
+    updateUserId: user.loginId,
   };
   const defaultOrderPants: OrderPantsType = {
     pantsOrderId: '',
@@ -439,9 +440,9 @@ const createDefaultOrderValues = () => {
     buttholeTape: '',
     isDelete: false,
     createDateTime: dayjs(),
-    createUserId: '',
+    createUserId: user.loginId,
     updateDateTime: dayjs(),
-    updateUserId: '',
+    updateUserId: user.loginId,
   };
   const defaultOrderVest: OrderVestType = {
     vestOrderId: '',
@@ -475,9 +476,9 @@ const createDefaultOrderValues = () => {
     frontLength: 0,
     isDelete: false,
     createDateTime: dayjs(),
-    createUserId: '',
+    createUserId: user.loginId,
     updateDateTime: dayjs(),
-    updateUserId: '',
+    updateUserId: user.loginId,
   };
   const defaultOrderBasis: OrderBasisType = {
     orderId: '',
@@ -496,12 +497,12 @@ const createDefaultOrderValues = () => {
     blendRate1: 0,
     blendRateFabric2: '',
     blendRate2: 0,
-    inputUserId: '',
+    inputLoginId: user.loginId,
     isDelete: false,
     createDateTime: dayjs(),
-    createUserId: '',
+    createUserId: user.loginId,
     updateDateTime: dayjs(),
-    updateUserId: '',
+    updateUserId: user.loginId,
     jaket: defaultOrderJaket,
     pants: defaultOrderPants,
     vest: defaultOrderVest,
@@ -515,6 +516,7 @@ export const Order = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const [orderStatus, setOrderStatus] = useState<string>('');
+  const user = useSelector((state: any) => state.user.value);
 
   useEffect(() => {
     const getOrder = async () => {
@@ -522,7 +524,7 @@ export const Order = () => {
       setOpen(true);
 
       try {
-        let order = createDefaultOrderValues();
+        let order = createDefaultOrderValues(user);
         if (orderId) {
           const res: any = await orderApi.getOrder({
             endpoint: 'order',
@@ -543,7 +545,7 @@ export const Order = () => {
         setOpen(false);
       }
     };
-    if (orderId) getOrder();
+    getOrder();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
