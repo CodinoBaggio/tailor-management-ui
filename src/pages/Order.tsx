@@ -90,7 +90,7 @@ const setOrderJaketValues = (
   methods.setValue('jaket-shoulderWidth', order.shoulderWidth || 0);
   methods.setValue('jaket-sleeveLengthLeft', order.sleeveLengthLeft || 0);
   methods.setValue('jaket-sleeveLengthRight', order.sleeveLengthRight || 0);
-  methods.setValue('jaket-bust', order.bust || 0);
+  methods.setValue('jaket-bust', order.bust);
   methods.setValue('jaket-waist', order.waist || 0);
   methods.setValue('jaket-bustTop', order.bustTop || 0);
   methods.setValue('jaket-waistTop', order.waistTop || 0);
@@ -216,6 +216,7 @@ const setOrderPantsValues = (
   methods.setValue('pants-secretPocket', order.secretPocket || '');
   methods.setValue('pants-kneeBack', order.kneeBack || '');
   methods.setValue('pants-holeThreadColor', order.holeThreadColor || '');
+  methods.setValue('pants-amfStitch', order.amfStitch || '');
   methods.setValue('pants-sideAmf', order.sideAmf || '');
   methods.setValue('pants-stitchThreadColor', order.stitchThreadColor || '');
   methods.setValue('pants-kneepadColor', order.kneepadColor || '');
@@ -409,35 +410,36 @@ const createDefaultOrderValues = (user: any) => {
     crossingWidth: 0,
     kneeWidth: 0,
     hemOpening: 0,
-    tack: '',
-    sidePocket: '',
+    tack: '0本',
+    sidePocket: 'ナナメ',
     foldedHem: '',
-    secretPocket: '',
-    kneeBack: '',
-    holeThreadColor: '',
-    sideAmf: '',
+    secretPocket: '右のみ',
+    kneeBack: '前膝裏',
+    holeThreadColor: '生地色',
+    amfStitch: '無',
+    sideAmf: '無',
     stitchThreadColor: '',
-    kneepadColor: '',
+    kneepadColor: '生地色',
     tackSpec: '',
-    sideSatinFabric: '',
-    pisPocketJadeGreen: '',
-    pisPocket: '',
-    plaket: '',
+    sideSatinFabric: '生地',
+    pisPocketJadeGreen: '両玉',
+    pisPocket: '左ボタン止め',
+    plaket: '三角',
     buttocks: 0,
     flatButt: 0,
     frontRise: 0,
     backRise: 0,
     wedgie: 0,
-    pancherina: '',
-    loopCount: '',
-    qiLoop: '',
-    hole: '',
-    chic: '',
-    loopAdd: '',
-    plushLoop: '',
-    setFinishing: '',
-    creaseWire: '',
-    buttholeTape: '',
+    pancherina: '無',
+    loopCount: '6本',
+    qiLoop: '有',
+    hole: 'ミシン',
+    chic: '有り',
+    loopAdd: 'TOP',
+    plushLoop: '有',
+    setFinishing: '無',
+    creaseWire: '有',
+    buttholeTape: '無',
     isDelete: false,
     createDateTime: dayjs(),
     createUserId: user.loginId,
@@ -453,16 +455,16 @@ const createDefaultOrderValues = (user: any) => {
     backLength: 0,
     bustTop: 0,
     waistTop: 0,
-    collar: '',
-    chestPocket: '',
+    collar: 'Ｖカット',
+    chestPocket: '無',
     frontButton: '',
-    frontButtonHolePosition: '',
-    waistPocket: '',
-    backSide: '',
-    buckle: '',
-    holeThreadColor: '',
+    frontButtonHolePosition: '無',
+    waistPocket: '腰Ｐ箱',
+    backSide: '裏地',
+    buckle: '有',
+    holeThreadColor: '生地色',
     stitch: '',
-    hole: '',
+    hole: 'ミシン',
     uchiai: 0,
     hanmi: 0,
     kutsumi: 0,
@@ -572,16 +574,26 @@ export const Order = () => {
     alert('保存');
   };
 
-  const handleEntry = () => {
-    alert('更新');
-  };
+  const handleEntry = async() => {
+    alert('登録');
+    const res: any = await orderApi.create({
+      endpoint: 'create-order',
+      endpointParams: { order: orderId },
+    });
+    if (res.status === 'success') {
+      alert('登録しました');
+      navigate('/');
+    } else {
+      alert(res.message);
+    }
+};
 
   const handleReuse = () => {
     alert('流用');
   };
 
   const handleDelete = () => {
-    alert(import.meta.env.VITE_PUBLIC_URL);
+    alert(methods.getValues('jaket-bust'));
     alert('削除');
   };
 

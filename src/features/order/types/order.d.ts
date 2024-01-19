@@ -136,6 +136,7 @@ export type OrderPantsType = {
   secretPocket: string;
   kneeBack: string;
   holeThreadColor: string;
+  amfStitch: string;
   sideAmf: string;
   stitchThreadColor: string;
   kneepadColor: string;

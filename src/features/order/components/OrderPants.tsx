@@ -224,6 +224,15 @@ export const OrderPants = () => {
             ]}
           />
           <RhfSelect
+            label="AMFステッチ"
+            name="pants-amfStitch"
+            menuItems={[
+              { value: 'empty', label: '' },
+              { value: '有', label: '有' },
+              { value: '無', label: '無' },
+            ]}
+          />
+          <RhfSelect
             label="脇AMF"
             name="pants-sideAmf"
             menuItems={[
