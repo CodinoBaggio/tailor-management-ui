@@ -67,7 +67,6 @@ export const OrderList = () => {
 
   const handleCreate = () => {
     navigate('/order/new');
-    // alert('新規');
   };
 
   const handleSearch = async () => {
