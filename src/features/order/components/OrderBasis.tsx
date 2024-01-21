@@ -117,7 +117,7 @@ export const OrderBasis = () => {
           />
         </GridContainer>
       </Box>
-      <Box>
+      <Box className={style.boxMargin}>
         <GridContainer>
           <RhfSelect
             label="混率生地②"
@@ -147,7 +147,7 @@ export const OrderBasis = () => {
           />
         </GridContainer>
       </Box>
-      <Box>
+      <Box className={style.boxMargin}>
         <GridContainer>
           <RhfTextField
             label="混率生地③"

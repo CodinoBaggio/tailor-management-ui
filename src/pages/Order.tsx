@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Backdrop,
@@ -8,525 +8,44 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import {
-  useForm,
-  FormProvider,
-  UseFormReturn,
-  FieldValues,
-} from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 
-import dayjs from 'dayjs';
 import SaveIcon from '@mui/icons-material/Save';
 import { green, pink } from '@mui/material/colors';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearIcon from '@mui/icons-material/Clear';
 import PermMediaIcon from '@mui/icons-material/PermMedia';
+import { useDispatch, useSelector } from 'react-redux';
 
 import orderApi from '../features/order/api/orderApi';
 import { OrderBasis } from '../features/order/components/OrderBasis';
 import { OrderJaket } from '../features/order/components/OrderJaket';
 import { OrderPants } from '../features/order/components/OrderPants';
 import { OrderVest } from '../features/order/components/OrderVest';
-import {
-  OrderBasisType,
-  OrderJaketType,
-  OrderPantsType,
-  OrderVestType,
-} from '../features/order/types/order';
 import { VerticalTabs } from '../features/order/components/ui/VerticalTabs';
-import { useDispatch, useSelector } from 'react-redux';
 import { setUpdated } from '../features/order/stores/orderSlice';
-
-const setOrderBasisValues = (
-  methods: UseFormReturn<FieldValues, any, undefined>,
-  order: OrderBasisType
-) => {
-  methods.setValue('basis-orderId', order.orderId || '');
-  methods.setValue('basis-shopId', order.shopId || '');
-  methods.setValue('basis-seq', order.seq || 0);
-  methods.setValue('basis-orderStatus', order.orderStatus || '');
-  methods.setValue('basis-inputDate', dayjs(order.inputDate) || dayjs());
-  methods.setValue(
-    'basis-orderDateTime',
-    dayjs(order.orderDateTime) || dayjs()
-  );
-  methods.setValue('basis-shipDate', dayjs(order.shipDate) || dayjs());
-  methods.setValue('basis-customerName', order.customerName || '');
-  methods.setValue('basis-productName', order.productName || '');
-  methods.setValue('basis-fabricMaker', order.fabricMaker || '');
-  methods.setValue('basis-fabricProductNo', order.fabricProductNo || '');
-  methods.setValue('basis-yield', order.yield || 0);
-  methods.setValue('basis-blendRateFabric1', order.blendRateFabric1 || '');
-  methods.setValue('basis-blendRate1', order.blendRate1 || 0);
-  methods.setValue('basis-blendRateFabric2', order.blendRateFabric2 || '');
-  methods.setValue('basis-blendRate2', order.blendRate2 || 0);
-  methods.setValue('basis-blendRateFabric3', order.blendRateFabric3 || '');
-  methods.setValue('basis-blendRate3', order.blendRate3 || 0);
-  methods.setValue('basis-blendRateFabric4', order.blendRateFabric4 || '');
-  methods.setValue('basis-blendRate4', order.blendRate4 || 0);
-  methods.setValue('basis-inputLoginId', order.inputLoginId || '');
-  methods.setValue('basis-isDelete', order.isDelete || false);
-  methods.setValue(
-    'basis-createDateTime',
-    dayjs(order.createDateTime) || dayjs()
-  );
-  methods.setValue('basis-createUserId', order.createUserId || '');
-  methods.setValue(
-    'basis-updateDateTime',
-    dayjs(order.updateDateTime) || dayjs()
-  );
-  methods.setValue('basis-updateUserId', order.updateUserId || '');
-};
-
-const setOrderJaketValues = (
-  methods: UseFormReturn<FieldValues, any, undefined>,
-  order: OrderJaketType
-) => {
-  methods.setValue('jaket-jaketOrderId', order.jaketOrderId || '');
-  methods.setValue('jaket-orderId', order.orderId || '');
-  methods.setValue('jaket-selectPattern1', order.selectPattern1 || '');
-  methods.setValue('jaket-selectPattern2', order.selectPattern2 || '');
-  methods.setValue('jaket-selectPattern3', order.selectPattern3 || '');
-  methods.setValue('jaket-totalLength', order.totalLength || 0);
-  methods.setValue('jaket-jaketLength', order.jaketLength || 0);
-  methods.setValue('jaket-shoulderWidth', order.shoulderWidth || 0);
-  methods.setValue('jaket-sleeveLengthLeft', order.sleeveLengthLeft || 0);
-  methods.setValue('jaket-sleeveLengthRight', order.sleeveLengthRight || 0);
-  methods.setValue('jaket-bust', order.bust);
-  methods.setValue('jaket-waist', order.waist || 0);
-  methods.setValue('jaket-bustTop', order.bustTop || 0);
-  methods.setValue('jaket-waistTop', order.waistTop || 0);
-  methods.setValue('jaket-canvas', order.canvas || '');
-  methods.setValue('jaket-shoulderType', order.shoulderType || '');
-  methods.setValue('jaket-collarType', order.collarType || '');
-  methods.setValue('jaket-frontButton', order.frontButton || '');
-  methods.setValue('jaket-collarWidth', order.collarWidth || '');
-  methods.setValue('jaket-sleeveButton', order.sleeveButton || '');
-  methods.setValue('jaket-sleeveOpening', order.sleeveOpening || '');
-  methods.setValue('jaket-chestPocket', order.chestPocket || '');
-  methods.setValue('jaket-sewingMethod', order.sewingMethod || '');
-  methods.setValue('jaket-frontCut', order.frontCut || '');
-  methods.setValue('jaket-labelSatinFabric', order.labelSatinFabric || '');
-  methods.setValue('jaket-stitch', order.stitch || '');
-  methods.setValue('jaket-stitchLocation', order.stitchLocation || '');
-  methods.setValue('jaket-pinpointStitch', order.pinpointStitch || '');
-  methods.setValue(
-    'jaket-pinpointStitchThreadColor',
-    order.pinpointStitchThreadColor || ''
-  );
-  methods.setValue(
-    'jaket-chestBoxSatinFabric',
-    order.chestBoxSatinFabric || ''
-  );
-  methods.setValue('jaket-waistPocket', order.waistPocket || '');
-  methods.setValue('jaket-flapWidth', order.flapWidth || 0);
-  methods.setValue('jaket-changePocket', order.changePocket || '');
-  methods.setValue('jaket-secretPocket', order.secretPocket || '');
-  methods.setValue('jaket-backSpec', order.backSpec || '');
-  methods.setValue('jaket-daiba', order.daiba || '');
-  methods.setValue('jaket-insidePocket', order.insidePocket || '');
-  methods.setValue('jaket-penPocket', order.penPocket || '');
-  methods.setValue('jaket-ticketPocket', order.ticketPocket || '');
-  methods.setValue('jaket-pat', order.pat || 0);
-  methods.setValue('jaket-lining', order.lining || '');
-  methods.setValue('jaket-collarBack', order.collarBack || '');
-  methods.setValue('jaket-vents', order.vents || '');
-  methods.setValue('jaket-inName', order.inName || '');
-  methods.setValue('jaket-nameFont', order.nameFont || '');
-  methods.setValue('jaket-namePosition', order.namePosition || '');
-  methods.setValue('jaket-nameColor', order.nameColor || '');
-  methods.setValue('jaket-name', order.name || '');
-  methods.setValue('jaket-labelHole', order.labelHole || '');
-  methods.setValue('jaket-stitchThreadColor', order.stitchThreadColor || '');
-  methods.setValue('jaket-labelThreadColor', order.labelThreadColor || '');
-  methods.setValue(
-    'jaket-frontButtonThreadColor',
-    order.frontButtonThreadColor || ''
-  );
-  methods.setValue(
-    'jaket-sleeveButtonThreadColor',
-    order.sleeveButtonThreadColor || ''
-  );
-  methods.setValue('jaket-brandName', order.brandName || '');
-  methods.setValue('jaket-fabricMark', order.fabricMark || '');
-  methods.setValue('jaket-buttonProductNo', order.buttonProductNo || '');
-  methods.setValue('jaket-sleeveOpeningTape', order.sleeveOpeningTape || '');
-  methods.setValue('jaket-sleeveElbowPatch', order.sleeveElbowPatch || '');
-  methods.setValue('jaket-hole', order.hole || '');
-  methods.setValue(
-    'jaket-sleeveButtonHoleColor',
-    order.sleeveButtonHoleColor || ''
-  );
-  methods.setValue('jaket-uchiai', order.uchiai || 0);
-  methods.setValue('jaket-hanmi', order.hanmi || 0);
-  methods.setValue('jaket-kutsumi', order.kutsumi || 0);
-  methods.setValue('jaket-squareShoulderLeft', order.squareShoulderLeft || 0);
-  methods.setValue('jaket-squareShoulderRight', order.squareShoulderRight || 0);
-  methods.setValue('jaket-slopingShoulderLeft', order.slopingShoulderLeft || 0);
-  methods.setValue(
-    'jaket-slopingShoulderRight',
-    order.slopingShoulderRight || 0
-  );
-  methods.setValue('jaket-totsuRyo', order.totsuRyo || 0);
-  methods.setValue('jaket-hip', order.hip || 0);
-  methods.setValue('jaket-frontLength', order.frontLength || 0);
-  methods.setValue('jaket-frontSleeveHem', order.frontSleeveHem || 0);
-  methods.setValue('jaket-ahFrontOpening', order.ahFrontOpening || 0);
-  methods.setValue('jaket-sleeveOpeningWidth', order.sleeveOpeningWidth || 0);
-  methods.setValue('jaket-collarMitsu', order.collarMitsu || 0);
-  methods.setValue('jaket-collarShift', order.collarShift || 0);
-  methods.setValue('jaket-buttonPosition', order.buttonPosition || 0);
-  methods.setValue('jaket-backCurve', order.backCurve || 0);
-  methods.setValue('jaket-sickleRaising', order.sickleRaising || 0);
-  methods.setValue('jaket-sleeveWidth', order.sleeveWidth || 0);
-  methods.setValue('jaket-backWidth', order.backWidth || 0);
-  methods.setValue('jaket-sleeveBack', order.sleeveBack || '');
-  methods.setValue('jaket-isDelete', order.isDelete || false);
-  methods.setValue(
-    'jaket-createDateTime',
-    dayjs(order.createDateTime) || dayjs()
-  );
-  methods.setValue('jaket-createUserId', order.createUserId || '');
-  methods.setValue(
-    'jaket-updateDateTime',
-    dayjs(order.updateDateTime) || dayjs()
-  );
-  methods.setValue('jaket-updateUserId', order.updateUserId || '');
-};
-
-const setOrderPantsValues = (
-  methods: UseFormReturn<FieldValues, any, undefined>,
-  order: OrderPantsType
-) => {
-  methods.setValue('pants-pantsOrderId', order.pantsOrderId || '');
-  methods.setValue('pants-orderId', order.orderId || '');
-  methods.setValue('pants-selectPattern1', order.selectPattern1 || '');
-  methods.setValue('pants-selectPattern2', order.selectPattern2 || '');
-  methods.setValue('pants-selectPattern3', order.selectPattern3 || '');
-  methods.setValue('pants-waist', order.waist || 0);
-  methods.setValue('pants-hip', order.hip || 0);
-  methods.setValue('pants-hipTop', order.hipTop || 0);
-  methods.setValue('pants-rise', order.rise || 0);
-  methods.setValue('pants-inseamLeft', order.inseamLeft || 0);
-  methods.setValue('pants-inseamRight', order.inseamRight || 0);
-  methods.setValue('pants-crossingWidth', order.crossingWidth || 0);
-  methods.setValue('pants-kneeWidth', order.kneeWidth || 0);
-  methods.setValue('pants-hemOpening', order.hemOpening || 0);
-  methods.setValue('pants-tack', order.tack || '');
-  methods.setValue('pants-sidePocket', order.sidePocket || '');
-  methods.setValue('pants-foldedHem', order.foldedHem || '');
-  methods.setValue('pants-secretPocket', order.secretPocket || '');
-  methods.setValue('pants-kneeBack', order.kneeBack || '');
-  methods.setValue('pants-holeThreadColor', order.holeThreadColor || '');
-  methods.setValue('pants-amfStitch', order.amfStitch || '');
-  methods.setValue('pants-sideAmf', order.sideAmf || '');
-  methods.setValue('pants-stitchThreadColor', order.stitchThreadColor || '');
-  methods.setValue('pants-kneepadColor', order.kneepadColor || '');
-  methods.setValue('pants-tackSpec', order.tackSpec || '');
-  methods.setValue('pants-sideSatinFabric', order.sideSatinFabric || '');
-  methods.setValue('pants-pisPocketJadeGreen', order.pisPocketJadeGreen || '');
-  methods.setValue('pants-pisPocket', order.pisPocket || '');
-  methods.setValue('pants-plaket', order.plaket || '');
-  methods.setValue('pants-buttocks', order.buttocks || 0);
-  methods.setValue('pants-flatButt', order.flatButt || 0);
-  methods.setValue('pants-frontRise', order.frontRise || 0);
-  methods.setValue('pants-backRise', order.backRise || 0);
-  methods.setValue('pants-wedgie', order.wedgie || 0);
-  methods.setValue('pants-pancherina', order.pancherina || '');
-  methods.setValue('pants-loopCount', order.loopCount || '');
-  methods.setValue('pants-qiLoop', order.qiLoop || '');
-  methods.setValue('pants-hole', order.hole || '');
-  methods.setValue('pants-chic', order.chic || '');
-  methods.setValue('pants-loopAdd', order.loopAdd || '');
-  methods.setValue('pants-plushLoop', order.plushLoop || '');
-  methods.setValue('pants-setFinishing', order.setFinishing || '');
-  methods.setValue('pants-creaseWire', order.creaseWire || '');
-  methods.setValue('pants-buttholeTape', order.buttholeTape || '');
-  methods.setValue('pants-isDelete', order.isDelete || false);
-  methods.setValue(
-    'pants-createDateTime',
-    dayjs(order.createDateTime) || dayjs()
-  );
-  methods.setValue('pants-createUserId', order.createUserId || '');
-  methods.setValue(
-    'pants-updateDateTime',
-    dayjs(order.updateDateTime) || dayjs()
-  );
-  methods.setValue('pants-updateUserId', order.updateUserId || '');
-};
-
-const setOrderVestValues = (
-  methods: UseFormReturn<FieldValues, any, undefined>,
-  order: OrderVestType
-) => {
-  methods.setValue('vest-vestOrderId', order.vestOrderId || '');
-  methods.setValue('vest-orderId', order.orderId || '');
-  methods.setValue('vest-selectPattern1', order.selectPattern1 || '');
-  methods.setValue('vest-selectPattern2', order.selectPattern2 || '');
-  methods.setValue('vest-selectPattern3', order.selectPattern3 || '');
-  methods.setValue('vest-backLength', order.backLength || 0);
-  methods.setValue('vest-bustTop', order.bustTop || 0);
-  methods.setValue('vest-waistTop', order.waistTop || 0);
-  methods.setValue('vest-collar', order.collar || '');
-  methods.setValue('vest-chestPocket', order.chestPocket || '');
-  methods.setValue('vest-frontButton', order.frontButton || '');
-  methods.setValue(
-    'vest-frontButtonHolePosition',
-    order.frontButtonHolePosition || ''
-  );
-  methods.setValue('vest-waistPocket', order.waistPocket || '');
-  methods.setValue('vest-backSide', order.backSide || '');
-  methods.setValue('vest-buckle', order.buckle || '');
-  methods.setValue('vest-holeThreadColor', order.holeThreadColor || '');
-  methods.setValue('vest-stitch', order.stitch || '');
-  methods.setValue('vest-hole', order.hole || '');
-  methods.setValue('vest-uchiai', order.uchiai || 0);
-  methods.setValue('vest-hanmi', order.hanmi || 0);
-  methods.setValue('vest-kutsumi', order.kutsumi || 0);
-  methods.setValue('vest-squareShoulderLeft', order.squareShoulderLeft || 0);
-  methods.setValue('vest-squareShoulderRight', order.squareShoulderRight || 0);
-  methods.setValue('vest-slopingShoulderLeft', order.slopingShoulderLeft || 0);
-  methods.setValue(
-    'vest-slopingShoulderRight',
-    order.slopingShoulderRight || 0
-  );
-  methods.setValue('vest-sickleRaising', order.sickleRaising || 0);
-  methods.setValue('vest-shoulderWidth', order.shoulderWidth || 0);
-  methods.setValue('vest-buttonPosition', order.buttonPosition || 0);
-  methods.setValue('vest-frontLength', order.frontLength || 0);
-  methods.setValue('vest-isDelete', order.isDelete || false);
-  methods.setValue(
-    'vest-createDateTime',
-    dayjs(order.createDateTime) || dayjs()
-  );
-  methods.setValue('vest-createUserId', order.createUserId || '');
-  methods.setValue(
-    'vest-updateDateTime',
-    dayjs(order.updateDateTime) || dayjs()
-  );
-  methods.setValue('vest-updateUserId', order.updateUserId || '');
-};
-
-const createDefaultOrderValues = (user: any) => {
-  // 新規オーダーの場合は、デフォルト値を設定する
-  const defaultOrderJaket: OrderJaketType = {
-    jaketOrderId: '',
-    orderId: '',
-    selectPattern1: '',
-    selectPattern2: '',
-    selectPattern3: '',
-    totalLength: 0,
-    jaketLength: 0,
-    shoulderWidth: 0,
-    sleeveLengthLeft: 0,
-    sleeveLengthRight: 0,
-    bust: 0,
-    waist: 0,
-    bustTop: 0,
-    waistTop: 0,
-    canvas: '薄毛芯',
-    shoulderType: '正常肩',
-    collarType: 'ノッチ',
-    frontButton: '',
-    collarWidth: '',
-    sleeveButton: '袖4釦キッシング',
-    sleeveOpening: '開き見せ',
-    chestPocket: 'バルカ',
-    sewingMethod: 'ラベル毛芯',
-    frontCut: 'ユニバーサル',
-    labelSatinFabric: '生地',
-    stitch: '',
-    stitchLocation: '',
-    pinpointStitch: '無',
-    pinpointStitchThreadColor: '無',
-    chestBoxSatinFabric: '生地',
-    waistPocket: 'フラップ付き両玉',
-    flapWidth: 5.0,
-    changePocket: '無',
-    secretPocket: '右のみ',
-    backSpec: '',
-    daiba: '角台場',
-    insidePocket: '右三角フタ',
-    penPocket: '有',
-    ticketPocket: '無',
-    pat: 0.5,
-    lining: '',
-    collarBack: '生地色',
-    vents: '',
-    inName: '有',
-    nameFont: 'ローマ字（筆）',
-    namePosition: 'タバコポケット上',
-    nameColor: 'M3',
-    name: '',
-    labelHole: '左側',
-    stitchThreadColor: '生地色',
-    labelThreadColor: '生地色',
-    frontButtonThreadColor: '生地色',
-    sleeveButtonThreadColor: '生地色',
-    brandName: '',
-    fabricMark: '',
-    buttonProductNo: '',
-    sleeveOpeningTape: '',
-    sleeveElbowPatch: '',
-    hole: 'ミシン',
-    sleeveButtonHoleColor: '無',
-    uchiai: 0,
-    hanmi: 0,
-    kutsumi: 0,
-    squareShoulderLeft: 0,
-    squareShoulderRight: 0,
-    slopingShoulderLeft: 0,
-    slopingShoulderRight: 0,
-    totsuRyo: 0,
-    hip: 0,
-    frontLength: 0,
-    frontSleeveHem: 0,
-    ahFrontOpening: 0,
-    sleeveOpeningWidth: 0,
-    collarMitsu: 0,
-    collarShift: 0,
-    buttonPosition: 0,
-    backCurve: 0,
-    sickleRaising: 0,
-    sleeveWidth: 0,
-    backWidth: 0,
-    sleeveBack: '',
-    isDelete: false,
-    createDateTime: dayjs(),
-    createUserId: user.loginId,
-    updateDateTime: dayjs(),
-    updateUserId: user.loginId,
-  };
-  const defaultOrderPants: OrderPantsType = {
-    pantsOrderId: '',
-    orderId: '',
-    selectPattern1: '',
-    selectPattern2: '',
-    selectPattern3: '',
-    waist: 0,
-    hip: 0,
-    hipTop: 0,
-    rise: 0,
-    inseamLeft: 0,
-    inseamRight: 0,
-    crossingWidth: 0,
-    kneeWidth: 0,
-    hemOpening: 0,
-    tack: '0本',
-    sidePocket: 'ナナメ',
-    foldedHem: '',
-    secretPocket: '右のみ',
-    kneeBack: '前膝裏',
-    holeThreadColor: '生地色',
-    amfStitch: '無',
-    sideAmf: '無',
-    stitchThreadColor: '',
-    kneepadColor: '生地色',
-    tackSpec: '',
-    sideSatinFabric: '生地',
-    pisPocketJadeGreen: '両玉',
-    pisPocket: '左ボタン止め',
-    plaket: '三角',
-    buttocks: 0,
-    flatButt: 0,
-    frontRise: 0,
-    backRise: 0,
-    wedgie: 0,
-    pancherina: '無',
-    loopCount: '6本',
-    qiLoop: '有',
-    hole: 'ミシン',
-    chic: '有り',
-    loopAdd: 'TOP',
-    plushLoop: '有',
-    setFinishing: '無',
-    creaseWire: '有',
-    buttholeTape: '無',
-    isDelete: false,
-    createDateTime: dayjs(),
-    createUserId: user.loginId,
-    updateDateTime: dayjs(),
-    updateUserId: user.loginId,
-  };
-  const defaultOrderVest: OrderVestType = {
-    vestOrderId: '',
-    orderId: '',
-    selectPattern1: '',
-    selectPattern2: '',
-    selectPattern3: '',
-    backLength: 0,
-    bustTop: 0,
-    waistTop: 0,
-    collar: 'Ｖカット',
-    chestPocket: '無',
-    frontButton: '',
-    frontButtonHolePosition: '無',
-    waistPocket: '腰Ｐ箱',
-    backSide: '裏地',
-    buckle: '有',
-    holeThreadColor: '生地色',
-    stitch: '',
-    hole: 'ミシン',
-    uchiai: 0,
-    hanmi: 0,
-    kutsumi: 0,
-    squareShoulderLeft: 0,
-    squareShoulderRight: 0,
-    slopingShoulderLeft: 0,
-    slopingShoulderRight: 0,
-    sickleRaising: 0,
-    shoulderWidth: 0,
-    buttonPosition: 0,
-    frontLength: 0,
-    isDelete: false,
-    createDateTime: dayjs(),
-    createUserId: user.loginId,
-    updateDateTime: dayjs(),
-    updateUserId: user.loginId,
-  };
-  const defaultOrderBasis: OrderBasisType = {
-    orderId: '',
-    shopId: '',
-    seq: 0,
-    orderStatus: '保存',
-    inputDate: dayjs(),
-    orderDateTime: dayjs(),
-    shipDate: dayjs(),
-    customerName: '',
-    productName: '',
-    fabricMaker: '',
-    fabricProductNo: '',
-    yield: 0,
-    blendRateFabric1: '',
-    blendRate1: 0,
-    blendRateFabric2: '',
-    blendRate2: 0,
-    blendRateFabric3: '',
-    blendRate3: 0,
-    blendRateFabric4: '',
-    blendRate4: 0,
-    inputLoginId: user.loginId,
-    isDelete: false,
-    createDateTime: dayjs(),
-    createUserId: user.loginId,
-    updateDateTime: dayjs(),
-    updateUserId: user.loginId,
-    jaket: defaultOrderJaket,
-    pants: defaultOrderPants,
-    vest: defaultOrderVest,
-  };
-  return defaultOrderBasis;
-};
+import {
+  bindOrderBasisValues,
+  bindOrderJaketValues,
+  bindOrderPantsValues,
+  bindOrderVestValues,
+  createDefaultOrderValues,
+} from '../features/order/utils/orderUtil';
+import { YesNoDialog } from '../components/ui/YesNoDialog';
+import { OkOnlyDialog } from '../components/ui/OkOnlyDialog';
+import { useMessageDialog } from '../features/order/hooks/useMessageDialog';
 
 export const Order = () => {
-  const methods = useForm();
   const [open, setOpen] = useState(false);
+  const [orderStatus, setOrderStatus] = useState<string>('');
+  const methods = useForm();
   const { orderId } = useParams();
   const navigate = useNavigate();
-  const [orderStatus, setOrderStatus] = useState<string>('');
   const user = useSelector((state: any) => state.user.value);
   const dispatch = useDispatch();
+  const yesNoDialog = useMessageDialog();
+  const okOnlyDialog = useMessageDialog();
 
   useEffect(() => {
     const getOrder = async () => {
@@ -542,13 +61,13 @@ export const Order = () => {
           });
           order = res.payload.order;
         }
-        setOrderBasisValues(methods, order);
-        setOrderJaketValues(methods, order.jaket);
-        setOrderPantsValues(methods, order.pants);
-        setOrderVestValues(methods, order.vest);
+        bindOrderBasisValues(methods, order);
+        bindOrderJaketValues(methods, order.jaket);
+        bindOrderPantsValues(methods, order.pants);
+        bindOrderVestValues(methods, order.vest);
         setOrderStatus(order.orderStatus);
       } catch (error) {
-        alert(error);
+        okOnlyDialog.showMessage(error);
         // console.log(error);
       } finally {
         // スピナーを非表示にする
@@ -583,6 +102,10 @@ export const Order = () => {
             blendRate1: methods.getValues('basis-blendRate1'),
             blendRateFabric2: methods.getValues('basis-blendRateFabric2'),
             blendRate2: methods.getValues('basis-blendRate2'),
+            blendRateFabric3: methods.getValues('basis-blendRateFabric3'),
+            blendRate3: methods.getValues('basis-blendRate3'),
+            blendRateFabric4: methods.getValues('basis-blendRateFabric4'),
+            blendRate4: methods.getValues('basis-blendRate4'),
             inputLoginId: methods.getValues('basis-inputLoginId'),
             isDelete: methods.getValues('basis-isDelete'),
             createDateTime: methods.getValues('basis-createDateTime'),
@@ -795,13 +318,14 @@ export const Order = () => {
         // 更新フラグを設定する
         dispatch(setUpdated(true));
 
-        alert(res.message);
+        okOnlyDialog.showMessage(res.message);
         // navigate('/');
       } else {
-        alert(res.message);
+        okOnlyDialog.showMessage(res.message);
       }
     } catch (error) {
-      alert(error);
+      okOnlyDialog.showMessage(error);
+      // alert(error);
     } finally {
       // スピナーを非表示にする
       setOpen(false);
@@ -832,6 +356,10 @@ export const Order = () => {
             blendRate1: methods.getValues('basis-blendRate1'),
             blendRateFabric2: methods.getValues('basis-blendRateFabric2'),
             blendRate2: methods.getValues('basis-blendRate2'),
+            blendRateFabric3: methods.getValues('basis-blendRateFabric3'),
+            blendRate3: methods.getValues('basis-blendRate3'),
+            blendRateFabric4: methods.getValues('basis-blendRateFabric4'),
+            blendRate4: methods.getValues('basis-blendRate4'),
             inputLoginId: methods.getValues('basis-inputLoginId'),
             isDelete: methods.getValues('basis-isDelete'),
             createDateTime: methods.getValues('basis-createDateTime'),
@@ -1044,13 +572,14 @@ export const Order = () => {
         // 更新フラグを設定する
         dispatch(setUpdated(true));
 
-        alert(res.message);
+        okOnlyDialog.showMessage(res.message);
         navigate('/');
       } else {
-        alert(res.message);
+        okOnlyDialog.showMessage(res.message);
       }
     } catch (error) {
-      alert(error);
+      okOnlyDialog.showMessage(error);
+      // alert(error);
     } finally {
       // スピナーを非表示にする
       setOpen(false);
@@ -1058,111 +587,156 @@ export const Order = () => {
   };
 
   const handleReuse = () => {
-    alert('流用');
+    try {
+      alert('流用');
+    } catch (error) {
+      okOnlyDialog.showMessage(error);
+    }
   };
 
   const handleDelete = () => {
-    alert(methods.getValues('jaket-bust'));
-    alert('削除');
+    try {
+      alert('削除');
+
+      dispatch(setUpdated(true));
+      navigate('/');
+    } catch (error) {
+      okOnlyDialog.showMessage(error);
+    }
   };
 
   const handleBack = () => {
     navigate('/');
   };
 
+  const [yesNoDialogOpen, setYesNoDialogOpen] = useState(false);
+  const [yesNoDialogMessage, setYesNoDialogMessage] = useState('');
+  const onNoClick = () => {
+    setYesNoDialogOpen(false);
+  };
+  const onYesClick = (action: any) => {
+    action();
+    setYesNoDialogOpen(false);
+  };
+
   return (
-    <FormProvider {...methods}>
-      <Button
-        onClick={handleBack}
-        startIcon={<ArrowBackIcon />}
-        color="inherit"
-        size="small"
-      >
-        戻る
-      </Button>
-      <Box className="flex items-center justify-between my-5">
-        <Box>
-          <Box className="flex items-center mb-3">
-            <Typography sx={{ marginRight: '10px' }}>
-              {orderStatus === '保存' ? (
-                <Tooltip title="保存" arrow>
-                  <SaveIcon fontSize="large" sx={{ color: green[500] }} />
-                </Tooltip>
-              ) : (
-                <Tooltip title="発注済み" arrow>
-                  <CloudUploadIcon fontSize="large" sx={{ color: pink[500] }} />
-                </Tooltip>
-              )}
-            </Typography>
-            <Typography variant="body1">{`オーダーID：${
-              orderId ? orderId : '(新規)'
-            }`}</Typography>
-          </Box>
-          <Box className="ml-3 mb-2">
-            <Button
-              variant="outlined"
-              onClick={handleEntry}
-              sx={{ marginRight: '3px' }}
-              disabled={orderStatus === '発注済み' ? true : false}
-              startIcon={<CloudUploadIcon />}
-            >
-              登録
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={handleSave}
-              sx={{ marginRight: '3px' }}
-              disabled={orderStatus === '発注済み' ? true : false}
-              startIcon={<SaveIcon />}
-            >
-              保存
-            </Button>
-            <Button
-              // variant="outlined"
-              onClick={handleReuse}
-              startIcon={<PermMediaIcon />}
-            >
-              流用
-            </Button>
-            <Button
-              // variant="outlined"
-              onClick={handleDelete}
-              disabled={orderStatus === '発注済み' ? true : false}
-              startIcon={<ClearIcon />}
-            >
-              削除
-            </Button>
+    <>
+      <FormProvider {...methods}>
+        <Button
+          onClick={handleBack}
+          startIcon={<ArrowBackIcon />}
+          color="inherit"
+          size="small"
+        >
+          戻る
+        </Button>
+        <Box className="flex items-center justify-between my-5">
+          <Box>
+            <Box className="flex items-center mb-3">
+              <Typography sx={{ marginRight: '10px' }}>
+                {orderStatus === '保存' ? (
+                  <Tooltip title="保存" arrow>
+                    <SaveIcon fontSize="large" sx={{ color: green[500] }} />
+                  </Tooltip>
+                ) : (
+                  <Tooltip title="発注済み" arrow>
+                    <CloudUploadIcon
+                      fontSize="large"
+                      sx={{ color: pink[500] }}
+                    />
+                  </Tooltip>
+                )}
+              </Typography>
+              <Typography variant="body1">{`オーダーID：${
+                orderId ? orderId : '(新規)'
+              }`}</Typography>
+            </Box>
+            <Box className="ml-3 mb-2">
+              <Button
+                variant="outlined"
+                onClick={handleEntry}
+                sx={{ marginRight: '3px' }}
+                disabled={orderStatus === '発注済み' ? true : false}
+                startIcon={<CloudUploadIcon />}
+              >
+                発注
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={handleSave}
+                sx={{ marginRight: '3px' }}
+                disabled={orderStatus === '発注済み' ? true : false}
+                startIcon={<SaveIcon />}
+              >
+                保存
+              </Button>
+              <Button
+                // variant="outlined"
+                onClick={() => {
+                  setYesNoDialogMessage('流用しますか？');
+                  setYesNoDialogOpen(true);
+                }}
+                startIcon={<PermMediaIcon />}
+              >
+                流用
+              </Button>
+              <Button
+                // variant="outlined"
+                onClick={() => yesNoDialog.showMessage('削除しますか？')}
+                disabled={orderStatus === '発注済み' ? true : false}
+                startIcon={<ClearIcon />}
+              >
+                削除
+              </Button>
+            </Box>
           </Box>
         </Box>
-      </Box>
-      <Box className="mt-5">
-        <VerticalTabs
-          tabItems={[
-            {
-              label: 'オーダー',
-              component: <OrderBasis />,
-            },
-            {
-              label: 'ジャケット',
-              component: <OrderJaket />,
-            },
-            {
-              label: 'パンツ',
-              component: <OrderPants />,
-            },
-            {
-              label: 'ベスト',
-              component: <OrderVest />,
-            },
-          ]}
-        />
-      </Box>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
-    </FormProvider>
+        <Box className="mt-5">
+          <VerticalTabs
+            tabItems={[
+              {
+                label: 'オーダー',
+                component: <OrderBasis />,
+              },
+              {
+                label: 'ジャケット',
+                component: <OrderJaket />,
+              },
+              {
+                label: 'パンツ',
+                component: <OrderPants />,
+              },
+              {
+                label: 'ベスト',
+                component: <OrderVest />,
+              },
+            ]}
+          />
+        </Box>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={open}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </FormProvider>
+      <YesNoDialog
+        open={yesNoDialogOpen}
+        message={yesNoDialogMessage}
+        onNoClick={onNoClick}
+        onYesClick={() => onYesClick(handleReuse)}
+      />
+      <YesNoDialog
+        open={yesNoDialog.messageDialogOpen}
+        message={yesNoDialog.messageDialogMessage}
+        onNoClick={yesNoDialog.handleClick}
+        onYesClick={handleDelete}
+      />
+      <OkOnlyDialog
+        open={okOnlyDialog.messageDialogOpen}
+        message={okOnlyDialog.messageDialogMessage}
+        onClick={okOnlyDialog.handleClick}
+      />
+    </>
   );
 };

@@ -1,7 +1,7 @@
 export type OrderBasisType = {
   orderId: string;
   shopId: string;
-  seq: number;
+  seq?: number;
   orderStatus: string;
   inputDate: datetime;
   orderDateTime: datetime;

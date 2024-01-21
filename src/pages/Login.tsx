@@ -32,8 +32,8 @@ export const Login = () => {
       });
       localStorage.setItem('token', res.payload.token);
       navigate('/');
-    } catch (err: any) {
-      alert(errors);
+    } catch (error) {
+      alert(error);
     } finally {
       setLoading(false);
     }
