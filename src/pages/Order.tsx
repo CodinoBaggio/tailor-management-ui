@@ -16,8 +16,6 @@ import {
 } from 'react-hook-form';
 
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
 import SaveIcon from '@mui/icons-material/Save';
 import { green, pink } from '@mui/material/colors';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -37,7 +35,8 @@ import {
   OrderVestType,
 } from '../features/order/types/order';
 import { VerticalTabs } from '../features/order/components/ui/VerticalTabs';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUpdated } from '../features/order/stores/orderSlice';
 
 const setOrderBasisValues = (
   methods: UseFormReturn<FieldValues, any, undefined>,
@@ -62,6 +61,10 @@ const setOrderBasisValues = (
   methods.setValue('basis-blendRate1', order.blendRate1 || 0);
   methods.setValue('basis-blendRateFabric2', order.blendRateFabric2 || '');
   methods.setValue('basis-blendRate2', order.blendRate2 || 0);
+  methods.setValue('basis-blendRateFabric3', order.blendRateFabric3 || '');
+  methods.setValue('basis-blendRate3', order.blendRate3 || 0);
+  methods.setValue('basis-blendRateFabric4', order.blendRateFabric4 || '');
+  methods.setValue('basis-blendRate4', order.blendRate4 || 0);
   methods.setValue('basis-inputLoginId', order.inputLoginId || '');
   methods.setValue('basis-isDelete', order.isDelete || false);
   methods.setValue(
@@ -499,6 +502,10 @@ const createDefaultOrderValues = (user: any) => {
     blendRate1: 0,
     blendRateFabric2: '',
     blendRate2: 0,
+    blendRateFabric3: '',
+    blendRate3: 0,
+    blendRateFabric4: '',
+    blendRate4: 0,
     inputLoginId: user.loginId,
     isDelete: false,
     createDateTime: dayjs(),
@@ -519,6 +526,7 @@ export const Order = () => {
   const navigate = useNavigate();
   const [orderStatus, setOrderStatus] = useState<string>('');
   const user = useSelector((state: any) => state.user.value);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getOrder = async () => {
@@ -551,154 +559,140 @@ export const Order = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleSave = () => {
-    dayjs.extend(utc);
-    dayjs.extend(timezone);
-    dayjs.tz.setDefault('Asia/Tokyo');
-    alert(
-      dayjs(methods.getValues('basis-inputDate'))
-        .tz()
-        .format('YYYY/MM/DD HH:mm:ss')
-    );
-    alert(
-      dayjs(methods.getValues('basis-orderDateTime'))
-        .tz()
-        .format('YYYY/MM/DD HH:mm:ss')
-    );
-    alert(
-      dayjs(methods.getValues('basis-shipDate'))
-        .tz()
-        .format('YYYY/MM/DD HH:mm:ss')
-    );
-    alert(methods.getValues('basis-customerName'));
-    alert('保存');
-  };
+  const handleSave = async () => {
+    try {
+      // スピナーを表示する
+      setOpen(true);
 
-  const handleEntry = async () => {
-    alert('登録');
-    const res: any = await orderApi.create({
-      endpoint: 'create-order',
-      endpointParams: {
-        order: {
-          orderId: methods.getValues('basis-orderId'),
-          shopId: methods.getValues('basis-shopId'),
-          orderStatus: '発注済み',
-          inputDate: methods.getValues('basis-inputDate'),
-          orderDateTime: methods.getValues('basis-orderDateTime'),
-          shipDate: methods.getValues('basis-shipDate'),
-          customerName: methods.getValues('basis-customerName'),
-          productName: methods.getValues('basis-productName'),
-          fabricMaker: methods.getValues('basis-fabricMaker'),
-          fabricProductNo: methods.getValues('basis-fabricProductNo'),
-          yield: methods.getValues('basis-yield'),
-          blendRateFabric1: methods.getValues('basis-blendRateFabric1'),
-          blendRate1: methods.getValues('basis-blendRate1'),
-          blendRateFabric2: methods.getValues('basis-blendRateFabric2'),
-          blendRate2: methods.getValues('basis-blendRate2'),
-          inputLoginId: methods.getValues('basis-inputLoginId'),
-          isDelete: methods.getValues('basis-isDelete'),
-          createDateTime: methods.getValues('basis-createDateTime'),
-          createUserId: methods.getValues('basis-createUserId'),
-          updateDateTime: methods.getValues('basis-updateDateTime'),
-          updateUserId: methods.getValues('basis-updateUserId'),
-          jaket: {
-            jaketOrderId: methods.getValues('jaket-jaketOrderId'),
-            orderId: methods.getValues('jaket-orderId'),
-            selectPattern1: methods.getValues('jaket-selectPattern1'),
-            selectPattern2: methods.getValues('jaket-selectPattern2'),
-            selectPattern3: methods.getValues('jaket-selectPattern3'),
-            totalLength: methods.getValues('jaket-totalLength'),
-            jaketLength: methods.getValues('jaket-jaketLength'),
-            shoulderWidth: methods.getValues('jaket-shoulderWidth'),
-            sleeveLengthLeft: methods.getValues('jaket-sleeveLengthLeft'),
-            sleeveLengthRight: methods.getValues('jaket-sleeveLengthRight'),
-            bust: methods.getValues('jaket-bust'),
-            waist: methods.getValues('jaket-waist'),
-            bustTop: methods.getValues('jaket-bustTop'),
-            waistTop: methods.getValues('jaket-waistTop'),
-            canvas: methods.getValues('jaket-canvas'),
-            shoulderType: methods.getValues('jaket-shoulderType'),
-            collarType: methods.getValues('jaket-collarType'),
-            frontButton: methods.getValues('jaket-frontButton'),
-            collarWidth: methods.getValues('jaket-collarWidth'),
-            sleeveButton: methods.getValues('jaket-sleeveButton'),
-            sleeveOpening: methods.getValues('jaket-sleeveOpening'),
-            chestPocket: methods.getValues('jaket-chestPocket'),
-            sewingMethod: methods.getValues('jaket-sewingMethod'),
-            frontCut: methods.getValues('jaket-frontCut'),
-            labelSatinFabric: methods.getValues('jaket-labelSatinFabric'),
-            stitch: methods.getValues('jaket-stitch'),
-            stitchLocation: methods.getValues('jaket-stitchLocation'),
-            pinpointStitch: methods.getValues('jaket-pinpointStitch'),
-            pinpointStitchThreadColor: methods.getValues(
-              'jaket-pinpointStitchThreadColor'
-            ),
-            chestBoxSatinFabric: methods.getValues('jaket-chestBoxSatinFabric'),
-            waistPocket: methods.getValues('jaket-waistPocket'),
-            flapWidth: methods.getValues('jaket-flapWidth'),
-            changePocket: methods.getValues('jaket-changePocket'),
-            secretPocket: methods.getValues('jaket-secretPocket'),
-            backSpec: methods.getValues('jaket-backSpec'),
-            daiba: methods.getValues('jaket-daiba'),
-            insidePocket: methods.getValues('jaket-insidePocket'),
-            penPocket: methods.getValues('jaket-penPocket'),
-            ticketPocket: methods.getValues('jaket-ticketPocket'),
-            pat: methods.getValues('jaket-pat'),
-            lining: methods.getValues('jaket-lining'),
-            collarBack: methods.getValues('jaket-collarBack'),
-            vents: methods.getValues('jaket-vents'),
-            inName: methods.getValues('jaket-inName'),
-            nameFont: methods.getValues('jaket-nameFont'),
-            namePosition: methods.getValues('jaket-namePosition'),
-            nameColor: methods.getValues('jaket-nameColor'),
-            name: methods.getValues('jaket-name'),
-            labelHole: methods.getValues('jaket-labelHole'),
-            stitchThreadColor: methods.getValues('jaket-stitchThreadColor'),
-            labelThreadColor: methods.getValues('jaket-labelThreadColor'),
-            frontButtonThreadColor: methods.getValues(
-              'jaket-frontButtonThreadColor'
-            ),
-            sleeveButtonThreadColor: methods.getValues(
-              'jaket-sleeveButtonThreadColor'
-            ),
-            brandName: methods.getValues('jaket-brandName'),
-            fabricMark: methods.getValues('jaket-fabricMark'),
-            buttonProductNo: methods.getValues('jaket-buttonProductNo'),
-            sleeveOpeningTape: methods.getValues('jaket-sleeveOpeningTape'),
-            sleeveElbowPatch: methods.getValues('jaket-sleeveElbowPatch'),
-            hole: methods.getValues('jaket-hole'),
-            sleeveButtonHoleColor: methods.getValues(
-              'jaket-sleeveButtonHoleColor'
-            ),
-            uchiai: methods.getValues('jaket-uchiai'),
-            hanmi: methods.getValues('jaket-hanmi'),
-            kutsumi: methods.getValues('jaket-kutsumi'),
-            squareShoulderLeft: methods.getValues('jaket-squareShoulderLeft'),
-            squareShoulderRight: methods.getValues('jaket-squareShoulderRight'),
-            slopingShoulderLeft: methods.getValues('jaket-slopingShoulderLeft'),
-            slopingShoulderRight: methods.getValues(
-              'jaket-slopingShoulderRight'
-            ),
-            totsuRyo: methods.getValues('jaket-totsuRyo'),
-            hip: methods.getValues('jaket-hip'),
-            frontLength: methods.getValues('jaket-frontLength'),
-            frontSleeveHem: methods.getValues('jaket-frontSleeveHem'),
-            ahFrontOpening: methods.getValues('jaket-ahFrontOpening'),
-            sleeveOpeningWidth: methods.getValues('jaket-sleeveOpeningWidth'),
-            collarMitsu: methods.getValues('jaket-collarMitsu'),
-            collarShift: methods.getValues('jaket-collarShift'),
-            buttonPosition: methods.getValues('jaket-buttonPosition'),
-            backCurve: methods.getValues('jaket-backCurve'),
-            sickleRaising: methods.getValues('jaket-sickleRaising'),
-            sleeveWidth: methods.getValues('jaket-sleeveWidth'),
-            backWidth: methods.getValues('jaket-backWidth'),
-            sleeveBack: methods.getValues('jaket-sleeveBack'),
-            isDelete: methods.getValues('jaket-isDelete'),
-            createDateTime: methods.getValues('jaket-createDateTime'),
-            createUserId: methods.getValues('jaket-createUserId'),
-            updateDateTime: methods.getValues('jaket-updateDateTime'),
-            updateUserId: methods.getValues('jaket-updateUserId'),
-
+      const res: any = await orderApi.create({
+        endpoint: 'save-order',
+        endpointParams: {
+          order: {
+            orderId: methods.getValues('basis-orderId'),
+            shopId: methods.getValues('basis-shopId'),
+            orderStatus: '保存',
+            inputDate: methods.getValues('basis-inputDate'),
+            orderDateTime: methods.getValues('basis-orderDateTime'),
+            shipDate: methods.getValues('basis-shipDate'),
+            customerName: methods.getValues('basis-customerName'),
+            productName: methods.getValues('basis-productName'),
+            fabricMaker: methods.getValues('basis-fabricMaker'),
+            fabricProductNo: methods.getValues('basis-fabricProductNo'),
+            yield: methods.getValues('basis-yield'),
+            blendRateFabric1: methods.getValues('basis-blendRateFabric1'),
+            blendRate1: methods.getValues('basis-blendRate1'),
+            blendRateFabric2: methods.getValues('basis-blendRateFabric2'),
+            blendRate2: methods.getValues('basis-blendRate2'),
+            inputLoginId: methods.getValues('basis-inputLoginId'),
+            isDelete: methods.getValues('basis-isDelete'),
+            createDateTime: methods.getValues('basis-createDateTime'),
+            createUserId: methods.getValues('basis-createUserId'),
+            updateDateTime: methods.getValues('basis-updateDateTime'),
+            updateUserId: methods.getValues('basis-updateUserId'),
+            jaket: {
+              jaketOrderId: methods.getValues('jaket-jaketOrderId'),
+              orderId: methods.getValues('jaket-orderId'),
+              selectPattern1: methods.getValues('jaket-selectPattern1'),
+              selectPattern2: methods.getValues('jaket-selectPattern2'),
+              selectPattern3: methods.getValues('jaket-selectPattern3'),
+              totalLength: methods.getValues('jaket-totalLength'),
+              jaketLength: methods.getValues('jaket-jaketLength'),
+              shoulderWidth: methods.getValues('jaket-shoulderWidth'),
+              sleeveLengthLeft: methods.getValues('jaket-sleeveLengthLeft'),
+              sleeveLengthRight: methods.getValues('jaket-sleeveLengthRight'),
+              bust: methods.getValues('jaket-bust'),
+              waist: methods.getValues('jaket-waist'),
+              bustTop: methods.getValues('jaket-bustTop'),
+              waistTop: methods.getValues('jaket-waistTop'),
+              canvas: methods.getValues('jaket-canvas'),
+              shoulderType: methods.getValues('jaket-shoulderType'),
+              collarType: methods.getValues('jaket-collarType'),
+              frontButton: methods.getValues('jaket-frontButton'),
+              collarWidth: methods.getValues('jaket-collarWidth'),
+              sleeveButton: methods.getValues('jaket-sleeveButton'),
+              sleeveOpening: methods.getValues('jaket-sleeveOpening'),
+              chestPocket: methods.getValues('jaket-chestPocket'),
+              sewingMethod: methods.getValues('jaket-sewingMethod'),
+              frontCut: methods.getValues('jaket-frontCut'),
+              labelSatinFabric: methods.getValues('jaket-labelSatinFabric'),
+              stitch: methods.getValues('jaket-stitch'),
+              stitchLocation: methods.getValues('jaket-stitchLocation'),
+              pinpointStitch: methods.getValues('jaket-pinpointStitch'),
+              pinpointStitchThreadColor: methods.getValues(
+                'jaket-pinpointStitchThreadColor'
+              ),
+              chestBoxSatinFabric: methods.getValues(
+                'jaket-chestBoxSatinFabric'
+              ),
+              waistPocket: methods.getValues('jaket-waistPocket'),
+              flapWidth: methods.getValues('jaket-flapWidth'),
+              changePocket: methods.getValues('jaket-changePocket'),
+              secretPocket: methods.getValues('jaket-secretPocket'),
+              backSpec: methods.getValues('jaket-backSpec'),
+              daiba: methods.getValues('jaket-daiba'),
+              insidePocket: methods.getValues('jaket-insidePocket'),
+              penPocket: methods.getValues('jaket-penPocket'),
+              ticketPocket: methods.getValues('jaket-ticketPocket'),
+              pat: methods.getValues('jaket-pat'),
+              lining: methods.getValues('jaket-lining'),
+              collarBack: methods.getValues('jaket-collarBack'),
+              vents: methods.getValues('jaket-vents'),
+              inName: methods.getValues('jaket-inName'),
+              nameFont: methods.getValues('jaket-nameFont'),
+              namePosition: methods.getValues('jaket-namePosition'),
+              nameColor: methods.getValues('jaket-nameColor'),
+              name: methods.getValues('jaket-name'),
+              labelHole: methods.getValues('jaket-labelHole'),
+              stitchThreadColor: methods.getValues('jaket-stitchThreadColor'),
+              labelThreadColor: methods.getValues('jaket-labelThreadColor'),
+              frontButtonThreadColor: methods.getValues(
+                'jaket-frontButtonThreadColor'
+              ),
+              sleeveButtonThreadColor: methods.getValues(
+                'jaket-sleeveButtonThreadColor'
+              ),
+              brandName: methods.getValues('jaket-brandName'),
+              fabricMark: methods.getValues('jaket-fabricMark'),
+              buttonProductNo: methods.getValues('jaket-buttonProductNo'),
+              sleeveOpeningTape: methods.getValues('jaket-sleeveOpeningTape'),
+              sleeveElbowPatch: methods.getValues('jaket-sleeveElbowPatch'),
+              hole: methods.getValues('jaket-hole'),
+              sleeveButtonHoleColor: methods.getValues(
+                'jaket-sleeveButtonHoleColor'
+              ),
+              uchiai: methods.getValues('jaket-uchiai'),
+              hanmi: methods.getValues('jaket-hanmi'),
+              kutsumi: methods.getValues('jaket-kutsumi'),
+              squareShoulderLeft: methods.getValues('jaket-squareShoulderLeft'),
+              squareShoulderRight: methods.getValues(
+                'jaket-squareShoulderRight'
+              ),
+              slopingShoulderLeft: methods.getValues(
+                'jaket-slopingShoulderLeft'
+              ),
+              slopingShoulderRight: methods.getValues(
+                'jaket-slopingShoulderRight'
+              ),
+              totsuRyo: methods.getValues('jaket-totsuRyo'),
+              hip: methods.getValues('jaket-hip'),
+              frontLength: methods.getValues('jaket-frontLength'),
+              frontSleeveHem: methods.getValues('jaket-frontSleeveHem'),
+              ahFrontOpening: methods.getValues('jaket-ahFrontOpening'),
+              sleeveOpeningWidth: methods.getValues('jaket-sleeveOpeningWidth'),
+              collarMitsu: methods.getValues('jaket-collarMitsu'),
+              collarShift: methods.getValues('jaket-collarShift'),
+              buttonPosition: methods.getValues('jaket-buttonPosition'),
+              backCurve: methods.getValues('jaket-backCurve'),
+              sickleRaising: methods.getValues('jaket-sickleRaising'),
+              sleeveWidth: methods.getValues('jaket-sleeveWidth'),
+              backWidth: methods.getValues('jaket-backWidth'),
+              sleeveBack: methods.getValues('jaket-sleeveBack'),
+              isDelete: methods.getValues('jaket-isDelete'),
+              createDateTime: methods.getValues('jaket-createDateTime'),
+              createUserId: methods.getValues('jaket-createUserId'),
+              updateDateTime: methods.getValues('jaket-updateDateTime'),
+              updateUserId: methods.getValues('jaket-updateUserId'),
+            },
             pants: {
               pantsOrderId: methods.getValues('pants-pantsOrderId'),
               orderId: methods.getValues('pants-orderId'),
@@ -796,13 +790,270 @@ export const Order = () => {
             },
           },
         },
-      },
-    });
-    if (res.status === 'success') {
-      alert('登録しました');
-      navigate('/');
-    } else {
-      alert(res.message);
+      });
+      if (res.status === 'success') {
+        // 更新フラグを設定する
+        dispatch(setUpdated(true));
+
+        alert(res.message);
+        // navigate('/');
+      } else {
+        alert(res.message);
+      }
+    } catch (error) {
+      alert(error);
+    } finally {
+      // スピナーを非表示にする
+      setOpen(false);
+    }
+  };
+
+  const handleEntry = async () => {
+    try {
+      // スピナーを表示する
+      setOpen(true);
+
+      const res: any = await orderApi.create({
+        endpoint: 'create-order',
+        endpointParams: {
+          order: {
+            orderId: methods.getValues('basis-orderId'),
+            shopId: methods.getValues('basis-shopId'),
+            orderStatus: '発注済み',
+            inputDate: methods.getValues('basis-inputDate'),
+            orderDateTime: methods.getValues('basis-orderDateTime'),
+            shipDate: methods.getValues('basis-shipDate'),
+            customerName: methods.getValues('basis-customerName'),
+            productName: methods.getValues('basis-productName'),
+            fabricMaker: methods.getValues('basis-fabricMaker'),
+            fabricProductNo: methods.getValues('basis-fabricProductNo'),
+            yield: methods.getValues('basis-yield'),
+            blendRateFabric1: methods.getValues('basis-blendRateFabric1'),
+            blendRate1: methods.getValues('basis-blendRate1'),
+            blendRateFabric2: methods.getValues('basis-blendRateFabric2'),
+            blendRate2: methods.getValues('basis-blendRate2'),
+            inputLoginId: methods.getValues('basis-inputLoginId'),
+            isDelete: methods.getValues('basis-isDelete'),
+            createDateTime: methods.getValues('basis-createDateTime'),
+            createUserId: methods.getValues('basis-createUserId'),
+            updateDateTime: methods.getValues('basis-updateDateTime'),
+            updateUserId: methods.getValues('basis-updateUserId'),
+            jaket: {
+              jaketOrderId: methods.getValues('jaket-jaketOrderId'),
+              orderId: methods.getValues('jaket-orderId'),
+              selectPattern1: methods.getValues('jaket-selectPattern1'),
+              selectPattern2: methods.getValues('jaket-selectPattern2'),
+              selectPattern3: methods.getValues('jaket-selectPattern3'),
+              totalLength: methods.getValues('jaket-totalLength'),
+              jaketLength: methods.getValues('jaket-jaketLength'),
+              shoulderWidth: methods.getValues('jaket-shoulderWidth'),
+              sleeveLengthLeft: methods.getValues('jaket-sleeveLengthLeft'),
+              sleeveLengthRight: methods.getValues('jaket-sleeveLengthRight'),
+              bust: methods.getValues('jaket-bust'),
+              waist: methods.getValues('jaket-waist'),
+              bustTop: methods.getValues('jaket-bustTop'),
+              waistTop: methods.getValues('jaket-waistTop'),
+              canvas: methods.getValues('jaket-canvas'),
+              shoulderType: methods.getValues('jaket-shoulderType'),
+              collarType: methods.getValues('jaket-collarType'),
+              frontButton: methods.getValues('jaket-frontButton'),
+              collarWidth: methods.getValues('jaket-collarWidth'),
+              sleeveButton: methods.getValues('jaket-sleeveButton'),
+              sleeveOpening: methods.getValues('jaket-sleeveOpening'),
+              chestPocket: methods.getValues('jaket-chestPocket'),
+              sewingMethod: methods.getValues('jaket-sewingMethod'),
+              frontCut: methods.getValues('jaket-frontCut'),
+              labelSatinFabric: methods.getValues('jaket-labelSatinFabric'),
+              stitch: methods.getValues('jaket-stitch'),
+              stitchLocation: methods.getValues('jaket-stitchLocation'),
+              pinpointStitch: methods.getValues('jaket-pinpointStitch'),
+              pinpointStitchThreadColor: methods.getValues(
+                'jaket-pinpointStitchThreadColor'
+              ),
+              chestBoxSatinFabric: methods.getValues(
+                'jaket-chestBoxSatinFabric'
+              ),
+              waistPocket: methods.getValues('jaket-waistPocket'),
+              flapWidth: methods.getValues('jaket-flapWidth'),
+              changePocket: methods.getValues('jaket-changePocket'),
+              secretPocket: methods.getValues('jaket-secretPocket'),
+              backSpec: methods.getValues('jaket-backSpec'),
+              daiba: methods.getValues('jaket-daiba'),
+              insidePocket: methods.getValues('jaket-insidePocket'),
+              penPocket: methods.getValues('jaket-penPocket'),
+              ticketPocket: methods.getValues('jaket-ticketPocket'),
+              pat: methods.getValues('jaket-pat'),
+              lining: methods.getValues('jaket-lining'),
+              collarBack: methods.getValues('jaket-collarBack'),
+              vents: methods.getValues('jaket-vents'),
+              inName: methods.getValues('jaket-inName'),
+              nameFont: methods.getValues('jaket-nameFont'),
+              namePosition: methods.getValues('jaket-namePosition'),
+              nameColor: methods.getValues('jaket-nameColor'),
+              name: methods.getValues('jaket-name'),
+              labelHole: methods.getValues('jaket-labelHole'),
+              stitchThreadColor: methods.getValues('jaket-stitchThreadColor'),
+              labelThreadColor: methods.getValues('jaket-labelThreadColor'),
+              frontButtonThreadColor: methods.getValues(
+                'jaket-frontButtonThreadColor'
+              ),
+              sleeveButtonThreadColor: methods.getValues(
+                'jaket-sleeveButtonThreadColor'
+              ),
+              brandName: methods.getValues('jaket-brandName'),
+              fabricMark: methods.getValues('jaket-fabricMark'),
+              buttonProductNo: methods.getValues('jaket-buttonProductNo'),
+              sleeveOpeningTape: methods.getValues('jaket-sleeveOpeningTape'),
+              sleeveElbowPatch: methods.getValues('jaket-sleeveElbowPatch'),
+              hole: methods.getValues('jaket-hole'),
+              sleeveButtonHoleColor: methods.getValues(
+                'jaket-sleeveButtonHoleColor'
+              ),
+              uchiai: methods.getValues('jaket-uchiai'),
+              hanmi: methods.getValues('jaket-hanmi'),
+              kutsumi: methods.getValues('jaket-kutsumi'),
+              squareShoulderLeft: methods.getValues('jaket-squareShoulderLeft'),
+              squareShoulderRight: methods.getValues(
+                'jaket-squareShoulderRight'
+              ),
+              slopingShoulderLeft: methods.getValues(
+                'jaket-slopingShoulderLeft'
+              ),
+              slopingShoulderRight: methods.getValues(
+                'jaket-slopingShoulderRight'
+              ),
+              totsuRyo: methods.getValues('jaket-totsuRyo'),
+              hip: methods.getValues('jaket-hip'),
+              frontLength: methods.getValues('jaket-frontLength'),
+              frontSleeveHem: methods.getValues('jaket-frontSleeveHem'),
+              ahFrontOpening: methods.getValues('jaket-ahFrontOpening'),
+              sleeveOpeningWidth: methods.getValues('jaket-sleeveOpeningWidth'),
+              collarMitsu: methods.getValues('jaket-collarMitsu'),
+              collarShift: methods.getValues('jaket-collarShift'),
+              buttonPosition: methods.getValues('jaket-buttonPosition'),
+              backCurve: methods.getValues('jaket-backCurve'),
+              sickleRaising: methods.getValues('jaket-sickleRaising'),
+              sleeveWidth: methods.getValues('jaket-sleeveWidth'),
+              backWidth: methods.getValues('jaket-backWidth'),
+              sleeveBack: methods.getValues('jaket-sleeveBack'),
+              isDelete: methods.getValues('jaket-isDelete'),
+              createDateTime: methods.getValues('jaket-createDateTime'),
+              createUserId: methods.getValues('jaket-createUserId'),
+              updateDateTime: methods.getValues('jaket-updateDateTime'),
+              updateUserId: methods.getValues('jaket-updateUserId'),
+            },
+            pants: {
+              pantsOrderId: methods.getValues('pants-pantsOrderId'),
+              orderId: methods.getValues('pants-orderId'),
+              selectPattern1: methods.getValues('pants-selectPattern1'),
+              selectPattern2: methods.getValues('pants-selectPattern2'),
+              selectPattern3: methods.getValues('pants-selectPattern3'),
+              waist: methods.getValues('pants-waist'),
+              hip: methods.getValues('pants-hip'),
+              hipTop: methods.getValues('pants-hipTop'),
+              rise: methods.getValues('pants-rise'),
+              inseamLeft: methods.getValues('pants-inseamLeft'),
+              inseamRight: methods.getValues('pants-inseamRight'),
+              crossingWidth: methods.getValues('pants-crossingWidth'),
+              kneeWidth: methods.getValues('pants-kneeWidth'),
+              hemOpening: methods.getValues('pants-hemOpening'),
+              tack: methods.getValues('pants-tack'),
+              sidePocket: methods.getValues('pants-sidePocket'),
+              foldedHem: methods.getValues('pants-foldedHem'),
+              secretPocket: methods.getValues('pants-secretPocket'),
+              kneeBack: methods.getValues('pants-kneeBack'),
+              holeThreadColor: methods.getValues('pants-holeThreadColor'),
+              amfStitch: methods.getValues('pants-amfStitch'),
+              sideAmf: methods.getValues('pants-sideAmf'),
+              stitchThreadColor: methods.getValues('pants-stitchThreadColor'),
+              kneepadColor: methods.getValues('pants-kneepadColor'),
+              tackSpec: methods.getValues('pants-tackSpec'),
+              sideSatinFabric: methods.getValues('pants-sideSatinFabric'),
+              pisPocketJadeGreen: methods.getValues('pants-pisPocketJadeGreen'),
+              pisPocket: methods.getValues('pants-pisPocket'),
+              plaket: methods.getValues('pants-plaket'),
+              buttocks: methods.getValues('pants-buttocks'),
+              flatButt: methods.getValues('pants-flatButt'),
+              frontRise: methods.getValues('pants-frontRise'),
+              backRise: methods.getValues('pants-backRise'),
+              wedgie: methods.getValues('pants-wedgie'),
+              pancherina: methods.getValues('pants-pancherina'),
+              loopCount: methods.getValues('pants-loopCount'),
+              qiLoop: methods.getValues('pants-qiLoop'),
+              hole: methods.getValues('pants-hole'),
+              chic: methods.getValues('pants-chic'),
+              loopAdd: methods.getValues('pants-loopAdd'),
+              plushLoop: methods.getValues('pants-plushLoop'),
+              setFinishing: methods.getValues('pants-setFinishing'),
+              creaseWire: methods.getValues('pants-creaseWire'),
+              buttholeTape: methods.getValues('pants-buttholeTape'),
+              isDelete: methods.getValues('pants-isDelete'),
+              createDateTime: methods.getValues('pants-createDateTime'),
+              createUserId: methods.getValues('pants-createUserId'),
+              updateDateTime: methods.getValues('pants-updateDateTime'),
+              updateUserId: methods.getValues('pants-updateUserId'),
+            },
+            vest: {
+              vestOrderId: methods.getValues('vest-vestOrderId'),
+              orderId: methods.getValues('vest-orderId'),
+              selectPattern1: methods.getValues('vest-selectPattern1'),
+              selectPattern2: methods.getValues('vest-selectPattern2'),
+              selectPattern3: methods.getValues('vest-selectPattern3'),
+              backLength: methods.getValues('vest-backLength'),
+              bustTop: methods.getValues('vest-bustTop'),
+              waistTop: methods.getValues('vest-waistTop'),
+              collar: methods.getValues('vest-collar'),
+              chestPocket: methods.getValues('vest-chestPocket'),
+              frontButton: methods.getValues('vest-frontButton'),
+              frontButtonHolePosition: methods.getValues(
+                'vest-frontButtonHolePosition'
+              ),
+              waistPocket: methods.getValues('vest-waistPocket'),
+              backSide: methods.getValues('vest-backSide'),
+              buckle: methods.getValues('vest-buckle'),
+              holeThreadColor: methods.getValues('vest-holeThreadColor'),
+              stitch: methods.getValues('vest-stitch'),
+              hole: methods.getValues('vest-hole'),
+              uchiai: methods.getValues('vest-uchiai'),
+              hanmi: methods.getValues('vest-hanmi'),
+              kutsumi: methods.getValues('vest-kutsumi'),
+              squareShoulderLeft: methods.getValues('vest-squareShoulderLeft'),
+              squareShoulderRight: methods.getValues(
+                'vest-squareShoulderRight'
+              ),
+              slopingShoulderLeft: methods.getValues(
+                'vest-slopingShoulderLeft'
+              ),
+              slopingShoulderRight: methods.getValues(
+                'vest-slopingShoulderRight'
+              ),
+              sickleRaising: methods.getValues('vest-sickleRaising'),
+              shoulderWidth: methods.getValues('vest-shoulderWidth'),
+              buttonPosition: methods.getValues('vest-buttonPosition'),
+              frontLength: methods.getValues('vest-frontLength'),
+              isDelete: methods.getValues('vest-isDelete'),
+              createDateTime: methods.getValues('vest-createDateTime'),
+              createUserId: methods.getValues('vest-createUserId'),
+              updateDateTime: methods.getValues('vest-updateDateTime'),
+              updateUserId: methods.getValues('vest-updateUserId'),
+            },
+          },
+        },
+      });
+      if (res.status === 'success') {
+        // 更新フラグを設定する
+        dispatch(setUpdated(true));
+
+        alert(res.message);
+        navigate('/');
+      } else {
+        alert(res.message);
+      }
+    } catch (error) {
+      alert(error);
+    } finally {
+      // スピナーを非表示にする
+      setOpen(false);
     }
   };
 
@@ -831,7 +1082,7 @@ export const Order = () => {
       </Button>
       <Box className="flex items-center justify-between my-5">
         <Box>
-          <Box className="flex items-center">
+          <Box className="flex items-center mb-3">
             <Typography sx={{ marginRight: '10px' }}>
               {orderStatus === '保存' ? (
                 <Tooltip title="保存" arrow>
@@ -847,7 +1098,7 @@ export const Order = () => {
               orderId ? orderId : '(新規)'
             }`}</Typography>
           </Box>
-          <Box className="mb-2">
+          <Box className="ml-3 mb-2">
             <Button
               variant="outlined"
               onClick={handleEntry}
@@ -866,24 +1117,22 @@ export const Order = () => {
             >
               保存
             </Button>
+            <Button
+              // variant="outlined"
+              onClick={handleReuse}
+              startIcon={<PermMediaIcon />}
+            >
+              流用
+            </Button>
+            <Button
+              // variant="outlined"
+              onClick={handleDelete}
+              disabled={orderStatus === '発注済み' ? true : false}
+              startIcon={<ClearIcon />}
+            >
+              削除
+            </Button>
           </Box>
-        </Box>
-        <Box display="flex" flexDirection="column">
-          <Button
-            // variant="outlined"
-            onClick={handleReuse}
-            startIcon={<PermMediaIcon />}
-          >
-            流用
-          </Button>
-          <Button
-            // variant="outlined"
-            onClick={handleDelete}
-            disabled={orderStatus === '発注済み' ? true : false}
-            startIcon={<ClearIcon />}
-          >
-            削除
-          </Button>
         </Box>
       </Box>
       <Box className="mt-5">

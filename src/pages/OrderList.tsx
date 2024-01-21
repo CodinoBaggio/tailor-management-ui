@@ -15,7 +15,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 import orderApi from '../features/order/api/orderApi';
-import { setOrder } from '../features/order/stores/orderSlice';
+import { setOrder, setUpdated } from '../features/order/stores/orderSlice';
 import { setOrderResources } from '../features/order/stores/orderResourceSlice';
 import { OrderCard } from '../features/order/components/ui/OrderCard';
 import { SearchPanel } from '../features/order/components/ui/SearchPanel';
@@ -28,10 +28,14 @@ export const OrderList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state: any) => state.user.value);
-  const orders = useSelector((state: any) => state.order.value);
+  const orders = useSelector((state: any) => state.order.orders);
+  const updated = useSelector((state: any) => state.order.updated);
 
   useEffect(() => {
     const getOrders = async () => {
+      // 更新フラグが立っていない場合は何もしない
+      if (!updated) return;
+
       // スピナーを表示する
       setOpen(true);
 
@@ -49,6 +53,9 @@ export const OrderList = () => {
           endpointParams: {},
         });
         dispatch(setOrderResources(res2.payload));
+
+        // 更新フラグを下ろす
+        dispatch(setUpdated(false));
       } catch (error) {
         alert(error);
         // console.log(error);

@@ -7,6 +7,7 @@ const orderApi = {
   create: (params: any) => axiosClient.post('/exec', params),
   update: (params: any) => axiosClient.post('/exec', params),
   delete: (params: any) => axiosClient.post('/exec', params),
+  save: (params: any) => axiosClient.post('/exec', params),
 };
 
 export default orderApi;

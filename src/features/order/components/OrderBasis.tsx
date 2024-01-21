@@ -147,6 +147,46 @@ export const OrderBasis = () => {
           />
         </GridContainer>
       </Box>
+      <Box>
+        <GridContainer>
+          <RhfTextField
+            label="混率生地③"
+            name="basis-blendRateFabric3"
+            required
+            message="混率生地③を入力してください"
+            width={200}
+          />
+          <RhfTextField
+            label="混率③"
+            name="basis-blendRate3"
+            required
+            message="混率③を入力してください"
+            type="number"
+            defaultValue={0}
+            width={70}
+          />
+        </GridContainer>
+      </Box>
+      <Box>
+        <GridContainer>
+          <RhfTextField
+            label="混率生地④"
+            name="basis-blendRateFabric4"
+            required
+            message="混率生地④を入力してください"
+            width={200}
+          />
+          <RhfTextField
+            label="混率④"
+            name="basis-blendRate4"
+            required
+            message="混率④を入力してください"
+            type="number"
+            defaultValue={0}
+            width={70}
+          />
+        </GridContainer>
+      </Box>
     </>
   );
 };
