@@ -325,7 +325,6 @@ export const Order = () => {
       }
     } catch (error) {
       okOnlyDialog.showMessage(error);
-      // alert(error);
     } finally {
       // スピナーを非表示にする
       setOpen(false);
@@ -579,7 +578,6 @@ export const Order = () => {
       }
     } catch (error) {
       okOnlyDialog.showMessage(error);
-      // alert(error);
     } finally {
       // スピナーを非表示にする
       setOpen(false);
