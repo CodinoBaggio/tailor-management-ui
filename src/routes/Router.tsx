@@ -4,6 +4,7 @@ import { AuthLayout } from '../layouts/AuthLayout';
 import { AppLayout } from '../layouts/AppLayout';
 import { OrderList } from '../pages/OrderList';
 import { Order } from '../pages/Order';
+import { AdminPage } from '../pages/AdminPage';
 
 export const router = createBrowserRouter(
   [
@@ -32,6 +33,10 @@ export const router = createBrowserRouter(
         {
           path: 'order/new',
           element: <Order />,
+        },
+        {
+          path: 'admin',
+          element: <AdminPage />,
         },
       ],
     },

@@ -13,6 +13,7 @@ import {
 import 'dayjs/locale/ja';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import SecurityIcon from '@mui/icons-material/Security';
 
 import orderApi from '../features/order/api/orderApi';
 import { setOrder, setUpdated } from '../features/order/stores/orderSlice';
@@ -76,6 +77,10 @@ export const OrderList = () => {
     navigate('/order/new');
   };
 
+  const handleAdmin = () => {
+    navigate('/admin');
+  };
+
   const handleSearch = async () => {
     // スピナーを表示する
     setOpen(true);
@@ -129,9 +134,16 @@ export const OrderList = () => {
         >
           検索
         </Button>
-        <Button onClick={handleCreate} startIcon={<AddIcon />}>
-          新規オーダー
-        </Button>
+        <Box>
+          <Button onClick={handleCreate} startIcon={<AddIcon />}>
+            新規オーダー
+          </Button>
+          {user.roleId === '00' && (
+            <Button onClick={handleAdmin} startIcon={<SecurityIcon />}>
+              管理者メニュー
+            </Button>
+          )}
+        </Box>
         <SwipeableDrawer
           anchor="left"
           open={drawerOpen}
