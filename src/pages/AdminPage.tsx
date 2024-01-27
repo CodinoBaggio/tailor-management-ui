@@ -8,7 +8,7 @@ import { VerticalTabs } from '../components/ui/VerticalTabs';
 export const AdminPage = () => {
   return (
     <>
-      <Box className="flex">
+      <Box>
         <VerticalTabs
           tabItems={[
             {
