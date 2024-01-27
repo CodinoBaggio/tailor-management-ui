@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import authApi from '../features/auth/api/authApi';
 import { useForm } from 'react-hook-form';
 
-export const Login = () => {
+export const LoginPage = () => {
   const {
     register,
     getValues,

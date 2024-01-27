@@ -1,19 +1,82 @@
-// import React from 'react';
-import { Box } from '@mui/material';
+import React from 'react';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
+import { Box, Button } from '@mui/material';
 import 'dayjs/locale/ja';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
 
 import { RhfSelect } from '../../../components/ui/RhfSelect';
 import { RhfTextField } from '../../../components/ui/RhfTextField';
 import { RhfDatePicker } from '../../../components/ui/RhfDatePicker';
 import { RhfDateTimePicker } from '../../../components/ui/RhfDateTimePicker';
 import { GridContainer } from './ui/GridContainer';
+import { FC, useState } from 'react';
+import orderApi from '../api/orderApi';
+import { useMessageDialog } from '../hooks/useMessageDialog';
+import { OkOnlyDialog } from '../../../components/ui/OkOnlyDialog';
+import { FabricProductNoSearchDialog } from './ui/FabricProductNoSearchDialog';
+
+type Props = {
+  methods: UseFormReturn<FieldValues, any, undefined>;
+};
 
 const style = {
   boxMargin: 'mb-5',
   blockColor1: 'bg-green-100',
 };
 
-export const OrderBasis = () => {
+export const OrderBasis: FC<Props> = (props) => {
+  const { methods } = props;
+  const [fabricProductNoSearchDialogOpen, setFabricProductNoSearchDialogOpen] =
+    useState(false);
+  const [productNos, setProductNos] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const okOnlyDialog = useMessageDialog();
+
+  const handleFabricProductNoSearchDialogOpen = () => {
+    // 配列クリア
+    setProductNos([]);
+
+    const productName = methods.getValues('basis-productName');
+    if (productName !== 'empty' && productName !== '') {
+      setFabricProductNoSearchDialogOpen(true);
+    } else {
+      okOnlyDialog.showMessage('品名を選択してください。');
+    }
+  };
+
+  const handleFabricProductNoSearchSubmit = async (event: any) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formJson = Object.fromEntries(formData.entries());
+    const searchPattern = formJson.searchPattern;
+
+    try {
+      setLoading(true);
+
+      const res: any = await orderApi.create({
+        endpoint: 'fabric-product-no',
+        endpointParams: {
+          productName: methods.getValues('basis-productName'),
+          searchPattern: searchPattern,
+        },
+      });
+      if (res.status === 'success') {
+        setProductNos(res.payload.productNos);
+      } else {
+        okOnlyDialog.showMessage(res.message);
+      }
+    } catch (error) {
+      okOnlyDialog.showMessage(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleListItemClick = (_: any, index: number) => {
+    methods.setValue('basis-fabricProductNo', productNos[index]);
+    setFabricProductNoSearchDialogOpen(false);
+  };
+
   return (
     <>
       <Box className={style.boxMargin}>
@@ -51,20 +114,20 @@ export const OrderBasis = () => {
             required
             message="生地メーカーを入力してください"
           />
-          <RhfSelect
-            label="生地品番"
-            name="basis-fabricProductNo"
-            menuItems={[
-              { value: 'empty', label: '' },
-              { value: 'AAAAA', label: 'AAAAA' },
-              { value: 'BBBBB', label: 'BBBBB' },
-              { value: 'CCCCC', label: 'CCCCC' },
-              { value: 'DDDDD', label: 'DDDDD' },
-              { value: 'EEEEE', label: 'EEEEE' },
-              { value: 'FFFFF', label: 'FFFFF' },
-              { value: 'GGGGG', label: 'GGGGG' },
-            ]}
-          />
+          <Box>
+            <RhfTextField
+              label="生地品番"
+              name="basis-fabricProductNo"
+              required
+              message="生地品番を入力してください"
+            />
+            <Button
+              startIcon={<FactCheckIcon />}
+              onClick={handleFabricProductNoSearchDialogOpen}
+            >
+              生地品番選択
+            </Button>
+          </Box>
         </GridContainer>
       </Box>
       <Box className={style.boxMargin}>
@@ -187,6 +250,19 @@ export const OrderBasis = () => {
           />
         </GridContainer>
       </Box>
+      <FabricProductNoSearchDialog
+        open={fabricProductNoSearchDialogOpen}
+        setOpen={setFabricProductNoSearchDialogOpen}
+        loading={loading}
+        productNos={productNos}
+        handleListItemClick={handleListItemClick}
+        handleSubmit={handleFabricProductNoSearchSubmit}
+      />
+      <OkOnlyDialog
+        open={okOnlyDialog.messageDialogOpen}
+        message={okOnlyDialog.messageDialogMessage}
+        onClick={okOnlyDialog.handleClick}
+      />
     </>
   );
 };

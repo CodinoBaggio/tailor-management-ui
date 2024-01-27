@@ -23,7 +23,7 @@ import { OrderBasis } from '../features/order/components/OrderBasis';
 import { OrderJaket } from '../features/order/components/OrderJaket';
 import { OrderPants } from '../features/order/components/OrderPants';
 import { OrderVest } from '../features/order/components/OrderVest';
-import { VerticalTabs } from '../features/order/components/ui/VerticalTabs';
+import { HorizontalTabs } from '../components/ui/HorizontalTabs';
 import { setUpdated } from '../features/order/stores/orderSlice';
 import {
   bindOrderBasisValues,
@@ -690,11 +690,11 @@ export const Order = () => {
           </Box>
         </Box>
         <Box className="mt-5">
-          <VerticalTabs
+          <HorizontalTabs
             tabItems={[
               {
                 label: 'オーダー',
-                component: <OrderBasis />,
+                component: <OrderBasis methods={methods} />,
               },
               {
                 label: 'ジャケット',

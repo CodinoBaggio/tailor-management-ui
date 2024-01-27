@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -38,11 +38,11 @@ function a11yProps(index: number) {
   };
 }
 
-type VerticalTabsProps = {
+type Props = {
   tabItems: { label: string; component: React.ReactNode }[];
 };
 
-export const VerticalTabs: React.FC<VerticalTabsProps> = (props) => {
+export const HorizontalTabs: FC<Props> = (props) => {
   const { tabItems } = props;
   const [value, setValue] = React.useState(0);
 
