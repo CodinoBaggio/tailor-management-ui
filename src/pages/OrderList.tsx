@@ -14,6 +14,7 @@ import 'dayjs/locale/ja';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import SecurityIcon from '@mui/icons-material/Security';
+import GradingIcon from '@mui/icons-material/Grading';
 
 import orderApi from '../features/order/api/orderApi';
 import { setOrder, setUpdated } from '../features/order/stores/orderSlice';
@@ -127,6 +128,10 @@ export const OrderList = () => {
 
   return (
     <>
+      <Box className=" flex my-5 text-gray-500">
+        <GradingIcon className='mr-3' />
+        <Box>発注リスト</Box>
+      </Box>
       <Box display="flex" justifyContent="space-between">
         <Button
           onClick={toggleDrawer(true)}

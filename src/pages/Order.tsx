@@ -9,14 +9,14 @@ import {
   Typography,
 } from '@mui/material';
 import { useForm, FormProvider } from 'react-hook-form';
-
 import SaveIcon from '@mui/icons-material/Save';
 import { green, pink } from '@mui/material/colors';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearIcon from '@mui/icons-material/Clear';
-import PermMediaIcon from '@mui/icons-material/PermMedia';
 import { useDispatch, useSelector } from 'react-redux';
+import CheckroomIcon from '@mui/icons-material/Checkroom';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 
 import orderApi from '../features/order/api/orderApi';
 import { OrderBasis } from '../features/order/components/OrderBasis';
@@ -619,15 +619,21 @@ export const Order = () => {
 
   return (
     <>
-      <FormProvider {...methods}>
+      <Box className=" flex my-5 text-gray-500" justifyContent="space-between">
+        <Box className="flex">
+          <CheckroomIcon className="mr-3" />
+          <Box>発注</Box>
+        </Box>
         <Button
           onClick={handleBack}
           startIcon={<ArrowBackIcon />}
-          color="inherit"
+          color="info"
           size="small"
         >
           戻る
         </Button>
+      </Box>
+      <FormProvider {...methods}>
         <Box className="flex items-center justify-between my-5">
           <Box>
             <Box className="flex items-center mb-3">
@@ -674,7 +680,7 @@ export const Order = () => {
                   setYesNoDialogMessage('流用しますか？');
                   setYesNoDialogOpen(true);
                 }}
-                startIcon={<PermMediaIcon />}
+                startIcon={<FileCopyIcon />}
               >
                 流用
               </Button>
