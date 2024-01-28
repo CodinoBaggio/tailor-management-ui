@@ -7,6 +7,7 @@ import {
   Button,
   CircularProgress,
   Divider,
+  Pagination,
   SwipeableDrawer,
   Typography,
 } from '@mui/material';
@@ -22,16 +23,19 @@ import { setOrderResources } from '../features/order/stores/orderResourceSlice';
 import { OrderCard } from '../features/order/components/ui/OrderCard';
 import { SearchPanel } from '../features/order/components/ui/SearchPanel';
 import { useSearchPanel } from '../features/order/hooks/useSearchPanel';
+import { useMessageDialog } from '../features/order/hooks/useMessageDialog';
 
 export const OrderList = () => {
   const searchStates = useSearchPanel();
   const [open, setOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [page, setPage] = useState(2);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state: any) => state.user.value);
   const orders = useSelector((state: any) => state.order.orders);
   const updated = useSelector((state: any) => state.order.updated);
+  const okOnlyDialog = useMessageDialog();
 
   useEffect(() => {
     const getOrders = async () => {
@@ -59,8 +63,7 @@ export const OrderList = () => {
         // 更新フラグを下ろす
         dispatch(setUpdated(false));
       } catch (error) {
-        alert(error);
-        // console.log(error);
+        okOnlyDialog.showMessage(error);
       } finally {
         // スピナーを非表示にする
         setOpen(false);
@@ -104,8 +107,7 @@ export const OrderList = () => {
       dispatch(setOrder(res.payload.orders));
       setDrawerOpen(false);
     } catch (error) {
-      alert(error);
-      // console.log(error);
+      okOnlyDialog.showMessage(error);
     } finally {
       // スピナーを非表示にする
       setOpen(false);
@@ -126,10 +128,45 @@ export const OrderList = () => {
       setDrawerOpen(open);
     };
 
+  const handlePageChange = async (
+    _event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    // ページを更新
+    setPage(page);
+
+    // スピナーを表示する
+    setOpen(true);
+
+    try {
+      // 発注リスト取得
+      const res: any = await orderApi.getOrders({
+        endpoint: 'orders',
+        endpointParams: {
+          shopId: user.shopId,
+          roleId: user.roleId,
+          dateType: searchStates.dateType,
+          dateFrom: searchStates.dateFrom?.toISOString(),
+          dateTo: searchStates.dateTo?.toISOString(),
+          orderId: searchStates.orderId,
+          customerName: searchStates.customerName,
+          orderStatausType: searchStates.orderStatausType,
+          page: page,
+        },
+      });
+      dispatch(setOrder(res.payload.orders));
+    } catch (error) {
+      okOnlyDialog.showMessage(error);
+    } finally {
+      // スピナーを非表示にする
+      setOpen(false);
+    }
+  };
+
   return (
     <>
       <Box className=" flex my-5 text-gray-500">
-        <GradingIcon className='mr-3' />
+        <GradingIcon className="mr-3" />
         <Box>発注リスト</Box>
       </Box>
       <Box display="flex" justifyContent="space-between">
@@ -164,6 +201,14 @@ export const OrderList = () => {
       </Box>
       <Divider sx={{ marginBottom: '10px' }} />
       <Box>
+        <Box className="flex justify-center mb-3">
+          <Pagination
+            count={page}
+            variant="outlined"
+            shape="rounded"
+            onChange={(e, page) => handlePageChange(e, page)}
+          />
+        </Box>
         {0 < orders.length ? (
           orders.map((order: any, index: number) => {
             return (
