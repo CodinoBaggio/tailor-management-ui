@@ -53,6 +53,10 @@ export const OrderList = () => {
         });
         dispatch(setOrder(res.payload.orders));
 
+        // ページ数を設定する
+        const pageCount = Math.ceil(res.payload.orders.length / 10);
+        setPage(pageCount);
+
         // リソース取得
         const res2: any = await orderApi.getOrderResources({
           endpoint: 'order-resources',
