@@ -29,18 +29,24 @@ export const OrderList = () => {
   const searchStates = useSearchPanel();
   const [open, setOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [page, setPage] = useState(2);
+  const [pageCount, setPageCount] = useState(0);
+  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state: any) => state.user.value);
   const orders = useSelector((state: any) => state.order.orders);
   const updated = useSelector((state: any) => state.order.updated);
   const okOnlyDialog = useMessageDialog();
+  const maxPageCount = 10;
 
   useEffect(() => {
     const getOrders = async () => {
-      // 更新フラグが立っていない場合は何もしない
-      if (!updated) return;
+      if (!updated) {
+        // 更新フラグが立っていない場合はページ数を設定して終了する
+        const pageCount = Math.ceil(orders.length / maxPageCount);
+        setPageCount(pageCount);
+        return;
+      }
 
       // スピナーを表示する
       setOpen(true);
@@ -54,8 +60,8 @@ export const OrderList = () => {
         dispatch(setOrder(res.payload.orders));
 
         // ページ数を設定する
-        const pageCount = Math.ceil(res.payload.orders.length / 10);
-        setPage(pageCount);
+        const pageCount = Math.ceil(res.payload.orders.length / maxPageCount);
+        setPageCount(pageCount);
 
         // リソース取得
         const res2: any = await orderApi.getOrderResources({
@@ -138,33 +144,6 @@ export const OrderList = () => {
   ) => {
     // ページを更新
     setPage(page);
-
-    // スピナーを表示する
-    setOpen(true);
-
-    try {
-      // 発注リスト取得
-      const res: any = await orderApi.getOrders({
-        endpoint: 'orders',
-        endpointParams: {
-          shopId: user.shopId,
-          roleId: user.roleId,
-          dateType: searchStates.dateType,
-          dateFrom: searchStates.dateFrom?.toISOString(),
-          dateTo: searchStates.dateTo?.toISOString(),
-          orderId: searchStates.orderId,
-          customerName: searchStates.customerName,
-          orderStatausType: searchStates.orderStatausType,
-          page: page,
-        },
-      });
-      dispatch(setOrder(res.payload.orders));
-    } catch (error) {
-      okOnlyDialog.showMessage(error);
-    } finally {
-      // スピナーを非表示にする
-      setOpen(false);
-    }
   };
 
   return (
@@ -207,20 +186,22 @@ export const OrderList = () => {
       <Box>
         <Box className="flex justify-center mb-3">
           <Pagination
-            count={page}
+            count={pageCount}
             variant="outlined"
             shape="rounded"
             onChange={(e, page) => handlePageChange(e, page)}
           />
         </Box>
         {0 < orders.length ? (
-          orders.map((order: any, index: number) => {
-            return (
-              <div key={index}>
-                <OrderCard order={order} handleEdit={handleEdit} />
-              </div>
-            );
-          })
+          orders
+            .slice((page - 1) * maxPageCount, page * maxPageCount)
+            .map((order: any, index: number) => {
+              return (
+                <div key={index}>
+                  <OrderCard order={order} handleEdit={handleEdit} />
+                </div>
+              );
+            })
         ) : (
           <Typography>オーダー情報はありません</Typography>
         )}
