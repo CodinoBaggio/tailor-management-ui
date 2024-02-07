@@ -106,7 +106,7 @@ export const Order = () => {
             blendRate3: methods.getValues('basis-blendRate3'),
             blendRateFabric4: methods.getValues('basis-blendRateFabric4'),
             blendRate4: methods.getValues('basis-blendRate4'),
-            inputLoginId: methods.getValues('basis-inputLoginId'),
+            inputUserId: methods.getValues('basis-inputUserId'),
             isDelete: methods.getValues('basis-isDelete'),
             createDateTime: methods.getValues('basis-createDateTime'),
             createUserId: methods.getValues('basis-createUserId'),
@@ -359,7 +359,7 @@ export const Order = () => {
             blendRate3: methods.getValues('basis-blendRate3'),
             blendRateFabric4: methods.getValues('basis-blendRateFabric4'),
             blendRate4: methods.getValues('basis-blendRate4'),
-            inputLoginId: methods.getValues('basis-inputLoginId'),
+            inputUserId: methods.getValues('basis-inputUserId'),
             isDelete: methods.getValues('basis-isDelete'),
             createDateTime: methods.getValues('basis-createDateTime'),
             createUserId: methods.getValues('basis-createUserId'),
@@ -604,7 +604,8 @@ export const Order = () => {
   };
 
   const handleBack = () => {
-    navigate('/');
+    navigate(-1);
+    // navigate('/');
   };
 
   const [yesNoDialogOpen, setYesNoDialogOpen] = useState(false);

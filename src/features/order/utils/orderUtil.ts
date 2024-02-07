@@ -34,7 +34,7 @@ export const bindOrderBasisValues = (
   methods.setValue('basis-blendRate3', order.blendRate3 || 0);
   methods.setValue('basis-blendRateFabric4', order.blendRateFabric4 || '');
   methods.setValue('basis-blendRate4', order.blendRate4 || 0);
-  methods.setValue('basis-inputLoginId', order.inputLoginId || '');
+  methods.setValue('basis-inputUserId', order.inputUserId || '');
   methods.setValue('basis-isDelete', order.isDelete || false);
   methods.setValue(
     'basis-createDateTime',
@@ -475,7 +475,7 @@ export const createDefaultOrderValues = (user: any) => {
     blendRate3: 0,
     blendRateFabric4: '',
     blendRate4: 0,
-    inputLoginId: user.loginId,
+    inputUserId: user.loginId,
     isDelete: false,
     createDateTime: dayjs(),
     createUserId: user.loginId,
@@ -511,7 +511,7 @@ export const setOrderObject = (
     blendRate3: methods.getValues('basis-blendRate3'),
     blendRateFabric4: methods.getValues('basis-blendRateFabric4'),
     blendRate4: methods.getValues('basis-blendRate4'),
-    inputLoginId: methods.getValues('basis-inputLoginId'),
+    inputUserId: methods.getValues('basis-inputUserId'),
     isDelete: methods.getValues('basis-isDelete'),
     createDateTime: methods.getValues('basis-createDateTime'),
     createUserId: methods.getValues('basis-createUserId'),

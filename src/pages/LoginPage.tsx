@@ -19,15 +19,15 @@ export const LoginPage = () => {
     try {
       setLoading(true);
 
-      const loginId = getValues('loginId');
+      const userId = getValues('userId');
       const password = getValues('password') as string;
 
       // ログインAPIを叩く
       const res: any = await authApi.login({
         endpoint: 'login',
         endpointParams: {
-          loginId: loginId,
-          password: password,
+          userId,
+          password,
         },
       });
       localStorage.setItem('token', res.payload.token);
@@ -44,7 +44,7 @@ export const LoginPage = () => {
       <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <TextField
           fullWidth
-          id="loginId"
+          id="userId"
           label="ログインID"
           margin="normal"
           required
@@ -53,7 +53,7 @@ export const LoginPage = () => {
           }
           // error={errors.loginId?.message !== ''}
           disabled={loading}
-          {...register('loginId', { required: 'ログインIDを入力してください' })}
+          {...register('userId', { required: 'ユーザーIDを入力してください' })}
         />
         <TextField
           fullWidth

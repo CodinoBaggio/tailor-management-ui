@@ -5,15 +5,15 @@ import SecurityIcon from '@mui/icons-material/Security';
 
 import { ProductMaintenance } from '../features/admin/components/ProductMaintenance';
 import { CustomerMaintenace } from '../features/admin/components/CustomerMaintenace';
-import { VerticalTabs } from '../components/ui/VerticalTabs';
 import { PriceMaintenance } from '../features/admin/components/PriceMaintenance';
 import { useNavigate } from 'react-router-dom';
+import { HorizontalTabs } from '../components/ui/HorizontalTabs';
 
 export const AdminPage = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate('/');
+    navigate(-1);
   };
 
   return (
@@ -33,8 +33,12 @@ export const AdminPage = () => {
         </Button>
       </Box>
       <Box>
-        <VerticalTabs
+        <HorizontalTabs
           tabItems={[
+            {
+              label: '顧客',
+              component: <CustomerMaintenace />,
+            },
             {
               label: '商品',
               component: <ProductMaintenance />,
@@ -42,10 +46,6 @@ export const AdminPage = () => {
             {
               label: '価格',
               component: <PriceMaintenance />,
-            },
-            {
-              label: '顧客',
-              component: <CustomerMaintenace />,
             },
           ]}
         />
