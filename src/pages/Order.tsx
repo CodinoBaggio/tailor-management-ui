@@ -12,7 +12,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import SaveIcon from '@mui/icons-material/Save';
 import { green, pink } from '@mui/material/colors';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ReplyIcon from '@mui/icons-material/Reply';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useDispatch, useSelector } from 'react-redux';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
@@ -620,14 +620,14 @@ export const Order = () => {
 
   return (
     <>
-      <Box className=" flex my-5 text-gray-500" justifyContent="space-between">
-        <Box className="flex">
+      <Box className=" flex my-5 text-gray-500" alignItems='center'>
+        <Box className="flex mr-5" alignItems='center'>
           <CheckroomIcon className="mr-3" />
-          <Box>発注</Box>
+          <Typography variant='h6'>発注</Typography>
         </Box>
         <Button
           onClick={handleBack}
-          startIcon={<ArrowBackIcon />}
+          startIcon={<ReplyIcon />}
           color="info"
           size="small"
         >

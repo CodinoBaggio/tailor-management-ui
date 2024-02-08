@@ -1,13 +1,14 @@
 import React from 'react';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import SecurityIcon from '@mui/icons-material/Security';
+import ReplyIcon from '@mui/icons-material/Reply';
 
 import { ProductMaintenance } from '../features/admin/components/ProductMaintenance';
 import { CustomerMaintenace } from '../features/admin/components/CustomerMaintenace';
 import { PriceMaintenance } from '../features/admin/components/PriceMaintenance';
 import { useNavigate } from 'react-router-dom';
 import { HorizontalTabs } from '../components/ui/HorizontalTabs';
+import { UserMaintenance } from '../features/admin/components/UserMaintenance';
 
 export const AdminPage = () => {
   const navigate = useNavigate();
@@ -18,14 +19,14 @@ export const AdminPage = () => {
 
   return (
     <>
-      <Box className=" flex my-5 text-gray-500" justifyContent="space-between">
-        <Box className='flex'>
+      <Box className=" flex my-5 text-gray-500" alignItems='center'>
+      <Box className="flex mr-5" alignItems='center'>
           <SecurityIcon className="mr-3" />
-          <Box>管理者メニュー</Box>
+          <Typography variant='h6'>管理者メニュー</Typography>
         </Box>
         <Button
           onClick={handleBack}
-          startIcon={<ArrowBackIcon />}
+          startIcon={<ReplyIcon />}
           color="info"
           size="small"
         >
@@ -36,8 +37,12 @@ export const AdminPage = () => {
         <HorizontalTabs
           tabItems={[
             {
-              label: '顧客',
+              label: '卸先様',
               component: <CustomerMaintenace />,
+            },
+            {
+              label: 'ユーザー',
+              component: <UserMaintenance />,
             },
             {
               label: '商品',

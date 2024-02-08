@@ -8,7 +8,7 @@ import { RhfSelect } from '../../../components/ui/RhfSelect';
 import { RhfTextField } from '../../../components/ui/RhfTextField';
 import { RhfDatePicker } from '../../../components/ui/RhfDatePicker';
 import { RhfDateTimePicker } from '../../../components/ui/RhfDateTimePicker';
-import { GridContainer } from './ui/GridContainer';
+import { GridContainer } from '../../../components/containers/GridContainer';
 import { FC, useState } from 'react';
 import orderApi from '../api/orderApi';
 import { useMessageDialog } from '../hooks/useMessageDialog';

@@ -142,7 +142,7 @@ export const AppLayout = () => {
           </Toolbar>
         </AppBar>
       </Box>
-      <Container maxWidth="xl">
+      <Container>
         <Outlet />
       </Container>
       <YesNoDialog

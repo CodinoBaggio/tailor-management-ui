@@ -143,9 +143,9 @@ export const OrderList = () => {
 
   return (
     <>
-      <Box className=" flex my-5 text-gray-500">
+      <Box className=" flex my-5 text-gray-500" alignItems='center'>
         <GradingIcon className="mr-3" />
-        <Box>発注リスト</Box>
+        <Typography variant='h6'>発注リスト</Typography>
       </Box>
       <Box display="flex" justifyContent="space-between">
         <Button

@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import { RhfSelect } from '../../../components/ui/RhfSelect';
 import { RhfTextField } from '../../../components/ui/RhfTextField';
 import { useSelectPattern } from '../hooks/useSelectPattern';
-import { GridContainer } from './ui/GridContainer';
+import { GridContainer } from '../../../components/containers/GridContainer';
 
 const style = {
   boxMargin: 'mb-5',

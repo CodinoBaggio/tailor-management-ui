@@ -58,12 +58,12 @@ export const HorizontalTabs: FC<Props> = (props) => {
         aria-label="Vertical tabs example"
       >
         {tabItems.map((item, index) => {
-          return <Tab label={item.label} {...a11yProps(index)} />;
+          return <Tab key={index} label={item.label} {...a11yProps(index)} />;
         })}
       </Tabs>
       {tabItems.map((item, index) => {
         return (
-          <TabPanel value={value} index={index}>
+          <TabPanel key={index} value={value} index={index}>
             <Box>{item.component}</Box>
           </TabPanel>
         );

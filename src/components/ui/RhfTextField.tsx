@@ -10,6 +10,7 @@ type Props = {
   type?: string;
   defaultValue?: string | number;
   width?: number;
+  placeholder?: string;
 };
 
 export const RhfTextField: FC<Props> = (props) => {
@@ -20,7 +21,8 @@ export const RhfTextField: FC<Props> = (props) => {
     message,
     type = 'text',
     defaultValue = '',
-    width
+    width,
+    placeholder = '',
   } = props;
   const { control } = useFormContext();
 
@@ -49,6 +51,7 @@ export const RhfTextField: FC<Props> = (props) => {
           sx={{ width: {width} }}
           InputLabelProps={{ shrink: true }}
           variant="standard"
+          placeholder={placeholder}
         />
       )}
     />

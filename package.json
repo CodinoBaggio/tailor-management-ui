@@ -15,7 +15,6 @@
     "@mui/icons-material": "^5.15.4",
     "@mui/lab": "^5.0.0-alpha.158",
     "@mui/material": "^5.15.2",
-    "@mui/x-data-grid": "^6.19.3",
     "@mui/x-date-pickers": "^6.19.0",
     "@reduxjs/toolkit": "^2.0.1",
     "@types/google-apps-script": "^1.0.78",
@@ -29,7 +28,6 @@
     "vite-plugin-singlefile": "^0.13.5"
   },
   "devDependencies": {
-    "@mui/x-data-grid-generator": "^6.19.3",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
