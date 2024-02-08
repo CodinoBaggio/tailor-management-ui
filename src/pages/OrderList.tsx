@@ -23,6 +23,7 @@ import { OrderCard } from '../features/order/components/ui/OrderCard';
 import { SearchPanel } from '../features/order/components/ui/SearchPanel';
 import { useSearchPanel } from '../features/order/hooks/useSearchPanel';
 import { useMessageDialog } from '../features/order/hooks/useMessageDialog';
+import { OkOnlyDialog } from '../components/ui/OkOnlyDialog';
 
 export const OrderList = () => {
   const searchStates = useSearchPanel();
@@ -143,9 +144,9 @@ export const OrderList = () => {
 
   return (
     <>
-      <Box className=" flex my-5 text-gray-500" alignItems='center'>
+      <Box className=" flex my-5 text-gray-500" alignItems="center">
         <GradingIcon className="mr-3" />
-        <Typography variant='h6'>発注リスト</Typography>
+        <Typography variant="h6">発注リスト</Typography>
       </Box>
       <Box display="flex" justifyContent="space-between">
         <Button
@@ -202,6 +203,11 @@ export const OrderList = () => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <OkOnlyDialog
+        open={okOnlyDialog.messageDialogOpen}
+        message={okOnlyDialog.messageDialogMessage}
+        onClick={okOnlyDialog.handleClick}
+      />
     </>
   );
 };
