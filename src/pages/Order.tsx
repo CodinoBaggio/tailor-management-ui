@@ -84,7 +84,7 @@ export const Order = () => {
       setOpen(true);
 
       const res: any = await orderApi.create({
-        endpoint: 'save-order',
+        endpoint: 'update-order',
         endpointParams: {
           order: {
             orderId: methods.getValues('basis-orderId'),

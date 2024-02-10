@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import SecurityIcon from '@mui/icons-material/Security';
-
-import authUtils from '../features/auth/utils/authUtils';
-import { setUser } from '../features/auth/stores/userSlice';
 import {
   AppBar,
   Box,
@@ -20,6 +14,16 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import SecurityIcon from '@mui/icons-material/Security';
+import { ConfirmDialog } from 'primereact/confirmdialog';
+import 'primereact/resources/themes/mdc-light-indigo/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+
+import authUtils from '../features/auth/utils/authUtils';
+import { setUser } from '../features/auth/stores/userSlice';
 import { YesNoDialog } from '../components/ui/YesNoDialog';
 
 export const AppLayout = () => {
@@ -151,6 +155,7 @@ export const AppLayout = () => {
         onNoClick={onNoClick}
         onYesClick={() => onYesClick(handleLogout)}
       />
+      <ConfirmDialog />
     </>
   );
 };

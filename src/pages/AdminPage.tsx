@@ -37,7 +37,7 @@ export const AdminPage = () => {
         <HorizontalTabs
           tabItems={[
             {
-              label: '卸先様',
+              label: '卸先',
               component: <CustomerMaintenace />,
             },
             {
