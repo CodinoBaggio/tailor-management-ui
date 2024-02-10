@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-import { grey, pink, blueGrey, green } from '@mui/material/colors';
+import { grey, pink, green, blue } from '@mui/material/colors';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 type Props = {
@@ -24,7 +24,7 @@ export const OrderCard: FC<Props> = (props) => {
   return (
     <>
       <div className="mb-3">
-        <Card sx={{ boxShadow: 3 }}>
+        <Card sx={{ boxShadow: 2 }} className="border border-blue-200">
           <CardActionArea
             onClick={() =>
               order.orderStatus === '保存'
@@ -55,7 +55,7 @@ export const OrderCard: FC<Props> = (props) => {
               title={`オーダーID：${order.orderId}`}
               subheader={<Box>{`入力日：${order.inputDate}`}</Box>}
               titleTypographyProps={{ variant: 'body1', color: grey[700] }}
-              sx={{ bgcolor: blueGrey[50] }}
+              sx={{ bgcolor: blue[50] }}
             />
             <CardContent>
               <Box className="flex justify-around">

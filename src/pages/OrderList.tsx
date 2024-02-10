@@ -8,6 +8,7 @@ import {
   CircularProgress,
   Divider,
   Pagination,
+  PaginationItem,
   SwipeableDrawer,
   Typography,
 } from '@mui/material';
@@ -179,7 +180,10 @@ export const OrderList = () => {
           <Pagination
             count={pageCount}
             variant="outlined"
-            shape="rounded"
+            shape="circular"
+            renderItem={(item) => (
+              <PaginationItem {...item} color="primary" />
+            )}
             onChange={(e, page) => handlePageChange(e, page)}
           />
         </Box>

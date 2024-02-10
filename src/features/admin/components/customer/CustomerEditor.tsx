@@ -16,6 +16,7 @@ import {
   ListItemIcon,
   Backdrop,
   CircularProgress,
+  ListSubheader,
 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import EditIcon from '@mui/icons-material/Edit';
@@ -31,6 +32,10 @@ import adminApi from '../../api/adminApi';
 import { confirmYesNo } from '../../../../utils/confirm';
 import { Toast } from 'primereact/toast';
 import { useToast } from '../../../../hooks/useToast';
+
+const style = {
+  boxMargin: 'mb-2',
+};
 
 type Props = {
   shop: ShopType;
@@ -79,7 +84,7 @@ export const CustomerEditor: FC<Props> = (props) => {
       try {
         // スピナーを表示する
         setOpen(true);
-  
+
         // 顧客情報を更新する
         const res: any = await adminApi.shop.updateShop({
           endpoint: 'update-shop',
@@ -90,7 +95,7 @@ export const CustomerEditor: FC<Props> = (props) => {
           showMessage('エラー', 'error', res.message);
           return;
         }
-        
+
         setReadOnlyState(!readOnlyState);
       } catch (error: any) {
         showMessage('エラー', 'error', error);
@@ -117,7 +122,7 @@ export const CustomerEditor: FC<Props> = (props) => {
       <Box position="relative">
         <form onSubmit={handleSubmit(handleUpdate)}>
           <Box
-            className={`p-4 m-2 border rounded-md shadow-md ${
+            className={`p-4 m-2 border rounded-md shadow-md border-blue-200 ${
               readOnlyState || 'bg-red-50'
             }`}
           >
@@ -149,52 +154,53 @@ export const CustomerEditor: FC<Props> = (props) => {
             )}
             <Box className="flex">
               <Box>
-                <Box>
+                <Box className={style.boxMargin}>
                   <FormControlLabel
                     control={
                       <Switch checked={checked} {...register('isOwn')} />
                     }
                     label="自社"
                   />
-                  ,
                 </Box>
-                <GridContainer>
-                  <FormControl variant="standard">
-                    <InputLabel>仲間分け</InputLabel>
-                    <Select
-                      value={selectedShopGroup}
-                      sx={{ width: 200 }}
-                      {...register('shopGroup')}
-                      onChange={handleShopGroupChange}
+                <Box className={style.boxMargin}>
+                  <GridContainer>
+                    <FormControl variant="standard">
+                      <InputLabel>仲間分け</InputLabel>
+                      <Select
+                        value={selectedShopGroup}
+                        sx={{ width: 200 }}
+                        {...register('shopGroup')}
+                        onChange={handleShopGroupChange}
+                        size="small"
+                      >
+                        <MenuItem value="empty"></MenuItem>
+                        <MenuItem value="JV">JV</MenuItem>
+                        <MenuItem value="HH">HH</MenuItem>
+                      </Select>
+                    </FormControl>
+                    <TextField
+                      variant="standard"
+                      label="番号"
                       size="small"
-                    >
-                      <MenuItem value="empty"></MenuItem>
-                      <MenuItem value="JV">JV</MenuItem>
-                      <MenuItem value="HH">HH</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <TextField
-                    variant="standard"
-                    label="番号"
-                    size="small"
-                    InputLabelProps={{ shrink: true }}
-                    {...register('shopNo')}
-                  />
-                  <TextField
-                    variant="standard"
-                    label="卸先様名"
-                    size="small"
-                    InputLabelProps={{ shrink: true }}
-                    {...register('shopName')}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">様</InputAdornment>
-                      ),
-                      // readOnly: true,
-                    }}
-                  />
-                </GridContainer>
-                <Box>
+                      InputLabelProps={{ shrink: true }}
+                      {...register('shopNo')}
+                    />
+                    <TextField
+                      variant="standard"
+                      label="卸先様名"
+                      size="small"
+                      InputLabelProps={{ shrink: true }}
+                      {...register('shopName')}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">様</InputAdornment>
+                        ),
+                        // readOnly: true,
+                      }}
+                    />
+                  </GridContainer>
+                </Box>
+                <Box className={style.boxMargin}>
                   <TextField
                     variant="standard"
                     type="number"
@@ -207,7 +213,7 @@ export const CustomerEditor: FC<Props> = (props) => {
                   />
                   ,
                 </Box>
-                <Box>
+                <Box className={style.boxMargin}>
                   <GridContainer>
                     <FormControl variant="standard">
                       <InputLabel>都道府県</InputLabel>
@@ -255,21 +261,28 @@ export const CustomerEditor: FC<Props> = (props) => {
                 </Box>
               </Box>
               <Box>
-                <Box className="text-center text-sm text-gray-500">担当者</Box>
                 <List
                   sx={{
-                    width: '100%',
+                    width: '180px',
                     maxWidth: 360,
                     position: 'relative',
                     overflow: 'auto',
                     maxHeight: 200,
+                    border: 1,
+                    borderColor: 'divider',
                   }}
-                >
-                  {chargePersons.map((chargePerson) => (
-                    <ListItem
-                      key={chargePerson.chargePersonId}
-                      sx={{ py: 0, minHeight: 32 }}
+                  subheader={
+                    <ListSubheader
+                      component="div"
+                      id="nested-list-subheader"
+                      className="text-center"
                     >
+                      担当者
+                    </ListSubheader>
+                  }
+                >
+                  {chargePersons.map((chargePerson, index: number) => (
+                    <ListItem key={index} sx={{ py: 0, minHeight: 32 }}>
                       <ListItemIcon>
                         <PersonIcon />
                       </ListItemIcon>
