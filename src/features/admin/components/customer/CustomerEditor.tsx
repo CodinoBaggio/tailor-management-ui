@@ -24,7 +24,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import UndoIcon from '@mui/icons-material/Undo';
 import { useForm } from 'react-hook-form';
-import AddIcon from '@mui/icons-material/Add';
 
 import { prefectures } from '../../utils/util';
 import { GridContainer } from '../../../../components/containers/GridContainer';
@@ -172,7 +171,7 @@ export const CustomerEditor: FC<Props> = (props) => {
                 </IconButton>
               </>
             )}
-            <Box className="flex">
+            <Box className="md:flex">
               <Box>
                 <Box className={style.boxMargin}>
                   <FormControlLabel
