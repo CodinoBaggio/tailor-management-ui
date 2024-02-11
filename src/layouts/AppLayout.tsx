@@ -155,7 +155,7 @@ export const AppLayout = () => {
         onNoClick={onNoClick}
         onYesClick={() => onYesClick(handleLogout)}
       />
-      <ConfirmDialog />
+      <ConfirmDialog className="z-[100]" />
     </>
   );
 };

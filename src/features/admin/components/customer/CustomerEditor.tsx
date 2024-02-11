@@ -24,6 +24,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import UndoIcon from '@mui/icons-material/Undo';
 import { useForm } from 'react-hook-form';
+import AddIcon from '@mui/icons-material/Add';
 
 import { prefectures } from '../../utils/util';
 import { GridContainer } from '../../../../components/containers/GridContainer';
@@ -40,7 +41,9 @@ const style = {
 type Props = {
   shop: ShopType;
   readOnly: boolean;
-  deleteShop: (shopId: string) => void;
+  deleteShop?: (shopId: string) => void;
+  createShop?: () => void;
+  backToShopList?: () => void;
 };
 
 export const CustomerEditor: FC<Props> = (props) => {
@@ -48,14 +51,14 @@ export const CustomerEditor: FC<Props> = (props) => {
   const { shop, readOnly, deleteShop } = props;
   const { chargePersons } = shop;
   const [readOnlyState, setReadOnlyState] = useState(readOnly);
-  const [checked] = useState(shop.isOwn);
+  const [checked, setChecked] = useState(shop.isOwn);
   const [selectedPrefecture, setSelectedPrefecture] = React.useState(
     shop.prefecture
   );
   const [selectedShopGroup, setSelectedShopGroup] = React.useState(
     shop.shopGroup
   );
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       isOwn: shop.isOwn,
       shopGroup: shop.shopGroup,
@@ -71,50 +74,70 @@ export const CustomerEditor: FC<Props> = (props) => {
   const prefecturesItems = prefectures();
   const { toast, showMessage } = useToast();
 
-  const handleChange = (event: any) => {
-    setSelectedPrefecture(event.target.value);
-  };
-
   const handleShopGroupChange = (event: any) => {
     setSelectedShopGroup(event.target.value);
   };
 
-  const handleUpdate = (data: any) => {
-    const updateShop = async () => {
-      try {
-        // スピナーを表示する
-        setOpen(true);
+  const handleChange = (event: any) => {
+    setSelectedPrefecture(event.target.value);
+  };
 
-        // 顧客情報を更新する
-        const res: any = await adminApi.shop.updateShop({
-          endpoint: 'update-shop',
-          endpointParams: { shop: data },
-        });
+  const handleCheckChange = (event: any) => {
+    setChecked(event.target.checked);
+  };
 
-        if (res.status === 'error') {
-          showMessage('エラー', 'error', res.message);
-          return;
-        }
+  const handleUpdate = async (data: any) => {
+    try {
+      // スピナーを表示する
+      setOpen(true);
 
-        setReadOnlyState(!readOnlyState);
-      } catch (error: any) {
-        showMessage('エラー', 'error', error);
-      } finally {
-        // スピナーを非表示にする
-        setOpen(false);
+      // 顧客情報を更新する
+      const res: any = await adminApi.shop.updateShop({
+        endpoint: 'update-shop',
+        endpointParams: { shop: data },
+      });
+
+      if (res.status === 'error') {
+        showMessage('エラー', 'error', res.message);
+        return;
       }
-    };
-    confirmYesNo('更新しますか？', updateShop);
+
+      setReadOnlyState(!readOnlyState);
+    } catch (error: any) {
+      showMessage('エラー', 'error', error);
+    } finally {
+      // スピナーを非表示にする
+      setOpen(false);
+    }
   };
 
   const handleDelete = () => {
     confirmYesNo('削除しますか？', () => {
       try {
-        deleteShop(shop.shopId);
+        deleteShop!(shop.shopId);
       } catch (error: any) {
         showMessage('エラー', 'error', error);
       }
     });
+  };
+
+  const handleUndo = () => {
+    reset({
+      isOwn: shop.isOwn,
+      shopGroup: shop.shopGroup,
+      shopNo: shop.shopNo,
+      shopName: shop.shopName,
+      'postal-no': shop.postalCode,
+      prefecture: shop.prefecture,
+      city: shop.city,
+      address: shop.address,
+      building: shop.building,
+    });
+    setChecked(shop.isOwn);
+    setSelectedShopGroup(shop.shopGroup);
+    setSelectedPrefecture(shop.prefecture);
+
+    setReadOnlyState(!readOnlyState);
   };
 
   return (
@@ -144,10 +167,7 @@ export const CustomerEditor: FC<Props> = (props) => {
                 <IconButton color="error" type="submit">
                   <SaveIcon />
                 </IconButton>
-                <IconButton
-                  color="error"
-                  onClick={() => setReadOnlyState(!readOnlyState)}
-                >
+                <IconButton color="error" onClick={handleUndo}>
                   <UndoIcon />
                 </IconButton>
               </>
@@ -156,9 +176,15 @@ export const CustomerEditor: FC<Props> = (props) => {
               <Box>
                 <Box className={style.boxMargin}>
                   <FormControlLabel
+                    disabled={readOnlyState}
                     control={
-                      <Switch checked={checked} {...register('isOwn')} />
+                      <Switch
+                        checked={checked}
+                        {...register('isOwn')}
+                        onChange={handleCheckChange}
+                      />
                     }
+                    className="text-gray-500"
                     label="自社"
                   />
                 </Box>
@@ -167,6 +193,7 @@ export const CustomerEditor: FC<Props> = (props) => {
                     <FormControl variant="standard">
                       <InputLabel>仲間分け</InputLabel>
                       <Select
+                        readOnly={readOnlyState}
                         value={selectedShopGroup}
                         sx={{ width: 200 }}
                         {...register('shopGroup')}
@@ -184,6 +211,7 @@ export const CustomerEditor: FC<Props> = (props) => {
                       size="small"
                       InputLabelProps={{ shrink: true }}
                       {...register('shopNo')}
+                      InputProps={{ readOnly: readOnlyState }}
                     />
                     <TextField
                       variant="standard"
@@ -195,7 +223,7 @@ export const CustomerEditor: FC<Props> = (props) => {
                         endAdornment: (
                           <InputAdornment position="end">様</InputAdornment>
                         ),
-                        // readOnly: true,
+                        readOnly: readOnlyState,
                       }}
                     />
                   </GridContainer>
@@ -210,14 +238,15 @@ export const CustomerEditor: FC<Props> = (props) => {
                     helperText="ハイフンなし"
                     placeholder="1234567"
                     {...register('postal-no')}
+                    InputProps={{ readOnly: readOnlyState }}
                   />
-                  ,
                 </Box>
                 <Box className={style.boxMargin}>
                   <GridContainer>
                     <FormControl variant="standard">
                       <InputLabel>都道府県</InputLabel>
                       <Select
+                        readOnly={readOnlyState}
                         value={selectedPrefecture}
                         sx={{ width: 200 }}
                         {...register('prefecture')}
@@ -240,7 +269,8 @@ export const CustomerEditor: FC<Props> = (props) => {
                       InputLabelProps={{ shrink: true }}
                       placeholder="福岡市中央区天神"
                       {...register('city')}
-                    />
+                      InputProps={{ readOnly: readOnlyState }}
+                      />
                     <TextField
                       variant="standard"
                       label="番地"
@@ -248,7 +278,8 @@ export const CustomerEditor: FC<Props> = (props) => {
                       InputLabelProps={{ shrink: true }}
                       placeholder="1丁目8-1、1-8-1"
                       {...register('address')}
-                    />
+                      InputProps={{ readOnly: readOnlyState }}
+                      />
                     <TextField
                       variant="standard"
                       label="建物名"
@@ -256,47 +287,53 @@ export const CustomerEditor: FC<Props> = (props) => {
                       InputLabelProps={{ shrink: true }}
                       placeholder="xxxビル、yyyマンション"
                       {...register('building')}
-                    />
+                      InputProps={{ readOnly: readOnlyState }}
+                      />
                   </GridContainer>
                 </Box>
               </Box>
               <Box>
-                <List
-                  sx={{
-                    width: '180px',
-                    maxWidth: 360,
-                    position: 'relative',
-                    overflow: 'auto',
-                    maxHeight: 200,
-                    border: 1,
-                    borderColor: 'divider',
-                  }}
-                  subheader={
-                    <ListSubheader
-                      component="div"
-                      id="nested-list-subheader"
-                      className="text-center"
-                    >
-                      担当者
-                    </ListSubheader>
-                  }
-                >
-                  {chargePersons.map((chargePerson, index: number) => (
-                    <ListItem key={index} sx={{ py: 0, minHeight: 32 }}>
-                      <ListItemIcon>
-                        <PersonIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={chargePerson.user.userName}
-                        primaryTypographyProps={{
-                          fontSize: 14,
-                          fontWeight: 'bold',
-                          color: 'rgb(0 0 0 / .4)',
+                {chargePersons && 0 < chargePersons.length && (
+                  <List
+                    sx={{
+                      width: '180px',
+                      maxWidth: 360,
+                      position: 'relative',
+                      overflow: 'auto',
+                      maxHeight: 200,
+                      border: 1,
+                      borderColor: 'divider',
+                    }}
+                    subheader={
+                      <ListSubheader
+                        component="div"
+                        id="nested-list-subheader"
+                        className="text-center"
+                        sx={{
+                          bgcolor: 'rgb(254 242 242 / var(--tw-bg-opacity))',
                         }}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
+                      >
+                        担当者
+                      </ListSubheader>
+                    }
+                  >
+                    {chargePersons.map((chargePerson, index: number) => (
+                      <ListItem key={index} sx={{ py: 0, minHeight: 32 }}>
+                        <ListItemIcon>
+                          <PersonIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={chargePerson.user.userName}
+                          primaryTypographyProps={{
+                            fontSize: 14,
+                            fontWeight: 'bold',
+                            color: 'rgb(0 0 0 / .4)',
+                          }}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                )}
               </Box>
             </Box>
           </Box>

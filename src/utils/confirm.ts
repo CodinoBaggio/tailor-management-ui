@@ -12,6 +12,8 @@ export const confirmYesNo = (message: string, accept: any) => {
     header: '確認',
     icon: 'pi pi-exclamation-triangle',
     accept: accept,
-    acceptClassName: 'p-button p-component p-confirm-dialog-accept',
+    acceptClassName: 'border border-blue-500 bg-blue-500 text-white',
+    // className: 'z-40',
+    appendTo: 'self',
   });
 };
