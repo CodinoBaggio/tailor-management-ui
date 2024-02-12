@@ -17,11 +17,20 @@ type Props = {
     label: string;
   }[];
   onChange?: (e: React.ChangeEvent<{ value: unknown }>) => void;
-  width?: number
+  width?: number;
+  required?: boolean;
 };
 
 export const RhfSelect: FC<Props> = (props) => {
-  const { label, name, menuItems, disabled = false, onChange: handleChange, width = 200 } = props;
+  const {
+    label,
+    name,
+    menuItems,
+    disabled = false,
+    onChange: handleChange,
+    width = 200,
+    required = false,
+  } = props;
   const { control } = useFormContext();
 
   return (
@@ -30,8 +39,14 @@ export const RhfSelect: FC<Props> = (props) => {
       control={control}
       defaultValue={menuItems[0].value}
       render={({ field, formState: { errors } }) => (
-        <FormControl error={errors.select ? true : false} size="small" variant="standard">
-          <InputLabel id="select-label" shrink>{label}</InputLabel>
+        <FormControl
+          error={errors.select ? true : false}
+          size="small"
+          variant="standard"
+        >
+          <InputLabel id="select-label" shrink required={required}>
+            {label}
+          </InputLabel>
           <Select
             notched
             labelId="select-label"
@@ -41,9 +56,10 @@ export const RhfSelect: FC<Props> = (props) => {
             disabled={disabled}
             onChange={(event) => {
               field.onChange(event);
-              if (handleChange) handleChange(event as React.ChangeEvent<{ value: unknown }>);
+              if (handleChange)
+                handleChange(event as React.ChangeEvent<{ value: unknown }>);
             }}
-            sx={{ width: width,fontSize: '0.8rem' }}
+            sx={{ width: width, fontSize: '0.8rem' }}
             autoWidth
             placeholder={label}
           >

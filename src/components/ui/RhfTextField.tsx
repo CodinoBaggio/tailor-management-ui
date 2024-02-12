@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { TextField } from '@mui/material';
+import { InputAdornment, TextField } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 
 type Props = {
@@ -11,6 +11,7 @@ type Props = {
   defaultValue?: string | number;
   width?: number;
   placeholder?: string;
+  adornment?: string;
 };
 
 export const RhfTextField: FC<Props> = (props) => {
@@ -23,6 +24,7 @@ export const RhfTextField: FC<Props> = (props) => {
     defaultValue = '',
     width,
     placeholder = '',
+    adornment = ''
   } = props;
   const { control } = useFormContext();
 
@@ -52,7 +54,12 @@ export const RhfTextField: FC<Props> = (props) => {
           InputLabelProps={{ shrink: true }}
           variant="standard"
           placeholder={placeholder}
-        />
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">{adornment}</InputAdornment>
+            ),
+          }}
+/>
       )}
     />
   );

@@ -282,7 +282,7 @@ export const createDefaultOrderValues = (user: any) => {
   const defaultOrderJaket: OrderJaketType = {
     jaketOrderId: '',
     orderId: '',
-    selectPattern1: '',
+    selectPattern1: 'TR1',
     selectPattern2: '',
     selectPattern3: '',
     totalLength: 0,

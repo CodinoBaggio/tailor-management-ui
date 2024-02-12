@@ -97,7 +97,6 @@ export const OrderBasis: FC<Props> = (props) => {
             name="basis-productName"
             menuItems={[
               { value: 'empty', label: '' },
-              { value: 'S', label: 'S：？？' },
               { value: '2P', label: '2P：ジャケット+パンツ' },
               { value: 'JK', label: 'JK：ジャケット' },
               { value: 'PT', label: 'PT：パンツ' },
@@ -107,13 +106,14 @@ export const OrderBasis: FC<Props> = (props) => {
               { value: '3PP', label: '3PP：ジャケット+パンツ+パンツ+ベスト' },
             ]}
             width={300}
+            required
           />
-          <RhfTextField
+          {/* <RhfTextField
             label="生地メーカー"
             name="basis-fabricMaker"
             required
             message="生地メーカーを入力してください"
-          />
+          /> */}
           <Box>
             <RhfTextField
               label="生地品番"
@@ -132,22 +132,25 @@ export const OrderBasis: FC<Props> = (props) => {
       </Box>
       <Box className={style.boxMargin}>
         <GridContainer>
-          <RhfTextField
-            label="お客様名"
-            name="basis-customerName"
-            required
-            message="お客様名を入力してください"
-            width={300}
-          />
-          <RhfTextField
-            label="要尺"
-            name="basis-yield"
-            required
-            message="要尺を入力してください"
-            type="number"
-            defaultValue={0}
-            width={70}
-          />
+          {[
+            <RhfTextField
+              label="お客様名"
+              name="basis-customerName"
+              required
+              message="お客様名を入力してください"
+              width={300}
+              adornment="様"
+            />,
+            // <RhfTextField
+            //   label="要尺"
+            //   name="basis-yield"
+            //   required
+            //   message="要尺を入力してください"
+            //   type="number"
+            //   defaultValue={0}
+            //   width={70}
+            // />,
+          ]}
         </GridContainer>
       </Box>
       <Box className={style.boxMargin}>
