@@ -248,7 +248,7 @@ export const OrderJaket = () => {
               { value: 'empty', label: '' },
               { value: 'ラベル毛芯', label: 'ラベル毛芯' },
               { value: 'フル毛芯', label: 'フル毛芯' },
-              { value: '接着', label: '接着' },
+              // { value: '接着', label: '接着' },
               { value: '清涼毛芯無し', label: '清涼毛芯無し' },
             ]}
           />
