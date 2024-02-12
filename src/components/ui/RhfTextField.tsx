@@ -6,7 +6,7 @@ type Props = {
   label: string;
   name: string;
   required?: boolean;
-  message: string;
+  message?: string;
   type?: string;
   defaultValue?: string | number;
   width?: number;
@@ -19,7 +19,7 @@ export const RhfTextField: FC<Props> = (props) => {
     label,
     name,
     required = false,
-    message,
+    message = '',
     type = 'text',
     defaultValue = '',
     width,

@@ -27,12 +27,15 @@ export const OrderJaket = () => {
     <>
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor1}>
+          <RhfTextField
+            label="セレクトパターン1"
+            name="jaket-selectPattern1"
+          />
           <RhfSelect
             label="セレクトパターン1"
             name="jaket-selectPattern1"
             menuItems={[
               { value: 'empty', label: '' },
-              // { value: 'TR1', label: 'TR1' },
               ...selectPattern1Items,
             ]}
             onChange={handleSelectPattern1Change}
@@ -42,7 +45,6 @@ export const OrderJaket = () => {
             name="jaket-selectPattern2"
             menuItems={[
               { value: 'empty', label: '' },
-              // { value: 'SY', label: 'SY' },
               ...selectPattern2Items,
             ]}
             onChange={handleSelectPattern2Change}
@@ -52,7 +54,6 @@ export const OrderJaket = () => {
             name="jaket-selectPattern3"
             menuItems={[
               { value: 'empty', label: '' },
-              // { value: 'SY3', label: 'SY3' },
               ...selectPattern3Items,
             ]}
           />
