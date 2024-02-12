@@ -8,9 +8,11 @@ import adminApi from '../api/adminApi';
 import { ShopType } from '../types/admin';
 import { useToast } from '../../../hooks/useToast';
 import { CustomerAddEditor } from './customer/CustomerAddEditor';
+import { SearchTextField } from '../../../components/ui/SearchTextField';
 
 export const CustomerMaintenace = () => {
   const [open, setOpen] = useState(false);
+  const [orgShops, setOrgShops] = useState<ShopType[]>([]);
   const [shops, setShops] = useState<ShopType[]>([]);
   const [newShop, setNewShop] = useState<ShopType>({
     shopId: '',
@@ -39,13 +41,14 @@ export const CustomerMaintenace = () => {
       try {
         // スピナーを表示する
         setOpen(true);
-  
+
         // 顧客リスト取得
         const res: any = await adminApi.shop.getShops({
           endpoint: 'shops',
           endpointParams: {},
         });
         setShops(res.payload.shops);
+        setOrgShops(res.payload.shops);
       } catch (error: any) {
         showMessage('エラー', 'error', error);
       } finally {
@@ -79,6 +82,7 @@ export const CustomerMaintenace = () => {
           (shop: ShopType) => shop.shopId !== shopId
         );
         setShops(newShops);
+        setOrgShops(newShops);
 
         showMessage('削除しました');
       } catch (error: any) {
@@ -88,6 +92,7 @@ export const CustomerMaintenace = () => {
         setOpen(false);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [shops]
   );
 
@@ -132,6 +137,7 @@ export const CustomerMaintenace = () => {
       // shopsに追加する
       const newShops = [...shops, shop];
       setShops(newShops);
+      setOrgShops(newShops);
 
       showMessage('登録しました');
       setNewShopOpen(false);
@@ -147,16 +153,31 @@ export const CustomerMaintenace = () => {
     setNewShopOpen(false);
   };
 
+  const handleSearch = (text: any) => {
+    if (text === '') {
+      setShops(orgShops);
+      return;
+    }
+    console.log(text);
+    const newShops = orgShops.filter((shop: ShopType) => {
+      return shop.shopName.includes(text);
+    });
+    setShops(newShops);
+  };
+
   return (
     <>
-      <Box>
+      <Box className="flex justify-between">
         <Button onClick={handleAddShopOpen} startIcon={<AddIcon />}>
           新規卸先
         </Button>
+        <Box>
+          <SearchTextField onSearch={handleSearch} />
+        </Box>
       </Box>
-      {shops.map((shop: ShopType, index: number) => (
+      {shops.map((shop: ShopType) => (
         <CustomerEditor
-          key={index}
+          key={shop.shopId}
           shop={shop}
           readOnly={true}
           deleteShop={deleteShop}

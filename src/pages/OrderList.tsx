@@ -190,9 +190,9 @@ export const OrderList = () => {
         {0 < orders.length ? (
           orders
             .slice((page - 1) * maxPageCount, page * maxPageCount)
-            .map((order: any, index: number) => {
+            .map((order: any) => {
               return (
-                <div key={index}>
+                <div key={order.orderId}>
                   <OrderCard order={order} handleEdit={handleEdit} />
                 </div>
               );

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
   IconButton,
   Box,
@@ -38,14 +38,14 @@ type Props = {
 export const CustomerAddEditor: FC<Props> = (props) => {
   const { shop, createShop, backToShopList } = props;
   const { chargePersons } = shop;
-  const [checked] = useState(shop.isOwn);
+  const [checked, setChecked] = useState(shop.isOwn);
   const [selectedPrefecture, setSelectedPrefecture] = React.useState(
     shop.prefecture
   );
   const [selectedShopGroup, setSelectedShopGroup] = React.useState(
     shop.shopGroup
   );
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       isOwn: shop.isOwn,
       shopGroup: shop.shopGroup,
@@ -59,6 +59,24 @@ export const CustomerAddEditor: FC<Props> = (props) => {
     },
   });
   const prefecturesItems = prefectures();
+
+  useEffect(() => {
+    reset({
+      isOwn: shop.isOwn,
+      shopGroup: shop.shopGroup,
+      shopNo: shop.shopNo,
+      shopName: shop.shopName,
+      'postal-no': shop.postalCode,
+      prefecture: shop.prefecture,
+      city: shop.city,
+      address: shop.address,
+      building: shop.building,
+    });
+    setChecked(shop.isOwn);
+    setSelectedPrefecture(shop.prefecture);
+    setSelectedShopGroup(shop.shopGroup);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shop]);
 
   const handleChange = (event: any) => {
     setSelectedPrefecture(event.target.value);
@@ -213,8 +231,8 @@ export const CustomerAddEditor: FC<Props> = (props) => {
                     </ListSubheader>
                   }
                 >
-                  {chargePersons.map((chargePerson, index: number) => (
-                    <ListItem key={index} sx={{ py: 0, minHeight: 32 }}>
+                  {chargePersons.map((chargePerson) => (
+                    <ListItem key={chargePerson.user.userId} sx={{ py: 0, minHeight: 32 }}>
                       <ListItemIcon>
                         <PersonIcon />
                       </ListItemIcon>

@@ -8,7 +8,15 @@ import { router } from './routes/Router';
 
 function App() {
   const theme = createTheme({
-    palette: { primary: blue },
+    palette: {
+      primary: blue,
+      text: {
+        disabled: '#2196f3',
+      },
+      action: {
+        disabled: '#2196f3',
+      },
+    },
   });
 
   return (

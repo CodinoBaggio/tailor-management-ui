@@ -19,7 +19,7 @@ export type ShopType = {
 
 export type ChargePersonType = {
   chargePersonId: string;
-  shopId: string;
+  shop: ShopType;
   user: UserType;
   isDelete: boolean;
   createDateTime: datetime;
@@ -30,7 +30,7 @@ export type ChargePersonType = {
 
 export type UserType = {
   userId: string;
-  // password: string;
+  password: string;
   userName: string;
   userNameKana: string;
   allowLogin: boolean;
@@ -40,4 +40,5 @@ export type UserType = {
   createUserId: string;
   updateDateTime: datetime;
   updateUserId: string;
+  shop?: ShopType;
 };

@@ -316,8 +316,8 @@ export const CustomerEditor: FC<Props> = (props) => {
                       </ListSubheader>
                     }
                   >
-                    {chargePersons.map((chargePerson, index: number) => (
-                      <ListItem key={index} sx={{ py: 0, minHeight: 32 }}>
+                    {chargePersons.map((chargePerson) => (
+                      <ListItem key={chargePerson.user.userId} sx={{ py: 0, minHeight: 32 }}>
                         <ListItemIcon>
                           <PersonIcon />
                         </ListItemIcon>
