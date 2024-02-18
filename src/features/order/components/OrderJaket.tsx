@@ -27,10 +27,6 @@ export const OrderJaket = () => {
     <>
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor1}>
-          <RhfTextField
-            label="セレクトパターン1"
-            name="jaket-selectPattern1"
-          />
           <RhfSelect
             label="セレクトパターン1"
             name="jaket-selectPattern1"
