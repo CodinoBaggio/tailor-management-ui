@@ -21,7 +21,7 @@ export const OrderPants = () => {
     selectPattern3Items,
     handleSelectPattern1Change,
     handleSelectPattern2Change,
-  } = useSelectPattern('pants');
+  } = useSelectPattern('pants', 'TR1P');
 
   return (
     <>
@@ -32,7 +32,8 @@ export const OrderPants = () => {
             name="pants-selectPattern1"
             menuItems={[{ value: 'empty', label: '' }, ...selectPattern1Items]}
             onChange={handleSelectPattern1Change}
-          />
+            disabled
+            />
           <RhfSelect
             label="セレクトパターン2"
             name="pants-selectPattern2"
@@ -52,7 +53,7 @@ export const OrderPants = () => {
             label="ウエスト"
             name="pants-waist"
             required
-            message="ウエストを入力してください"
+            validationMessage="ウエストを入力してください"
             type="number"
             defaultValue={0}
           />
@@ -60,7 +61,7 @@ export const OrderPants = () => {
             label="ヒップ実寸"
             name="pants-hip"
             required
-            message="ヒップ実寸を入力してください"
+            validationMessage="ヒップ実寸を入力してください"
             type="number"
             defaultValue={0}
           />
@@ -68,7 +69,7 @@ export const OrderPants = () => {
             label="ヒップ上り"
             name="pants-hipTop"
             required
-            message="ヒップ上りを入力してください"
+            validationMessage="ヒップ上りを入力してください"
             type="number"
             defaultValue={0}
           />
@@ -76,7 +77,7 @@ export const OrderPants = () => {
             label="股上"
             name="pants-rise"
             required
-            message="股上を入力してください"
+            validationMessage="股上を入力してください"
             type="number"
             defaultValue={0}
           />
@@ -84,7 +85,7 @@ export const OrderPants = () => {
             label="股下左"
             name="pants-inseamLeft"
             required
-            message="股下左を入力してください"
+            validationMessage="股下左を入力してください"
             type="number"
             defaultValue={0}
           />
@@ -92,7 +93,7 @@ export const OrderPants = () => {
             label="股下右"
             name="pants-inseamRight"
             required
-            message="股下右を入力してください"
+            validationMessage="股下右を入力してください"
             type="number"
             defaultValue={0}
           />
@@ -100,7 +101,7 @@ export const OrderPants = () => {
             label="渡り幅"
             name="pants-crossingWidth"
             required
-            message="渡り幅を入力してください"
+            validationMessage="渡り幅を入力してください"
             type="number"
             defaultValue={0}
           />
@@ -108,7 +109,7 @@ export const OrderPants = () => {
             label="膝幅"
             name="pants-kneeWidth"
             required
-            message="膝幅を入力してください"
+            validationMessage="膝幅を入力してください"
             type="number"
             defaultValue={0}
           />
@@ -116,7 +117,7 @@ export const OrderPants = () => {
             label="裾口幅"
             name="pants-hemOpening"
             required
-            message="裾口幅を入力してください"
+            validationMessage="裾口幅を入力してください"
             type="number"
             defaultValue={0}
           />
@@ -163,7 +164,7 @@ export const OrderPants = () => {
               { value: 'モーニング', label: 'モーニング' },
             ]}
           />
-          <RhfSelect
+          {/* <RhfSelect
             label="忍びP"
             name="pants-secretPocket"
             disabled
@@ -171,7 +172,7 @@ export const OrderPants = () => {
               { value: 'empty', label: '' },
               { value: '右のみ', label: '右のみ' },
             ]}
-          />
+          /> */}
           <RhfSelect
             label="膝裏"
             name="pants-kneeBack"
@@ -361,14 +362,14 @@ export const OrderPants = () => {
               { value: '左右三角', label: '左右三角' },
             ]}
           />
-          <RhfSelect
+          {/* <RhfSelect
             label="持出し"
             name="pants-plaket"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '三角', label: '三角' },
             ]}
-          />
+          /> */}
         </GridContainer>
       </Box>
       <Box className={style.boxMargin}>
@@ -439,7 +440,7 @@ export const OrderPants = () => {
       </Box>
       <Box>
         <GridContainer>
-          <RhfSelect
+          {/* <RhfSelect
             label="パンチェリーナ"
             name="pants-pancherina"
             menuItems={[
@@ -447,7 +448,7 @@ export const OrderPants = () => {
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
-          />
+          /> */}
           <RhfSelect
             label="ループ数"
             name="pants-loopCount"

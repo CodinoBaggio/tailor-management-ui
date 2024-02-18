@@ -21,7 +21,7 @@ export const OrderJaket = () => {
     selectPattern3Items,
     handleSelectPattern1Change,
     handleSelectPattern2Change,
-  } = useSelectPattern('jaket');
+  } = useSelectPattern('jaket', 'TR1');
 
   return (
     <>
@@ -31,30 +31,22 @@ export const OrderJaket = () => {
             label="セレクトパターン1"
             name="jaket-selectPattern1"
             menuItems={[
-              { value: 'empty', label: '' },
-              // { value: 'TR1', label: 'TR1' },
+              // { value: 'empty', label: '' },
               ...selectPattern1Items,
             ]}
             onChange={handleSelectPattern1Change}
+            disabled
           />
           <RhfSelect
             label="セレクトパターン2"
             name="jaket-selectPattern2"
-            menuItems={[
-              { value: 'empty', label: '' },
-              // { value: 'SY', label: 'SY' },
-              ...selectPattern2Items,
-            ]}
+            menuItems={[{ value: 'empty', label: '' }, ...selectPattern2Items]}
             onChange={handleSelectPattern2Change}
           />
           <RhfSelect
             label="セレクトパターン3"
             name="jaket-selectPattern3"
-            menuItems={[
-              { value: 'empty', label: '' },
-              // { value: 'SY3', label: 'SY3' },
-              ...selectPattern3Items,
-            ]}
+            menuItems={[{ value: 'empty', label: '' }, ...selectPattern3Items]}
           />
         </GridContainer>
       </Box>
@@ -63,8 +55,8 @@ export const OrderJaket = () => {
           <RhfTextField
             label="総丈"
             name="jaket-totalLength"
-            required
-            message="総丈を入力してください"
+            // required
+            validationMessage="総丈を入力してください"
             type="number"
             defaultValue={0}
           />
@@ -72,7 +64,7 @@ export const OrderJaket = () => {
             label="上着丈"
             name="jaket-jaketLength"
             required
-            message="上着丈を入力してください"
+            validationMessage="上着丈を入力してください"
             type="number"
             defaultValue={0}
           />
@@ -80,7 +72,7 @@ export const OrderJaket = () => {
             label="肩幅"
             name="jaket-shoulderWidth"
             required
-            message="肩幅を入力してください"
+            validationMessage="肩幅を入力してください"
             type="number"
             defaultValue={0}
           />
@@ -88,7 +80,7 @@ export const OrderJaket = () => {
             label="袖丈左"
             name="jaket-sleeveLengthLeft"
             required
-            message="袖丈左を入力してください"
+            validationMessage="袖丈左を入力してください"
             type="number"
             defaultValue={0}
           />
@@ -96,23 +88,23 @@ export const OrderJaket = () => {
             label="袖丈右"
             name="jaket-sleeveLengthRight"
             required
-            message="袖丈右を入力してください"
+            validationMessage="袖丈右を入力してください"
             type="number"
             defaultValue={0}
           />
           <RhfTextField
             label="バスト実寸"
             name="jaket-bust"
-            required
-            message="バスト実寸を入力してください"
+            // required
+            validationMessage="バスト実寸を入力してください"
             type="number"
             defaultValue={0}
           />
           <RhfTextField
             label="中胴実寸"
             name="jaket-waist"
-            required
-            message="中胴実寸を入力してください"
+            // required
+            validationMessage="中胴実寸を入力してください"
             type="number"
             defaultValue={0}
           />
@@ -120,7 +112,7 @@ export const OrderJaket = () => {
             label="バスト上り"
             name="jaket-bustTop"
             required
-            message="バスト上りを入力してください"
+            validationMessage="バスト上りを入力してください"
             type="number"
             defaultValue={0}
           />
@@ -128,7 +120,7 @@ export const OrderJaket = () => {
             label="中胴上り"
             name="jaket-waistTop"
             required
-            message="中胴上りを入力してください"
+            validationMessage="中胴上りを入力してください"
             type="number"
             defaultValue={0}
           />
@@ -317,7 +309,7 @@ export const OrderJaket = () => {
               { value: 'フルステッチ', label: 'フルステッチ' },
             ]}
           />
-          <RhfSelect
+          {/* <RhfSelect
             label="ピンポイントステッチ"
             name="jaket-pinpointStitch"
             disabled={true}
@@ -368,7 +360,7 @@ export const OrderJaket = () => {
               { value: 'C31', label: 'C31' },
               { value: 'C32', label: 'C32' },
             ]}
-          />
+          /> */}
           <RhfSelect
             label="胸箱サテン地"
             name="jaket-chestBoxSatinFabric"
@@ -736,7 +728,7 @@ export const OrderJaket = () => {
               { value: '無', label: '無' },
             ]}
           />
-          <RhfSelect
+          {/* <RhfSelect
             label="忍びP"
             name="jaket-secretPocket"
             disabled={true}
@@ -744,7 +736,7 @@ export const OrderJaket = () => {
               { value: 'empty', label: '' },
               { value: '右のみ', label: '右のみ' },
             ]}
-          />
+          /> */}
           <RhfSelect
             label="裏仕様"
             name="jaket-backSpec"
@@ -771,7 +763,7 @@ export const OrderJaket = () => {
               { value: '切り台場', label: '切り台場' },
             ]}
           />
-          <RhfSelect
+          {/* <RhfSelect
             label="内P"
             name="jaket-insidePocket"
             disabled={true}
@@ -779,7 +771,7 @@ export const OrderJaket = () => {
               { value: 'empty', label: '' },
               { value: '右三角フタ', label: '右三角フタ' },
             ]}
-          />
+          /> */}
           <RhfSelect
             label="ペンPK"
             name="jaket-penPocket"
@@ -789,7 +781,7 @@ export const OrderJaket = () => {
               { value: '特殊ペンPK', label: '特殊ペンPK' },
             ]}
           />
-          <RhfSelect
+          {/* <RhfSelect
             label="チケットPK"
             name="jaket-ticketPocket"
             disabled={true}
@@ -797,7 +789,7 @@ export const OrderJaket = () => {
               { value: 'empty', label: '' },
               { value: '無', label: '無' },
             ]}
-          />
+          /> */}
           <RhfSelect
             label="パット"
             name="jaket-pat"
@@ -819,7 +811,7 @@ export const OrderJaket = () => {
               { value: 'DDDDD', label: 'DDDDD' },
             ]}
           />
-          <RhfSelect
+          {/* <RhfSelect
             label="襟裏"
             name="jaket-collarBack"
             menuItems={[
@@ -850,7 +842,7 @@ export const OrderJaket = () => {
               { value: 'T22', label: 'T22' },
               { value: 'T23', label: 'T23' },
             ]}
-          />
+          /> */}
           <RhfSelect
             label="ベンツ"
             name="jaket-vents"
@@ -921,7 +913,7 @@ export const OrderJaket = () => {
           <RhfTextField
             label="ネーム内容"
             name="jaket-name"
-            message="ネーム内容を入力してください"
+            validationMessage="ネーム内容を入力してください"
           />
           <RhfSelect
             label="ラベル穴"
@@ -1474,6 +1466,15 @@ export const OrderJaket = () => {
           <RhfSelect
             label="袖口テープ"
             name="jaket-sleeveOpeningTape"
+            disabled
+            menuItems={[
+              { value: 'empty', label: '' },
+              { value: '無', label: '無' },
+            ]}
+          />
+          <RhfSelect
+            label="袖肘パッチ"
+            name="jaket-sleeveElbowPatch"
             disabled
             menuItems={[
               { value: 'empty', label: '' },

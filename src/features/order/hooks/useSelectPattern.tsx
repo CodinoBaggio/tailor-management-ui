@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
-export const useSelectPattern = (parts: 'jaket' | 'pants' | 'vest') => {
+export const useSelectPattern = (parts: 'jaket' | 'pants' | 'vest', defaultSelectPattern1: string) => {
   const { getValues, setValue } = useFormContext();
   const [selectPattern1Items, setSelectPattern1Items] = useState<
     { value: string; label: string }[]
@@ -13,7 +13,7 @@ export const useSelectPattern = (parts: 'jaket' | 'pants' | 'vest') => {
   const [selectPattern3Items, setSelectPattern3Items] = useState<
     { value: string; label: string }[]
   >([]);
-  const [selectPattern1Value, setSelectPattern1Value] = useState('');
+  const [selectPattern1Value, setSelectPattern1Value] = useState(defaultSelectPattern1);
   const [selectPattern2Value, setSelectPattern2Value] = useState('');
   const resources = useSelector((state: any) => state.orderResources.value);
 

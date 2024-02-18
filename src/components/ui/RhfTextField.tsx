@@ -6,7 +6,7 @@ type Props = {
   label: string;
   name: string;
   required?: boolean;
-  message: string;
+  validationMessage?: string;
   type?: string;
   defaultValue?: string | number;
   width?: number;
@@ -19,12 +19,12 @@ export const RhfTextField: FC<Props> = (props) => {
     label,
     name,
     required = false,
-    message,
+    validationMessage = '',
     type = 'text',
     defaultValue = '',
     width,
     placeholder = '',
-    adornment = ''
+    adornment = '',
   } = props;
   const { control } = useFormContext();
 
@@ -36,31 +36,34 @@ export const RhfTextField: FC<Props> = (props) => {
       rules={{
         required: {
           value: required,
-          message: message,
+          message: validationMessage,
         },
       }}
-      render={({ field, formState: { errors } }) => (
-        <TextField
-          id={name}
-          type={type}
-          {...field}
-          label={label}
-          required={required}
-          error={errors.text ? true : false}
-          helperText={errors.text?.message as string}
-          size="small"
-          inputProps={{ style: { fontSize: '0.8rem' } }}
-          sx={{ width: {width} }}
-          InputLabelProps={{ shrink: true }}
-          variant="standard"
-          placeholder={placeholder}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">{adornment}</InputAdornment>
-            ),
-          }}
-/>
-      )}
+      render={({ field, formState: { errors } }) => {
+        // console.log(errors[name]);
+        return (
+          <TextField
+            id={name}
+            type={type}
+            {...field}
+            label={label + (required ? ' *' : '')}
+            // required={required}
+            error={errors[name] ? true : false}
+            helperText={errors[name]?.message as string}
+            size="small"
+            inputProps={{ style: { fontSize: '0.8rem' } }}
+            sx={{ width: { width } }}
+            InputLabelProps={{ shrink: true }}
+            variant="standard"
+            placeholder={placeholder}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">{adornment}</InputAdornment>
+              ),
+            }}
+          />
+        );
+      }}
     />
   );
 };

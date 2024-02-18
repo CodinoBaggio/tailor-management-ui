@@ -10,12 +10,12 @@ function App() {
   const theme = createTheme({
     palette: {
       primary: blue,
-      text: {
-        disabled: '#2196f3',
-      },
-      action: {
-        disabled: '#2196f3',
-      },
+      // text: {
+      //   disabled: '#2196f3',
+      // },
+      // action: {
+      //   disabled: '#2196f3',
+      // },
     },
   });
 

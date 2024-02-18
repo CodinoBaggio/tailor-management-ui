@@ -336,8 +336,8 @@ export const createDefaultOrderValues = (user: any) => {
     brandName: '',
     fabricMark: '',
     buttonProductNo: '',
-    sleeveOpeningTape: '',
-    sleeveElbowPatch: '',
+    sleeveOpeningTape: '無',
+    sleeveElbowPatch: '無',
     hole: 'ミシン',
     sleeveButtonHoleColor: '無',
     uchiai: 0,
@@ -370,7 +370,7 @@ export const createDefaultOrderValues = (user: any) => {
   const defaultOrderPants: OrderPantsType = {
     pantsOrderId: '',
     orderId: '',
-    selectPattern1: '',
+    selectPattern1: 'TR1P',
     selectPattern2: '',
     selectPattern3: '',
     waist: 0,
@@ -421,7 +421,7 @@ export const createDefaultOrderValues = (user: any) => {
   const defaultOrderVest: OrderVestType = {
     vestOrderId: '',
     orderId: '',
-    selectPattern1: '',
+    selectPattern1: 'TR1V',
     selectPattern2: '',
     selectPattern3: '',
     backLength: 0,
@@ -699,4 +699,13 @@ export const setOrderObject = (
       updateUserId: methods.getValues('vest-updateUserId'),
     },
   };
+};
+
+export const validateOrder = (
+  methods: UseFormReturn<FieldValues, any, undefined>
+) => {
+  const a = methods.getValues('basis-orderId');
+  console.log(a);
+
+  return true;
 };

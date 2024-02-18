@@ -31,6 +31,7 @@ import {
   bindOrderPantsValues,
   bindOrderVestValues,
   createDefaultOrderValues,
+  validateOrder,
 } from '../features/order/utils/orderUtil';
 import { YesNoDialog } from '../components/ui/YesNoDialog';
 import { OkOnlyDialog } from '../components/ui/OkOnlyDialog';
@@ -331,7 +332,20 @@ export const Order = () => {
     }
   };
 
-  const handleEntry = async () => {
+  const handleOrder = async () => {
+    // バリデーションを実行する
+    const result = await methods.trigger();
+    if (!result) {
+      // バリデーションエラーの場合は何もしない
+      return;
+    } else {
+      // 複合バリデーションを実行する
+      const valid = validateOrder(methods)
+      if (!valid) {
+        return;
+      }
+    }
+
     try {
       // スピナーを表示する
       setOpen(true);
@@ -586,6 +600,7 @@ export const Order = () => {
 
   const handleReuse = () => {
     try {
+      methods.setValue('basis-productName', 'JK');
       alert('流用');
     } catch (error) {
       okOnlyDialog.showMessage(error);
@@ -594,10 +609,12 @@ export const Order = () => {
 
   const handleDelete = () => {
     try {
+      const value = methods.getValues('basis-productName');
+      alert(value);
       alert('削除');
 
-      dispatch(setUpdated(true));
-      navigate('/');
+      // dispatch(setUpdated(true));
+      // navigate('/');
     } catch (error) {
       okOnlyDialog.showMessage(error);
     }
@@ -620,10 +637,10 @@ export const Order = () => {
 
   return (
     <>
-      <Box className=" flex my-5 text-gray-500" alignItems='center'>
-        <Box className="flex mr-5" alignItems='center'>
+      <Box className=" flex my-5 text-gray-500" alignItems="center">
+        <Box className="flex mr-5" alignItems="center">
           <CheckroomIcon className="mr-3" />
-          <Typography variant='h6'>発注</Typography>
+          <Typography variant="h6">発注</Typography>
         </Box>
         <Button
           onClick={handleBack}
@@ -658,8 +675,9 @@ export const Order = () => {
             </Box>
             <Box className="ml-3 mb-2">
               <Button
+                type="submit"
                 variant="outlined"
-                onClick={handleEntry}
+                onClick={handleOrder}
                 sx={{ marginRight: '3px' }}
                 disabled={orderStatus === '発注済み' ? true : false}
                 startIcon={<CloudUploadIcon />}

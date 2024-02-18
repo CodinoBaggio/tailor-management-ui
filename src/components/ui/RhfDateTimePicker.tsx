@@ -9,10 +9,16 @@ type Props = {
   label: string;
   name: string;
   required?: boolean;
+  validationMessage?: string;
 };
 
 export const RhfDateTimePicker: FC<Props> = (props) => {
-  const { label, name, required = false } = props;
+  const {
+    label,
+    name,
+    required = false,
+    validationMessage = '日付を選択してください',
+  } = props;
   const { control } = useFormContext();
 
   return (
@@ -20,6 +26,12 @@ export const RhfDateTimePicker: FC<Props> = (props) => {
       <Controller
         name={name}
         control={control}
+        rules={{
+          required: {
+            value: required,
+            message: validationMessage,
+          },
+        }}
         render={({ field }) => (
           <DateTimePicker
             label={label}

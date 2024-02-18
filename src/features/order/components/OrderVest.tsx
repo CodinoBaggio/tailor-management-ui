@@ -21,7 +21,7 @@ export const OrderVest = () => {
     selectPattern3Items,
     handleSelectPattern1Change,
     handleSelectPattern2Change,
-  } = useSelectPattern('vest');
+  } = useSelectPattern('vest', 'TR1V');
 
   return (
     <>
@@ -32,7 +32,8 @@ export const OrderVest = () => {
             name="vest-selectPattern1"
             menuItems={[{ value: 'empty', label: '' }, ...selectPattern1Items]}
             onChange={handleSelectPattern1Change}
-          />
+            disabled
+            />
           <RhfSelect
             label="セレクトパターン2"
             name="vest-selectPattern2"
@@ -52,7 +53,7 @@ export const OrderVest = () => {
             label="後丈"
             name="vest-backLength"
             required
-            message="後丈を入力してください"
+            validationMessage="後丈を入力してください"
             type="number"
             defaultValue={0}
           />
@@ -60,7 +61,7 @@ export const OrderVest = () => {
             label="バスト上り"
             name="vest-bustTop"
             required
-            message="バスト上りを入力してください"
+            validationMessage="バスト上りを入力してください"
             type="number"
             defaultValue={0}
           />
@@ -68,7 +69,7 @@ export const OrderVest = () => {
             label="中胴上り"
             name="vest-waistTop"
             required
-            message="中胴上りを入力してください"
+            validationMessage="中胴上りを入力してください"
             type="number"
             defaultValue={0}
           />
