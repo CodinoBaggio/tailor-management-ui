@@ -54,7 +54,7 @@ export const bindOrderJaketValues = (
 ) => {
   methods.setValue('jaket-jaketOrderId', order.jaketOrderId || '');
   methods.setValue('jaket-orderId', order.orderId || '');
-  methods.setValue('jaket-selectPattern1', order.selectPattern1 || '');
+  methods.setValue('jaket-selectPattern1', order.selectPattern1 || 'TR1');
   methods.setValue('jaket-selectPattern2', order.selectPattern2 || '');
   methods.setValue('jaket-selectPattern3', order.selectPattern3 || '');
   methods.setValue('jaket-totalLength', order.totalLength || 0);
@@ -282,7 +282,7 @@ export const createDefaultOrderValues = (user: any) => {
   const defaultOrderJaket: OrderJaketType = {
     jaketOrderId: '',
     orderId: '',
-    selectPattern1: 'TR1',
+    selectPattern1: '',
     selectPattern2: '',
     selectPattern3: '',
     totalLength: 0,
