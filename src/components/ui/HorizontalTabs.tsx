@@ -50,7 +50,7 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 }));
 
 type Props = {
-  tabItems: { label: string; component: React.ReactNode; errorCount: number }[];
+  tabItems: { label: string; component: React.ReactNode; errorCount?: number }[];
 };
 
 export const HorizontalTabs: FC<Props> = (props) => {
