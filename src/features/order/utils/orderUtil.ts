@@ -700,12 +700,3 @@ export const setOrderObject = (
     },
   };
 };
-
-export const validateOrder = (
-  methods: UseFormReturn<FieldValues, any, undefined>
-) => {
-  const a = methods.getValues('basis-orderId');
-  console.log(a);
-
-  return true;
-};

@@ -31,22 +31,30 @@ import {
   bindOrderPantsValues,
   bindOrderVestValues,
   createDefaultOrderValues,
-  validateOrder,
 } from '../features/order/utils/orderUtil';
 import { YesNoDialog } from '../components/ui/YesNoDialog';
 import { OkOnlyDialog } from '../components/ui/OkOnlyDialog';
 import { useMessageDialog } from '../features/order/hooks/useMessageDialog';
+import { validateOrder } from '../features/order/utils/orderValidations';
 
 export const Order = () => {
   const [open, setOpen] = useState(false);
   const [orderStatus, setOrderStatus] = useState<string>('');
-  const methods = useForm();
+  const methods = useForm({
+    // mode: 'onChange',
+    criteriaMode: 'all',
+    // shouldFocusError: false,
+  });
   const { orderId } = useParams();
   const navigate = useNavigate();
   const user = useSelector((state: any) => state.user.value);
   const dispatch = useDispatch();
   const yesNoDialog = useMessageDialog();
   const okOnlyDialog = useMessageDialog();
+  const [basisErrorCount, setBasisErrorCount] = useState(0);
+  const [jaketErrorCount, setJaketErrorCount] = useState(0);
+  const [pantsErrorCount, setPantsErrorCount] = useState(0);
+  const [vestErrorCount, setVestErrorCount] = useState(0);
 
   useEffect(() => {
     const getOrder = async () => {
@@ -339,9 +347,13 @@ export const Order = () => {
       // バリデーションエラーの場合は何もしない
       return;
     } else {
-      // 複合バリデーションを実行する
-      const valid = validateOrder(methods)
-      if (!valid) {
+      // カスタムバリデーションを実行する
+      const valid = validateOrder(methods);
+      if (!valid.success) {
+        setBasisErrorCount(valid.errorCounts.basisErrorCount);
+        setJaketErrorCount(valid.errorCounts.jaketErrorCount);
+        setPantsErrorCount(valid.errorCounts.pantsErrorCount);
+        setVestErrorCount(valid.errorCounts.vestErrorCount);
         return;
       }
     }
@@ -720,18 +732,22 @@ export const Order = () => {
               {
                 label: 'オーダー',
                 component: <OrderBasis methods={methods} />,
+                errorCount: basisErrorCount,
               },
               {
                 label: 'ジャケット',
                 component: <OrderJaket />,
+                errorCount: jaketErrorCount,
               },
               {
                 label: 'パンツ',
                 component: <OrderPants />,
+                errorCount: pantsErrorCount,
               },
               {
                 label: 'ベスト',
                 component: <OrderVest />,
+                errorCount: vestErrorCount,
               },
             ]}
           />

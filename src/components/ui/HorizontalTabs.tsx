@@ -4,6 +4,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { Badge, BadgeProps } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -38,8 +40,17 @@ function a11yProps(index: number) {
   };
 }
 
+const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    right: -3,
+    top: -5,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}));
+
 type Props = {
-  tabItems: { label: string; component: React.ReactNode }[];
+  tabItems: { label: string; component: React.ReactNode; errorCount: number }[];
 };
 
 export const HorizontalTabs: FC<Props> = (props) => {
@@ -58,7 +69,21 @@ export const HorizontalTabs: FC<Props> = (props) => {
         aria-label="Vertical tabs example"
       >
         {tabItems.map((item, index) => {
-          return <Tab key={index} label={item.label} {...a11yProps(index)} />;
+          return (
+            // <Tab key={index} label={item.label} {...a11yProps(index)} />
+            <Tab
+              key={index}
+              label={
+                <StyledBadge badgeContent={item.errorCount} color="error">
+                  {item.label}
+                </StyledBadge>
+              }
+              {...a11yProps(index)}
+            />
+            // <StyledBadge badgeContent={item.errorCount} color="error">
+            //   <Tab key={index} label={item.label} {...a11yProps(index)} />
+            // </StyledBadge>
+          );
         })}
       </Tabs>
       {tabItems.map((item, index) => {

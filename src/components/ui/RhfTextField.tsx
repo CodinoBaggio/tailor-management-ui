@@ -40,7 +40,6 @@ export const RhfTextField: FC<Props> = (props) => {
         },
       }}
       render={({ field, formState: { errors } }) => {
-        // console.log(errors[name]);
         return (
           <TextField
             id={name}
