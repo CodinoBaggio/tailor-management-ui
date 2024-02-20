@@ -66,58 +66,151 @@ export const validateOrderBasis = (
   };
   const { getValues } = methods;
 
-  // #region No.9
-  const productName = getValues('basis-productName');
-  if (productName === 'PT') {
-    const brandName = methods.getValues('jaket-brandName');
-    if (brandName !== 'empty') {
-      methods.setError('jaket-brandName', {
-        type: 'custom',
-        message:
-          '品名にPTが選択されているため、ブランドネームは空白を選択してください。',
-      });
-      errorCounts.jaketErrorCount++;
+  //#region No.9
+  {
+    const productName = getValues('basis-productName');
+    if (productName === 'PT') {
+      const brandName = methods.getValues('jaket-brandName');
+      if (brandName !== 'empty') {
+        methods.setError('jaket-brandName', {
+          type: 'custom',
+          message: '品名にPTが選択されているため、空白を選択してください。',
+        });
+        errorCounts.jaketErrorCount++;
+      }
+      const fabricMark = methods.getValues('jaket-fabricMark');
+      if (fabricMark !== 'empty') {
+        methods.setError('jaket-fabricMark', {
+          type: 'custom',
+          message: '品名にPTが選択されているため、空白を選択してください。',
+        });
+        errorCounts.jaketErrorCount++;
+      }
+      const inName = methods.getValues('jaket-inName');
+      if (inName !== 'empty') {
+        methods.setError('jaket-inName', {
+          type: 'custom',
+          message: '品名にPTが選択されているため、空白を選択してください。',
+        });
+        errorCounts.jaketErrorCount++;
+      }
     }
-    const fabricMark = methods.getValues('jaket-fabricMark');
-    if (fabricMark !== 'empty') {
-      methods.setError('jaket-fabricMark', {
-        type: 'custom',
-        message:
-          '品名にPTが選択されているため、生地マークは空白を選択してください。',
-      });
-      errorCounts.jaketErrorCount++;
-    }
-    const inName = methods.getValues('jaket-inName');
-    if (inName !== 'empty') {
-      methods.setError('jaket-inName', {
-        type: 'custom',
-        message:
-          '品名にPTが選択されているため、ネーム入れは空白を選択してください。',
-      });
-      errorCounts.jaketErrorCount++;
-    }
-  }
-  if (productName === 'VT') {
-    const brandName = methods.getValues('jaket-brandName');
-    if (brandName !== 'empty') {
-      methods.setError('jaket-brandName', {
-        type: 'custom',
-        message:
-          '品名にVTが選択されているため、ブランドネームは空白を選択してください。',
-      });
-      errorCounts.jaketErrorCount++;
-    }
-    const fabricMark = methods.getValues('jaket-fabricMark');
-    if (fabricMark !== 'empty') {
-      methods.setError('jaket-fabricMark', {
-        type: 'custom',
-        message:
-          '品名にVTが選択されているため、生地マークは空白を選択してください。',
-      });
-      errorCounts.jaketErrorCount++;
+    if (productName === 'VT') {
+      const brandName = methods.getValues('jaket-brandName');
+      if (brandName !== 'empty') {
+        methods.setError('jaket-brandName', {
+          type: 'custom',
+          message: '品名にVTが選択されているため、空白を選択してください。',
+        });
+        errorCounts.jaketErrorCount++;
+      }
+      const fabricMark = methods.getValues('jaket-fabricMark');
+      if (fabricMark !== 'empty') {
+        methods.setError('jaket-fabricMark', {
+          type: 'custom',
+          message: '品名にVTが選択されているため、空白を選択してください。',
+        });
+        errorCounts.jaketErrorCount++;
+      }
     }
   }
-  // #endregion
+  //#endregion
+
+  //#region No.13-20
+  {
+    const productName = getValues('basis-fabricProductNo');
+    if (productName !== 'TRANDS') {
+      // No.13
+      {
+        const value = methods.getValues('basis-blendRateFabric1');
+        if (value !== 'empty') {
+          methods.setError('basis-blendRateFabric1', {
+            type: 'custom',
+            message: '生地品番がTRANDS以外のため、空白を選択してください。',
+          });
+          errorCounts.basisErrorCount++;
+        }
+      }
+      // No.14
+      {
+        const value = methods.getValues('basis-blendRate1');
+        if (value) {
+          methods.setError('basis-blendRate1', {
+            type: 'custom',
+            message: '生地品番がTRANDS以外のため、空白を選択してください。',
+          });
+          errorCounts.basisErrorCount++;
+        }
+      }
+      // No.15
+      {
+        const value = methods.getValues('basis-blendRateFabric2');
+        if (value !== 'empty') {
+          methods.setError('basis-blendRateFabric2', {
+            type: 'custom',
+            message: '生地品番がTRANDS以外のため、空白を選択してください。',
+          });
+          errorCounts.basisErrorCount++;
+        }
+      }
+      // No.16
+      {
+        const value = methods.getValues('basis-blendRate2');
+        if (value) {
+          methods.setError('basis-blendRate2', {
+            type: 'custom',
+            message: '生地品番がTRANDS以外のため、空白を選択してください。',
+          });
+          errorCounts.basisErrorCount++;
+        }
+      }
+      // No.17
+      {
+        const value = methods.getValues('basis-blendRateFabric3');
+        if (value) {
+          methods.setError('basis-blendRateFabric3', {
+            type: 'custom',
+            message: '生地品番がTRANDS以外のため、空白を選択してください。',
+          });
+          errorCounts.basisErrorCount++;
+        }
+      }
+      // No.18
+      {
+        const value = methods.getValues('basis-blendRate3');
+        if (value) {
+          methods.setError('basis-blendRate3', {
+            type: 'custom',
+            message: '生地品番がTRANDS以外のため、空白を選択してください。',
+          });
+          errorCounts.basisErrorCount++;
+        }
+      }
+      // No.19
+      {
+        const value = methods.getValues('basis-blendRateFabric4');
+        if (value) {
+          methods.setError('basis-blendRateFabric4', {
+            type: 'custom',
+            message: '生地品番がTRANDS以外のため、空白を選択してください。',
+          });
+          errorCounts.basisErrorCount++;
+        }
+      }
+      // No.20
+      {
+        const value = methods.getValues('basis-blendRate4');
+        if (value) {
+          methods.setError('basis-blendRate4', {
+            type: 'custom',
+            message: '生地品番がTRANDS以外のため、空白を選択してください。',
+          });
+          errorCounts.basisErrorCount++;
+        }
+      }
+    }
+  }
+  //#endregion
 
   return errorCounts;
 };

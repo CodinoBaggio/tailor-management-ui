@@ -31,7 +31,7 @@ export const RhfSelect: FC<Props> = (props) => {
     onChange: handleChange,
     width = 200,
     required = false,
-    validationMessage = ''
+    validationMessage = '',
   } = props;
   const { control } = useFormContext();
 
@@ -41,8 +41,9 @@ export const RhfSelect: FC<Props> = (props) => {
       control={control}
       defaultValue={menuItems[0] !== undefined ? menuItems[0].value : null}
       rules={{
-        validate: (value: string | 'empty') =>
-          value !== 'empty' || validationMessage,
+        validate: (value: string | 'empty') => {
+          if (required) return value !== 'empty' || validationMessage;
+        },
       }}
       render={({ field, formState: { errors } }) => {
         console.log(errors[name]);
