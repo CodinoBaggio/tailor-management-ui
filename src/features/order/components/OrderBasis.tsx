@@ -1,11 +1,6 @@
-import {
-  FieldValues,
-  UseFormReturn,
-} from 'react-hook-form';
-import {
-  Box,
-  Button,
-} from '@mui/material';
+import React, { FC, useState } from 'react';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
+import { Box, Button } from '@mui/material';
 import 'dayjs/locale/ja';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 
@@ -14,7 +9,6 @@ import { RhfTextField } from '../../../components/ui/RhfTextField';
 import { RhfDatePicker } from '../../../components/ui/RhfDatePicker';
 import { RhfDateTimePicker } from '../../../components/ui/RhfDateTimePicker';
 import { GridContainer } from '../../../components/containers/GridContainer';
-import { FC, useState } from 'react';
 import orderApi from '../api/orderApi';
 import { useMessageDialog } from '../hooks/useMessageDialog';
 import { OkOnlyDialog } from '../../../components/ui/OkOnlyDialog';
@@ -22,6 +16,7 @@ import { FabricProductNoSearchDialog } from './ui/FabricProductNoSearchDialog';
 
 type Props = {
   methods: UseFormReturn<FieldValues, any, undefined>;
+  disabled: boolean;
 };
 
 const style = {
@@ -30,7 +25,7 @@ const style = {
 };
 
 export const OrderBasis: FC<Props> = (props) => {
-  const { methods } = props;
+  const { methods, disabled } = props;
   const [fabricProductNoSearchDialogOpen, setFabricProductNoSearchDialogOpen] =
     useState(false);
   const [productNos, setProductNos] = useState([]);
@@ -58,7 +53,7 @@ export const OrderBasis: FC<Props> = (props) => {
     try {
       setLoading(true);
 
-      const res: any = await orderApi.create({
+      const res: any = await orderApi.getFabricProductNos({
         endpoint: 'fabric-product-no',
         endpointParams: {
           productName: methods.getValues('basis-productName'),
@@ -86,19 +81,30 @@ export const OrderBasis: FC<Props> = (props) => {
     <>
       <Box className={style.boxMargin}>
         <GridContainer>
-          <RhfDatePicker label="入力日" name="basis-inputDate" required />
+          <RhfDatePicker
+            label="入力日"
+            name="basis-inputDate"
+            required
+            disabled={disabled}
+          />
           <RhfDateTimePicker
             label="発注日時"
             name="basis-orderDateTime"
             required
+            disabled={disabled}
           />
-          <RhfDatePicker label="工場出荷日" name="basis-shipDate" required />
+          <RhfDatePicker
+            label="工場出荷日"
+            name="basis-shipDate"
+            required
+            disabled={disabled}
+          />
         </GridContainer>
       </Box>
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor1}>
           <RhfSelect
-            label="品名"
+            label="品名 *"
             name="basis-productName"
             menuItems={[
               { value: 'empty', label: '' },
@@ -111,33 +117,8 @@ export const OrderBasis: FC<Props> = (props) => {
               { value: '3PP', label: '3PP：ジャケット+パンツ+パンツ+ベスト' },
             ]}
             width={300}
-            required
-            validationMessage="品名を選択してください"
+            disabled={disabled}
           />
-          {/* <Controller
-            name="select"
-            control={control}
-            // defaultValue={0}
-            render={({ field, formState: { errors } }) => (
-              <FormControl fullWidth error={errors.select ? true : false}>
-                <InputLabel id="select-label">セレクトボックス</InputLabel>
-                <Select
-                  labelId="select-label"
-                  id="select"
-                  label="Select"
-                  {...field}
-                >
-                  <MenuItem value={0}>未選択</MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-                <FormHelperText>
-                  {errors.select?.message as string}
-                </FormHelperText>
-              </FormControl>
-            )}
-          /> */}
           {/* <RhfTextField
             label="生地メーカー"
             name="basis-fabricMaker"
@@ -146,14 +127,14 @@ export const OrderBasis: FC<Props> = (props) => {
           /> */}
           <Box>
             <RhfTextField
-              label="生地品番"
+              label="生地品番 *"
               name="basis-fabricProductNo"
-              required
-              validationMessage="生地品番を入力してください"
+              disabled={disabled}
             />
             <Button
               startIcon={<FactCheckIcon />}
               onClick={handleFabricProductNoSearchDialogOpen}
+              disabled={disabled}
             >
               生地品番選択
             </Button>
@@ -164,12 +145,11 @@ export const OrderBasis: FC<Props> = (props) => {
         <GridContainer>
           {[
             <RhfTextField
-              label="お客様名"
+              label="お客様名 *"
               name="basis-customerName"
-              required
-              validationMessage="お客様名を入力してください"
               width={300}
               adornment="様"
+              disabled={disabled}
             />,
             // <RhfTextField
             //   label="要尺"
@@ -179,42 +159,6 @@ export const OrderBasis: FC<Props> = (props) => {
             //   type="number"
             //   defaultValue={0}
             //   width={70}
-            // />,
-            // <Controller
-            //   name='customerName'
-            //   control={control}
-            //   // defaultValue={defaultValue}
-            //   rules={{
-            //     required: {
-            //       value: true,
-            //       message: 'お客様名を入力してください',
-            //     },
-            //   }}
-            //   render={({ field, formState: { errors } }) => {
-            //     // console.log(errors.customerName);
-            //     return (
-            //       <TextField
-            //         id='customerName'
-            //         // type={type}
-            //         {...field}
-            //         label='お客様名'
-            //         // required={true}
-            //         error={errors.customerName ? true : false}
-            //         helperText={errors.customerName?.message as string}
-            //         size="small"
-            //         inputProps={{ style: { fontSize: '0.8rem' } }}
-            //         // sx={{ width: { width } }}
-            //         InputLabelProps={{ shrink: true }}
-            //         variant="standard"
-            //         // placeholder={placeholder}
-            //         InputProps={{
-            //           endAdornment: (
-            //             <InputAdornment position="end">ore</InputAdornment>
-            //           ),
-            //         }}
-            //       />
-            //     );
-            //   }}
             // />,
           ]}
         </GridContainer>
@@ -237,14 +181,15 @@ export const OrderBasis: FC<Props> = (props) => {
               { value: 'モヘア', label: 'モヘア' },
               { value: 'ビスコース', label: 'ビスコース' },
             ]}
+            disabled={disabled}
           />
           <RhfTextField
             label="混率①"
             name="basis-blendRate1"
-            validationMessage="混率①を入力してください"
             type="number"
             defaultValue={0}
             width={70}
+            disabled={disabled}
           />
         </GridContainer>
       </Box>
@@ -266,14 +211,15 @@ export const OrderBasis: FC<Props> = (props) => {
               { value: 'モヘア', label: 'モヘア' },
               { value: 'ビスコース', label: 'ビスコース' },
             ]}
+            disabled={disabled}
           />
           <RhfTextField
             label="混率②"
             name="basis-blendRate2"
-            validationMessage="混率②を入力してください"
             type="number"
             defaultValue={0}
             width={70}
+            disabled={disabled}
           />
         </GridContainer>
       </Box>
@@ -282,36 +228,46 @@ export const OrderBasis: FC<Props> = (props) => {
           <RhfTextField
             label="混率生地③"
             name="basis-blendRateFabric3"
-            validationMessage="混率生地③を入力してください"
             width={200}
+            disabled={disabled}
           />
           <RhfTextField
             label="混率③"
             name="basis-blendRate3"
-            validationMessage="混率③を入力してください"
             type="number"
             defaultValue={0}
             width={70}
+            disabled={disabled}
           />
         </GridContainer>
       </Box>
-      <Box>
+      <Box className={style.boxMargin}>
         <GridContainer>
           <RhfTextField
             label="混率生地④"
             name="basis-blendRateFabric4"
-            validationMessage="混率生地④を入力してください"
             width={200}
+            disabled={disabled}
           />
           <RhfTextField
             label="混率④"
             name="basis-blendRate4"
-            validationMessage="混率④を入力してください"
             type="number"
             defaultValue={0}
             width={70}
+            disabled={disabled}
           />
         </GridContainer>
+      </Box>
+      <Box>
+        <RhfTextField
+          label="備考"
+          name="basis-remark"
+          width="100%"
+          multiline
+          variant="outlined"
+          disabled={disabled}
+        />
       </Box>
       <FabricProductNoSearchDialog
         open={fabricProductNoSearchDialogOpen}

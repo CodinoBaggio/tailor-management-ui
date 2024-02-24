@@ -35,6 +35,10 @@ export const router = createBrowserRouter(
           element: <Order />,
         },
         {
+          path: 'order-reuse/:orderId',
+          element: <Order isReuse={true} />,
+        },
+        {
           path: 'admin',
           element: <AdminPage />,
         },

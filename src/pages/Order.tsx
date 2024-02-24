@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Backdrop,
@@ -37,7 +37,12 @@ import { OkOnlyDialog } from '../components/ui/OkOnlyDialog';
 import { useMessageDialog } from '../features/order/hooks/useMessageDialog';
 import { validateOrder } from '../features/order/utils/orderValidations';
 
-export const Order = () => {
+type Props = {
+  isReuse?: boolean;
+};
+
+export const Order: FC<Props> = (props) => {
+  const { isReuse } = props;
   const [open, setOpen] = useState(false);
   const [orderStatus, setOrderStatus] = useState<string>('');
   const methods = useForm({
@@ -69,6 +74,18 @@ export const Order = () => {
             endpointParams: { orderId: orderId },
           });
           order = res.payload.order;
+
+          // 流用の場合はオーダーIDを新規にする
+          if (isReuse) {
+            order.orderId = '';
+            order.jaket.orderId = '';
+            order.jaket.jaketOrderId = '';
+            order.pants.orderId = '';
+            order.pants.pantsOrderId = '';
+            order.vest.orderId = '';
+            order.vest.vestOrderId = '';
+            order.orderStatus = '保存'
+          }
         }
         bindOrderBasisValues(methods, order);
         bindOrderJaketValues(methods, order.jaket);
@@ -85,7 +102,7 @@ export const Order = () => {
     };
     getOrder();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isReuse]);
 
   const handleSave = async () => {
     try {
@@ -116,6 +133,7 @@ export const Order = () => {
             blendRateFabric4: methods.getValues('basis-blendRateFabric4'),
             blendRate4: methods.getValues('basis-blendRate4'),
             inputUserId: methods.getValues('basis-inputUserId'),
+            remark: methods.getValues('basis-remark'),
             isDelete: methods.getValues('basis-isDelete'),
             createDateTime: methods.getValues('basis-createDateTime'),
             createUserId: methods.getValues('basis-createUserId'),
@@ -219,6 +237,7 @@ export const Order = () => {
               sleeveWidth: methods.getValues('jaket-sleeveWidth'),
               backWidth: methods.getValues('jaket-backWidth'),
               sleeveBack: methods.getValues('jaket-sleeveBack'),
+              remark: methods.getValues('jaket-remark'),
               isDelete: methods.getValues('jaket-isDelete'),
               createDateTime: methods.getValues('jaket-createDateTime'),
               createUserId: methods.getValues('jaket-createUserId'),
@@ -270,6 +289,7 @@ export const Order = () => {
               setFinishing: methods.getValues('pants-setFinishing'),
               creaseWire: methods.getValues('pants-creaseWire'),
               buttholeTape: methods.getValues('pants-buttholeTape'),
+              remark: methods.getValues('pants-remark'),
               isDelete: methods.getValues('pants-isDelete'),
               createDateTime: methods.getValues('pants-createDateTime'),
               createUserId: methods.getValues('pants-createUserId'),
@@ -314,6 +334,7 @@ export const Order = () => {
               shoulderWidth: methods.getValues('vest-shoulderWidth'),
               buttonPosition: methods.getValues('vest-buttonPosition'),
               frontLength: methods.getValues('vest-frontLength'),
+              remark: methods.getValues('vest-remark'),
               isDelete: methods.getValues('vest-isDelete'),
               createDateTime: methods.getValues('vest-createDateTime'),
               createUserId: methods.getValues('vest-createUserId'),
@@ -341,27 +362,28 @@ export const Order = () => {
   };
 
   const handleOrder = async () => {
-    // バリデーションを実行する
-    const result = await methods.trigger();
-    if (!result) {
-      // バリデーションエラーの場合は何もしない
-      return;
-    } else {
-      // カスタムバリデーションを実行する
-      const valid = validateOrder(methods);
-      if (!valid.success) {
-        setBasisErrorCount(valid.errorCounts.basisErrorCount);
-        setJaketErrorCount(valid.errorCounts.jaketErrorCount);
-        setPantsErrorCount(valid.errorCounts.pantsErrorCount);
-        setVestErrorCount(valid.errorCounts.vestErrorCount);
-        return;
-      }
-    }
-
     try {
       // スピナーを表示する
       setOpen(true);
 
+      // バリデーションを実行する
+      const result = await methods.trigger();
+      if (!result) {
+        // バリデーションエラーの場合は何もしない
+        return;
+      } else {
+        // カスタムバリデーションを実行する
+        const valid = await validateOrder(methods);
+        if (!valid.success) {
+          setBasisErrorCount(valid.errorCounts.basisErrorCount);
+          setJaketErrorCount(valid.errorCounts.jaketErrorCount);
+          setPantsErrorCount(valid.errorCounts.pantsErrorCount);
+          setVestErrorCount(valid.errorCounts.vestErrorCount);
+          return;
+        }
+      }
+
+      // 発注登録
       const res: any = await orderApi.create({
         endpoint: 'create-order',
         endpointParams: {
@@ -386,6 +408,7 @@ export const Order = () => {
             blendRateFabric4: methods.getValues('basis-blendRateFabric4'),
             blendRate4: methods.getValues('basis-blendRate4'),
             inputUserId: methods.getValues('basis-inputUserId'),
+            remark: methods.getValues('basis-remark'),
             isDelete: methods.getValues('basis-isDelete'),
             createDateTime: methods.getValues('basis-createDateTime'),
             createUserId: methods.getValues('basis-createUserId'),
@@ -489,6 +512,7 @@ export const Order = () => {
               sleeveWidth: methods.getValues('jaket-sleeveWidth'),
               backWidth: methods.getValues('jaket-backWidth'),
               sleeveBack: methods.getValues('jaket-sleeveBack'),
+              remark: methods.getValues('jaket-remark'),
               isDelete: methods.getValues('jaket-isDelete'),
               createDateTime: methods.getValues('jaket-createDateTime'),
               createUserId: methods.getValues('jaket-createUserId'),
@@ -540,6 +564,7 @@ export const Order = () => {
               setFinishing: methods.getValues('pants-setFinishing'),
               creaseWire: methods.getValues('pants-creaseWire'),
               buttholeTape: methods.getValues('pants-buttholeTape'),
+              remark: methods.getValues('pants-remark'),
               isDelete: methods.getValues('pants-isDelete'),
               createDateTime: methods.getValues('pants-createDateTime'),
               createUserId: methods.getValues('pants-createUserId'),
@@ -584,6 +609,7 @@ export const Order = () => {
               shoulderWidth: methods.getValues('vest-shoulderWidth'),
               buttonPosition: methods.getValues('vest-buttonPosition'),
               frontLength: methods.getValues('vest-frontLength'),
+              remark: methods.getValues('vest-remark'),
               isDelete: methods.getValues('vest-isDelete'),
               createDateTime: methods.getValues('vest-createDateTime'),
               createUserId: methods.getValues('vest-createUserId'),
@@ -612,8 +638,7 @@ export const Order = () => {
 
   const handleReuse = () => {
     try {
-      methods.setValue('basis-productName', 'JK');
-      alert('流用');
+      navigate(`/order-reuse/${orderId}`);
     } catch (error) {
       okOnlyDialog.showMessage(error);
     }
@@ -621,12 +646,10 @@ export const Order = () => {
 
   const handleDelete = () => {
     try {
-      const value = methods.getValues('basis-productName');
-      alert(value);
       alert('削除');
 
-      // dispatch(setUpdated(true));
-      // navigate('/');
+      dispatch(setUpdated(true));
+      navigate('/');
     } catch (error) {
       okOnlyDialog.showMessage(error);
     }
@@ -682,7 +705,7 @@ export const Order = () => {
                 )}
               </Typography>
               <Typography variant="body1">{`オーダーID：${
-                orderId ? orderId : '(新規)'
+                orderId && !isReuse ? orderId : '(新規)'
               }`}</Typography>
             </Box>
             <Box className="ml-3 mb-2">
@@ -731,22 +754,32 @@ export const Order = () => {
             tabItems={[
               {
                 label: 'オーダー',
-                component: <OrderBasis methods={methods} />,
+                component: (
+                  <OrderBasis
+                    methods={methods}
+                    disabled={orderStatus === '発注済み'}
+                  />
+                ),
                 errorCount: basisErrorCount,
               },
               {
                 label: 'ジャケット',
-                component: <OrderJaket />,
+                component: (
+                  <OrderJaket
+                    methods={methods}
+                    disabled={orderStatus === '発注済み'}
+                  />
+                ),
                 errorCount: jaketErrorCount,
               },
               {
                 label: 'パンツ',
-                component: <OrderPants />,
+                component: <OrderPants disabled={orderStatus === '発注済み'} />,
                 errorCount: pantsErrorCount,
               },
               {
                 label: 'ベスト',
-                component: <OrderVest />,
+                component: <OrderVest disabled={orderStatus === '発注済み'} />,
                 errorCount: vestErrorCount,
               },
             ]}

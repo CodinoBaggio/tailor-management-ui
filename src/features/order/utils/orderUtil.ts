@@ -13,7 +13,7 @@ export const bindOrderBasisValues = (
 ) => {
   methods.setValue('basis-orderId', order.orderId || '');
   methods.setValue('basis-shopId', order.shopId || '');
-  methods.setValue('basis-seq', order.seq || 0);
+  methods.setValue('basis-seq', order.seq || NaN);
   methods.setValue('basis-orderStatus', order.orderStatus || '');
   methods.setValue('basis-inputDate', dayjs(order.inputDate) || dayjs());
   methods.setValue(
@@ -25,15 +25,15 @@ export const bindOrderBasisValues = (
   methods.setValue('basis-productName', order.productName || '');
   methods.setValue('basis-fabricMaker', order.fabricMaker || '');
   methods.setValue('basis-fabricProductNo', order.fabricProductNo || '');
-  methods.setValue('basis-yield', order.yield || 0);
+  methods.setValue('basis-yield', order.yield || NaN);
   methods.setValue('basis-blendRateFabric1', order.blendRateFabric1 || '');
-  methods.setValue('basis-blendRate1', order.blendRate1 || 0);
+  methods.setValue('basis-blendRate1', order.blendRate1 || NaN);
   methods.setValue('basis-blendRateFabric2', order.blendRateFabric2 || '');
-  methods.setValue('basis-blendRate2', order.blendRate2 || 0);
+  methods.setValue('basis-blendRate2', order.blendRate2 || NaN);
   methods.setValue('basis-blendRateFabric3', order.blendRateFabric3 || '');
-  methods.setValue('basis-blendRate3', order.blendRate3 || 0);
+  methods.setValue('basis-blendRate3', order.blendRate3 || NaN);
   methods.setValue('basis-blendRateFabric4', order.blendRateFabric4 || '');
-  methods.setValue('basis-blendRate4', order.blendRate4 || 0);
+  methods.setValue('basis-blendRate4', order.blendRate4 || NaN);
   methods.setValue('basis-inputUserId', order.inputUserId || '');
   methods.setValue('basis-isDelete', order.isDelete || false);
   methods.setValue(
@@ -57,15 +57,15 @@ export const bindOrderJaketValues = (
   methods.setValue('jaket-selectPattern1', order.selectPattern1 || 'TR1');
   methods.setValue('jaket-selectPattern2', order.selectPattern2 || '');
   methods.setValue('jaket-selectPattern3', order.selectPattern3 || '');
-  methods.setValue('jaket-totalLength', order.totalLength || 0);
-  methods.setValue('jaket-jaketLength', order.jaketLength || 0);
-  methods.setValue('jaket-shoulderWidth', order.shoulderWidth || 0);
-  methods.setValue('jaket-sleeveLengthLeft', order.sleeveLengthLeft || 0);
-  methods.setValue('jaket-sleeveLengthRight', order.sleeveLengthRight || 0);
+  methods.setValue('jaket-totalLength', order.totalLength || NaN);
+  methods.setValue('jaket-jaketLength', order.jaketLength || NaN);
+  methods.setValue('jaket-shoulderWidth', order.shoulderWidth || NaN);
+  methods.setValue('jaket-sleeveLengthLeft', order.sleeveLengthLeft || NaN);
+  methods.setValue('jaket-sleeveLengthRight', order.sleeveLengthRight || NaN);
   methods.setValue('jaket-bust', order.bust);
-  methods.setValue('jaket-waist', order.waist || 0);
-  methods.setValue('jaket-bustTop', order.bustTop || 0);
-  methods.setValue('jaket-waistTop', order.waistTop || 0);
+  methods.setValue('jaket-waist', order.waist || NaN);
+  methods.setValue('jaket-bustTop', order.bustTop || NaN);
+  methods.setValue('jaket-waistTop', order.waistTop || NaN);
   methods.setValue('jaket-canvas', order.canvas || '');
   methods.setValue('jaket-shoulderType', order.shoulderType || '');
   methods.setValue('jaket-collarType', order.collarType || '');
@@ -89,7 +89,7 @@ export const bindOrderJaketValues = (
     order.chestBoxSatinFabric || ''
   );
   methods.setValue('jaket-waistPocket', order.waistPocket || '');
-  methods.setValue('jaket-flapWidth', order.flapWidth || 0);
+  methods.setValue('jaket-flapWidth', order.flapWidth || NaN);
   methods.setValue('jaket-changePocket', order.changePocket || '');
   methods.setValue('jaket-secretPocket', order.secretPocket || '');
   methods.setValue('jaket-backSpec', order.backSpec || '');
@@ -97,7 +97,7 @@ export const bindOrderJaketValues = (
   methods.setValue('jaket-insidePocket', order.insidePocket || '');
   methods.setValue('jaket-penPocket', order.penPocket || '');
   methods.setValue('jaket-ticketPocket', order.ticketPocket || '');
-  methods.setValue('jaket-pat', order.pat || 0);
+  methods.setValue('jaket-pat', order.pat || NaN);
   methods.setValue('jaket-lining', order.lining || '');
   methods.setValue('jaket-collarBack', order.collarBack || '');
   methods.setValue('jaket-vents', order.vents || '');
@@ -127,29 +127,29 @@ export const bindOrderJaketValues = (
     'jaket-sleeveButtonHoleColor',
     order.sleeveButtonHoleColor || ''
   );
-  methods.setValue('jaket-uchiai', order.uchiai || 0);
-  methods.setValue('jaket-hanmi', order.hanmi || 0);
-  methods.setValue('jaket-kutsumi', order.kutsumi || 0);
-  methods.setValue('jaket-squareShoulderLeft', order.squareShoulderLeft || 0);
-  methods.setValue('jaket-squareShoulderRight', order.squareShoulderRight || 0);
-  methods.setValue('jaket-slopingShoulderLeft', order.slopingShoulderLeft || 0);
+  methods.setValue('jaket-uchiai', order.uchiai || NaN);
+  methods.setValue('jaket-hanmi', order.hanmi || NaN);
+  methods.setValue('jaket-kutsumi', order.kutsumi || NaN);
+  methods.setValue('jaket-squareShoulderLeft', order.squareShoulderLeft || NaN);
+  methods.setValue('jaket-squareShoulderRight', order.squareShoulderRight || NaN);
+  methods.setValue('jaket-slopingShoulderLeft', order.slopingShoulderLeft || NaN);
   methods.setValue(
     'jaket-slopingShoulderRight',
-    order.slopingShoulderRight || 0
+    order.slopingShoulderRight || NaN
   );
-  methods.setValue('jaket-totsuRyo', order.totsuRyo || 0);
-  methods.setValue('jaket-hip', order.hip || 0);
-  methods.setValue('jaket-frontLength', order.frontLength || 0);
-  methods.setValue('jaket-frontSleeveHem', order.frontSleeveHem || 0);
-  methods.setValue('jaket-ahFrontOpening', order.ahFrontOpening || 0);
-  methods.setValue('jaket-sleeveOpeningWidth', order.sleeveOpeningWidth || 0);
-  methods.setValue('jaket-collarMitsu', order.collarMitsu || 0);
-  methods.setValue('jaket-collarShift', order.collarShift || 0);
-  methods.setValue('jaket-buttonPosition', order.buttonPosition || 0);
-  methods.setValue('jaket-backCurve', order.backCurve || 0);
-  methods.setValue('jaket-sickleRaising', order.sickleRaising || 0);
-  methods.setValue('jaket-sleeveWidth', order.sleeveWidth || 0);
-  methods.setValue('jaket-backWidth', order.backWidth || 0);
+  methods.setValue('jaket-totsuRyo', order.totsuRyo || NaN);
+  methods.setValue('jaket-hip', order.hip || NaN);
+  methods.setValue('jaket-frontLength', order.frontLength || NaN);
+  methods.setValue('jaket-frontSleeveHem', order.frontSleeveHem || NaN);
+  methods.setValue('jaket-ahFrontOpening', order.ahFrontOpening || NaN);
+  methods.setValue('jaket-sleeveOpeningWidth', order.sleeveOpeningWidth || NaN);
+  methods.setValue('jaket-collarMitsu', order.collarMitsu || NaN);
+  methods.setValue('jaket-collarShift', order.collarShift || NaN);
+  methods.setValue('jaket-buttonPosition', order.buttonPosition || NaN);
+  methods.setValue('jaket-backCurve', order.backCurve || NaN);
+  methods.setValue('jaket-sickleRaising', order.sickleRaising || NaN);
+  methods.setValue('jaket-sleeveWidth', order.sleeveWidth || NaN);
+  methods.setValue('jaket-backWidth', order.backWidth || NaN);
   methods.setValue('jaket-sleeveBack', order.sleeveBack || '');
   methods.setValue('jaket-isDelete', order.isDelete || false);
   methods.setValue(
@@ -173,15 +173,15 @@ export const bindOrderPantsValues = (
   methods.setValue('pants-selectPattern1', order.selectPattern1 || '');
   methods.setValue('pants-selectPattern2', order.selectPattern2 || '');
   methods.setValue('pants-selectPattern3', order.selectPattern3 || '');
-  methods.setValue('pants-waist', order.waist || 0);
-  methods.setValue('pants-hip', order.hip || 0);
-  methods.setValue('pants-hipTop', order.hipTop || 0);
-  methods.setValue('pants-rise', order.rise || 0);
-  methods.setValue('pants-inseamLeft', order.inseamLeft || 0);
-  methods.setValue('pants-inseamRight', order.inseamRight || 0);
-  methods.setValue('pants-crossingWidth', order.crossingWidth || 0);
-  methods.setValue('pants-kneeWidth', order.kneeWidth || 0);
-  methods.setValue('pants-hemOpening', order.hemOpening || 0);
+  methods.setValue('pants-waist', order.waist || NaN);
+  methods.setValue('pants-hip', order.hip || NaN);
+  methods.setValue('pants-hipTop', order.hipTop || NaN);
+  methods.setValue('pants-rise', order.rise || NaN);
+  methods.setValue('pants-inseamLeft', order.inseamLeft || NaN);
+  methods.setValue('pants-inseamRight', order.inseamRight || NaN);
+  methods.setValue('pants-crossingWidth', order.crossingWidth || NaN);
+  methods.setValue('pants-kneeWidth', order.kneeWidth || NaN);
+  methods.setValue('pants-hemOpening', order.hemOpening || NaN);
   methods.setValue('pants-tack', order.tack || '');
   methods.setValue('pants-sidePocket', order.sidePocket || '');
   methods.setValue('pants-foldedHem', order.foldedHem || '');
@@ -197,11 +197,11 @@ export const bindOrderPantsValues = (
   methods.setValue('pants-pisPocketJadeGreen', order.pisPocketJadeGreen || '');
   methods.setValue('pants-pisPocket', order.pisPocket || '');
   methods.setValue('pants-plaket', order.plaket || '');
-  methods.setValue('pants-buttocks', order.buttocks || 0);
-  methods.setValue('pants-flatButt', order.flatButt || 0);
-  methods.setValue('pants-frontRise', order.frontRise || 0);
-  methods.setValue('pants-backRise', order.backRise || 0);
-  methods.setValue('pants-wedgie', order.wedgie || 0);
+  methods.setValue('pants-buttocks', order.buttocks || NaN);
+  methods.setValue('pants-flatButt', order.flatButt || NaN);
+  methods.setValue('pants-frontRise', order.frontRise || NaN);
+  methods.setValue('pants-backRise', order.backRise || NaN);
+  methods.setValue('pants-wedgie', order.wedgie || NaN);
   methods.setValue('pants-pancherina', order.pancherina || '');
   methods.setValue('pants-loopCount', order.loopCount || '');
   methods.setValue('pants-qiLoop', order.qiLoop || '');
@@ -234,9 +234,9 @@ export const bindOrderVestValues = (
   methods.setValue('vest-selectPattern1', order.selectPattern1 || '');
   methods.setValue('vest-selectPattern2', order.selectPattern2 || '');
   methods.setValue('vest-selectPattern3', order.selectPattern3 || '');
-  methods.setValue('vest-backLength', order.backLength || 0);
-  methods.setValue('vest-bustTop', order.bustTop || 0);
-  methods.setValue('vest-waistTop', order.waistTop || 0);
+  methods.setValue('vest-backLength', order.backLength || NaN);
+  methods.setValue('vest-bustTop', order.bustTop || NaN);
+  methods.setValue('vest-waistTop', order.waistTop || NaN);
   methods.setValue('vest-collar', order.collar || '');
   methods.setValue('vest-chestPocket', order.chestPocket || '');
   methods.setValue('vest-frontButton', order.frontButton || '');
@@ -250,20 +250,20 @@ export const bindOrderVestValues = (
   methods.setValue('vest-holeThreadColor', order.holeThreadColor || '');
   methods.setValue('vest-stitch', order.stitch || '');
   methods.setValue('vest-hole', order.hole || '');
-  methods.setValue('vest-uchiai', order.uchiai || 0);
-  methods.setValue('vest-hanmi', order.hanmi || 0);
-  methods.setValue('vest-kutsumi', order.kutsumi || 0);
-  methods.setValue('vest-squareShoulderLeft', order.squareShoulderLeft || 0);
-  methods.setValue('vest-squareShoulderRight', order.squareShoulderRight || 0);
-  methods.setValue('vest-slopingShoulderLeft', order.slopingShoulderLeft || 0);
+  methods.setValue('vest-uchiai', order.uchiai || NaN);
+  methods.setValue('vest-hanmi', order.hanmi || NaN);
+  methods.setValue('vest-kutsumi', order.kutsumi || NaN);
+  methods.setValue('vest-squareShoulderLeft', order.squareShoulderLeft || NaN);
+  methods.setValue('vest-squareShoulderRight', order.squareShoulderRight || NaN);
+  methods.setValue('vest-slopingShoulderLeft', order.slopingShoulderLeft || NaN);
   methods.setValue(
     'vest-slopingShoulderRight',
-    order.slopingShoulderRight || 0
+    order.slopingShoulderRight || NaN
   );
-  methods.setValue('vest-sickleRaising', order.sickleRaising || 0);
-  methods.setValue('vest-shoulderWidth', order.shoulderWidth || 0);
-  methods.setValue('vest-buttonPosition', order.buttonPosition || 0);
-  methods.setValue('vest-frontLength', order.frontLength || 0);
+  methods.setValue('vest-sickleRaising', order.sickleRaising || NaN);
+  methods.setValue('vest-shoulderWidth', order.shoulderWidth || NaN);
+  methods.setValue('vest-buttonPosition', order.buttonPosition || NaN);
+  methods.setValue('vest-frontLength', order.frontLength || NaN);
   methods.setValue('vest-isDelete', order.isDelete || false);
   methods.setValue(
     'vest-createDateTime',
@@ -285,15 +285,15 @@ export const createDefaultOrderValues = (user: any) => {
     selectPattern1: '',
     selectPattern2: '',
     selectPattern3: '',
-    totalLength: 0,
-    jaketLength: 0,
-    shoulderWidth: 0,
-    sleeveLengthLeft: 0,
-    sleeveLengthRight: 0,
-    bust: 0,
-    waist: 0,
-    bustTop: 0,
-    waistTop: 0,
+    totalLength: NaN,
+    jaketLength: NaN,
+    shoulderWidth: NaN,
+    sleeveLengthLeft: NaN,
+    sleeveLengthRight: NaN,
+    bust: NaN,
+    waist: NaN,
+    bustTop: NaN,
+    waistTop: NaN,
     canvas: '薄毛芯',
     shoulderType: '正常肩',
     collarType: 'ノッチ',
@@ -340,27 +340,28 @@ export const createDefaultOrderValues = (user: any) => {
     sleeveElbowPatch: '無',
     hole: 'ミシン',
     sleeveButtonHoleColor: '無',
-    uchiai: 0,
-    hanmi: 0,
-    kutsumi: 0,
-    squareShoulderLeft: 0,
-    squareShoulderRight: 0,
-    slopingShoulderLeft: 0,
-    slopingShoulderRight: 0,
-    totsuRyo: 0,
-    hip: 0,
-    frontLength: 0,
-    frontSleeveHem: 0,
-    ahFrontOpening: 0,
-    sleeveOpeningWidth: 0,
-    collarMitsu: 0,
-    collarShift: 0,
-    buttonPosition: 0,
-    backCurve: 0,
-    sickleRaising: 0,
-    sleeveWidth: 0,
-    backWidth: 0,
+    uchiai: NaN,
+    hanmi: NaN,
+    kutsumi: NaN,
+    squareShoulderLeft: NaN,
+    squareShoulderRight: NaN,
+    slopingShoulderLeft: NaN,
+    slopingShoulderRight: NaN,
+    totsuRyo: NaN,
+    hip: NaN,
+    frontLength: NaN,
+    frontSleeveHem: NaN,
+    ahFrontOpening: NaN,
+    sleeveOpeningWidth: NaN,
+    collarMitsu: NaN,
+    collarShift: NaN,
+    buttonPosition: NaN,
+    backCurve: NaN,
+    sickleRaising: NaN,
+    sleeveWidth: NaN,
+    backWidth: NaN,
     sleeveBack: '',
+    remark: '',
     isDelete: false,
     createDateTime: dayjs(),
     createUserId: user.loginId,
@@ -373,15 +374,15 @@ export const createDefaultOrderValues = (user: any) => {
     selectPattern1: 'TR1P',
     selectPattern2: '',
     selectPattern3: '',
-    waist: 0,
-    hip: 0,
-    hipTop: 0,
-    rise: 0,
-    inseamLeft: 0,
-    inseamRight: 0,
-    crossingWidth: 0,
-    kneeWidth: 0,
-    hemOpening: 0,
+    waist: NaN,
+    hip: NaN,
+    hipTop: NaN,
+    rise: NaN,
+    inseamLeft: NaN,
+    inseamRight: NaN,
+    crossingWidth: NaN,
+    kneeWidth: NaN,
+    hemOpening: NaN,
     tack: '0本',
     sidePocket: 'ナナメ',
     foldedHem: '',
@@ -397,11 +398,11 @@ export const createDefaultOrderValues = (user: any) => {
     pisPocketJadeGreen: '両玉',
     pisPocket: '左ボタン止め',
     plaket: '三角',
-    buttocks: 0,
-    flatButt: 0,
-    frontRise: 0,
-    backRise: 0,
-    wedgie: 0,
+    buttocks: NaN,
+    flatButt: NaN,
+    frontRise: NaN,
+    backRise: NaN,
+    wedgie: NaN,
     pancherina: '無',
     loopCount: '6本',
     qiLoop: '有',
@@ -412,6 +413,7 @@ export const createDefaultOrderValues = (user: any) => {
     setFinishing: '無',
     creaseWire: '有',
     buttholeTape: '無',
+    remark: '',
     isDelete: false,
     createDateTime: dayjs(),
     createUserId: user.loginId,
@@ -424,9 +426,9 @@ export const createDefaultOrderValues = (user: any) => {
     selectPattern1: 'TR1V',
     selectPattern2: '',
     selectPattern3: '',
-    backLength: 0,
-    bustTop: 0,
-    waistTop: 0,
+    backLength: NaN,
+    bustTop: NaN,
+    waistTop: NaN,
     collar: 'Ｖカット',
     chestPocket: '無',
     frontButton: '',
@@ -437,17 +439,18 @@ export const createDefaultOrderValues = (user: any) => {
     holeThreadColor: '生地色',
     stitch: '',
     hole: 'ミシン',
-    uchiai: 0,
-    hanmi: 0,
-    kutsumi: 0,
-    squareShoulderLeft: 0,
-    squareShoulderRight: 0,
-    slopingShoulderLeft: 0,
-    slopingShoulderRight: 0,
-    sickleRaising: 0,
-    shoulderWidth: 0,
-    buttonPosition: 0,
-    frontLength: 0,
+    uchiai: NaN,
+    hanmi: NaN,
+    kutsumi: NaN,
+    squareShoulderLeft: NaN,
+    squareShoulderRight: NaN,
+    slopingShoulderLeft: NaN,
+    slopingShoulderRight: NaN,
+    sickleRaising: NaN,
+    shoulderWidth: NaN,
+    buttonPosition: NaN,
+    frontLength: NaN,
+    remark: '',
     isDelete: false,
     createDateTime: dayjs(),
     createUserId: user.loginId,
@@ -466,16 +469,17 @@ export const createDefaultOrderValues = (user: any) => {
     productName: '',
     fabricMaker: '',
     fabricProductNo: '',
-    yield: 0,
+    yield: NaN,
     blendRateFabric1: '',
-    blendRate1: 0,
+    blendRate1: NaN,
     blendRateFabric2: '',
-    blendRate2: 0,
+    blendRate2: NaN,
     blendRateFabric3: '',
-    blendRate3: 0,
+    blendRate3: NaN,
     blendRateFabric4: '',
-    blendRate4: 0,
+    blendRate4: NaN,
     inputUserId: user.loginId,
+    remark: '',
     isDelete: false,
     createDateTime: dayjs(),
     createUserId: user.loginId,
@@ -512,6 +516,7 @@ export const setOrderObject = (
     blendRateFabric4: methods.getValues('basis-blendRateFabric4'),
     blendRate4: methods.getValues('basis-blendRate4'),
     inputUserId: methods.getValues('basis-inputUserId'),
+    remark: methods.getValues('basis-remark'),
     isDelete: methods.getValues('basis-isDelete'),
     createDateTime: methods.getValues('basis-createDateTime'),
     createUserId: methods.getValues('basis-createUserId'),
@@ -603,6 +608,7 @@ export const setOrderObject = (
       sleeveWidth: methods.getValues('jaket-sleeveWidth'),
       backWidth: methods.getValues('jaket-backWidth'),
       sleeveBack: methods.getValues('jaket-sleeveBack'),
+      remark: methods.getValues('jaket-remark'),
       isDelete: methods.getValues('jaket-isDelete'),
       createDateTime: methods.getValues('jaket-createDateTime'),
       createUserId: methods.getValues('jaket-createUserId'),
@@ -654,6 +660,7 @@ export const setOrderObject = (
       setFinishing: methods.getValues('pants-setFinishing'),
       creaseWire: methods.getValues('pants-creaseWire'),
       buttholeTape: methods.getValues('pants-buttholeTape'),
+      remark: methods.getValues('pants-remark'),
       isDelete: methods.getValues('pants-isDelete'),
       createDateTime: methods.getValues('pants-createDateTime'),
       createUserId: methods.getValues('pants-createUserId'),
@@ -692,6 +699,7 @@ export const setOrderObject = (
       shoulderWidth: methods.getValues('vest-shoulderWidth'),
       buttonPosition: methods.getValues('vest-buttonPosition'),
       frontLength: methods.getValues('vest-frontLength'),
+      remark: methods.getValues('vest-remark'),
       isDelete: methods.getValues('vest-isDelete'),
       createDateTime: methods.getValues('vest-createDateTime'),
       createUserId: methods.getValues('vest-createUserId'),

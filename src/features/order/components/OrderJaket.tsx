@@ -1,10 +1,16 @@
-import React from 'react';
-import { Box } from '@mui/material';
+import React, { FC, useState } from 'react';
+import { Box, Button } from '@mui/material';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
 
 import { RhfSelect } from '../../../components/ui/RhfSelect';
 import { RhfTextField } from '../../../components/ui/RhfTextField';
 import { useSelectPattern } from '../hooks/useSelectPattern';
 import { GridContainer } from '../../../components/containers/GridContainer';
+import orderApi from '../api/orderApi';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
+import { LiningSearchDialog } from './ui/LiningSearchDialog';
+import { Toast } from 'primereact/toast';
+import { useToast } from '../../../hooks/useToast';
 
 const style = {
   boxMargin: 'mb-5',
@@ -14,7 +20,16 @@ const style = {
   blockColor4: 'bg-pink-100',
 };
 
-export const OrderJaket = () => {
+type Props = {
+  methods: UseFormReturn<FieldValues, any, undefined>;
+  disabled: boolean;
+};
+
+export const OrderJaket: FC<Props> = (props) => {
+  const { methods, disabled } = props;
+  const [liningSearchDialogOpen, setLiningSearchDialogOpen] = useState(false);
+  const [linings, setLinings] = useState([]);
+  const [loading, setLoading] = useState(false);
   const {
     selectPattern1Items,
     selectPattern2Items,
@@ -22,31 +37,79 @@ export const OrderJaket = () => {
     handleSelectPattern1Change,
     handleSelectPattern2Change,
   } = useSelectPattern('jaket', 'TR1');
+  const { toast, showMessage } = useToast();
+
+  const handleLiningSearchDialogOpen = () => {
+    // 配列クリア
+    setLinings([]);
+
+    const productName = methods.getValues('basis-fabricProductNo');
+    if (productName !== 'empty' && productName !== '') {
+      setLiningSearchDialogOpen(true);
+    } else {
+      showMessage('エラー', 'warn', '生地品番を選択してください。');
+    }
+  };
+
+  const handleListItemClick = (_: any, index: number) => {
+    methods.setValue('jaket-lining', linings[index]);
+    setLiningSearchDialogOpen(false);
+  };
+
+  const handleLiningSearchSubmit = async (event: any) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formJson = Object.fromEntries(formData.entries());
+    const searchPattern = formJson.searchPattern;
+
+    try {
+      setLoading(true);
+
+      const res: any = await orderApi.getLinings({
+        endpoint: 'lining',
+        endpointParams: {
+          fabricProductNo: methods.getValues('basis-fabricProductNo'),
+          searchPattern: searchPattern,
+        },
+      });
+      if (res.status === 'success') {
+        setLinings(res.payload.linings);
+      } else {
+        showMessage('エラー', 'error', res.message);
+      }
+    } catch (error: any) {
+      showMessage('エラー', 'error', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor1}>
           <RhfSelect
-            label="セレクトパターン1"
+            label="セレクトパターン1 *"
             name="jaket-selectPattern1"
             menuItems={[
               // { value: 'empty', label: '' },
               ...selectPattern1Items,
             ]}
             onChange={handleSelectPattern1Change}
-            disabled
+            disabled={true}
           />
           <RhfSelect
-            label="セレクトパターン2"
+            label="セレクトパターン2 *"
             name="jaket-selectPattern2"
             menuItems={[{ value: 'empty', label: '' }, ...selectPattern2Items]}
             onChange={handleSelectPattern2Change}
+            disabled={disabled}
           />
           <RhfSelect
-            label="セレクトパターン3"
+            label="セレクトパターン3 *"
             name="jaket-selectPattern3"
             menuItems={[{ value: 'empty', label: '' }, ...selectPattern3Items]}
+            disabled={disabled}
           />
         </GridContainer>
       </Box>
@@ -55,90 +118,82 @@ export const OrderJaket = () => {
           <RhfTextField
             label="総丈"
             name="jaket-totalLength"
-            // required
-            validationMessage="総丈を入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
-            label="上着丈"
+            label="上着丈 *"
             name="jaket-jaketLength"
-            required
-            validationMessage="上着丈を入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
-            label="肩幅"
+            label="肩幅 *"
             name="jaket-shoulderWidth"
-            required
-            validationMessage="肩幅を入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
-            label="袖丈左"
+            label="袖丈左 *"
             name="jaket-sleeveLengthLeft"
-            required
-            validationMessage="袖丈左を入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
-            label="袖丈右"
+            label="袖丈右 *"
             name="jaket-sleeveLengthRight"
-            required
-            validationMessage="袖丈右を入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
             label="バスト実寸"
             name="jaket-bust"
-            // required
-            validationMessage="バスト実寸を入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
             label="中胴実寸"
             name="jaket-waist"
-            // required
-            validationMessage="中胴実寸を入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
-            label="バスト上り"
+            label="バスト上り *"
             name="jaket-bustTop"
-            required
-            validationMessage="バスト上りを入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
-            label="中胴上り"
+            label="中胴上り *"
             name="jaket-waistTop"
-            required
-            validationMessage="中胴上りを入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
         </GridContainer>
       </Box>
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor3}>
           <RhfSelect
-            label="毛心"
+            label="毛芯 *"
             name="jaket-canvas"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '薄毛芯', label: '薄毛芯' },
               { value: '毛芯無し', label: '毛芯無し' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="肩型"
+            label="肩型 *"
             name="jaket-shoulderType"
             menuItems={[
               { value: 'empty', label: '' },
@@ -146,22 +201,25 @@ export const OrderJaket = () => {
               { value: '袖高', label: '袖高' },
               { value: 'マニカカミーチャ', label: 'マニカカミーチャ' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="襟型"
+            label="襟型 *"
             name="jaket-collarType"
             menuItems={[
               { value: 'empty', label: '' },
               { value: 'ノッチ', label: 'ノッチ' },
               { value: 'ピーク', label: 'ピーク' },
               { value: 'セミノッチ', label: 'セミノッチ' },
+              { value: 'セミピーク', label: 'セミピーク' },
               { value: 'ショ-ル--1', label: 'ショ-ル--1' },
               { value: 'ショ-ル--2', label: 'ショ-ル--2' },
               { value: 'ショ-ル--3', label: 'ショ-ル--3' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="前ボタン"
+            label="前ボタン *"
             name="jaket-frontButton"
             menuItems={[
               { value: 'empty', label: '' },
@@ -175,9 +233,10 @@ export const OrderJaket = () => {
               { value: 'W6×1', label: 'W6×1' },
               { value: 'W6×2', label: 'W6×2' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="襟幅"
+            label="襟幅 *"
             name="jaket-collarWidth"
             menuItems={[
               { value: 'empty', label: '' },
@@ -196,9 +255,10 @@ export const OrderJaket = () => {
               { value: 'D11', label: 'D11' },
               { value: 'D12', label: 'D12' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="袖ボタン"
+            label="袖ボタン *"
             name="jaket-sleeveButton"
             menuItems={[
               { value: 'empty', label: '' },
@@ -212,29 +272,33 @@ export const OrderJaket = () => {
               { value: '袖4釦重ね', label: '袖4釦重ね' },
               { value: '袖5釦重ね', label: '袖5釦重ね' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="袖口"
+            label="袖口 *"
             name="jaket-sleeveOpening"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '開き見せ', label: '開き見せ' },
               { value: '本開き', label: '本開き' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="胸P"
+            label="胸P *"
             name="jaket-chestPocket"
             menuItems={[
               { value: 'empty', label: '' },
               { value: 'フネ', label: 'フネ' },
               { value: 'ハコポケット', label: 'ハコポケット' },
               { value: 'バルカ', label: 'バルカ' },
+              { value: 'アゥト', label: 'アゥト' },
               { value: 'ハコPK（サテン地）', label: 'ハコPK（サテン地）' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="縫製方式"
+            label="縫製方式 *"
             name="jaket-sewingMethod"
             menuItems={[
               { value: 'empty', label: '' },
@@ -243,53 +307,56 @@ export const OrderJaket = () => {
               // { value: '接着', label: '接着' },
               { value: '清涼毛芯無し', label: '清涼毛芯無し' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="フロントカット"
+            label="フロントカット *"
             name="jaket-frontCut"
             menuItems={[
               { value: 'empty', label: '' },
               { value: 'スクエア', label: 'スクエア' },
               { value: 'ユニバーサル', label: 'ユニバーサル' },
-              { value: 'トラディショナル', label: 'トラディショナル' },
+              // { value: 'トラディショナル', label: 'トラディショナル' },
               { value: 'カッタウェイ', label: 'カッタウェイ' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="ラベルサテン地"
+            label="ラベルサテン地 *"
             name="jaket-labelSatinFabric"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '生地', label: '生地' },
-              { value: 'TX01', label: 'TX01' },
-              { value: 'TX02', label: 'TX01' },
-              { value: 'TX03', label: 'TX01' },
-              { value: 'TX04', label: 'TX04' },
-              { value: 'TX05', label: 'TX05' },
-              { value: 'TX06', label: 'TX06' },
-              { value: 'TX07', label: 'TX07' },
-              { value: 'TX08', label: 'TX08' },
-              { value: 'TX09', label: 'TX09' },
-              { value: 'TX10', label: 'TX10' },
-              { value: 'TX11', label: 'TX11' },
-              { value: 'TX12', label: 'TX12' },
-              { value: 'TX13', label: 'TX13' },
-              { value: 'TX14', label: 'TX14' },
-              { value: 'TX15', label: 'TX15' },
-              { value: 'TX16', label: 'TX16' },
-              { value: 'TX17', label: 'TX17' },
+              // { value: 'TX01', label: 'TX01' },
+              // { value: 'TX02', label: 'TX01' },
+              // { value: 'TX03', label: 'TX01' },
+              // { value: 'TX04', label: 'TX04' },
+              // { value: 'TX05', label: 'TX05' },
+              // { value: 'TX06', label: 'TX06' },
+              // { value: 'TX07', label: 'TX07' },
+              // { value: 'TX08', label: 'TX08' },
+              // { value: 'TX09', label: 'TX09' },
+              // { value: 'TX10', label: 'TX10' },
+              // { value: 'TX11', label: 'TX11' },
+              // { value: 'TX12', label: 'TX12' },
+              // { value: 'TX13', label: 'TX13' },
+              // { value: 'TX14', label: 'TX14' },
+              // { value: 'TX15', label: 'TX15' },
+              // { value: 'TX16', label: 'TX16' },
+              // { value: 'TX17', label: 'TX17' },
               { value: 'TX18', label: 'TX18' },
-              { value: 'TX19', label: 'TX19' },
-              { value: 'TX20', label: 'TX20' },
-              { value: 'TX21', label: 'TX21' },
-              { value: 'TX22', label: 'TX22' },
-              { value: 'TX23', label: 'TX23' },
-              { value: 'TX24', label: 'TX24' },
-              { value: 'TX25', label: 'TX25' },
+              // { value: 'TX19', label: 'TX19' },
+              // { value: 'TX20', label: 'TX20' },
+              // { value: 'TX21', label: 'TX21' },
+              // { value: 'TX22', label: 'TX22' },
+              // { value: 'TX23', label: 'TX23' },
+              // { value: 'TX24', label: 'TX24' },
+              // { value: 'TX25', label: 'TX25' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="ステッチ"
+            label="ステッチ *"
             name="jaket-stitch"
             menuItems={[
               { value: 'empty', label: '' },
@@ -299,15 +366,17 @@ export const OrderJaket = () => {
               { value: 'ミシン0.6', label: 'ミシン0.6' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="ステッチ箇所"
+            label="ステッチ箇所 *"
             name="jaket-stitchLocation"
             menuItems={[
               { value: 'empty', label: '' },
               { value: 'フロント', label: 'フロント' },
               { value: 'フルステッチ', label: 'フルステッチ' },
             ]}
+            disabled={disabled}
           />
           {/* <RhfSelect
             label="ピンポイントステッチ"
@@ -362,7 +431,7 @@ export const OrderJaket = () => {
             ]}
           /> */}
           <RhfSelect
-            label="胸箱サテン地"
+            label="胸箱サテン地 *"
             name="jaket-chestBoxSatinFabric"
             menuItems={[
               { value: 'empty', label: '' },
@@ -391,13 +460,14 @@ export const OrderJaket = () => {
               { value: 'TX22', label: 'TX22' },
               { value: 'TX23', label: 'TX23' },
             ]}
+            disabled={disabled}
           />
         </GridContainer>
       </Box>
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor4}>
           <RhfSelect
-            label="打ち合い"
+            label="打ち合い *"
             name="jaket-uchiai"
             menuItems={[
               { value: '4', label: '4' },
@@ -409,9 +479,10 @@ export const OrderJaket = () => {
               { value: '-3', label: '-3' },
               { value: '-4', label: '-4' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="反身"
+            label="反身 *"
             name="jaket-hanmi"
             menuItems={[
               { value: 'empty', label: '' },
@@ -420,9 +491,10 @@ export const OrderJaket = () => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="屈身"
+            label="屈身 *"
             name="jaket-kutsumi"
             menuItems={[
               { value: 'empty', label: '' },
@@ -431,9 +503,10 @@ export const OrderJaket = () => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="怒肩左"
+            label="怒肩左 *"
             name="jaket-squareShoulderLeft"
             menuItems={[
               { value: 'empty', label: '' },
@@ -441,9 +514,10 @@ export const OrderJaket = () => {
               { value: '1', label: '1' },
               { value: '1.5', label: '1.5' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="怒肩右"
+            label="怒肩右 *"
             name="jaket-squareShoulderRight"
             menuItems={[
               { value: 'empty', label: '' },
@@ -451,9 +525,10 @@ export const OrderJaket = () => {
               { value: '1', label: '1' },
               { value: '1.5', label: '1.5' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="撫肩左"
+            label="撫肩左 *"
             name="jaket-slopingShoulderLeft"
             menuItems={[
               { value: 'empty', label: '' },
@@ -461,9 +536,10 @@ export const OrderJaket = () => {
               { value: '-1', label: '-1' },
               { value: '-1.5', label: '-1.5' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="撫肩右"
+            label="撫肩右 *"
             name="jaket-slopingShoulderRight"
             menuItems={[
               { value: 'empty', label: '' },
@@ -471,9 +547,10 @@ export const OrderJaket = () => {
               { value: '-1', label: '-1' },
               { value: '-1.5', label: '-1.5' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="突量"
+            label="突量 *"
             name="jaket-totsuRyo"
             menuItems={[
               { value: 'empty', label: '' },
@@ -482,9 +559,10 @@ export const OrderJaket = () => {
               { value: '-0.4', label: '-0.4' },
               { value: '-0.8', label: '-0.8' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="尻廻"
+            label="尻廻 *"
             name="jaket-hip"
             menuItems={[
               { value: 'empty', label: '' },
@@ -497,9 +575,10 @@ export const OrderJaket = () => {
               { value: '-3', label: '-3' },
               { value: '-4', label: '-4' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="前丈"
+            label="前丈 *"
             name="jaket-frontLength"
             menuItems={[
               { value: 'empty', label: '' },
@@ -513,9 +592,10 @@ export const OrderJaket = () => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="前裾ヘム"
+            label="前裾ヘム *"
             name="jaket-frontSleeveHem"
             menuItems={[
               { value: 'empty', label: '' },
@@ -523,9 +603,10 @@ export const OrderJaket = () => {
               { value: '-2', label: '-2' },
               { value: '-3', label: '-3' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="AH前ぐり"
+            label="AH前ぐり *"
             name="jaket-ahFrontOpening"
             menuItems={[
               { value: 'empty', label: '' },
@@ -534,9 +615,10 @@ export const OrderJaket = () => {
               { value: '-1', label: '-1' },
               { value: '-2', label: '-2' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="袖口幅"
+            label="袖口幅 *"
             name="jaket-sleeveOpeningWidth"
             menuItems={[
               { value: 'empty', label: '' },
@@ -555,9 +637,10 @@ export const OrderJaket = () => {
               { value: '-1.8', label: '-1.8' },
               { value: '-2.1', label: '-2.1' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="襟みつ"
+            label="襟みつ *"
             name="jaket-collarMitsu"
             menuItems={[
               { value: 'empty', label: '' },
@@ -566,9 +649,10 @@ export const OrderJaket = () => {
               { value: '-0.7', label: '-0.7' },
               { value: '-1', label: '-1' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="袖後にずらす"
+            label="袖後にずらす *"
             name="jaket-collarShift"
             menuItems={[
               { value: 'empty', label: '' },
@@ -577,9 +661,10 @@ export const OrderJaket = () => {
               { value: '-3', label: '-3' },
               { value: '-4', label: '-4' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="ボタン位置"
+            label="ボタン位置 *"
             name="jaket-buttonPosition"
             menuItems={[
               { value: 'empty', label: '' },
@@ -592,17 +677,19 @@ export const OrderJaket = () => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="背中カーブ"
+            label="背中カーブ *"
             name="jaket-backCurve"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '-0.6', label: '-0.6' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="鎌上げ"
+            label="鎌上げ *"
             name="jaket-sickleRaising"
             menuItems={[
               { value: 'empty', label: '' },
@@ -612,9 +699,10 @@ export const OrderJaket = () => {
               { value: '-1', label: '-1' },
               { value: '-1.5', label: '-1.5' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="袖幅"
+            label="袖幅 *"
             name="jaket-sleeveWidth"
             menuItems={[
               { value: 'empty', label: '' },
@@ -627,9 +715,10 @@ export const OrderJaket = () => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="背幅"
+            label="背幅 *"
             name="jaket-backWidth"
             menuItems={[
               { value: 'empty', label: '' },
@@ -638,6 +727,7 @@ export const OrderJaket = () => {
               { value: '-1', label: '-1' },
               { value: '-2', label: '-2' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
             label="袖裏"
@@ -682,13 +772,14 @@ export const OrderJaket = () => {
               { value: 'ST1203-10F', label: 'ST1203-10F' },
               { value: 'ST1203-13F', label: 'ST1203-13F' },
             ]}
+            disabled={disabled}
           />
         </GridContainer>
       </Box>
-      <Box>
+      <Box className={style.boxMargin}>
         <GridContainer>
           <RhfSelect
-            label="腰P"
+            label="腰P *"
             name="jaket-waistPocket"
             menuItems={[
               { value: 'empty', label: '' },
@@ -703,6 +794,7 @@ export const OrderJaket = () => {
               { value: 'フラップ無片玉', label: 'フラップ無片玉' },
               { value: '斜フラップ無片玉', label: '斜フラップ無片玉' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
             label="フラップ幅"
@@ -718,15 +810,17 @@ export const OrderJaket = () => {
               { value: '6.5', label: '6.5' },
               { value: '7', label: '7.0' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="チェンジP"
+            label="チェンジP *"
             name="jaket-changePocket"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
           {/* <RhfSelect
             label="忍びP"
@@ -738,7 +832,7 @@ export const OrderJaket = () => {
             ]}
           /> */}
           <RhfSelect
-            label="裏仕様"
+            label="裏仕様 *"
             name="jaket-backSpec"
             menuItems={[
               { value: 'empty', label: '' },
@@ -749,9 +843,10 @@ export const OrderJaket = () => {
                 label: '観音(台場:半裏・大見返し）',
               },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="台場"
+            label="台場 *"
             name="jaket-daiba"
             menuItems={[
               { value: 'empty', label: '' },
@@ -762,6 +857,7 @@ export const OrderJaket = () => {
               { value: '大見返し', label: '大見返し' },
               { value: '切り台場', label: '切り台場' },
             ]}
+            disabled={disabled}
           />
           {/* <RhfSelect
             label="内P"
@@ -773,13 +869,14 @@ export const OrderJaket = () => {
             ]}
           /> */}
           <RhfSelect
-            label="ペンPK"
+            label="ペンPK *"
             name="jaket-penPocket"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '有', label: '有' },
               { value: '特殊ペンPK', label: '特殊ペンPK' },
             ]}
+            disabled={disabled}
           />
           {/* <RhfSelect
             label="チケットPK"
@@ -791,7 +888,7 @@ export const OrderJaket = () => {
             ]}
           /> */}
           <RhfSelect
-            label="パット"
+            label="パット *"
             name="jaket-pat"
             menuItems={[
               { value: 'empty', label: '' },
@@ -799,18 +896,16 @@ export const OrderJaket = () => {
               { value: '0.5', label: '0.5' },
               { value: '1', label: '1.0' },
             ]}
+            disabled={disabled}
           />
-          <RhfSelect
-            label="裏地"
-            name="jaket-lining"
-            menuItems={[
-              { value: 'empty', label: '' },
-              { value: 'AAAAA', label: 'AAAAA' },
-              { value: 'BBBBB', label: 'BBBBB' },
-              { value: 'CCCCC', label: 'CCCCC' },
-              { value: 'DDDDD', label: 'DDDDD' },
-            ]}
-          />
+          <RhfTextField label="裏地 *" name="jaket-lining" disabled={true} />
+          <Button
+            startIcon={<FactCheckIcon />}
+            onClick={handleLiningSearchDialogOpen}
+            disabled={disabled}
+          >
+            裏地選択
+          </Button>
           {/* <RhfSelect
             label="襟裏"
             name="jaket-collarBack"
@@ -844,7 +939,7 @@ export const OrderJaket = () => {
             ]}
           /> */}
           <RhfSelect
-            label="ベンツ"
+            label="ベンツ *"
             name="jaket-vents"
             menuItems={[
               { value: 'empty', label: '' },
@@ -853,15 +948,17 @@ export const OrderJaket = () => {
               { value: 'サイドベンツ', label: 'サイドベンツ' },
               { value: 'フックベント', label: 'フックベント' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="ネーム入れ"
+            label="ネーム入れ *"
             name="jaket-inName"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
             label="ネーム字体"
@@ -870,8 +967,10 @@ export const OrderJaket = () => {
               { value: 'empty', label: '' },
               { value: '漢字', label: '漢字' },
               { value: 'ローマ字（筆）', label: 'ローマ字（筆）' },
+              { value: 'ローマ字（活字）', label: 'ローマ字（活字）' },
               { value: '花文字', label: '花文字' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
             label="ネーム位置"
@@ -882,6 +981,7 @@ export const OrderJaket = () => {
               { value: 'カラークロス', label: 'カラークロス' },
               { value: 'タバコポケット上', label: 'タバコポケット上' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
             label="ネーム系色"
@@ -909,14 +1009,15 @@ export const OrderJaket = () => {
               { value: 'M19', label: 'M19' },
               { value: 'M20', label: 'M20' },
             ]}
+            disabled={disabled}
           />
           <RhfTextField
             label="ネーム内容"
             name="jaket-name"
-            validationMessage="ネーム内容を入力してください"
+            disabled={disabled}
           />
           <RhfSelect
-            label="ラベル穴"
+            label="ラベル穴 *"
             name="jaket-labelHole"
             menuItems={[
               { value: 'empty', label: '' },
@@ -924,6 +1025,7 @@ export const OrderJaket = () => {
               { value: '左側', label: '左側' },
               { value: '左右', label: '左右' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
             label="ステッチ糸色"
@@ -965,6 +1067,7 @@ export const OrderJaket = () => {
               { value: 'C31', label: 'C31' },
               { value: 'C32', label: 'C32' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
             label="ラベル穴糸色"
@@ -1006,6 +1109,7 @@ export const OrderJaket = () => {
               { value: 'C31', label: 'C31' },
               { value: 'C32', label: 'C32' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
             label="前ボタン穴糸色"
@@ -1047,6 +1151,7 @@ export const OrderJaket = () => {
               { value: 'C31', label: 'C31' },
               { value: 'C32', label: 'C32' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
             label="袖ボタン穴糸色"
@@ -1088,27 +1193,30 @@ export const OrderJaket = () => {
               { value: 'C31', label: 'C31' },
               { value: 'C32', label: 'C32' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="ブランドネーム"
+            label="ブランドネーム *"
             name="jaket-brandName"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="生地マーク"
+            label="生地マーク *"
             name="jaket-fabricMark"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="ボタン品番"
+            label="ボタン品番 *"
             name="jaket-buttonProductNo"
             menuItems={[
               { value: 'empty', label: '' },
@@ -1462,11 +1570,12 @@ export const OrderJaket = () => {
               { value: 'K-55', label: 'K-55' },
               { value: 'K-58', label: 'K-58' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
             label="袖口テープ"
             name="jaket-sleeveOpeningTape"
-            disabled
+            disabled={true}
             menuItems={[
               { value: 'empty', label: '' },
               { value: '無', label: '無' },
@@ -1475,20 +1584,21 @@ export const OrderJaket = () => {
           <RhfSelect
             label="袖肘パッチ"
             name="jaket-sleeveElbowPatch"
-            disabled
+            disabled={true}
             menuItems={[
               { value: 'empty', label: '' },
               { value: '無', label: '無' },
             ]}
           />
           <RhfSelect
-            label="穴かがり"
+            label="穴かがり *"
             name="jaket-hole"
             menuItems={[
               { value: 'empty', label: '' },
               { value: 'ミシン', label: 'ミシン' },
               { value: 'ハンド', label: 'ハンド' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
             label="袖ボタン穴配色"
@@ -1501,9 +1611,29 @@ export const OrderJaket = () => {
               { value: '2個目', label: '2個目' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
         </GridContainer>
       </Box>
+      <Box>
+        <RhfTextField
+          label="備考"
+          name="jaket-remark"
+          width="100%"
+          multiline
+          variant="outlined"
+          disabled={disabled}
+        />
+      </Box>
+      <LiningSearchDialog
+        open={liningSearchDialogOpen}
+        setOpen={setLiningSearchDialogOpen}
+        loading={loading}
+        linings={linings}
+        handleListItemClick={handleListItemClick}
+        handleSubmit={handleLiningSearchSubmit}
+      />
+      <Toast ref={toast} position="center" />
     </>
   );
 };

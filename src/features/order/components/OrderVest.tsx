@@ -5,6 +5,7 @@ import { RhfTextField } from '../../../components/ui/RhfTextField';
 import { useSelectPattern } from '../hooks/useSelectPattern';
 import { GridContainer } from '../../../components/containers/GridContainer';
 import { Box } from '@mui/material';
+import { FC } from 'react';
 
 const style = {
   boxMargin: 'mb-5',
@@ -14,7 +15,12 @@ const style = {
   blockColor4: 'bg-pink-100',
 };
 
-export const OrderVest = () => {
+type Props = {
+  disabled: boolean;
+};
+
+export const OrderVest: FC<Props> = (props) => {
+  const { disabled } = props;
   const {
     selectPattern1Items,
     selectPattern2Items,
@@ -28,57 +34,59 @@ export const OrderVest = () => {
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor1}>
           <RhfSelect
-            label="セレクトパターン1"
+            label="セレクトパターン1 *"
             name="vest-selectPattern1"
             menuItems={[{ value: 'empty', label: '' }, ...selectPattern1Items]}
             onChange={handleSelectPattern1Change}
-            disabled
-            />
+            disabled={true}
+          />
           <RhfSelect
-            label="セレクトパターン2"
+            label="セレクトパターン2 *"
             name="vest-selectPattern2"
             menuItems={[{ value: 'empty', label: '' }, ...selectPattern2Items]}
             onChange={handleSelectPattern2Change}
+            disabled={disabled}
           />
           <RhfSelect
-            label="セレクトパターン3"
+            label="セレクトパターン3 *"
             name="vest-selectPattern3"
             menuItems={[{ value: 'empty', label: '' }, ...selectPattern3Items]}
+            disabled={disabled}
           />
         </GridContainer>
       </Box>
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor2}>
           <RhfTextField
-            label="後丈"
+            label="後丈 *"
             name="vest-backLength"
-            required
             validationMessage="後丈を入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
-            label="バスト上り"
+            label="バスト上り *"
             name="vest-bustTop"
-            required
             validationMessage="バスト上りを入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
-            label="中胴上り"
+            label="中胴上り *"
             name="vest-waistTop"
-            required
             validationMessage="中胴上りを入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
         </GridContainer>
       </Box>
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor3}>
           <RhfSelect
-            label="襟"
+            label="襟 *"
             name="vest-collar"
             menuItems={[
               { value: 'empty', label: '' },
@@ -87,9 +95,10 @@ export const OrderVest = () => {
               { value: 'ピーク', label: 'ピーク' },
               { value: 'ショールカラー', label: 'ショールカラー' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="胸P"
+            label="胸P *"
             name="vest-chestPocket"
             menuItems={[
               { value: 'empty', label: '' },
@@ -101,9 +110,10 @@ export const OrderVest = () => {
               { value: '胸Ｐ左両玉', label: '胸Ｐ左両玉' },
               { value: '胸Ｐ右両玉', label: '胸Ｐ右両玉' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="前ボタン"
+            label="前ボタン *"
             name="vest-frontButton"
             menuItems={[
               { value: 'empty', label: '' },
@@ -113,6 +123,7 @@ export const OrderVest = () => {
               { value: 'Ｗ4×2', label: 'Ｗ4×2' },
               { value: 'Ｗ6×3', label: 'Ｗ6×3' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
             label="前ボタン穴配色位置"
@@ -126,13 +137,14 @@ export const OrderVest = () => {
               { value: '2個目', label: '2個目' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
         </GridContainer>
       </Box>
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor4}>
           <RhfSelect
-            label="打ち合い"
+            label="打ち合い *"
             name="vest-uchiai"
             menuItems={[
               { value: 'empty', label: '' },
@@ -145,9 +157,10 @@ export const OrderVest = () => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="反身"
+            label="反身 *"
             name="vest-hanmi"
             menuItems={[
               { value: 'empty', label: '' },
@@ -156,9 +169,10 @@ export const OrderVest = () => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="屈身"
+            label="屈身 *"
             name="vest-kutsumi"
             menuItems={[
               { value: 'empty', label: '' },
@@ -167,9 +181,10 @@ export const OrderVest = () => {
               { value: '1.5', label: '1.5' },
               { value: '2', label: '2' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="怒肩左"
+            label="怒肩左 *"
             name="vest-squareShoulderLeft"
             menuItems={[
               { value: 'empty', label: '' },
@@ -177,9 +192,10 @@ export const OrderVest = () => {
               { value: '1', label: '1' },
               { value: '1.5', label: '1.5' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="怒肩右"
+            label="怒肩右 *"
             name="vest-squareShoulderRight"
             menuItems={[
               { value: 'empty', label: '' },
@@ -187,9 +203,10 @@ export const OrderVest = () => {
               { value: '1', label: '1' },
               { value: '1.5', label: '1.5' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="撫肩左"
+            label="撫肩左 *"
             name="vest-slopingShoulderLeft"
             menuItems={[
               { value: 'empty', label: '' },
@@ -197,9 +214,10 @@ export const OrderVest = () => {
               { value: '-1', label: '-1' },
               { value: '-1.5', label: '-1.5' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="撫肩右"
+            label="撫肩右 *"
             name="vest-slopingShoulderRight"
             menuItems={[
               { value: 'empty', label: '' },
@@ -207,9 +225,10 @@ export const OrderVest = () => {
               { value: '-1', label: '-1' },
               { value: '-1.5', label: '-1.5' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="鎌上げ"
+            label="鎌上げ *"
             name="vest-sickleRaising"
             menuItems={[
               { value: 'empty', label: '' },
@@ -219,9 +238,10 @@ export const OrderVest = () => {
               { value: '-1', label: '-1' },
               { value: '-1.5', label: '-1.5' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="肩幅"
+            label="肩幅 *"
             name="vest-shoulderWidth"
             menuItems={[
               { value: 'empty', label: '' },
@@ -234,9 +254,10 @@ export const OrderVest = () => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="ボタン位置"
+            label="ボタン位置 *"
             name="vest-buttonPosition"
             menuItems={[
               { value: 'empty', label: '' },
@@ -249,9 +270,10 @@ export const OrderVest = () => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="前丈"
+            label="前丈 *"
             name="vest-frontLength"
             menuItems={[
               { value: 'empty', label: '' },
@@ -264,13 +286,14 @@ export const OrderVest = () => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
+            disabled={disabled}
           />
         </GridContainer>
       </Box>
-      <Box>
+      <Box className={style.boxMargin}>
         <GridContainer>
           <RhfSelect
-            label="腰P"
+            label="腰P *"
             name="vest-waistPocket"
             menuItems={[
               { value: 'empty', label: '' },
@@ -278,27 +301,30 @@ export const OrderVest = () => {
               { value: '腰Ｐフラップ両玉', label: '腰Ｐフラップ両玉' },
               { value: '腰Ｐフラップ無し両玉', label: '腰Ｐフラップ無し両玉' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="背裏"
+            label="背裏 *"
             name="vest-backSide"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '表地', label: '表地' },
               { value: '裏地', label: '裏地' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="尾錠"
+            label="尾錠 *"
             name="vest-buckle"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="穴糸色"
+            label="穴糸色 *"
             name="vest-holeThreadColor"
             menuItems={[
               { value: 'empty', label: '' },
@@ -337,9 +363,10 @@ export const OrderVest = () => {
               { value: 'C31', label: 'C31' },
               { value: 'C32', label: 'C32' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="ステッチ"
+            label="ステッチ *"
             name="vest-stitch"
             menuItems={[
               { value: 'empty', label: '' },
@@ -347,17 +374,29 @@ export const OrderVest = () => {
               { value: 'ＡＭＦ0.6', label: 'ＡＭＦ0.6' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="穴かがり"
+            label="穴かがり *"
             name="vest-hole"
             menuItems={[
               { value: 'empty', label: '' },
               { value: 'ミシン', label: 'ミシン' },
               { value: 'ハンド', label: 'ハンド' },
             ]}
+            disabled={disabled}
           />
         </GridContainer>
+      </Box>
+      <Box>
+        <RhfTextField
+          label="備考"
+          name="vest-remark"
+          width="100%"
+          multiline
+          variant="outlined"
+          disabled={disabled}
+        />
       </Box>
     </>
   );

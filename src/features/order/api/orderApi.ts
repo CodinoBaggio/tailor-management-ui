@@ -9,6 +9,8 @@ const orderApi = {
   update: (params: any) => axiosClient.post('/exec', params),
   delete: (params: any) => axiosClient.post('/exec', params),
   save: (params: any) => axiosClient.post('/exec', params),
+  getBodySize: (params: any) => axiosClient.post('/exec', params),
+  getLinings: (params: any) => axiosClient.post('/exec', params),
 };
 
 export default orderApi;

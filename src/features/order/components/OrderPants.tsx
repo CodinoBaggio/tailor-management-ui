@@ -5,6 +5,7 @@ import { RhfTextField } from '../../../components/ui/RhfTextField';
 import { useSelectPattern } from '../hooks/useSelectPattern';
 import { GridContainer } from '../../../components/containers/GridContainer';
 import { Box } from '@mui/material';
+import { FC } from 'react';
 
 const style = {
   boxMargin: 'mb-5',
@@ -14,7 +15,12 @@ const style = {
   blockColor4: 'bg-pink-100',
 };
 
-export const OrderPants = () => {
+type Props = {
+  disabled: boolean;
+};
+
+export const OrderPants: FC<Props> = (props) => {
+  const { disabled } = props;
   const {
     selectPattern1Items,
     selectPattern2Items,
@@ -28,105 +34,107 @@ export const OrderPants = () => {
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor1}>
           <RhfSelect
-            label="セレクトパターン1"
+            label="セレクトパターン1 *"
             name="pants-selectPattern1"
             menuItems={[{ value: 'empty', label: '' }, ...selectPattern1Items]}
             onChange={handleSelectPattern1Change}
-            disabled
-            />
+            disabled={true}
+          />
           <RhfSelect
-            label="セレクトパターン2"
+            label="セレクトパターン2 *"
             name="pants-selectPattern2"
             menuItems={[{ value: 'empty', label: '' }, ...selectPattern2Items]}
             onChange={handleSelectPattern2Change}
+            disabled={disabled}
           />
           <RhfSelect
-            label="セレクトパターン3"
+            label="セレクトパターン3 *"
             name="pants-selectPattern3"
             menuItems={[{ value: 'empty', label: '' }, ...selectPattern3Items]}
+            disabled={disabled}
           />
         </GridContainer>
       </Box>
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor2}>
           <RhfTextField
-            label="ウエスト"
+            label="ウエスト *"
             name="pants-waist"
-            required
             validationMessage="ウエストを入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
             label="ヒップ実寸"
             name="pants-hip"
-            required
             validationMessage="ヒップ実寸を入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
-            label="ヒップ上り"
+            label="ヒップ上り *"
             name="pants-hipTop"
-            required
             validationMessage="ヒップ上りを入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
-            label="股上"
+            label="股上 *"
             name="pants-rise"
-            required
             validationMessage="股上を入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
-            label="股下左"
+            label="股下左 *"
             name="pants-inseamLeft"
-            required
             validationMessage="股下左を入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
-            label="股下右"
+            label="股下右 *"
             name="pants-inseamRight"
-            required
             validationMessage="股下右を入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
-            label="渡り幅"
+            label="渡り幅 *"
             name="pants-crossingWidth"
-            required
             validationMessage="渡り幅を入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
-            label="膝幅"
+            label="膝幅 *"
             name="pants-kneeWidth"
-            required
             validationMessage="膝幅を入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
           <RhfTextField
-            label="裾口幅"
+            label="裾口幅 *"
             name="pants-hemOpening"
-            required
             validationMessage="裾口幅を入力してください"
             type="number"
             defaultValue={0}
+            disabled={disabled}
           />
         </GridContainer>
       </Box>
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor3}>
           <RhfSelect
-            label="タック"
+            label="タック *"
             name="pants-tack"
             menuItems={[
               { value: 'empty', label: '' },
@@ -134,9 +142,10 @@ export const OrderPants = () => {
               { value: '1本', label: '1本' },
               { value: '2本', label: '2本' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="脇P"
+            label="脇P *"
             name="pants-sidePocket"
             menuItems={[
               { value: 'empty', label: '' },
@@ -147,9 +156,10 @@ export const OrderPants = () => {
                 label: '横Ｌポケット（タック無し）',
               },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="裾折返し"
+            label="裾折返し *"
             name="pants-foldedHem"
             menuItems={[
               { value: 'empty', label: '' },
@@ -163,6 +173,7 @@ export const OrderPants = () => {
               { value: '有5.5cm', label: '有5.5cm' },
               { value: 'モーニング', label: 'モーニング' },
             ]}
+            disabled={disabled}
           />
           {/* <RhfSelect
             label="忍びP"
@@ -174,7 +185,7 @@ export const OrderPants = () => {
             ]}
           /> */}
           <RhfSelect
-            label="膝裏"
+            label="膝裏 *"
             name="pants-kneeBack"
             menuItems={[
               { value: 'empty', label: '' },
@@ -182,9 +193,10 @@ export const OrderPants = () => {
               { value: '前後膝裏', label: '前後膝裏' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="穴糸色"
+            label="穴糸色 *"
             name="pants-holeThreadColor"
             menuItems={[
               { value: 'empty', label: '' },
@@ -223,24 +235,28 @@ export const OrderPants = () => {
               { value: 'C31', label: 'C31' },
               { value: 'C32', label: 'C32' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="AMFステッチ"
+            label="AMFステッチ *"
             name="pants-amfStitch"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="脇AMF"
+            label="脇AMF *"
             name="pants-sideAmf"
             menuItems={[
               { value: 'empty', label: '' },
-              { value: '有', label: '有' },
               { value: '無', label: '無' },
+              { value: '0.2', label: '0.2' },
+              { value: '0.6', label: '0.6' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
             label="ステッチ糸色"
@@ -282,9 +298,10 @@ export const OrderPants = () => {
               { value: 'C31', label: 'C31' },
               { value: 'C32', label: 'C32' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="膝当て色"
+            label="膝当て色 *"
             name="pants-kneepadColor"
             menuItems={[
               { value: 'empty', label: '' },
@@ -292,18 +309,20 @@ export const OrderPants = () => {
               { value: 'KX-B001', label: 'KX-B001' },
               { value: 'KX-G001', label: 'KX-G001' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="タック仕様"
+            label="タック仕様 *"
             name="pants-tackSpec"
             menuItems={[
               { value: 'empty', label: '' },
               { value: 'イン', label: 'イン' },
               { value: 'アゥト', label: 'アゥト' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="脇サテン地"
+            label="脇サテン地 *"
             name="pants-sideSatinFabric"
             menuItems={[
               { value: 'empty', label: '' },
@@ -332,18 +351,20 @@ export const OrderPants = () => {
               { value: 'TX22', label: 'TX22' },
               { value: 'TX23', label: 'TX23' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="ピスポケット玉緑"
+            label="ピスポケット玉緑 *"
             name="pants-pisPocketJadeGreen"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '片玉', label: '片玉' },
               { value: '両玉', label: '両玉' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="ピスポケット"
+            label="ピスポケット *"
             name="pants-pisPocket"
             menuItems={[
               { value: 'empty', label: '' },
@@ -361,6 +382,7 @@ export const OrderPants = () => {
               { value: '右三角', label: '右三角' },
               { value: '左右三角', label: '左右三角' },
             ]}
+            disabled={disabled}
           />
           {/* <RhfSelect
             label="持出し"
@@ -375,25 +397,27 @@ export const OrderPants = () => {
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor4}>
           <RhfSelect
-            label="出尻"
+            label="出尻 *"
             name="pants-buttocks"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '0.5', label: '0.5' },
               { value: '1', label: '1' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="平尻"
+            label="平尻 *"
             name="pants-flatButt"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '-0.5', label: '-0.5' },
               { value: '-1', label: '-1' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="前股上"
+            label="前股上 *"
             name="pants-frontRise"
             menuItems={[
               { value: 'empty', label: '' },
@@ -409,9 +433,10 @@ export const OrderPants = () => {
               { value: '-3.5', label: '-3.5' },
               { value: '-4', label: '-4' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="後股上"
+            label="後股上 *"
             name="pants-backRise"
             menuItems={[
               { value: 'empty', label: '' },
@@ -427,18 +452,20 @@ export const OrderPants = () => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="食い込み"
+            label="食い込み *"
             name="pants-wedgie"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '-1', label: '-1' },
             ]}
+            disabled={disabled}
           />
         </GridContainer>
       </Box>
-      <Box>
+      <Box className={style.boxMargin}>
         <GridContainer>
           {/* <RhfSelect
             label="パンチェリーナ"
@@ -450,7 +477,7 @@ export const OrderPants = () => {
             ]}
           /> */}
           <RhfSelect
-            label="ループ数"
+            label="ループ数 *"
             name="pants-loopCount"
             menuItems={[
               { value: 'empty', label: '' },
@@ -466,80 +493,99 @@ export const OrderPants = () => {
               },
               { value: '脇尾錠(ループ無）', label: '脇尾錠(ループ無）' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="チーループ付"
+            label="チーループ付 *"
             name="pants-qiLoop"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="穴かがり"
+            label="穴かがり *"
             name="pants-hole"
             menuItems={[
               { value: 'empty', label: '' },
               { value: 'ミシン', label: 'ミシン' },
               { value: 'ハンド', label: 'ハンド' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="シック"
+            label="シック *"
             name="pants-chic"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '有り', label: '有り' },
               { value: '有り(大)', label: '有り(大)' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="ループ付け方"
+            label="ループ付け方 *"
             name="pants-loopAdd"
             menuItems={[
               { value: 'empty', label: '' },
               { value: 'TOP', label: 'TOP' },
               { value: '0.5下がり', label: '0.5下がり' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="フラシループ付"
+            label="フラシループ付 *"
             name="pants-plushLoop"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="セット加工"
+            label="セット加工 *"
             name="pants-setFinishing"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="クリース線"
+            label="クリース線 *"
             name="pants-creaseWire"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
           <RhfSelect
-            label="尻ぐりテープ"
+            label="尻ぐりテープ *"
             name="pants-buttholeTape"
             menuItems={[
               { value: 'empty', label: '' },
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
+            disabled={disabled}
           />
         </GridContainer>
+      </Box>
+      <Box>
+        <RhfTextField
+          label="備考"
+          name="pants-remark"
+          width="100%"
+          multiline
+          variant="outlined"
+          disabled={disabled}
+        />
       </Box>
     </>
   );

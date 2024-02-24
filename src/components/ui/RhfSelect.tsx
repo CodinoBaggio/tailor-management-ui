@@ -46,7 +46,7 @@ export const RhfSelect: FC<Props> = (props) => {
         },
       }}
       render={({ field, formState: { errors } }) => {
-        console.log(errors[name]);
+        // console.log(errors[name]);
         return (
           <FormControl
             error={errors[name] ? true : false}

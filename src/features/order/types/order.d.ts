@@ -20,6 +20,7 @@ export type OrderBasisType = {
   blendRateFabric4: string;
   blendRate4: number;
   inputUserId: string;
+  remark: string;
   isDelete: bit;
   createDateTime: datetime;
   createUserId: string;
@@ -112,6 +113,7 @@ export type OrderJaketType = {
   sleeveWidth: number;
   backWidth: number;
   sleeveBack: string;
+  remark: string;
   isDelete: boolean;
   createDateTime: datetime;
   createUserId: string;
@@ -164,6 +166,7 @@ export type OrderPantsType = {
   setFinishing: string;
   creaseWire: string;
   buttholeTape: string;
+  remark: string;
   isDelete: boolean;
   createDateTime: datetime;
   createUserId: string;
@@ -201,6 +204,7 @@ export type OrderVestType = {
   shoulderWidth: number;
   buttonPosition: number;
   frontLength: number;
+  remark: string;
   isDelete: boolean;
   createDateTime: datetime;
   createUserId: string;

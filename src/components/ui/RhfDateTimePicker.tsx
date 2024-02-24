@@ -10,6 +10,7 @@ type Props = {
   name: string;
   required?: boolean;
   validationMessage?: string;
+  disabled?: boolean;
 };
 
 export const RhfDateTimePicker: FC<Props> = (props) => {
@@ -18,6 +19,7 @@ export const RhfDateTimePicker: FC<Props> = (props) => {
     name,
     required = false,
     validationMessage = '日付を選択してください',
+    disabled = false,
   } = props;
   const { control } = useFormContext();
 
@@ -47,6 +49,7 @@ export const RhfDateTimePicker: FC<Props> = (props) => {
             {...field}
             onChange={(value) => field.onChange(value)}
             value={field.value ?? dayjs()}
+            disabled={disabled}
           />
         )}
       />
