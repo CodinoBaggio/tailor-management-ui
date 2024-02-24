@@ -22,11 +22,11 @@ const style = {
 
 type Props = {
   methods: UseFormReturn<FieldValues, any, undefined>;
-  disabled: boolean;
+  readOnly: boolean;
 };
 
 export const OrderJaket: FC<Props> = (props) => {
-  const { methods, disabled } = props;
+  const { methods, readOnly } = props;
   const [liningSearchDialogOpen, setLiningSearchDialogOpen] = useState(false);
   const [linings, setLinings] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -103,13 +103,13 @@ export const OrderJaket: FC<Props> = (props) => {
             name="jaket-selectPattern2"
             menuItems={[{ value: 'empty', label: '' }, ...selectPattern2Items]}
             onChange={handleSelectPattern2Change}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="セレクトパターン3 *"
             name="jaket-selectPattern3"
             menuItems={[{ value: 'empty', label: '' }, ...selectPattern3Items]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
         </GridContainer>
       </Box>
@@ -120,63 +120,63 @@ export const OrderJaket: FC<Props> = (props) => {
             name="jaket-totalLength"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="上着丈 *"
             name="jaket-jaketLength"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="肩幅 *"
             name="jaket-shoulderWidth"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="袖丈左 *"
             name="jaket-sleeveLengthLeft"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="袖丈右 *"
             name="jaket-sleeveLengthRight"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="バスト実寸"
             name="jaket-bust"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="中胴実寸"
             name="jaket-waist"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="バスト上り *"
             name="jaket-bustTop"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="中胴上り *"
             name="jaket-waistTop"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
         </GridContainer>
       </Box>
@@ -190,7 +190,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '薄毛芯', label: '薄毛芯' },
               { value: '毛芯無し', label: '毛芯無し' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="肩型 *"
@@ -201,7 +201,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '袖高', label: '袖高' },
               { value: 'マニカカミーチャ', label: 'マニカカミーチャ' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="襟型 *"
@@ -216,7 +216,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'ショ-ル--2', label: 'ショ-ル--2' },
               { value: 'ショ-ル--3', label: 'ショ-ル--3' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="前ボタン *"
@@ -233,7 +233,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'W6×1', label: 'W6×1' },
               { value: 'W6×2', label: 'W6×2' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="襟幅 *"
@@ -255,7 +255,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'D11', label: 'D11' },
               { value: 'D12', label: 'D12' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="袖ボタン *"
@@ -272,7 +272,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '袖4釦重ね', label: '袖4釦重ね' },
               { value: '袖5釦重ね', label: '袖5釦重ね' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="袖口 *"
@@ -282,7 +282,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '開き見せ', label: '開き見せ' },
               { value: '本開き', label: '本開き' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="胸P *"
@@ -295,7 +295,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'アゥト', label: 'アゥト' },
               { value: 'ハコPK（サテン地）', label: 'ハコPK（サテン地）' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="縫製方式 *"
@@ -307,7 +307,7 @@ export const OrderJaket: FC<Props> = (props) => {
               // { value: '接着', label: '接着' },
               { value: '清涼毛芯無し', label: '清涼毛芯無し' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="フロントカット *"
@@ -319,7 +319,7 @@ export const OrderJaket: FC<Props> = (props) => {
               // { value: 'トラディショナル', label: 'トラディショナル' },
               { value: 'カッタウェイ', label: 'カッタウェイ' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ラベルサテン地 *"
@@ -353,7 +353,7 @@ export const OrderJaket: FC<Props> = (props) => {
               // { value: 'TX24', label: 'TX24' },
               // { value: 'TX25', label: 'TX25' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ステッチ *"
@@ -366,7 +366,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'ミシン0.6', label: 'ミシン0.6' },
               { value: '無', label: '無' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ステッチ箇所 *"
@@ -376,7 +376,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'フロント', label: 'フロント' },
               { value: 'フルステッチ', label: 'フルステッチ' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           {/* <RhfSelect
             label="ピンポイントステッチ"
@@ -460,7 +460,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'TX22', label: 'TX22' },
               { value: 'TX23', label: 'TX23' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
         </GridContainer>
       </Box>
@@ -479,7 +479,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-3', label: '-3' },
               { value: '-4', label: '-4' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="反身 *"
@@ -491,7 +491,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="屈身 *"
@@ -503,7 +503,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="怒肩左 *"
@@ -514,7 +514,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '1', label: '1' },
               { value: '1.5', label: '1.5' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="怒肩右 *"
@@ -525,7 +525,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '1', label: '1' },
               { value: '1.5', label: '1.5' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="撫肩左 *"
@@ -536,7 +536,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-1', label: '-1' },
               { value: '-1.5', label: '-1.5' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="撫肩右 *"
@@ -547,7 +547,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-1', label: '-1' },
               { value: '-1.5', label: '-1.5' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="突量 *"
@@ -559,7 +559,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-0.4', label: '-0.4' },
               { value: '-0.8', label: '-0.8' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="尻廻 *"
@@ -575,7 +575,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-3', label: '-3' },
               { value: '-4', label: '-4' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="前丈 *"
@@ -592,7 +592,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="前裾ヘム *"
@@ -603,7 +603,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-2', label: '-2' },
               { value: '-3', label: '-3' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="AH前ぐり *"
@@ -615,7 +615,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-1', label: '-1' },
               { value: '-2', label: '-2' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="袖口幅 *"
@@ -637,7 +637,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-1.8', label: '-1.8' },
               { value: '-2.1', label: '-2.1' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="襟みつ *"
@@ -649,7 +649,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-0.7', label: '-0.7' },
               { value: '-1', label: '-1' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="袖後にずらす *"
@@ -661,7 +661,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-3', label: '-3' },
               { value: '-4', label: '-4' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ボタン位置 *"
@@ -677,7 +677,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="背中カーブ *"
@@ -686,7 +686,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'empty', label: '' },
               { value: '-0.6', label: '-0.6' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="鎌上げ *"
@@ -699,7 +699,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-1', label: '-1' },
               { value: '-1.5', label: '-1.5' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="袖幅 *"
@@ -715,7 +715,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="背幅 *"
@@ -727,7 +727,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '-1', label: '-1' },
               { value: '-2', label: '-2' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="袖裏"
@@ -772,7 +772,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'ST1203-10F', label: 'ST1203-10F' },
               { value: 'ST1203-13F', label: 'ST1203-13F' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
         </GridContainer>
       </Box>
@@ -794,7 +794,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'フラップ無片玉', label: 'フラップ無片玉' },
               { value: '斜フラップ無片玉', label: '斜フラップ無片玉' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="フラップ幅"
@@ -810,7 +810,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '6.5', label: '6.5' },
               { value: '7', label: '7.0' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="チェンジP *"
@@ -820,7 +820,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           {/* <RhfSelect
             label="忍びP"
@@ -843,7 +843,7 @@ export const OrderJaket: FC<Props> = (props) => {
                 label: '観音(台場:半裏・大見返し）',
               },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="台場 *"
@@ -857,7 +857,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '大見返し', label: '大見返し' },
               { value: '切り台場', label: '切り台場' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           {/* <RhfSelect
             label="内P"
@@ -876,7 +876,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '有', label: '有' },
               { value: '特殊ペンPK', label: '特殊ペンPK' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           {/* <RhfSelect
             label="チケットPK"
@@ -896,13 +896,13 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '0.5', label: '0.5' },
               { value: '1', label: '1.0' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField label="裏地 *" name="jaket-lining" disabled={true} />
           <Button
             startIcon={<FactCheckIcon />}
             onClick={handleLiningSearchDialogOpen}
-            disabled={disabled}
+            disabled={readOnly}
           >
             裏地選択
           </Button>
@@ -948,7 +948,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'サイドベンツ', label: 'サイドベンツ' },
               { value: 'フックベント', label: 'フックベント' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ネーム入れ *"
@@ -958,7 +958,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ネーム字体"
@@ -970,7 +970,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'ローマ字（活字）', label: 'ローマ字（活字）' },
               { value: '花文字', label: '花文字' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ネーム位置"
@@ -981,7 +981,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'カラークロス', label: 'カラークロス' },
               { value: 'タバコポケット上', label: 'タバコポケット上' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ネーム系色"
@@ -1009,12 +1009,12 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'M19', label: 'M19' },
               { value: 'M20', label: 'M20' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="ネーム内容"
             name="jaket-name"
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ラベル穴 *"
@@ -1025,7 +1025,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '左側', label: '左側' },
               { value: '左右', label: '左右' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ステッチ糸色"
@@ -1067,7 +1067,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'C31', label: 'C31' },
               { value: 'C32', label: 'C32' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ラベル穴糸色"
@@ -1109,7 +1109,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'C31', label: 'C31' },
               { value: 'C32', label: 'C32' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="前ボタン穴糸色"
@@ -1151,7 +1151,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'C31', label: 'C31' },
               { value: 'C32', label: 'C32' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="袖ボタン穴糸色"
@@ -1193,7 +1193,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'C31', label: 'C31' },
               { value: 'C32', label: 'C32' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ブランドネーム *"
@@ -1203,7 +1203,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="生地マーク *"
@@ -1213,7 +1213,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ボタン品番 *"
@@ -1570,7 +1570,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'K-55', label: 'K-55' },
               { value: 'K-58', label: 'K-58' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="袖口テープ"
@@ -1598,7 +1598,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'ミシン', label: 'ミシン' },
               { value: 'ハンド', label: 'ハンド' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="袖ボタン穴配色"
@@ -1611,7 +1611,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '2個目', label: '2個目' },
               { value: '無', label: '無' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
         </GridContainer>
       </Box>
@@ -1622,7 +1622,7 @@ export const OrderJaket: FC<Props> = (props) => {
           width="100%"
           multiline
           variant="outlined"
-          disabled={disabled}
+          readOnly={readOnly}
         />
       </Box>
       <LiningSearchDialog

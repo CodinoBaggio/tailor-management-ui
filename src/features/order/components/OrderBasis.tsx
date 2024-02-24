@@ -16,7 +16,7 @@ import { FabricProductNoSearchDialog } from './ui/FabricProductNoSearchDialog';
 
 type Props = {
   methods: UseFormReturn<FieldValues, any, undefined>;
-  disabled: boolean;
+  readOnly: boolean;
 };
 
 const style = {
@@ -25,7 +25,7 @@ const style = {
 };
 
 export const OrderBasis: FC<Props> = (props) => {
-  const { methods, disabled } = props;
+  const { methods, readOnly } = props;
   const [fabricProductNoSearchDialogOpen, setFabricProductNoSearchDialogOpen] =
     useState(false);
   const [productNos, setProductNos] = useState([]);
@@ -85,19 +85,19 @@ export const OrderBasis: FC<Props> = (props) => {
             label="入力日"
             name="basis-inputDate"
             required
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfDateTimePicker
             label="発注日時"
             name="basis-orderDateTime"
             required
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfDatePicker
             label="工場出荷日"
             name="basis-shipDate"
             required
-            disabled={disabled}
+            readOnly={readOnly}
           />
         </GridContainer>
       </Box>
@@ -117,7 +117,7 @@ export const OrderBasis: FC<Props> = (props) => {
               { value: '3PP', label: '3PP：ジャケット+パンツ+パンツ+ベスト' },
             ]}
             width={300}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           {/* <RhfTextField
             label="生地メーカー"
@@ -129,12 +129,12 @@ export const OrderBasis: FC<Props> = (props) => {
             <RhfTextField
               label="生地品番 *"
               name="basis-fabricProductNo"
-              disabled={disabled}
+              readOnly={readOnly}
             />
             <Button
               startIcon={<FactCheckIcon />}
               onClick={handleFabricProductNoSearchDialogOpen}
-              disabled={disabled}
+              disabled={readOnly}
             >
               生地品番選択
             </Button>
@@ -149,7 +149,7 @@ export const OrderBasis: FC<Props> = (props) => {
               name="basis-customerName"
               width={300}
               adornment="様"
-              disabled={disabled}
+              readOnly={readOnly}
             />,
             // <RhfTextField
             //   label="要尺"
@@ -181,7 +181,7 @@ export const OrderBasis: FC<Props> = (props) => {
               { value: 'モヘア', label: 'モヘア' },
               { value: 'ビスコース', label: 'ビスコース' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="混率①"
@@ -189,7 +189,7 @@ export const OrderBasis: FC<Props> = (props) => {
             type="number"
             defaultValue={0}
             width={70}
-            disabled={disabled}
+            readOnly={readOnly}
           />
         </GridContainer>
       </Box>
@@ -211,7 +211,7 @@ export const OrderBasis: FC<Props> = (props) => {
               { value: 'モヘア', label: 'モヘア' },
               { value: 'ビスコース', label: 'ビスコース' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="混率②"
@@ -219,7 +219,7 @@ export const OrderBasis: FC<Props> = (props) => {
             type="number"
             defaultValue={0}
             width={70}
-            disabled={disabled}
+            readOnly={readOnly}
           />
         </GridContainer>
       </Box>
@@ -229,7 +229,7 @@ export const OrderBasis: FC<Props> = (props) => {
             label="混率生地③"
             name="basis-blendRateFabric3"
             width={200}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="混率③"
@@ -237,7 +237,7 @@ export const OrderBasis: FC<Props> = (props) => {
             type="number"
             defaultValue={0}
             width={70}
-            disabled={disabled}
+            readOnly={readOnly}
           />
         </GridContainer>
       </Box>
@@ -247,7 +247,7 @@ export const OrderBasis: FC<Props> = (props) => {
             label="混率生地④"
             name="basis-blendRateFabric4"
             width={200}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="混率④"
@@ -255,7 +255,7 @@ export const OrderBasis: FC<Props> = (props) => {
             type="number"
             defaultValue={0}
             width={70}
-            disabled={disabled}
+            readOnly={readOnly}
           />
         </GridContainer>
       </Box>
@@ -266,7 +266,7 @@ export const OrderBasis: FC<Props> = (props) => {
           width="100%"
           multiline
           variant="outlined"
-          disabled={disabled}
+          readOnly={readOnly}
         />
       </Box>
       <FabricProductNoSearchDialog

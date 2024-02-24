@@ -84,7 +84,7 @@ export const Order: FC<Props> = (props) => {
             order.pants.pantsOrderId = '';
             order.vest.orderId = '';
             order.vest.vestOrderId = '';
-            order.orderStatus = '保存'
+            order.orderStatus = '保存';
           }
         }
         bindOrderBasisValues(methods, order);
@@ -757,7 +757,7 @@ export const Order: FC<Props> = (props) => {
                 component: (
                   <OrderBasis
                     methods={methods}
-                    disabled={orderStatus === '発注済み'}
+                    readOnly={orderStatus === '発注済み'}
                   />
                 ),
                 errorCount: basisErrorCount,
@@ -767,19 +767,19 @@ export const Order: FC<Props> = (props) => {
                 component: (
                   <OrderJaket
                     methods={methods}
-                    disabled={orderStatus === '発注済み'}
+                    readOnly={orderStatus === '発注済み'}
                   />
                 ),
                 errorCount: jaketErrorCount,
               },
               {
                 label: 'パンツ',
-                component: <OrderPants disabled={orderStatus === '発注済み'} />,
+                component: <OrderPants readOnly={orderStatus === '発注済み'} />,
                 errorCount: pantsErrorCount,
               },
               {
                 label: 'ベスト',
-                component: <OrderVest disabled={orderStatus === '発注済み'} />,
+                component: <OrderVest readOnly={orderStatus === '発注済み'} />,
                 errorCount: vestErrorCount,
               },
             ]}

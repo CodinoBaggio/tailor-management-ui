@@ -11,6 +11,7 @@ type Props = {
   required?: boolean;
   validationMessage?: string;
   disabled?: boolean;
+  readOnly?: boolean;
 };
 
 export const RhfDatePicker: FC<Props> = (props) => {
@@ -20,6 +21,7 @@ export const RhfDatePicker: FC<Props> = (props) => {
     required = false,
     validationMessage = '日付を選択してください',
     disabled = false,
+    readOnly = false,
   } = props;
   const { control } = useFormContext();
 
@@ -50,6 +52,7 @@ export const RhfDatePicker: FC<Props> = (props) => {
               },
             }}
             disabled={disabled}
+            readOnly={readOnly}
           />
         )}
       />

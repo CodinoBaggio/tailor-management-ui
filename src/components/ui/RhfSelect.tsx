@@ -20,6 +20,7 @@ type Props = {
   width?: number;
   required?: boolean;
   validationMessage?: string;
+  readOnly?: boolean;
 };
 
 export const RhfSelect: FC<Props> = (props) => {
@@ -32,6 +33,7 @@ export const RhfSelect: FC<Props> = (props) => {
     width = 200,
     required = false,
     validationMessage = '',
+    readOnly = false,
   } = props;
   const { control } = useFormContext();
 
@@ -62,6 +64,7 @@ export const RhfSelect: FC<Props> = (props) => {
               id={name}
               label="Select"
               {...field}
+              readOnly={readOnly}
               disabled={disabled}
               onChange={(event) => {
                 field.onChange(event);

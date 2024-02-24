@@ -15,6 +15,7 @@ type Props = {
   disabled?: boolean;
   multiline?: boolean;
   variant?: TextFieldVariants | undefined;
+  readOnly?: boolean;
 };
 
 export const RhfTextField: FC<Props> = (props) => {
@@ -31,6 +32,7 @@ export const RhfTextField: FC<Props> = (props) => {
     disabled = false,
     multiline = false,
     variant = 'standard',
+    readOnly = false,
   } = props;
   const { control } = useFormContext();
 
@@ -65,6 +67,7 @@ export const RhfTextField: FC<Props> = (props) => {
               endAdornment: (
                 <InputAdornment position="end">{adornment}</InputAdornment>
               ),
+              readOnly: readOnly,
             }}
             disabled={disabled}
             multiline={multiline}

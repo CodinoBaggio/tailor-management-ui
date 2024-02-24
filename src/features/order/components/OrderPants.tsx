@@ -16,11 +16,11 @@ const style = {
 };
 
 type Props = {
-  disabled: boolean;
+  readOnly: boolean;
 };
 
 export const OrderPants: FC<Props> = (props) => {
-  const { disabled } = props;
+  const { readOnly } = props;
   const {
     selectPattern1Items,
     selectPattern2Items,
@@ -45,13 +45,13 @@ export const OrderPants: FC<Props> = (props) => {
             name="pants-selectPattern2"
             menuItems={[{ value: 'empty', label: '' }, ...selectPattern2Items]}
             onChange={handleSelectPattern2Change}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="セレクトパターン3 *"
             name="pants-selectPattern3"
             menuItems={[{ value: 'empty', label: '' }, ...selectPattern3Items]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
         </GridContainer>
       </Box>
@@ -63,7 +63,7 @@ export const OrderPants: FC<Props> = (props) => {
             validationMessage="ウエストを入力してください"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="ヒップ実寸"
@@ -71,7 +71,7 @@ export const OrderPants: FC<Props> = (props) => {
             validationMessage="ヒップ実寸を入力してください"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="ヒップ上り *"
@@ -79,7 +79,7 @@ export const OrderPants: FC<Props> = (props) => {
             validationMessage="ヒップ上りを入力してください"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="股上 *"
@@ -87,7 +87,7 @@ export const OrderPants: FC<Props> = (props) => {
             validationMessage="股上を入力してください"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="股下左 *"
@@ -95,7 +95,7 @@ export const OrderPants: FC<Props> = (props) => {
             validationMessage="股下左を入力してください"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="股下右 *"
@@ -103,7 +103,7 @@ export const OrderPants: FC<Props> = (props) => {
             validationMessage="股下右を入力してください"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="渡り幅 *"
@@ -111,7 +111,7 @@ export const OrderPants: FC<Props> = (props) => {
             validationMessage="渡り幅を入力してください"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="膝幅 *"
@@ -119,7 +119,7 @@ export const OrderPants: FC<Props> = (props) => {
             validationMessage="膝幅を入力してください"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfTextField
             label="裾口幅 *"
@@ -127,7 +127,7 @@ export const OrderPants: FC<Props> = (props) => {
             validationMessage="裾口幅を入力してください"
             type="number"
             defaultValue={0}
-            disabled={disabled}
+            readOnly={readOnly}
           />
         </GridContainer>
       </Box>
@@ -142,7 +142,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '1本', label: '1本' },
               { value: '2本', label: '2本' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="脇P *"
@@ -156,7 +156,7 @@ export const OrderPants: FC<Props> = (props) => {
                 label: '横Ｌポケット（タック無し）',
               },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="裾折返し *"
@@ -173,7 +173,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '有5.5cm', label: '有5.5cm' },
               { value: 'モーニング', label: 'モーニング' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           {/* <RhfSelect
             label="忍びP"
@@ -193,7 +193,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '前後膝裏', label: '前後膝裏' },
               { value: '無', label: '無' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="穴糸色 *"
@@ -235,7 +235,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: 'C31', label: 'C31' },
               { value: 'C32', label: 'C32' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="AMFステッチ *"
@@ -245,7 +245,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="脇AMF *"
@@ -256,7 +256,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '0.2', label: '0.2' },
               { value: '0.6', label: '0.6' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ステッチ糸色"
@@ -298,7 +298,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: 'C31', label: 'C31' },
               { value: 'C32', label: 'C32' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="膝当て色 *"
@@ -309,7 +309,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: 'KX-B001', label: 'KX-B001' },
               { value: 'KX-G001', label: 'KX-G001' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="タック仕様 *"
@@ -319,7 +319,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: 'イン', label: 'イン' },
               { value: 'アゥト', label: 'アゥト' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="脇サテン地 *"
@@ -351,7 +351,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: 'TX22', label: 'TX22' },
               { value: 'TX23', label: 'TX23' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ピスポケット玉緑 *"
@@ -361,7 +361,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '片玉', label: '片玉' },
               { value: '両玉', label: '両玉' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ピスポケット *"
@@ -382,7 +382,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '右三角', label: '右三角' },
               { value: '左右三角', label: '左右三角' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           {/* <RhfSelect
             label="持出し"
@@ -404,7 +404,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '0.5', label: '0.5' },
               { value: '1', label: '1' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="平尻 *"
@@ -414,7 +414,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '-0.5', label: '-0.5' },
               { value: '-1', label: '-1' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="前股上 *"
@@ -433,7 +433,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '-3.5', label: '-3.5' },
               { value: '-4', label: '-4' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="後股上 *"
@@ -452,7 +452,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '-1.5', label: '-1.5' },
               { value: '-2', label: '-2' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="食い込み *"
@@ -461,7 +461,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: 'empty', label: '' },
               { value: '-1', label: '-1' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
         </GridContainer>
       </Box>
@@ -493,7 +493,7 @@ export const OrderPants: FC<Props> = (props) => {
               },
               { value: '脇尾錠(ループ無）', label: '脇尾錠(ループ無）' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="チーループ付 *"
@@ -503,7 +503,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="穴かがり *"
@@ -513,7 +513,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: 'ミシン', label: 'ミシン' },
               { value: 'ハンド', label: 'ハンド' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="シック *"
@@ -523,7 +523,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '有り', label: '有り' },
               { value: '有り(大)', label: '有り(大)' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="ループ付け方 *"
@@ -533,7 +533,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: 'TOP', label: 'TOP' },
               { value: '0.5下がり', label: '0.5下がり' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="フラシループ付 *"
@@ -543,7 +543,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="セット加工 *"
@@ -553,7 +553,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="クリース線 *"
@@ -563,7 +563,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
           <RhfSelect
             label="尻ぐりテープ *"
@@ -573,7 +573,7 @@ export const OrderPants: FC<Props> = (props) => {
               { value: '有', label: '有' },
               { value: '無', label: '無' },
             ]}
-            disabled={disabled}
+            readOnly={readOnly}
           />
         </GridContainer>
       </Box>
@@ -584,7 +584,7 @@ export const OrderPants: FC<Props> = (props) => {
           width="100%"
           multiline
           variant="outlined"
-          disabled={disabled}
+          readOnly={readOnly}
         />
       </Box>
     </>
