@@ -14,7 +14,8 @@ export const AdminPage = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate(-1);
+    // navigate(-1);
+    navigate('/');
   };
 
   return (
@@ -30,7 +31,7 @@ export const AdminPage = () => {
           color="info"
           size="small"
         >
-          戻る
+          ホーム
         </Button>
       </Box>
       <Box>

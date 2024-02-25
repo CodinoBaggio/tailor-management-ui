@@ -92,8 +92,7 @@ export const CustomerEditor: FC<Props> = (props) => {
 
       // 顧客情報を更新する
       const res: any = await adminApi.shop.updateShop({
-        endpoint: 'update-shop',
-        endpointParams: { shop: data },
+        shop: data,
       });
 
       if (res.status === 'error') {
@@ -269,7 +268,7 @@ export const CustomerEditor: FC<Props> = (props) => {
                       placeholder="福岡市中央区天神"
                       {...register('city')}
                       InputProps={{ readOnly: readOnlyState }}
-                      />
+                    />
                     <TextField
                       variant="standard"
                       label="番地"
@@ -278,7 +277,7 @@ export const CustomerEditor: FC<Props> = (props) => {
                       placeholder="1丁目8-1、1-8-1"
                       {...register('address')}
                       InputProps={{ readOnly: readOnlyState }}
-                      />
+                    />
                     <TextField
                       variant="standard"
                       label="建物名"
@@ -287,7 +286,7 @@ export const CustomerEditor: FC<Props> = (props) => {
                       placeholder="xxxビル、yyyマンション"
                       {...register('building')}
                       InputProps={{ readOnly: readOnlyState }}
-                      />
+                    />
                   </GridContainer>
                 </Box>
               </Box>
@@ -317,7 +316,10 @@ export const CustomerEditor: FC<Props> = (props) => {
                     }
                   >
                     {chargePersons.map((chargePerson) => (
-                      <ListItem key={chargePerson.user.userId} sx={{ py: 0, minHeight: 32 }}>
+                      <ListItem
+                        key={chargePerson.user.userId}
+                        sx={{ py: 0, minHeight: 32 }}
+                      >
                         <ListItemIcon>
                           <PersonIcon />
                         </ListItemIcon>

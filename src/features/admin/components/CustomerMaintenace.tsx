@@ -43,10 +43,7 @@ export const CustomerMaintenace = () => {
         setOpen(true);
 
         // 顧客リスト取得
-        const res: any = await adminApi.shop.getShops({
-          endpoint: 'shops',
-          endpointParams: {},
-        });
+        const res: any = await adminApi.shop.getShops({});
         setShops(res.payload.shops);
         setOrgShops(res.payload.shops);
       } catch (error: any) {
@@ -68,8 +65,7 @@ export const CustomerMaintenace = () => {
 
         // 顧客情報を削除する
         const res: any = await adminApi.shop.deleteShop({
-          endpoint: 'delete-shop',
-          endpointParams: { shopId: shopId },
+          shopId: shopId,
         });
 
         if (res.status === 'error') {
@@ -125,8 +121,7 @@ export const CustomerMaintenace = () => {
 
       // 顧客情報を作成する
       const res: any = await adminApi.shop.createShop({
-        endpoint: 'create-shop',
-        endpointParams: { shop: shop },
+        shop: shop,
       });
 
       if (res.status === 'error') {

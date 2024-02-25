@@ -17,6 +17,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { useDispatch, useSelector } from 'react-redux';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import { Toast } from 'primereact/toast';
 
 import orderApi from '../features/order/api/orderApi';
 import { OrderBasis } from '../features/order/components/OrderBasis';
@@ -32,10 +33,9 @@ import {
   bindOrderVestValues,
   createDefaultOrderValues,
 } from '../features/order/utils/orderUtil';
-import { YesNoDialog } from '../components/ui/YesNoDialog';
-import { OkOnlyDialog } from '../components/ui/OkOnlyDialog';
-import { useMessageDialog } from '../features/order/hooks/useMessageDialog';
 import { validateOrder } from '../features/order/utils/orderValidations';
+import { confirmYesNo } from '../utils/confirm';
+import { useToast } from '../hooks/useToast';
 
 type Props = {
   isReuse?: boolean;
@@ -54,12 +54,11 @@ export const Order: FC<Props> = (props) => {
   const navigate = useNavigate();
   const user = useSelector((state: any) => state.user.value);
   const dispatch = useDispatch();
-  const yesNoDialog = useMessageDialog();
-  const okOnlyDialog = useMessageDialog();
   const [basisErrorCount, setBasisErrorCount] = useState(0);
   const [jaketErrorCount, setJaketErrorCount] = useState(0);
   const [pantsErrorCount, setPantsErrorCount] = useState(0);
   const [vestErrorCount, setVestErrorCount] = useState(0);
+  const { toast, showMessage } = useToast();
 
   useEffect(() => {
     const getOrder = async () => {
@@ -70,8 +69,7 @@ export const Order: FC<Props> = (props) => {
         let order = createDefaultOrderValues(user);
         if (orderId) {
           const res: any = await orderApi.getOrder({
-            endpoint: 'order',
-            endpointParams: { orderId: orderId },
+            orderId: orderId,
           });
           order = res.payload.order;
 
@@ -92,9 +90,8 @@ export const Order: FC<Props> = (props) => {
         bindOrderPantsValues(methods, order.pants);
         bindOrderVestValues(methods, order.vest);
         setOrderStatus(order.orderStatus);
-      } catch (error) {
-        okOnlyDialog.showMessage(error);
-        // console.log(error);
+      } catch (error: any) {
+        showMessage('エラー', 'error', error);
       } finally {
         // スピナーを非表示にする
         setOpen(false);
@@ -104,14 +101,13 @@ export const Order: FC<Props> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isReuse]);
 
-  const handleSave = async () => {
-    try {
-      // スピナーを表示する
-      setOpen(true);
+  const handleSave = () => {
+    const fire = async () => {
+      try {
+        // スピナーを表示する
+        setOpen(true);
 
-      const res: any = await orderApi.create({
-        endpoint: 'update-order',
-        endpointParams: {
+        const res: any = await orderApi.upsert({
           order: {
             orderId: methods.getValues('basis-orderId'),
             shopId: methods.getValues('basis-shopId'),
@@ -342,51 +338,57 @@ export const Order: FC<Props> = (props) => {
               updateUserId: methods.getValues('vest-updateUserId'),
             },
           },
-        },
-      });
-      if (res.status === 'success') {
-        // 更新フラグを設定する
-        dispatch(setUpdated(true));
+        });
+        if (res.status === 'success') {
+          // 更新フラグを設定する
+          dispatch(setUpdated(true));
 
-        okOnlyDialog.showMessage(res.message);
-        // navigate('/');
-      } else {
-        okOnlyDialog.showMessage(res.message);
+          showMessage('保存しました。', 'info');
+          // navigate('/');
+        } else {
+          showMessage('エラー', 'error', res.message);
+        }
+      } catch (error: any) {
+        showMessage('エラー', 'error', error);
+      } finally {
+        // スピナーを非表示にする
+        setOpen(false);
       }
-    } catch (error) {
-      okOnlyDialog.showMessage(error);
-    } finally {
-      // スピナーを非表示にする
-      setOpen(false);
-    }
+    };
+    confirmYesNo('保存しますか？', fire);
   };
 
-  const handleOrder = async () => {
-    try {
-      // スピナーを表示する
-      setOpen(true);
+  const handleOrder = () => {
+    const fire = async () => {
+      try {
+        // スピナーを表示する
+        setOpen(true);
 
-      // バリデーションを実行する
-      const result = await methods.trigger();
-      if (!result) {
-        // バリデーションエラーの場合は何もしない
-        return;
-      } else {
-        // カスタムバリデーションを実行する
-        const valid = await validateOrder(methods);
-        if (!valid.success) {
-          setBasisErrorCount(valid.errorCounts.basisErrorCount);
-          setJaketErrorCount(valid.errorCounts.jaketErrorCount);
-          setPantsErrorCount(valid.errorCounts.pantsErrorCount);
-          setVestErrorCount(valid.errorCounts.vestErrorCount);
+        // バリデーションエラー表示クリア
+        setBasisErrorCount(0);
+        setJaketErrorCount(0);
+        setPantsErrorCount(0);
+        setVestErrorCount(0);
+
+        // バリデーションを実行する
+        const result = await methods.trigger();
+        if (!result) {
+          // バリデーションエラーの場合は何もしない
           return;
+        } else {
+          // カスタムバリデーションを実行する
+          const valid = await validateOrder(methods);
+          if (!valid.success) {
+            setBasisErrorCount(valid.errorCounts.basisErrorCount);
+            setJaketErrorCount(valid.errorCounts.jaketErrorCount);
+            setPantsErrorCount(valid.errorCounts.pantsErrorCount);
+            setVestErrorCount(valid.errorCounts.vestErrorCount);
+            return;
+          }
         }
-      }
 
-      // 発注登録
-      const res: any = await orderApi.create({
-        endpoint: 'create-order',
-        endpointParams: {
+        // 発注登録
+        const res: any = await orderApi.upsert({
           order: {
             orderId: methods.getValues('basis-orderId'),
             shopId: methods.getValues('basis-shopId'),
@@ -617,57 +619,58 @@ export const Order: FC<Props> = (props) => {
               updateUserId: methods.getValues('vest-updateUserId'),
             },
           },
-        },
-      });
-      if (res.status === 'success') {
-        // 更新フラグを設定する
-        dispatch(setUpdated(true));
+        });
+        if (res.status === 'success') {
+          // 更新フラグを設定する
+          dispatch(setUpdated(true));
 
-        okOnlyDialog.showMessage(res.message);
-        navigate('/');
-      } else {
-        okOnlyDialog.showMessage(res.message);
+          showMessage('発注処理を実行しました。', 'info');
+          // navigate('/');
+        } else {
+          showMessage('エラー', 'error', res.message);
+        }
+      } catch (error: any) {
+        showMessage('エラー', 'error', error);
+      } finally {
+        // スピナーを非表示にする
+        setOpen(false);
       }
-    } catch (error) {
-      okOnlyDialog.showMessage(error);
-    } finally {
-      // スピナーを非表示にする
-      setOpen(false);
-    }
+    };
+    confirmYesNo('発注します。よろしいですか？', fire);
   };
 
   const handleReuse = () => {
-    try {
-      navigate(`/order-reuse/${orderId}`);
-    } catch (error) {
-      okOnlyDialog.showMessage(error);
-    }
+    confirmYesNo('流用しますか？', () => navigate(`/order-reuse/${orderId}`));
   };
 
   const handleDelete = () => {
-    try {
-      alert('削除');
+    const fire = async () => {
+      try {
+        // スピナーを表示する
+        setOpen(true);
 
-      dispatch(setUpdated(true));
-      navigate('/');
-    } catch (error) {
-      okOnlyDialog.showMessage(error);
-    }
+        const res: any = await orderApi.delete({
+          orderId: orderId,
+        });
+        if (res.status === 'success') {
+          dispatch(setUpdated(true));
+          navigate('/');
+        } else {
+          showMessage('エラー', 'error', res.message);
+        }
+      } catch (error: any) {
+        showMessage('エラー', 'error', error);
+      } finally {
+        // スピナーを非表示にする
+        setOpen(false);
+      }
+    };
+    confirmYesNo('削除しますか？', fire);
   };
 
   const handleBack = () => {
-    navigate(-1);
-    // navigate('/');
-  };
-
-  const [yesNoDialogOpen, setYesNoDialogOpen] = useState(false);
-  const [yesNoDialogMessage, setYesNoDialogMessage] = useState('');
-  const onNoClick = () => {
-    setYesNoDialogOpen(false);
-  };
-  const onYesClick = (action: any) => {
-    action();
-    setYesNoDialogOpen(false);
+    // navigate(-1);
+    navigate('/');
   };
 
   return (
@@ -683,7 +686,7 @@ export const Order: FC<Props> = (props) => {
           color="info"
           size="small"
         >
-          戻る
+          ホーム
         </Button>
       </Box>
       <FormProvider {...methods}>
@@ -691,18 +694,19 @@ export const Order: FC<Props> = (props) => {
           <Box>
             <Box className="flex items-center mb-3">
               <Typography sx={{ marginRight: '10px' }}>
-                {orderStatus === '保存' ? (
-                  <Tooltip title="保存" arrow>
-                    <SaveIcon fontSize="large" sx={{ color: green[500] }} />
-                  </Tooltip>
-                ) : (
-                  <Tooltip title="発注済み" arrow>
-                    <CloudUploadIcon
-                      fontSize="large"
-                      sx={{ color: pink[500] }}
-                    />
-                  </Tooltip>
-                )}
+                {orderStatus &&
+                  (orderStatus === '保存' ? (
+                    <Tooltip title="保存済み" arrow>
+                      <SaveIcon fontSize="large" sx={{ color: green[500] }} />
+                    </Tooltip>
+                  ) : (
+                    <Tooltip title="発注済み" arrow>
+                      <CloudUploadIcon
+                        fontSize="large"
+                        sx={{ color: pink[500] }}
+                      />
+                    </Tooltip>
+                  ))}
               </Typography>
               <Typography variant="body1">{`オーダーID：${
                 orderId && !isReuse ? orderId : '(新規)'
@@ -730,17 +734,19 @@ export const Order: FC<Props> = (props) => {
               </Button>
               <Button
                 // variant="outlined"
-                onClick={() => {
-                  setYesNoDialogMessage('流用しますか？');
-                  setYesNoDialogOpen(true);
-                }}
+                onClick={handleReuse}
+                // onClick={() => {
+                //   setYesNoDialogMessage('流用しますか？');
+                //   setYesNoDialogOpen(true);
+                // }}
                 startIcon={<FileCopyIcon />}
               >
                 流用
               </Button>
               <Button
                 // variant="outlined"
-                onClick={() => yesNoDialog.showMessage('削除しますか？')}
+                onClick={handleDelete}
+                // onClick={() => yesNoDialog.showMessage('削除しますか？')}
                 disabled={orderStatus === '発注済み' ? true : false}
                 startIcon={<ClearIcon />}
               >
@@ -792,23 +798,7 @@ export const Order: FC<Props> = (props) => {
           <CircularProgress color="inherit" />
         </Backdrop>
       </FormProvider>
-      <YesNoDialog
-        open={yesNoDialogOpen}
-        message={yesNoDialogMessage}
-        onNoClick={onNoClick}
-        onYesClick={() => onYesClick(handleReuse)}
-      />
-      <YesNoDialog
-        open={yesNoDialog.messageDialogOpen}
-        message={yesNoDialog.messageDialogMessage}
-        onNoClick={yesNoDialog.handleClick}
-        onYesClick={handleDelete}
-      />
-      <OkOnlyDialog
-        open={okOnlyDialog.messageDialogOpen}
-        message={okOnlyDialog.messageDialogMessage}
-        onClick={okOnlyDialog.handleClick}
-      />
+      <Toast ref={toast} position="center" />
     </>
   );
 };

@@ -8,20 +8,17 @@ export const validateOrder = async (
 
   // チェックに必要なリソースを取得する
   const res: any = await orderApi.getBodySize({
-    endpoint: 'body-size',
-    endpointParams: {
-      jaket: {
-        selectPattern2: getValues('jaket-selectPattern2'),
-        selectPattern3: getValues('jaket-selectPattern3'),
-      },
-      pants: {
-        selectPattern2: getValues('pants-selectPattern2'),
-        selectPattern3: getValues('pants-selectPattern3'),
-      },
-      vest: {
-        selectPattern2: getValues('vest-selectPattern2'),
-        selectPattern3: getValues('vest-selectPattern3'),
-      },
+    jaket: {
+      selectPattern2: getValues('jaket-selectPattern2'),
+      selectPattern3: getValues('jaket-selectPattern3'),
+    },
+    pants: {
+      selectPattern2: getValues('pants-selectPattern2'),
+      selectPattern3: getValues('pants-selectPattern3'),
+    },
+    vest: {
+      selectPattern2: getValues('vest-selectPattern2'),
+      selectPattern3: getValues('vest-selectPattern3'),
     },
   });
   const bodySize = {

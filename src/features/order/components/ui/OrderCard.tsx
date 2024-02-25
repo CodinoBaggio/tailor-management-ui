@@ -25,17 +25,11 @@ export const OrderCard: FC<Props> = (props) => {
     <>
       <div className="mb-3">
         <Card sx={{ boxShadow: 2 }} className="border border-blue-200">
-          <CardActionArea
-            onClick={() =>
-              order.orderStatus === '保存'
-                ? handleEdit(order.orderId)
-                : handleEdit(order.orderId)
-            }
-          >
+          <CardActionArea onClick={() => handleEdit(order.orderId)}>
             <CardHeader
               avatar={
                 order.orderStatus === '保存' ? (
-                  <Tooltip title="保存" arrow>
+                  <Tooltip title="保存済み" arrow>
                     <SaveIcon fontSize="large" sx={{ color: green[500] }} />
                   </Tooltip>
                 ) : (

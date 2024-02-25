@@ -79,9 +79,8 @@ export const UserEditor: FC<Props> = (props) => {
       setOpen(true);
 
       // 顧客情報を更新する
-      const res: any = await adminApi.shop.updateShop({
-        endpoint: 'update-shop',
-        endpointParams: { shop: data },
+      const res: any = await adminApi.user.updateUser({
+        shop: data,
       });
 
       if (res.status === 'error') {

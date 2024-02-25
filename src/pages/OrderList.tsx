@@ -23,8 +23,8 @@ import { setOrderResources } from '../features/order/stores/orderResourceSlice';
 import { OrderCard } from '../features/order/components/ui/OrderCard';
 import { SearchPanel } from '../features/order/components/ui/SearchPanel';
 import { useSearchPanel } from '../features/order/hooks/useSearchPanel';
-import { useMessageDialog } from '../features/order/hooks/useMessageDialog';
-import { OkOnlyDialog } from '../components/ui/OkOnlyDialog';
+import { useToast } from '../hooks/useToast';
+import { Toast } from 'primereact/toast';
 
 export const OrderList = () => {
   const searchStates = useSearchPanel();
@@ -37,8 +37,8 @@ export const OrderList = () => {
   const user = useSelector((state: any) => state.user.value);
   const orders = useSelector((state: any) => state.order.orders);
   const updated = useSelector((state: any) => state.order.updated);
-  const okOnlyDialog = useMessageDialog();
   const maxPageCount = 10;
+  const { toast, showMessage } = useToast();
 
   useEffect(() => {
     const getOrders = async () => {
@@ -55,8 +55,8 @@ export const OrderList = () => {
       try {
         // 発注リスト取得
         const res: any = await orderApi.getOrders({
-          endpoint: 'orders',
-          endpointParams: { shopId: user.shopId, roleId: user.roleId },
+          shopId: user.shopId,
+          roleId: user.roleId,
         });
         dispatch(setOrder(res.payload.orders));
 
@@ -65,16 +65,13 @@ export const OrderList = () => {
         setPageCount(pageCount);
 
         // リソース取得
-        const res2: any = await orderApi.getOrderResources({
-          endpoint: 'order-resources',
-          endpointParams: {},
-        });
+        const res2: any = await orderApi.getOrderResources({});
         dispatch(setOrderResources(res2.payload));
 
         // 更新フラグを下ろす
         dispatch(setUpdated(false));
-      } catch (error) {
-        okOnlyDialog.showMessage(error);
+      } catch (error: any) {
+        showMessage('エラー', 'error', error);
       } finally {
         // スピナーを非表示にする
         setOpen(false);
@@ -99,22 +96,19 @@ export const OrderList = () => {
     try {
       // 発注リスト取得
       const res: any = await orderApi.getOrders({
-        endpoint: 'orders',
-        endpointParams: {
-          shopId: user.shopId,
-          roleId: user.roleId,
-          dateType: searchStates.dateType,
-          dateFrom: searchStates.dateFrom?.toISOString(),
-          dateTo: searchStates.dateTo?.toISOString(),
-          orderId: searchStates.orderId,
-          customerName: searchStates.customerName,
-          orderStatausType: searchStates.orderStatausType,
-        },
+        shopId: user.shopId,
+        roleId: user.roleId,
+        dateType: searchStates.dateType,
+        dateFrom: searchStates.dateFrom?.toISOString(),
+        dateTo: searchStates.dateTo?.toISOString(),
+        orderId: searchStates.orderId,
+        customerName: searchStates.customerName,
+        orderStatausType: searchStates.orderStatausType,
       });
       dispatch(setOrder(res.payload.orders));
       setDrawerOpen(false);
-    } catch (error) {
-      okOnlyDialog.showMessage(error);
+    } catch (error: any) {
+      showMessage('エラー', 'error', error);
     } finally {
       // スピナーを非表示にする
       setOpen(false);
@@ -181,16 +175,14 @@ export const OrderList = () => {
             count={pageCount}
             variant="outlined"
             shape="circular"
-            renderItem={(item) => (
-              <PaginationItem {...item} color="primary" />
-            )}
+            renderItem={(item) => <PaginationItem {...item} color="primary" />}
             onChange={(e, page) => handlePageChange(e, page)}
           />
         </Box>
         {0 < orders.length ? (
           orders
             .slice((page - 1) * maxPageCount, page * maxPageCount)
-            .map((order: any, index:number) => {
+            .map((order: any, index: number) => {
               return (
                 <div key={index}>
                   <OrderCard order={order} handleEdit={handleEdit} />
@@ -207,11 +199,7 @@ export const OrderList = () => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      <OkOnlyDialog
-        open={okOnlyDialog.messageDialogOpen}
-        message={okOnlyDialog.messageDialogMessage}
-        onClick={okOnlyDialog.handleClick}
-      />
+      <Toast ref={toast} position="center" />
     </>
   );
 };

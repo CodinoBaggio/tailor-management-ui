@@ -66,11 +66,8 @@ export const OrderJaket: FC<Props> = (props) => {
       setLoading(true);
 
       const res: any = await orderApi.getLinings({
-        endpoint: 'lining',
-        endpointParams: {
-          fabricProductNo: methods.getValues('basis-fabricProductNo'),
-          searchPattern: searchPattern,
-        },
+        fabricProductNo: methods.getValues('basis-fabricProductNo'),
+        searchPattern: searchPattern,
       });
       if (res.status === 'success') {
         setLinings(res.payload.linings);

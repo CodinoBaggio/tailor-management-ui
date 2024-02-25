@@ -3,6 +3,7 @@ import { FieldValues, UseFormReturn } from 'react-hook-form';
 import { Box, Button } from '@mui/material';
 import 'dayjs/locale/ja';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
+import { Toast } from 'primereact/toast';
 
 import { RhfSelect } from '../../../components/ui/RhfSelect';
 import { RhfTextField } from '../../../components/ui/RhfTextField';
@@ -10,9 +11,8 @@ import { RhfDatePicker } from '../../../components/ui/RhfDatePicker';
 import { RhfDateTimePicker } from '../../../components/ui/RhfDateTimePicker';
 import { GridContainer } from '../../../components/containers/GridContainer';
 import orderApi from '../api/orderApi';
-import { useMessageDialog } from '../hooks/useMessageDialog';
-import { OkOnlyDialog } from '../../../components/ui/OkOnlyDialog';
 import { FabricProductNoSearchDialog } from './ui/FabricProductNoSearchDialog';
+import { useToast } from '../../../hooks/useToast';
 
 type Props = {
   methods: UseFormReturn<FieldValues, any, undefined>;
@@ -30,7 +30,7 @@ export const OrderBasis: FC<Props> = (props) => {
     useState(false);
   const [productNos, setProductNos] = useState([]);
   const [loading, setLoading] = useState(false);
-  const okOnlyDialog = useMessageDialog();
+  const { toast, showMessage } = useToast();
 
   const handleFabricProductNoSearchDialogOpen = () => {
     // 配列クリア
@@ -40,7 +40,7 @@ export const OrderBasis: FC<Props> = (props) => {
     if (productName !== 'empty' && productName !== '') {
       setFabricProductNoSearchDialogOpen(true);
     } else {
-      okOnlyDialog.showMessage('品名を選択してください。');
+      showMessage('品名を選択してください。', 'error');
     }
   };
 
@@ -54,19 +54,16 @@ export const OrderBasis: FC<Props> = (props) => {
       setLoading(true);
 
       const res: any = await orderApi.getFabricProductNos({
-        endpoint: 'fabric-product-no',
-        endpointParams: {
-          productName: methods.getValues('basis-productName'),
-          searchPattern: searchPattern,
-        },
+        productName: methods.getValues('basis-productName'),
+        searchPattern: searchPattern,
       });
       if (res.status === 'success') {
         setProductNos(res.payload.productNos);
       } else {
-        okOnlyDialog.showMessage(res.message);
+        showMessage('エラー', 'error', res.message);
       }
-    } catch (error) {
-      okOnlyDialog.showMessage(error);
+    } catch (error: any) {
+      showMessage('エラー', 'error', error);
     } finally {
       setLoading(false);
     }
@@ -277,11 +274,7 @@ export const OrderBasis: FC<Props> = (props) => {
         handleListItemClick={handleListItemClick}
         handleSubmit={handleFabricProductNoSearchSubmit}
       />
-      <OkOnlyDialog
-        open={okOnlyDialog.messageDialogOpen}
-        message={okOnlyDialog.messageDialogMessage}
-        onClick={okOnlyDialog.handleClick}
-      />
+      <Toast ref={toast} position="center" />
     </>
   );
 };

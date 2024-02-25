@@ -39,18 +39,12 @@ export const UserMaintenance = () => {
         setOpen(true);
 
         // ユーザーリスト取得
-        const res: any = await adminApi.user.getUsers({
-          endpoint: 'users',
-          endpointParams: {},
-        });
+        const res: any = await adminApi.user.getUsers({});
         setUsers(res.payload.users);
         setOrgUsers(res.payload.users);
 
         // 顧客リスト取得
-        const resShop: any = await adminApi.shop.getShops({
-          endpoint: 'shops',
-          endpointParams: {},
-        });
+        const resShop: any = await adminApi.shop.getShops({});
         setShops([{ shopId: 'empty', shopName: '' }, ...resShop.payload.shops]);
       } catch (error: any) {
         showMessage('エラー', 'error', error);
@@ -71,8 +65,7 @@ export const UserMaintenance = () => {
 
         // ユーザー情報を削除する
         const res: any = await adminApi.user.deleteUser({
-          endpoint: 'delete-user',
-          endpointParams: { userId: userId },
+          userId: userId,
         });
 
         if (res.status === 'error') {
@@ -123,8 +116,7 @@ export const UserMaintenance = () => {
 
       // ユーザー情報を作成する
       const res: any = await adminApi.user.createUser({
-        endpoint: 'create-user',
-        endpointParams: { shop: user },
+        shop: user,
       });
 
       if (res.status === 'error') {

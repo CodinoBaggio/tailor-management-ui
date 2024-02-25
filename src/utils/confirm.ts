@@ -12,7 +12,7 @@ export const confirmYesNo = (message: string, accept: any) => {
     header: '確認',
     icon: 'pi pi-exclamation-triangle',
     accept: accept,
-    acceptClassName: 'border border-blue-500 bg-blue-500 text-white',
+    acceptClassName: 'border border-blue-500 text-blue-700',
     // className: 'z-40',
     appendTo: 'self',
   });
