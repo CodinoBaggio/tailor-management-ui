@@ -25,11 +25,13 @@ export const CustomerMaintenace = () => {
     address: '',
     building: '',
     isOwn: false,
-    isDelete: false,
-    createUserId: '',
-    createDateTime: '',
-    updateUserId: '',
-    updateDateTime: '',
+    commonItem: {
+      isDelete: false,
+      createUserId: '',
+      createDateTime: '',
+      updateUserId: '',
+      updateDateTime: '',
+    },
     chargePersons: [],
   });
   const [newShopOpen, setNewShopOpen] = useState(false);
@@ -104,11 +106,13 @@ export const CustomerMaintenace = () => {
       address: '',
       building: '',
       isOwn: false,
-      isDelete: false,
-      createUserId: '',
-      createDateTime: '',
-      updateUserId: '',
-      updateDateTime: '',
+      commonItem: {
+        isDelete: false,
+        createUserId: '',
+        createDateTime: '',
+        updateUserId: '',
+        updateDateTime: '',
+      },
       chargePersons: [],
     });
     setNewShopOpen(true);

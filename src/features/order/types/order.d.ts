@@ -71,7 +71,7 @@ export type OrderJaketType = {
   insidePocket: string;
   penPocket: string;
   ticketPocket: string;
-  pat: number;
+  pat: string;
   lining: string;
   collarBack: string;
   vents: string;

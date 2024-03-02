@@ -210,7 +210,7 @@ export const CustomerAddEditor: FC<Props> = (props) => {
               </Box>
             </Box>
             <Box>
-              {0 < chargePersons.length && (
+              {chargePersons!.length > 0 && (
                 <List
                   sx={{
                     width: '180px',
@@ -231,7 +231,7 @@ export const CustomerAddEditor: FC<Props> = (props) => {
                     </ListSubheader>
                   }
                 >
-                  {chargePersons.map((chargePerson) => (
+                  {chargePersons?.map((chargePerson) => (
                     <ListItem key={chargePerson.user.userId} sx={{ py: 0, minHeight: 32 }}>
                       <ListItemIcon>
                         <PersonIcon />

@@ -9,23 +9,15 @@ export type ShopType = {
   address: string;
   building: string;
   isOwn: boolean;
-  isDelete: boolean;
-  createDateTime: datetime;
-  createUserId: string;
-  updateDateTime: datetime;
-  updateUserId: string;
-  chargePersons: ChargePersonType[];
+  commonItem?: CommonItemType;
+  chargePersons?: ChargePersonType[];
 };
 
 export type ChargePersonType = {
   chargePersonId: string;
   shop: ShopType;
   user: UserType;
-  isDelete: boolean;
-  createDateTime: datetime;
-  createUserId: string;
-  updateDateTime: datetime;
-  updateUserId: string;
+  commonItem?: CommonItemType;
 };
 
 export type UserType = {
@@ -35,10 +27,6 @@ export type UserType = {
   userNameKana: string;
   allowLogin: boolean;
   roleId: string;
-  isDelete: boolean;
-  createDateTime: datetime;
-  createUserId: string;
-  updateDateTime: datetime;
-  updateUserId: string;
+  commonItem?: CommonItemType;
   shop?: ShopType;
 };

@@ -21,11 +21,13 @@ export const UserMaintenance = () => {
     userNameKana: '',
     allowLogin: false,
     roleId: '',
-    isDelete: false,
-    createUserId: '',
-    createDateTime: '',
-    updateUserId: '',
-    updateDateTime: '',
+    commonItem: {
+      isDelete: false,
+      createUserId: '',
+      createDateTime: '',
+      updateUserId: '',
+      updateDateTime: '',
+    }
   });
   const [newUserOpen, setNewUserOpen] = useState(false);
   const [shops, setShops] = useState<ShopType[]>([]);
@@ -40,6 +42,10 @@ export const UserMaintenance = () => {
 
         // ユーザーリスト取得
         const res: any = await adminApi.user.getUsers({});
+        if (res.status === 'error') {
+          showMessage('エラー', 'error', res.message);
+          return;
+        }
         setUsers(res.payload.users);
         setOrgUsers(res.payload.users);
 
@@ -100,11 +106,13 @@ export const UserMaintenance = () => {
       userNameKana: '',
       allowLogin: false,
       roleId: 'empty',
-      isDelete: false,
-      createUserId: '',
-      createDateTime: '',
-      updateUserId: '',
-      updateDateTime: '',
+      commonItem: {
+        isDelete: false,
+        createUserId: '',
+        createDateTime: '',
+        updateUserId: '',
+        updateDateTime: '',
+      }
     });
     setNewUserOpen(true);
   };

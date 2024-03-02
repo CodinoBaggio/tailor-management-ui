@@ -97,7 +97,7 @@ export const bindOrderJaketValues = (
   methods.setValue('jaket-insidePocket', order.insidePocket || '');
   methods.setValue('jaket-penPocket', order.penPocket || '');
   methods.setValue('jaket-ticketPocket', order.ticketPocket || '');
-  methods.setValue('jaket-pat', order.pat || NaN);
+  methods.setValue('jaket-pat', order.pat || '');
   methods.setValue('jaket-lining', order.lining || '');
   methods.setValue('jaket-collarBack', order.collarBack || '');
   methods.setValue('jaket-vents', order.vents || '');
@@ -319,7 +319,7 @@ export const createDefaultOrderValues = (user: any) => {
     insidePocket: '右三角フタ',
     penPocket: '有',
     ticketPocket: '無',
-    pat: 0.5,
+    pat: "0.5",
     lining: '',
     collarBack: '生地色',
     vents: '',
