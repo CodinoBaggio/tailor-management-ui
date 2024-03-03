@@ -44,7 +44,7 @@ export const UserAddEditor: FC<Props> = (props) => {
       userNameKana: user.userNameKana,
       allowLogin: user.allowLogin,
       roleId: user.roleId,
-      shopId: shop ? shop.shopId : 'empty',
+      shop: { shopId: shop ? shop.shopId : 'empty' },
     },
   });
 
@@ -56,12 +56,12 @@ export const UserAddEditor: FC<Props> = (props) => {
       userNameKana: user.userNameKana,
       allowLogin: user.allowLogin,
       roleId: user.roleId,
-      shopId: shop ? shop.shopId : 'empty',
+      shop: { shopId: shop ? shop.shopId : 'empty' },
     });
     setChecked(user.allowLogin);
     setSelectedShopId(shop ? shop.shopId : 'empty');
     setSelectedRoleId(user.roleId);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const handleChange = (event: any) => {
@@ -120,7 +120,7 @@ export const UserAddEditor: FC<Props> = (props) => {
                     <Select
                       value={selectedShopId}
                       sx={{ width: 200 }}
-                      {...register('shopId')}
+                      {...register('shop.shopId')}
                       onChange={handleChange}
                       size="small"
                     >

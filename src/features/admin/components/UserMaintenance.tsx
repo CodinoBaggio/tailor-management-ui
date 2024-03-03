@@ -112,7 +112,26 @@ export const UserMaintenance = () => {
         createDateTime: '',
         updateUserId: '',
         updateDateTime: '',
-      }
+      },
+      shop: {
+        shopId: 'empty',
+        shopName: '',
+        shopGroup: '',
+        shopNo: '',
+        postalCode: '',
+        prefecture: '',
+        city: '',
+        address: '',
+        building: '',
+        isOwn: false,
+        commonItem: {
+          isDelete: false,
+          createUserId: '',
+          createDateTime: '',
+          updateUserId: '',
+          updateDateTime: '',
+        },
+      },
     });
     setNewUserOpen(true);
   };
