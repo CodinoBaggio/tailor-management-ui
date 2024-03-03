@@ -9,6 +9,8 @@ import { useToast } from '../../../hooks/useToast';
 import { SearchTextField } from '../../../components/ui/SearchTextField';
 import { UserEditor } from './user/UserEditor';
 import { UserAddEditor } from './user/UserAddEditor';
+import { useSelector } from 'react-redux';
+import { toDateTimeString } from '../../../utils/util';
 
 export const UserMaintenance = () => {
   const [open, setOpen] = useState(false);
@@ -32,6 +34,7 @@ export const UserMaintenance = () => {
   const [newUserOpen, setNewUserOpen] = useState(false);
   const [shops, setShops] = useState<ShopType[]>([]);
   const { toast, showMessage } = useToast();
+  const loginUser = useSelector((state: any) => state.user.value);
 
   useEffect(() => {
     // ユーザー情報を取得する
@@ -108,10 +111,10 @@ export const UserMaintenance = () => {
       roleId: 'empty',
       commonItem: {
         isDelete: false,
-        createUserId: '',
-        createDateTime: '',
-        updateUserId: '',
-        updateDateTime: '',
+        createUserId: loginUser.userId,
+        createDateTime: toDateTimeString(new Date()),
+        updateUserId: loginUser.userId,
+        updateDateTime: toDateTimeString(new Date()),
       },
       shop: {
         shopId: 'empty',
@@ -126,10 +129,10 @@ export const UserMaintenance = () => {
         isOwn: false,
         commonItem: {
           isDelete: false,
-          createUserId: '',
-          createDateTime: '',
-          updateUserId: '',
-          updateDateTime: '',
+          createUserId: loginUser.userId,
+          createDateTime: toDateTimeString(new Date()),
+          updateUserId: loginUser.userId,
+          updateDateTime: toDateTimeString(new Date()),
         },
       },
     });
@@ -143,7 +146,7 @@ export const UserMaintenance = () => {
 
       // ユーザー情報を作成する
       const res: any = await adminApi.user.createUser({
-        shop: user,
+        user: user,
       });
 
       if (res.status === 'error') {
@@ -152,7 +155,7 @@ export const UserMaintenance = () => {
       }
 
       // shopsに追加する
-      const newUsers = [...users, user];
+      const newUsers = [...users, res.payload.user];
       setUsers(newUsers);
       setOrgUsers(newUsers);
 

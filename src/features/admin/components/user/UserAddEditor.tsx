@@ -44,7 +44,17 @@ export const UserAddEditor: FC<Props> = (props) => {
       userNameKana: user.userNameKana,
       allowLogin: user.allowLogin,
       roleId: user.roleId,
-      shop: { shopId: shop ? shop.shopId : 'empty' },
+      shop: {
+        shopId: shop ? shop.shopId : 'empty',
+        commonItem: user.shop?.commonItem,
+      },
+      commonItem: {
+        isDelete: user.commonItem.isDelete,
+        createUserId: user.commonItem.createUserId,
+        createDateTime: user.commonItem.createDateTime,
+        updateUserId: user.commonItem.updateUserId,
+        updateDateTime: user.commonItem.updateDateTime,
+      },
     },
   });
 
@@ -56,7 +66,17 @@ export const UserAddEditor: FC<Props> = (props) => {
       userNameKana: user.userNameKana,
       allowLogin: user.allowLogin,
       roleId: user.roleId,
-      shop: { shopId: shop ? shop.shopId : 'empty' },
+      shop: {
+        shopId: shop ? shop.shopId : 'empty',
+        commonItem: user.shop?.commonItem,
+      },
+      commonItem: {
+        isDelete: user.commonItem.isDelete,
+        createUserId: user.commonItem.createUserId,
+        createDateTime: user.commonItem.createDateTime,
+        updateUserId: user.commonItem.updateUserId,
+        updateDateTime: user.commonItem.updateDateTime,
+      },
     });
     setChecked(user.allowLogin);
     setSelectedShopId(shop ? shop.shopId : 'empty');
