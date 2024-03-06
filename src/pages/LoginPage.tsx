@@ -30,6 +30,10 @@ export const LoginPage = () => {
           password,
         },
       });
+      if (res.status === 'error') {
+        alert(res.message);
+        return;
+      }
       localStorage.setItem('token', res.payload.token);
       navigate('/');
     } catch (error) {
