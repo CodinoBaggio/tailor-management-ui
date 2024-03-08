@@ -315,24 +315,28 @@ export const CustomerEditor: FC<Props> = (props) => {
                       </ListSubheader>
                     }
                   >
-                    {chargePersons.map((chargePerson) => (
-                      <ListItem
-                        key={chargePerson.user.userId}
-                        sx={{ py: 0, minHeight: 32 }}
-                      >
-                        <ListItemIcon>
-                          <PersonIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={chargePerson.user.userName}
-                          primaryTypographyProps={{
-                            fontSize: 14,
-                            fontWeight: 'bold',
-                            color: 'rgb(0 0 0 / .4)',
-                          }}
-                        />
-                      </ListItem>
-                    ))}
+                    {chargePersons.map((chargePerson) => {
+                      if (chargePerson.user) {
+                        return (
+                          <ListItem
+                            key={chargePerson.user.userId}
+                            sx={{ py: 0, minHeight: 32 }}
+                          >
+                            <ListItemIcon>
+                              <PersonIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={chargePerson.user.userName}
+                              primaryTypographyProps={{
+                                fontSize: 14,
+                                fontWeight: 'bold',
+                                color: 'rgb(0 0 0 / .4)',
+                              }}
+                            />
+                          </ListItem>
+                        );
+                      }
+                    })}
                   </List>
                 )}
               </Box>

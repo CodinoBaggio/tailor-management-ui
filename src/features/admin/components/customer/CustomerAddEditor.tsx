@@ -75,7 +75,7 @@ export const CustomerAddEditor: FC<Props> = (props) => {
     setChecked(shop.isOwn);
     setSelectedPrefecture(shop.prefecture);
     setSelectedShopGroup(shop.shopGroup);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shop]);
 
   const handleChange = (event: any) => {
@@ -231,21 +231,28 @@ export const CustomerAddEditor: FC<Props> = (props) => {
                     </ListSubheader>
                   }
                 >
-                  {chargePersons?.map((chargePerson) => (
-                    <ListItem key={chargePerson.user.userId} sx={{ py: 0, minHeight: 32 }}>
-                      <ListItemIcon>
-                        <PersonIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={chargePerson.user.userName}
-                        primaryTypographyProps={{
-                          fontSize: 14,
-                          fontWeight: 'bold',
-                          color: 'rgb(0 0 0 / .4)',
-                        }}
-                      />
-                    </ListItem>
-                  ))}
+                  {chargePersons?.map((chargePerson) => {
+                    if (chargePerson.user) {
+                      return (
+                        <ListItem
+                          key={chargePerson.user.userId}
+                          sx={{ py: 0, minHeight: 32 }}
+                        >
+                          <ListItemIcon>
+                            <PersonIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={chargePerson.user.userName}
+                            primaryTypographyProps={{
+                              fontSize: 14,
+                              fontWeight: 'bold',
+                              color: 'rgb(0 0 0 / .4)',
+                            }}
+                          />
+                        </ListItem>
+                      );
+                    }
+                  })}
                 </List>
               )}
             </Box>

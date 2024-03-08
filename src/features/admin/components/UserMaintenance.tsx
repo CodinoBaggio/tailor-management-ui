@@ -53,6 +53,7 @@ export const UserMaintenance = () => {
         setOrgUsers(res.payload.users);
 
         // 顧客リスト取得
+        setShops([])
         const resShop: any = await adminApi.shop.getShops({});
         setShops([{ shopId: 'empty', shopName: '' }, ...resShop.payload.shops]);
       } catch (error: any) {

@@ -65,7 +65,7 @@ export const OrderList = () => {
         setPageCount(pageCount);
 
         // リソース取得
-        const res2: any = await orderApi.getOrderResources({});
+        const res2: any = await orderApi.getSelectPatterns({});
         dispatch(setOrderResources(res2.payload));
 
         // 更新フラグを下ろす

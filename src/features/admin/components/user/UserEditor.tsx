@@ -237,7 +237,7 @@ export const UserEditor: FC<Props> = (props) => {
                     />
                     <TextField
                       variant="standard"
-                      label="名前カナ"
+                      label="名前かな"
                       size="small"
                       InputLabelProps={{ shrink: true }}
                       {...register('userNameKana')}

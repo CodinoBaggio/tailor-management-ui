@@ -5,9 +5,9 @@ const orderApi = {
     axiosClient.post('/exec', { endpoint: 'orders', endpointParams: params }),
   getOrder: (params: any) =>
     axiosClient.post('/exec', { endpoint: 'order', endpointParams: params }),
-  getOrderResources: (params: any) =>
+  getSelectPatterns: (params: any) =>
     axiosClient.post('/exec', {
-      endpoint: 'order-resources',
+      endpoint: 'select-pattern',
       endpointParams: params,
     }),
   getFabricProductNos: (params: any) =>
