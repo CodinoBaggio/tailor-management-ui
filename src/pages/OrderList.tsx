@@ -55,8 +55,8 @@ export const OrderList = () => {
       try {
         // 発注リスト取得
         const res: any = await orderApi.getOrders({
-          shopId: user.shopId,
           roleId: user.roleId,
+          shopId: user.shopId,
         });
         dispatch(setOrder(res.payload.orders));
 
@@ -68,7 +68,7 @@ export const OrderList = () => {
         const res2: any = await orderApi.getSelectPatterns({});
         dispatch(setOrderResources(res2.payload));
 
-        // 更新フラグを下ろす
+        // 表示更新フラグを下ろす
         dispatch(setUpdated(false));
       } catch (error: any) {
         showMessage('エラー', 'error', error);
@@ -125,7 +125,6 @@ export const OrderList = () => {
       ) {
         return;
       }
-
       setDrawerOpen(open);
     };
 

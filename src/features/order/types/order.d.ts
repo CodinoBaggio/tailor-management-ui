@@ -114,7 +114,7 @@ export type OrderJaketType = {
   backWidth: number;
   sleeveBack: string;
   remark: string;
-  isDelete: boolean;
+  isDelete: bit;
   createDateTime: datetime;
   createUserId: string;
   updateDateTime: datetime;
@@ -167,7 +167,7 @@ export type OrderPantsType = {
   creaseWire: string;
   buttholeTape: string;
   remark: string;
-  isDelete: boolean;
+  isDelete: bit;
   createDateTime: datetime;
   createUserId: string;
   updateDateTime: datetime;
@@ -205,7 +205,7 @@ export type OrderVestType = {
   buttonPosition: number;
   frontLength: number;
   remark: string;
-  isDelete: boolean;
+  isDelete: bit;
   createDateTime: datetime;
   createUserId: string;
   updateDateTime: datetime;

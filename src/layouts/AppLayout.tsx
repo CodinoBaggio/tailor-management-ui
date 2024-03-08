@@ -25,6 +25,7 @@ import 'primeicons/primeicons.css';
 import authUtils from '../features/auth/utils/authUtils';
 import { setUser } from '../features/auth/stores/userSlice';
 import { YesNoDialog } from '../components/ui/YesNoDialog';
+import { setUpdated } from '../features/order/stores/orderSlice';
 
 export const AppLayout = () => {
   const navigate = useNavigate();
@@ -49,6 +50,8 @@ export const AppLayout = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     dispatch(setUser({}));
+    // 表示更新フラグを設定する
+    dispatch(setUpdated(true));
     navigate('/login');
   };
 
