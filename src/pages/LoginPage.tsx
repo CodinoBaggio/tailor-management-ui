@@ -4,6 +4,8 @@ import { LoadingButton } from '@mui/lab';
 import { useNavigate } from 'react-router-dom';
 import authApi from '../features/auth/api/authApi';
 import { useForm } from 'react-hook-form';
+import { setUser } from '../features/auth/stores/userSlice';
+import { useDispatch } from 'react-redux';
 
 export const LoginPage = () => {
   const {
@@ -14,6 +16,7 @@ export const LoginPage = () => {
   } = useForm();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const onSubmit = async () => {
     try {
@@ -34,6 +37,13 @@ export const LoginPage = () => {
         alert(res.message);
         return;
       }
+
+      dispatch(
+        setUser({
+          shopId: res.payload.shopId,
+          role: res.payload.role,
+        })
+      );
       localStorage.setItem('token', res.payload.token);
       navigate('/');
     } catch (error) {
