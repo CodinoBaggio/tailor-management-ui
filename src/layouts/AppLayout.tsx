@@ -25,13 +25,15 @@ import 'primeicons/primeicons.css';
 import authUtils from '../features/auth/utils/authUtils';
 import { setUser } from '../features/auth/stores/userSlice';
 import { YesNoDialog } from '../components/ui/YesNoDialog';
-import { setUpdated } from '../features/order/stores/orderSlice';
+import { setOrder, setUpdated } from '../features/order/stores/orderSlice';
+import Loading from '../components/ui/Loading';
 
 export const AppLayout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user.value);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // JWTを持っているのか確認する
@@ -40,7 +42,9 @@ export const AppLayout = () => {
       if (!user) {
         navigate('/login');
       } else {
+        //ユーザーの保存
         dispatch(setUser(user));
+        setLoading(false);
       }
     };
     checkAuth();
@@ -50,8 +54,11 @@ export const AppLayout = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     dispatch(setUser({}));
+    dispatch(setOrder({}));
+
     // 表示更新フラグを設定する
     dispatch(setUpdated(true));
+
     navigate('/login');
   };
 
@@ -78,7 +85,11 @@ export const AppLayout = () => {
     navigate('/admin');
   };
 
-  return (
+  return loading ? (
+    <>
+      <Loading />
+    </>
+  ) : (
     <>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" className="h-12 justify-center">

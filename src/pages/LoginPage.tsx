@@ -41,7 +41,7 @@ export const LoginPage = () => {
       dispatch(
         setUser({
           shopId: res.payload.shopId,
-          role: res.payload.role,
+          roleId: res.payload.roleId,
         })
       );
       localStorage.setItem('token', res.payload.token);

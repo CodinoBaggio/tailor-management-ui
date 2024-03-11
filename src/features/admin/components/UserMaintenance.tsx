@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Backdrop, Box, Button, CircularProgress } from '@mui/material';
+import { Backdrop, Box, Button } from '@mui/material';
 import { Toast } from 'primereact/toast';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -11,6 +11,7 @@ import { UserEditor } from './user/UserEditor';
 import { UserAddEditor } from './user/UserAddEditor';
 import { useSelector } from 'react-redux';
 import { toDateTimeString } from '../../../utils/util';
+import Loading from '../../../components/ui/Loading';
 
 export const UserMaintenance = () => {
   const [open, setOpen] = useState(false);
@@ -29,7 +30,7 @@ export const UserMaintenance = () => {
       createDateTime: '',
       updateUserId: '',
       updateDateTime: '',
-    }
+    },
   });
   const [newUserOpen, setNewUserOpen] = useState(false);
   const [shops, setShops] = useState<ShopType[]>([]);
@@ -53,7 +54,7 @@ export const UserMaintenance = () => {
         setOrgUsers(res.payload.users);
 
         // 顧客リスト取得
-        setShops([])
+        setShops([]);
         const resShop: any = await adminApi.shop.getShops({});
         setShops([{ shopId: 'empty', shopName: '' }, ...resShop.payload.shops]);
       } catch (error: any) {
@@ -205,12 +206,7 @@ export const UserMaintenance = () => {
           deleteUser={deleteUser}
         />
       ))}
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 2 }}
-        open={open}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <Loading open={open} zOrderDrawerIncrement={2} />
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={newUserOpen}

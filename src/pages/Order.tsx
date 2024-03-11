@@ -1,10 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-  Backdrop,
   Box,
   Button,
-  CircularProgress,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -36,6 +34,7 @@ import {
 import { validateOrder } from '../features/order/utils/orderValidations';
 import { confirmYesNo } from '../utils/confirm';
 import { useToast } from '../hooks/useToast';
+import Loading from '../components/ui/Loading';
 
 type Props = {
   isReuse?: boolean;
@@ -791,12 +790,7 @@ export const Order: FC<Props> = (props) => {
             ]}
           />
         </Box>
-        <Backdrop
-          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={open}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
+        <Loading open={open} />
       </FormProvider>
       <Toast ref={toast} position="center" />
     </>

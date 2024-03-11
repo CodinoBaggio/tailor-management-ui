@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { CustomerEditor } from './customer/CustomerEditor';
-import { Backdrop, Box, Button, CircularProgress } from '@mui/material';
+import { Backdrop, Box, Button } from '@mui/material';
 import { Toast } from 'primereact/toast';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -9,6 +9,7 @@ import { ShopType } from '../types/admin';
 import { useToast } from '../../../hooks/useToast';
 import { CustomerAddEditor } from './customer/CustomerAddEditor';
 import { SearchTextField } from '../../../components/ui/SearchTextField';
+import Loading from '../../../components/ui/Loading';
 
 export const CustomerMaintenace = () => {
   const [open, setOpen] = useState(false);
@@ -182,12 +183,7 @@ export const CustomerMaintenace = () => {
           deleteShop={deleteShop}
         />
       ))}
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 2 }}
-        open={open}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <Loading open={open} zOrderDrawerIncrement={2} />
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={newShopOpen}
