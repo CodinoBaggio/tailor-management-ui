@@ -12,6 +12,7 @@ import {
 import SaveIcon from '@mui/icons-material/Save';
 import { grey, pink, green, blue } from '@mui/material/colors';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { toDateTimeString } from '../../../../utils/util';
 
 type Props = {
   order: any;
@@ -47,7 +48,7 @@ export const OrderCard: FC<Props> = (props) => {
               //   </IconButton>
               // }
               title={`オーダーID：${order.orderId}`}
-              subheader={<Box>{`入力日：${order.inputDate}`}</Box>}
+              subheader={<Box>{`入力日：${toDateTimeString(order.inputDate, 'YYYY/MM/DD')}`}</Box>}
               titleTypographyProps={{ variant: 'body1', color: grey[700] }}
               sx={{ bgcolor: blue[50] }}
             />
@@ -74,10 +75,10 @@ export const OrderCard: FC<Props> = (props) => {
               </Box>
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="body2" color={grey[700]}>{`発注日時：${
-                  order.orderDateTime || '-'
+                  toDateTimeString(order.orderDateTime) || '-'
                 }`}</Typography>
                 <Typography variant="body2" color={grey[700]}>{`工場出荷日：${
-                  order.shipDate || '-'
+                  toDateTimeString(order.shipDate, 'YYYY/MM/DD') || '-'
                 }`}</Typography>
               </Box>
             </CardContent>

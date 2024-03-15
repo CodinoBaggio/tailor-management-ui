@@ -82,19 +82,19 @@ export const OrderBasis: FC<Props> = (props) => {
             label="入力日"
             name="basis-inputDate"
             required
-            readOnly={readOnly}
+            readOnly={true}
           />
           <RhfDateTimePicker
             label="発注日時"
             name="basis-orderDateTime"
             required
-            readOnly={readOnly}
+            readOnly={true}
           />
           <RhfDatePicker
             label="工場出荷日"
             name="basis-shipDate"
             required
-            readOnly={readOnly}
+            readOnly={true}
           />
         </GridContainer>
       </Box>
