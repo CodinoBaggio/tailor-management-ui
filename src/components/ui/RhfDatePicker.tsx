@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
 import { Controller, useFormContext } from 'react-hook-form';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/ja';
@@ -41,7 +40,7 @@ export const RhfDatePicker: FC<Props> = (props) => {
             label={label}
             {...field}
             onChange={(value) => field.onChange(value)}
-            value={field.value ?? dayjs()}
+            value={field.value ?? null}
             slotProps={{
               textField: {
                 required: required,
