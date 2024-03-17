@@ -6,6 +6,9 @@ export const validateOrder = async (
 ) => {
   const { getValues } = methods;
 
+  // 品名
+  const productName = getValues('basis-productName');
+
   // チェックに必要なリソースを取得する
   const res: any = await orderApi.getBodySize({
     jaket: {
@@ -36,10 +39,50 @@ export const validateOrder = async (
     },
   };
 
+  // 発注基本情報のチェック
   const basisError = validateOrderBasis(methods);
-  const jaketError = validateOrderJaket(methods, bodySize.jaket);
-  const pantsError = validateOrderPants(methods);
-  const vestError = validateOrderVest(methods);
+
+  // チェック実行対象の品名
+  const jaketValidationProductNames = ['2P', 'JK', '3P', '2PP', '3PP'];
+  const pantsValidationProductNames = ['2P', 'PT', '3P', '2PP', '3PP'];
+  const vestValidationProductNames = ['VT', '3P', '3PP'];
+
+  // ジャケットのチェック
+  let jaketError = {
+    basisErrorCount: 0,
+    jaketErrorCount: 0,
+    pantsErrorCount: 0,
+    vestErrorCount: 0,
+  };
+  if (jaketValidationProductNames.includes(productName)) {
+    jaketError = validateOrderJaket(methods, bodySize.jaket);
+  }
+
+  // パンツのチェック
+  let pantsError = {
+    basisErrorCount: 0,
+    jaketErrorCount: 0,
+    pantsErrorCount: 0,
+    vestErrorCount: 0,
+  };
+  if (pantsValidationProductNames.includes(productName)) {
+    pantsError = validateOrderPants(methods);
+  }
+
+  // ベストのチェック
+  let vestError = {
+    basisErrorCount: 0,
+    jaketErrorCount: 0,
+    pantsErrorCount: 0,
+    vestErrorCount: 0,
+  };
+  if (vestValidationProductNames.includes(productName)) {
+    vestError = validateOrderVest(methods);
+  }
+  // const jaketError = validateOrderJaket(methods, bodySize.jaket);
+  // const pantsError = validateOrderPants(methods);
+  // const vestError = validateOrderVest(methods);
+
   return {
     success:
       basisError.basisErrorCount +
@@ -135,7 +178,7 @@ export const validateOrderBasis = (
           type: 'custom',
           message: '品名にPTが選択されているため、空白を選択してください',
         });
-        errorCounts.jaketErrorCount++;
+        errorCounts.pantsErrorCount++;
       }
       const inName = methods.getValues('jaket-inName');
       if (inName !== 'empty') {
@@ -143,7 +186,7 @@ export const validateOrderBasis = (
           type: 'custom',
           message: '品名にPTが選択されているため、空白を選択してください',
         });
-        errorCounts.jaketErrorCount++;
+        errorCounts.pantsErrorCount++;
       }
     }
     if (productName === 'VT') {
@@ -153,7 +196,7 @@ export const validateOrderBasis = (
           type: 'custom',
           message: '品名にVTが選択されているため、空白を選択してください',
         });
-        errorCounts.jaketErrorCount++;
+        errorCounts.vestErrorCount++;
       }
       const fabricMark = methods.getValues('jaket-fabricMark');
       if (fabricMark !== 'empty') {
@@ -161,7 +204,7 @@ export const validateOrderBasis = (
           type: 'custom',
           message: '品名にVTが選択されているため、空白を選択してください',
         });
-        errorCounts.jaketErrorCount++;
+        errorCounts.vestErrorCount++;
       }
     }
   }
