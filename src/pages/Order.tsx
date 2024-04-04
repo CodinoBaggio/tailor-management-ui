@@ -72,7 +72,7 @@ export const Order: FC<Props> = (props) => {
           // 流用の場合はオーダーIDを新規にする
           if (isReuse) {
             order.orderId = '';
-            order.jaket ? order.jaket.orderId = '' : '';
+            order.jaket.orderId = '';
             order.jaket.jaketOrderId = '';
             order.pants.orderId = '';
             order.pants.pantsOrderId = '';
