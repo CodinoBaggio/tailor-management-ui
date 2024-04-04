@@ -464,9 +464,10 @@ export const OrderJaket: FC<Props> = (props) => {
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor4}>
           <RhfSelect
-            label="打ち合い *"
+            label="打ち合い"
             name="jaket-uchiai"
             menuItems={[
+              { value: 'empty', label: '' },
               { value: '4', label: '4' },
               { value: '3', label: '3' },
               { value: '2', label: '2' },
@@ -479,7 +480,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="反身 *"
+            label="反身"
             name="jaket-hanmi"
             menuItems={[
               { value: 'empty', label: '' },
@@ -491,7 +492,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="屈身 *"
+            label="屈身"
             name="jaket-kutsumi"
             menuItems={[
               { value: 'empty', label: '' },
@@ -503,7 +504,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="怒肩左 *"
+            label="怒肩左"
             name="jaket-squareShoulderLeft"
             menuItems={[
               { value: 'empty', label: '' },
@@ -514,7 +515,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="怒肩右 *"
+            label="怒肩右"
             name="jaket-squareShoulderRight"
             menuItems={[
               { value: 'empty', label: '' },
@@ -525,7 +526,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="撫肩左 *"
+            label="撫肩左"
             name="jaket-slopingShoulderLeft"
             menuItems={[
               { value: 'empty', label: '' },
@@ -536,7 +537,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="撫肩右 *"
+            label="撫肩右"
             name="jaket-slopingShoulderRight"
             menuItems={[
               { value: 'empty', label: '' },
@@ -547,7 +548,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="突量 *"
+            label="突量"
             name="jaket-totsuRyo"
             menuItems={[
               { value: 'empty', label: '' },
@@ -559,7 +560,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="尻廻 *"
+            label="尻廻"
             name="jaket-hip"
             menuItems={[
               { value: 'empty', label: '' },
@@ -575,7 +576,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="前丈 *"
+            label="前丈"
             name="jaket-frontLength"
             menuItems={[
               { value: 'empty', label: '' },
@@ -592,7 +593,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="前裾ヘム *"
+            label="前裾ヘム"
             name="jaket-frontSleeveHem"
             menuItems={[
               { value: 'empty', label: '' },
@@ -603,7 +604,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="AH前ぐり *"
+            label="AH前ぐり"
             name="jaket-ahFrontOpening"
             menuItems={[
               { value: 'empty', label: '' },
@@ -615,7 +616,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="袖口幅 *"
+            label="袖口幅"
             name="jaket-sleeveOpeningWidth"
             menuItems={[
               { value: 'empty', label: '' },
@@ -637,7 +638,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="襟みつ *"
+            label="襟みつ"
             name="jaket-collarMitsu"
             menuItems={[
               { value: 'empty', label: '' },
@@ -649,7 +650,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="袖後にずらす *"
+            label="袖後にずらす"
             name="jaket-collarShift"
             menuItems={[
               { value: 'empty', label: '' },
@@ -661,7 +662,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="ボタン位置 *"
+            label="ボタン位置"
             name="jaket-buttonPosition"
             menuItems={[
               { value: 'empty', label: '' },
@@ -677,7 +678,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="背中カーブ *"
+            label="背中カーブ"
             name="jaket-backCurve"
             menuItems={[
               { value: 'empty', label: '' },
@@ -686,7 +687,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="鎌上げ *"
+            label="鎌上げ"
             name="jaket-sickleRaising"
             menuItems={[
               { value: 'empty', label: '' },
@@ -699,7 +700,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="袖幅 *"
+            label="袖幅"
             name="jaket-sleeveWidth"
             menuItems={[
               { value: 'empty', label: '' },
@@ -715,7 +716,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="背幅 *"
+            label="背幅"
             name="jaket-backWidth"
             menuItems={[
               { value: 'empty', label: '' },
