@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Divider, Typography } from '@mui/material';
 import SecurityIcon from '@mui/icons-material/Security';
 import ReplyIcon from '@mui/icons-material/Reply';
 
@@ -34,6 +34,7 @@ export const AdminPage = () => {
           ホーム
         </Button>
       </Box>
+      <Divider />
       <Box>
         <HorizontalTabs
           tabItems={[

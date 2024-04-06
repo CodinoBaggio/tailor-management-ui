@@ -1227,6 +1227,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: 'EZ20-3', label: 'EZ20-3' },
               { value: 'EZ20-4', label: 'EZ20-4' },
               { value: 'EZ20-5', label: 'EZ20-5' },
+              { value: 'EZ30', label: 'EZ30' },
               { value: 'EZ60-C', label: 'EZ60-C' },
               { value: 'EZ60-B', label: 'EZ60-B' },
               { value: 'EZ60-T', label: 'EZ60-T' },

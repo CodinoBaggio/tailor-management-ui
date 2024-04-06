@@ -7,8 +7,6 @@ import { Toast } from 'primereact/toast';
 
 import { RhfSelect } from '../../../components/ui/RhfSelect';
 import { RhfTextField } from '../../../components/ui/RhfTextField';
-import { RhfDatePicker } from '../../../components/ui/RhfDatePicker';
-import { RhfDateTimePicker } from '../../../components/ui/RhfDateTimePicker';
 import { GridContainer } from '../../../components/containers/GridContainer';
 import orderApi from '../api/orderApi';
 import { FabricProductNoSearchDialog } from './ui/FabricProductNoSearchDialog';
@@ -76,28 +74,6 @@ export const OrderBasis: FC<Props> = (props) => {
 
   return (
     <>
-      <Box className={style.boxMargin}>
-        <GridContainer>
-          <RhfDatePicker
-            label="入力日"
-            name="basis-inputDate"
-            required
-            readOnly={true}
-          />
-          <RhfDateTimePicker
-            label="発注日時"
-            name="basis-orderDateTime"
-            required
-            readOnly={true}
-          />
-          <RhfDatePicker
-            label="工場出荷日"
-            name="basis-shipDate"
-            required
-            readOnly={true}
-          />
-        </GridContainer>
-      </Box>
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor1}>
           <RhfSelect

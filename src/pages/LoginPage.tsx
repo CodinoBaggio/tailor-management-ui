@@ -82,7 +82,7 @@ export const LoginPage = () => {
           // error={errors.password?.message !== ''}
           disabled={loading}
           {...register('password', {
-            required: 'ロパスワードを入力してください',
+            required: 'パスワードを入力してください',
           })}
         />
         <LoadingButton

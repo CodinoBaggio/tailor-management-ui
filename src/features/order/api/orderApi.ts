@@ -1,10 +1,8 @@
 import axiosClient from '../../../api/axiosClient';
 
 const orderApi = {
-  getOrders: (params: any) =>
-    axiosClient.post('/exec', { endpoint: 'orders', endpointParams: params }),
-  getOrder: (params: any) =>
-    axiosClient.post('/exec', { endpoint: 'order', endpointParams: params }),
+  getOrders: (params: any) => axiosClient.post('/exec', { endpoint: 'orders', endpointParams: params }),
+  getOrder: (params: any) => axiosClient.post('/exec', { endpoint: 'order', endpointParams: params }),
   getSelectPatterns: (params: any) =>
     axiosClient.post('/exec', {
       endpoint: 'select-pattern',
@@ -30,8 +28,8 @@ const orderApi = {
       endpoint: 'body-size',
       endpointParams: params,
     }),
-  getLinings: (params: any) =>
-    axiosClient.post('/exec', { endpoint: 'lining', endpointParams: params }),
+  getLinings: (params: any) => axiosClient.post('/exec', { endpoint: 'lining', endpointParams: params }),
+  getPrice: (params: any) => axiosClient.post('/exec', { endpoint: 'order-price', endpointParams: params }),
 };
 
 export default orderApi;

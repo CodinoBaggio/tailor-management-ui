@@ -141,6 +141,7 @@ export const OrderList = () => {
         <GradingIcon className="mr-3" />
         <Typography variant="h6">発注リスト</Typography>
       </Box>
+      
       <Box display="flex" justifyContent="space-between">
         <Button
           onClick={toggleDrawer(true)}

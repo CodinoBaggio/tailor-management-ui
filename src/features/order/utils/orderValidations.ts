@@ -1,9 +1,7 @@
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 import orderApi from '../api/orderApi';
 
-export const validateOrder = async (
-  methods: UseFormReturn<FieldValues, any, undefined>
-) => {
+export const validateOrder = async (methods: UseFormReturn<FieldValues, any, undefined>) => {
   const { getValues } = methods;
 
   // 品名
@@ -29,14 +27,14 @@ export const validateOrder = async (
       shoulderWidth: res.payload.jaket.shoulderWidth,
       jaketLength: res.payload.jaket.jaketLength,
     },
-    pants: {
-      shoulderWidth: res.payload.pants.shoulderWidth,
-      jaketLength: res.payload.pants.jaketLength,
-    },
-    vest: {
-      shoulderWidth: res.payload.vest.shoulderWidth,
-      jaketLength: res.payload.vest.jaketLength,
-    },
+    // pants: {
+    //   shoulderWidth: res.payload.pants.shoulderWidth,
+    //   jaketLength: res.payload.pants.jaketLength,
+    // },
+    // vest: {
+    //   shoulderWidth: res.payload.vest.shoulderWidth,
+    //   jaketLength: res.payload.vest.jaketLength,
+    // },
   };
 
   // 発注基本情報のチェック
@@ -130,9 +128,7 @@ export const validateOrder = async (
   };
 };
 
-export const validateOrderBasis = (
-  methods: UseFormReturn<FieldValues, any, undefined>
-) => {
+export const validateOrderBasis = (methods: UseFormReturn<FieldValues, any, undefined>) => {
   const errorCounts = {
     basisErrorCount: 0,
     jaketErrorCount: 0,
@@ -143,11 +139,7 @@ export const validateOrderBasis = (
 
   //#region 必須入力チェック
   {
-    const requiredFields = [
-      'basis-customerName',
-      'basis-productName',
-      'basis-fabricProductNo',
-    ];
+    const requiredFields = ['basis-customerName', 'basis-productName', 'basis-fabricProductNo'];
     requiredFields.forEach((field) => {
       if (!getValues(field) || getValues(field) === 'empty') {
         methods.setError(field, {
@@ -217,7 +209,7 @@ export const validateOrderBasis = (
       // No.13
       {
         const value = methods.getValues('basis-blendRateFabric1');
-        if (value !== 'empty') {
+        if (value !== 'empty' && value !== '') {
           methods.setError('basis-blendRateFabric1', {
             type: 'custom',
             message: '生地品番がTRANDS以外のため、空白を選択してください',
@@ -239,7 +231,7 @@ export const validateOrderBasis = (
       // No.15
       {
         const value = methods.getValues('basis-blendRateFabric2');
-        if (value !== 'empty') {
+        if (value !== 'empty' && value !== '') {
           methods.setError('basis-blendRateFabric2', {
             type: 'custom',
             message: '生地品番がTRANDS以外のため、空白を選択してください',
@@ -551,7 +543,7 @@ export const validateOrderJaket = (
     const value = methods.getValues('jaket-waistPocket');
     if (value === 'アゥト' || value.includes('フラップ無')) {
       const targetValue = methods.getValues('jaket-flapWidth');
-      if (targetValue !== 'empty') {
+      if (targetValue !== 'empty' && !isNaN(targetValue)) {
         methods.setError('jaket-flapWidth', {
           type: 'custom',
           message: `${value}のため、空白を選択してください`,
@@ -705,19 +697,7 @@ export const validateOrderJaket = (
 
   //#region No.81
   {
-    const tests = [
-      'ENKC',
-      'ATW',
-      'STW',
-      'BT',
-      'CT',
-      'TRD',
-      'PT',
-      'TBW',
-      'D',
-      'P',
-      'X',
-    ];
+    const tests = ['ENKC', 'ATW', 'STW', 'BT', 'CT', 'TRD', 'PT', 'TBW', 'D', 'P', 'X'];
 
     const value = methods.getValues('basis-fabricProductNo');
     if (tests.some((s) => value.startsWith(s))) {
@@ -733,12 +713,109 @@ export const validateOrderJaket = (
   }
   //#endregion
 
+  //#region No.82
+  {
+    const tests = [
+      'ATJ1546',
+      'ATJ1547',
+      'ATJ1548',
+      'ATJ1549',
+      'ATJ1828',
+      'ATJ1522',
+      'ATJ1523',
+      'ATJ1524',
+      'ATJ1528',
+      'ATJ1529',
+      'ATJ1738',
+      'ATJ1740',
+      'ATJ1741',
+      'ATJ1742',
+      'ATJ1802',
+      'ATJ1804',
+      'ATJ1805',
+      'ATJ1806',
+      'ATJ1807',
+      'ATJ1809',
+      'ATJ1826',
+      'ATJ1827',
+      'ATJ1829',
+      'ATJ1830',
+      'ATJ1865',
+      'ATJ1873',
+      'ATJ1874',
+      'ATJ1875',
+      'ATJ2006',
+      'ATJ2007',
+      'ATJ2008',
+      'ATJ2015',
+      'ATJ2016',
+      'ATJ2037',
+      'ATJ2038',
+      'ATJ2040',
+      'ATJ2041',
+      'ATJ2042',
+      'ATJ2043',
+      'ZE500',
+      'ZE502',
+      'ZE503',
+      'ZE504',
+      'ZE508',
+      'ZE511',
+      'ZE512',
+      'ZE513',
+      'ZE514',
+      'ZE515',
+      'ZE516',
+      'ZE517',
+      'ZK518',
+      'ZK519',
+      'ZK520',
+      'ZK521',
+      'ZK522',
+      'ZK523',
+      'ZK524',
+      'ZK525',
+      'ZK526',
+      'ZK527',
+      'ZE532',
+      'ZE533',
+      'ZE534',
+      'ZE535',
+      'ZE536',
+      'ZE537',
+      'ZE538',
+      'ZE539',
+      'ZE540',
+      'ZE541',
+      'ZE542',
+      'ZE543',
+      'ZE544',
+      'ATJ1530',
+      'ATJ1543',
+      'ATJ1544',
+    ];
+
+    const value = methods.getValues('basis-fabricProductNo');
+    if (tests.some((s) => s === value)) {
+      const targetValue = methods.getValues('jaket-buttonProductNo');
+      const inc = ['EZ10', 'EZ20', 'EZ30', 'EZ60', 'EZ150'].some((s) =>
+        targetValue.startsWith(s)
+      );
+      if (!inc) {
+        methods.setError('jaket-buttonProductNo', {
+          type: 'custom',
+          message: `生地品番が${value}のため、EZ10、EZ20、EZ30、EZ60、EZ150のいづれかを選択してください`,
+        });
+        errorCounts.jaketErrorCount++;
+      }
+    }
+  }
+  //#endregion
+
   return errorCounts;
 };
 
-export const validateOrderPants = (
-  methods: UseFormReturn<FieldValues, any, undefined>
-) => {
+export const validateOrderPants = (methods: UseFormReturn<FieldValues, any, undefined>) => {
   const errorCounts = {
     basisErrorCount: 0,
     jaketErrorCount: 0,
@@ -923,26 +1000,11 @@ export const validateOrderPants = (
 
   //#region No.152
   {
-    const tests = [
-      'ENKC',
-      'ATW',
-      'STW',
-      'BT',
-      'CT',
-      'TRD',
-      'PT',
-      'TBW',
-      'D',
-      'P',
-      'X',
-    ];
+    const tests = ['ENKC', 'ATW', 'STW', 'BT', 'CT', 'TRD', 'PT', 'TBW', 'D', 'P', 'X'];
     const ngs = ['ATJ1709', 'ATJ1710', 'ATJ1711', 'ATJ1712'];
 
     const value = methods.getValues('basis-fabricProductNo');
-    if (
-      tests.some((s) => value.startsWith(s)) ||
-      ngs.some((s) => value === s)
-    ) {
+    if (tests.some((s) => value.startsWith(s)) || ngs.some((s) => value === s)) {
       const targetValue = methods.getValues('pants-setFinishing');
       if (targetValue !== '無') {
         methods.setError('pants-setFinishing', {
@@ -974,9 +1036,7 @@ export const validateOrderPants = (
   return errorCounts;
 };
 
-export const validateOrderVest = (
-  methods: UseFormReturn<FieldValues, any, undefined>
-) => {
+export const validateOrderVest = (methods: UseFormReturn<FieldValues, any, undefined>) => {
   const errorCounts = {
     basisErrorCount: 0,
     jaketErrorCount: 0,
@@ -1024,6 +1084,32 @@ export const validateOrderVest = (
         errorCounts.vestErrorCount++;
       }
     });
+  }
+  //#endregion
+
+  //#region No.169
+  {
+    const value = methods.getValues('vest-frontButton');
+    if (value.charAt(0) === 'Ｗ') {
+      const targetValue = methods.getValues('vest-collar');
+      if (targetValue === 'empty' || targetValue === '衿付き') {
+        methods.setError('vest-collar', {
+          type: 'custom',
+          message: `前ボタンが${value}のため、衿付き以外を選択してください`,
+        });
+        errorCounts.vestErrorCount++;
+      }
+    }
+    if (value.charAt(0) === 'Ｓ') {
+      const targetValue = methods.getValues('vest-collar');
+      if (targetValue === 'empty' || targetValue === 'ショールカラー') {
+        methods.setError('vest-collar', {
+          type: 'custom',
+          message: `前ボタンが${value}のため、ショールカラー以外を選択してください`,
+        });
+        errorCounts.vestErrorCount++;
+      }
+    }
   }
   //#endregion
 

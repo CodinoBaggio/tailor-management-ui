@@ -14,7 +14,7 @@ const authUtils = {
           token,
         },
       });
-      return res.payload.user;
+      return res.status === 'success' ?  res.payload.user : false;
     } catch (error) {
       return false;
     }
