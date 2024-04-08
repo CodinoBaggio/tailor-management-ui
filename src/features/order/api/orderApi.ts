@@ -1,7 +1,13 @@
 import axiosClient from '../../../api/axiosClient';
+import axiosClientGCF from '../../../api/axiosClientGCF';
 
 const orderApi = {
-  getOrders: (params: any) => axiosClient.post('/exec', { endpoint: 'orders', endpointParams: params }),
+  getOrders: (params: any) =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getOrders',
+      param: { roleId: params.roleId, shopId: params.shopId },
+    }),
+  // getOrders: (params: any) => axiosClient.post('/exec', { endpoint: 'orders', endpointParams: params }),
   getOrder: (params: any) => axiosClient.post('/exec', { endpoint: 'order', endpointParams: params }),
   getSelectPatterns: (params: any) =>
     axiosClient.post('/exec', {
