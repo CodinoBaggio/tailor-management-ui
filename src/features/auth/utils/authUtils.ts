@@ -9,12 +9,9 @@ const authUtils = {
 
     try {
       const res: any = await authApi.verifyToken({
-        endpoint: 'verify-token',
-        endpointParams: {
-          token,
-        },
+        token,
       });
-      return res.status === 'success' ?  res.payload.user : false;
+      return res.status === 'success' ? res.payload.user : false;
     } catch (error) {
       return false;
     }

@@ -27,11 +27,8 @@ export const LoginPage = () => {
 
       // ログインAPIを叩く
       const res: any = await authApi.login({
-        endpoint: 'login',
-        endpointParams: {
-          userId,
-          password,
-        },
+        userId,
+        password,
       });
       if (res.status === 'error') {
         alert(res.message);
