@@ -60,7 +60,7 @@ export const Order: FC<Props> = (props) => {
   const [pantsErrorCount, setPantsErrorCount] = useState(0);
   const [vestErrorCount, setVestErrorCount] = useState(0);
   const [currentOrderId, setCurrentOrderId] = useState(orderId);
-  const [isNew, setIsNew] = useState(currentOrderId === '');
+  const [isNew, setIsNew] = useState(Boolean(currentOrderId) === false);
   const { toast, showMessage } = useToast();
   const [fabricPrice, setFabricPrice] = useState('-');
   const [wagesPrice, setWagesPrice] = useState('-');

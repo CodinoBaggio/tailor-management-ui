@@ -9,7 +9,12 @@ const orderApi = {
     }),
   // getOrders: (params: any) => axiosClient.post('/exec', { endpoint: 'orders', endpointParams: params }),
   getOrder: (params: any) =>
-    axiosClient.post('/exec', { endpoint: 'order', endpointParams: params }),
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getOrder',
+      param: { orderId: params.orderId },
+    }),
+  // getOrder: (params: any) =>
+  //   axiosClient.post('/exec', { endpoint: 'order', endpointParams: params }),
   getSelectPatterns: (params: any) =>
     axiosClientGCF.post('/TailorManagementApiGcf', {
       method: 'getSelectPatterns',
@@ -31,10 +36,15 @@ const orderApi = {
   //     endpointParams: params,
   //   }),
   upsert: (params: any) =>
-    axiosClient.post('/exec', {
-      endpoint: 'upsert-order',
-      endpointParams: params,
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'upsertOrder',
+      param: { order: params.order },
     }),
+  // upsert: (params: any) =>
+  //   axiosClient.post('/exec', {
+  //     endpoint: 'upsert-order',
+  //     endpointParams: params,
+  //   }),
   delete: (params: any) =>
     axiosClient.post('/exec', {
       endpoint: 'delete-order',

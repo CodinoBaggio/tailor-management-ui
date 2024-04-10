@@ -1,9 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://asia-northeast2-river-vigil-698.cloudfunctions.net';
-
 const axiosClientGCF = axios.create({
-  baseURL: BASE_URL,
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 // // APIを叩く前に前処理を行う
