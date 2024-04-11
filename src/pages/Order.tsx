@@ -32,11 +32,12 @@ import { confirmYesNo } from '../utils/confirm';
 import { useToast } from '../hooks/useToast';
 import Loading from '../components/ui/Loading';
 import { OrderBasisType } from '../features/order/types/order';
-import { toDateTimeString } from '../utils/util';
+// import { toDateTimeString } from '../utils/util';
 import { GridContainer } from '../components/containers/GridContainer';
 import { RhfDatePicker } from '../components/ui/RhfDatePicker';
 import { RhfDateTimePicker } from '../components/ui/RhfDateTimePicker';
 import { OrderPrice } from '../features/order/components/OrderPrice';
+import dayjs from 'dayjs';
 
 type Props = {
   isReuse?: boolean;
@@ -65,7 +66,10 @@ export const Order: FC<Props> = (props) => {
   const [fabricPrice, setFabricPrice] = useState('-');
   const [wagesPrice, setWagesPrice] = useState('-');
   const [customPrice, setCustomPrice] = useState('-');
+  const [buttonPrice, setButtonPrice] = useState('-');
   const [totalPrice, setTotalPrice] = useState('-');
+  const [tax, setTax] = useState('-');
+  const [totalPriceWithTax, setTotalPriceWithTax] = useState('-');
   const [priceCalcLoading, setPriceCalcLoading] = useState(false);
 
   useEffect(() => {
@@ -85,30 +89,30 @@ export const Order: FC<Props> = (props) => {
           if (isReuse) {
             order.orderId = 'new';
             order.shopId = user.shopId;
-            order.inputDate = toDateTimeString(new Date());
-            order.orderDateTime = toDateTimeString(new Date());
-            order.shipDate = toDateTimeString(new Date());
-            order.createDateTime = toDateTimeString(new Date());
+            order.inputDate = dayjs();
+            order.orderDateTime = dayjs();
+            order.shipDate = dayjs();
+            order.createDateTime = dayjs();
             order.createUserId = user.userId;
-            order.updateDateTime = toDateTimeString(new Date());
+            order.updateDateTime = dayjs();
             order.updateUserId = user.userId;
             order.jaket.orderId = 'new';
             order.jaket.jaketOrderId = '';
-            order.jaket.createDateTime = toDateTimeString(new Date());
+            order.jaket.createDateTime = dayjs();
             order.jaket.createUserId = user.userId;
-            order.jaket.updateDateTime = toDateTimeString(new Date());
+            order.jaket.updateDateTime = dayjs();
             order.jaket.updateUserId = user.userId;
             order.pants.orderId = 'new';
             order.pants.pantsOrderId = '';
-            order.pants.createDateTime = toDateTimeString(new Date());
+            order.pants.createDateTime = dayjs();
             order.pants.createUserId = user.userId;
-            order.pants.updateDateTime = toDateTimeString(new Date());
+            order.pants.updateDateTime = dayjs();
             order.pants.updateUserId = user.userId;
             order.vest.orderId = 'new';
             order.vest.vestOrderId = '';
-            order.vest.createDateTime = toDateTimeString(new Date());
+            order.vest.createDateTime = dayjs();
             order.vest.createUserId = user.userId;
-            order.vest.updateDateTime = toDateTimeString(new Date());
+            order.vest.updateDateTime = dayjs();
             order.vest.updateUserId = user.userId;
             order.orderStatus = '保存';
             setCurrentOrderId('new');
@@ -139,15 +143,15 @@ export const Order: FC<Props> = (props) => {
 
         const order: OrderBasisType = setOrderObject('保存', methods);
         if (!isNew) {
-          order.orderDateTime = toDateTimeString(new Date());
-          order.shipDate = toDateTimeString(new Date());
-          order.updateDateTime = toDateTimeString(new Date());
+          order.orderDateTime = dayjs();
+          order.shipDate = dayjs();
+          order.updateDateTime = dayjs();
           order.updateUserId = user.userId;
-          order.jaket.updateDateTime = toDateTimeString(new Date());
+          order.jaket.updateDateTime = dayjs();
           order.jaket.updateUserId = user.userId;
-          order.pants.updateDateTime = toDateTimeString(new Date());
+          order.pants.updateDateTime = dayjs();
           order.pants.updateUserId = user.userId;
-          order.vest.updateDateTime = toDateTimeString(new Date());
+          order.vest.updateDateTime = dayjs();
           order.vest.updateUserId = user.userId;
         }
         const res: any = await orderApi.upsert({
@@ -289,6 +293,7 @@ export const Order: FC<Props> = (props) => {
     setFabricPrice('-');
     setWagesPrice('-');
     setCustomPrice('-');
+    setButtonPrice('-');
     setTotalPrice('-');
 
     try {
@@ -304,7 +309,10 @@ export const Order: FC<Props> = (props) => {
         setFabricPrice(res.payload.price.fabricPrice.toLocaleString());
         setWagesPrice(res.payload.price.wages.toLocaleString());
         setCustomPrice(res.payload.price.customPrice.toLocaleString());
+        setButtonPrice(res.payload.price.buttonPrice.toLocaleString());
         setTotalPrice(res.payload.price.totalPrice.toLocaleString());
+        setTax(res.payload.price.tax.toLocaleString());
+        setTotalPriceWithTax(res.payload.price.totalPriceWithTax.toLocaleString());
       }
     } catch (error: any) {
       showMessage('エラー', 'error', error);
@@ -394,7 +402,10 @@ export const Order: FC<Props> = (props) => {
                 fabricPrice={fabricPrice}
                 wagesPrice={wagesPrice}
                 customPrice={customPrice}
+                buttonPrice={buttonPrice}
                 totalPrice={totalPrice}
+                tax={tax}
+                totalPriceWithTax={totalPriceWithTax}
                 priceCalcLoading={priceCalcLoading}
                 handlePriceCalc={handlePriceCalc}
               />

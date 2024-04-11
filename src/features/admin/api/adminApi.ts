@@ -1,9 +1,15 @@
 import axiosClient from '../../../api/axiosClient';
+import axiosClientGCF from '../../../api/axiosClientGCF';
 
 const adminApi = {
   shop: {
     getShops: (params: any) =>
-      axiosClient.post('/exec', { endpoint: 'shops', endpointParams: params }),
+      axiosClientGCF.post('/TailorManagementApiGcf', {
+        method: 'getShops',
+        param: params,
+      }),
+    // getShops: (params: any) =>
+    //   axiosClient.post('/exec', { endpoint: 'shops', endpointParams: params }),
     createShop: (params: any) =>
       axiosClient.post('/exec', {
         endpoint: 'create-shop',
@@ -22,7 +28,12 @@ const adminApi = {
   },
   user: {
     getUsers: (params: any) =>
-      axiosClient.post('/exec', { endpoint: 'users', endpointParams: params }),
+      axiosClientGCF.post('/TailorManagementApiGcf', {
+        method: 'getUsers',
+        param: params,
+      }),
+    // getUsers: (params: any) =>
+    //   axiosClient.post('/exec', { endpoint: 'users', endpointParams: params }),
     createUser: (params: any) =>
       axiosClient.post('/exec', {
         endpoint: 'create-user',

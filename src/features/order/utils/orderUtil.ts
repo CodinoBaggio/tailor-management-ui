@@ -1,7 +1,7 @@
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 import { OrderBasisType, OrderJaketType, OrderPantsType, OrderVestType } from '../types/order';
 import dayjs from 'dayjs';
-import { toDateTimeString } from '../../../utils/util';
+// import { toDateTimeString } from '../../../utils/util';
 
 export const bindOrderBasisValues = (
   methods: UseFormReturn<FieldValues, any, undefined>,
@@ -446,9 +446,12 @@ export const setOrderObject = (
     shopId: methods.getValues('basis-shopId'),
     seq: methods.getValues('basis-seq'),
     orderStatus: orderStatus,
-    inputDate: toDateTimeString(methods.getValues('basis-inputDate')),
-    orderDateTime: toDateTimeString(methods.getValues('basis-orderDateTime')),
-    shipDate: toDateTimeString(methods.getValues('basis-shipDate')),
+    inputDate: methods.getValues('basis-inputDate'),
+    // inputDate: toDateTimeString(methods.getValues('basis-inputDate')),
+    orderDateTime: methods.getValues('basis-orderDateTime'),
+    // orderDateTime: toDateTimeString(methods.getValues('basis-orderDateTime')),
+    shipDate: methods.getValues('basis-shipDate'),
+    // shipDate: toDateTimeString(methods.getValues('basis-shipDate')),
     customerName: methods.getValues('basis-customerName'),
     productName: methods.getValues('basis-productName'),
     fabricMaker: methods.getValues('basis-fabricMaker'),
@@ -465,9 +468,11 @@ export const setOrderObject = (
     inputUserId: methods.getValues('basis-inputUserId'),
     remark: methods.getValues('basis-remark'),
     isDelete: methods.getValues('basis-isDelete'),
-    createDateTime: toDateTimeString(methods.getValues('basis-createDateTime')),
+    createDateTime: methods.getValues('basis-createDateTime'),
+    // createDateTime: toDateTimeString(methods.getValues('basis-createDateTime')),
     createUserId: methods.getValues('basis-createUserId'),
-    updateDateTime: toDateTimeString(methods.getValues('basis-updateDateTime')),
+    updateDateTime: methods.getValues('basis-updateDateTime'),
+    // updateDateTime: toDateTimeString(methods.getValues('basis-updateDateTime')),
     updateUserId: methods.getValues('basis-updateUserId'),
     jaket: {
       jaketOrderId: methods.getValues('jaket-jaketOrderId'),
@@ -553,9 +558,11 @@ export const setOrderObject = (
       sleeveBack: toValue(methods.getValues('jaket-sleeveBack')),
       remark: methods.getValues('jaket-remark'),
       isDelete: methods.getValues('jaket-isDelete'),
-      createDateTime: toDateTimeString(methods.getValues('jaket-createDateTime')),
+      createDateTime: methods.getValues('jaket-createDateTime'),
+      // createDateTime: toDateTimeString(methods.getValues('jaket-createDateTime')),
       createUserId: methods.getValues('jaket-createUserId'),
-      updateDateTime: toDateTimeString(methods.getValues('jaket-updateDateTime')),
+      updateDateTime: methods.getValues('jaket-updateDateTime'),
+      // updateDateTime: toDateTimeString(methods.getValues('jaket-updateDateTime')),
       updateUserId: methods.getValues('jaket-updateUserId'),
     },
     pants: {
@@ -605,9 +612,11 @@ export const setOrderObject = (
       buttholeTape: toValue(methods.getValues('pants-buttholeTape')),
       remark: methods.getValues('pants-remark'),
       isDelete: methods.getValues('pants-isDelete'),
-      createDateTime: toDateTimeString(methods.getValues('pants-createDateTime')),
+      createDateTime: methods.getValues('pants-createDateTime'),
+      // createDateTime: toDateTimeString(methods.getValues('pants-createDateTime')),
       createUserId: methods.getValues('pants-createUserId'),
-      updateDateTime: toDateTimeString(methods.getValues('pants-updateDateTime')),
+      updateDateTime: methods.getValues('pants-updateDateTime'),
+      // updateDateTime: toDateTimeString(methods.getValues('pants-updateDateTime')),
       updateUserId: methods.getValues('pants-updateUserId'),
     },
     vest: {
@@ -642,9 +651,11 @@ export const setOrderObject = (
       frontLength: toNumericValue(methods.getValues('vest-frontLength')),
       remark: methods.getValues('vest-remark'),
       isDelete: methods.getValues('vest-isDelete'),
-      createDateTime: toDateTimeString(methods.getValues('vest-createDateTime')),
+      createDateTime: methods.getValues('vest-createDateTime'),
+      // createDateTime: toDateTimeString(methods.getValues('vest-createDateTime')),
       createUserId: methods.getValues('vest-createUserId'),
-      updateDateTime: toDateTimeString(methods.getValues('vest-updateDateTime')),
+      updateDateTime: methods.getValues('vest-updateDateTime'),
+      // updateDateTime: toDateTimeString(methods.getValues('vest-updateDateTime')),
       updateUserId: methods.getValues('vest-updateUserId'),
     },
   };
@@ -656,5 +667,5 @@ const toValue = (value: any) => {
 };
 
 const toNumericValue = (value: any) => {
-  return value === 'empty' ? NaN : value || NaN;
+  return value === 'empty' ? NaN : Number(value) || NaN;
 };

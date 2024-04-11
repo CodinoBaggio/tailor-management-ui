@@ -1,4 +1,4 @@
-import axiosClient from '../../../api/axiosClient';
+// import axiosClient from '../../../api/axiosClient';
 import axiosClientGCF from '../../../api/axiosClientGCF';
 
 const orderApi = {
@@ -46,22 +46,53 @@ const orderApi = {
   //     endpointParams: params,
   //   }),
   delete: (params: any) =>
-    axiosClient.post('/exec', {
-      endpoint: 'delete-order',
-      endpointParams: params,
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'deleteOrder',
+      param: { orderId: params.orderId },
     }),
+  // delete: (params: any) =>
+  //   axiosClient.post('/exec', {
+  //     endpoint: 'delete-order',
+  //     endpointParams: params,
+  //   }),
   getBodySize: (params: any) =>
-    axiosClient.post('/exec', {
-      endpoint: 'body-size',
-      endpointParams: params,
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getBodySize',
+      param: {
+        jaketSelectPattern2: params.jaket.selectPattern2,
+        jaketSelectPattern3: params.jaket.selectPattern3,
+      },
     }),
+  // getBodySize: (params: any) =>
+  //   axiosClient.post('/exec', {
+  //     endpoint: 'body-size',
+  //     endpointParams: params,
+  //   }),
   getLinings: (params: any) =>
-    axiosClient.post('/exec', { endpoint: 'lining', endpointParams: params }),
-  getPrice: (params: any) =>
-    axiosClient.post('/exec', {
-      endpoint: 'order-price',
-      endpointParams: params,
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getLinings',
+      param: {
+        fabricProductNo: params.fabricProductNo,
+        searchPattern: params.searchPattern,
+      },
     }),
+  // getLinings: (params: any) =>
+  //   axiosClient.post('/exec', { endpoint: 'lining', endpointParams: params }),
+  getPrice: (params: any) =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getPrice',
+      param: {
+        shopNo: params.shopNo,
+        shopGroup: params.shopGroup,
+        fabricProductNo: params.fabricProductNo,
+        productName: params.productName,
+      },
+    }),
+  // getPrice: (params: any) =>
+  //   axiosClient.post('/exec', {
+  //     endpoint: 'order-price',
+  //     endpointParams: params,
+  //   }),
 };
 
 export default orderApi;
