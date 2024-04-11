@@ -46,7 +46,7 @@ export const OrderPrice: FC<Props> = (props) => {
         <Box>{buttonPrice}円</Box>
       </Box>
       <Divider />
-      <Box className="flex justify-between mb-2">
+      <Box className="flex justify-between my-2">
         <Box>小計</Box>
         <Box>{totalPrice}円</Box>
       </Box>
@@ -55,7 +55,7 @@ export const OrderPrice: FC<Props> = (props) => {
         <Box>{tax}円</Box>
       </Box>
       <Divider />
-      <Box className="flex justify-between mb-5">
+      <Box className="flex justify-between mt-2 mb-5">
         <Box>合計</Box>
         <Box>{totalPriceWithTax}円</Box>
       </Box>

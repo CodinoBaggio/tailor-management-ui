@@ -80,7 +80,7 @@ export const UserEditor: FC<Props> = (props) => {
 
       // 顧客情報を更新する
       const res: any = await adminApi.user.updateUser({
-        shop: data,
+        user: data,
       });
 
       if (res.status === 'error') {

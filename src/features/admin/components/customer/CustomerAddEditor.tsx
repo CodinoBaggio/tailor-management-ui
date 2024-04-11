@@ -51,7 +51,7 @@ export const CustomerAddEditor: FC<Props> = (props) => {
       shopGroup: shop.shopGroup,
       shopNo: shop.shopNo,
       shopName: shop.shopName,
-      'postal-no': shop.postalCode,
+      postalCode: shop.postalCode,
       prefecture: shop.prefecture,
       city: shop.city,
       address: shop.address,
@@ -66,7 +66,7 @@ export const CustomerAddEditor: FC<Props> = (props) => {
       shopGroup: shop.shopGroup,
       shopNo: shop.shopNo,
       shopName: shop.shopName,
-      'postal-no': shop.postalCode,
+      postalCode: shop.postalCode,
       prefecture: shop.prefecture,
       city: shop.city,
       address: shop.address,
@@ -129,7 +129,7 @@ export const CustomerAddEditor: FC<Props> = (props) => {
                   </FormControl>
                   <TextField
                     variant="standard"
-                    label="番号"
+                    label="顧客カテゴリ"
                     size="small"
                     InputLabelProps={{ shrink: true }}
                     {...register('shopNo')}
@@ -158,7 +158,7 @@ export const CustomerAddEditor: FC<Props> = (props) => {
                   InputLabelProps={{ shrink: true }}
                   helperText="ハイフンなし"
                   placeholder="1234567"
-                  {...register('postal-no')}
+                  {...register('postalCode')}
                 />
                 ,
               </Box>

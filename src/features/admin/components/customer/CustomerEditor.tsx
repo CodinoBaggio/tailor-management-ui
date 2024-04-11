@@ -32,6 +32,8 @@ import adminApi from '../../api/adminApi';
 import { confirmYesNo } from '../../../../utils/confirm';
 import { Toast } from 'primereact/toast';
 import { useToast } from '../../../../hooks/useToast';
+import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
 
 const style = {
   boxMargin: 'mb-2',
@@ -51,6 +53,7 @@ export const CustomerEditor: FC<Props> = (props) => {
   const { chargePersons } = shop;
   const [readOnlyState, setReadOnlyState] = useState(readOnly);
   const [checked, setChecked] = useState(shop.isOwn);
+  const user = useSelector((state: any) => state.user.value);
   const [selectedPrefecture, setSelectedPrefecture] = React.useState(
     shop.prefecture
   );
@@ -59,11 +62,12 @@ export const CustomerEditor: FC<Props> = (props) => {
   );
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
+      shopId: shop.shopId,
       isOwn: shop.isOwn,
       shopGroup: shop.shopGroup,
       shopNo: shop.shopNo,
       shopName: shop.shopName,
-      'postal-no': shop.postalCode,
+      postalCode: shop.postalCode,
       prefecture: shop.prefecture,
       city: shop.city,
       address: shop.address,
@@ -91,6 +95,8 @@ export const CustomerEditor: FC<Props> = (props) => {
       setOpen(true);
 
       // 顧客情報を更新する
+      data.updateTime = dayjs();
+      data.updateUserId = user.userId;
       const res: any = await adminApi.shop.updateShop({
         shop: data,
       });
@@ -125,7 +131,7 @@ export const CustomerEditor: FC<Props> = (props) => {
       shopGroup: shop.shopGroup,
       shopNo: shop.shopNo,
       shopName: shop.shopName,
-      'postal-no': shop.postalCode,
+      postalCode: shop.postalCode,
       prefecture: shop.prefecture,
       city: shop.city,
       address: shop.address,
@@ -205,7 +211,7 @@ export const CustomerEditor: FC<Props> = (props) => {
                     </FormControl>
                     <TextField
                       variant="standard"
-                      label="番号"
+                      label="顧客カテゴリ"
                       size="small"
                       InputLabelProps={{ shrink: true }}
                       {...register('shopNo')}
@@ -235,7 +241,7 @@ export const CustomerEditor: FC<Props> = (props) => {
                     InputLabelProps={{ shrink: true }}
                     helperText="ハイフンなし"
                     placeholder="1234567"
-                    {...register('postal-no')}
+                    {...register('postalCode')}
                     InputProps={{ readOnly: readOnlyState }}
                   />
                 </Box>

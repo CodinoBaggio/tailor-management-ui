@@ -11,15 +11,25 @@ const adminApi = {
     // getShops: (params: any) =>
     //   axiosClient.post('/exec', { endpoint: 'shops', endpointParams: params }),
     createShop: (params: any) =>
-      axiosClient.post('/exec', {
-        endpoint: 'create-shop',
-        endpointParams: params,
+      axiosClientGCF.post('/TailorManagementApiGcf', {
+        method: 'createShop',
+        param: { shop: params.shop },
       }),
+    // createShop: (params: any) =>
+    //   axiosClient.post('/exec', {
+    //     endpoint: 'create-shop',
+    //     endpointParams: params,
+    //   }),
     updateShop: (params: any) =>
-      axiosClient.post('/exec', {
-        endpoint: 'update-shop',
-        endpointParams: params,
+      axiosClientGCF.post('/TailorManagementApiGcf', {
+        method: 'updateShop',
+        param: {shop: params.shop},
       }),
+    // updateShop: (params: any) =>
+    //   axiosClient.post('/exec', {
+    //     endpoint: 'update-shop',
+    //     endpointParams: params,
+    //   }),
     deleteShop: (params: any) =>
       axiosClient.post('/exec', {
         endpoint: 'delete-shop',
@@ -35,20 +45,35 @@ const adminApi = {
     // getUsers: (params: any) =>
     //   axiosClient.post('/exec', { endpoint: 'users', endpointParams: params }),
     createUser: (params: any) =>
-      axiosClient.post('/exec', {
-        endpoint: 'create-user',
-        endpointParams: params,
+      axiosClientGCF.post('/TailorManagementApiGcf', {
+        method: 'createUser',
+        param: { user: params.user },
       }),
+    // createUser: (params: any) =>
+    //   axiosClient.post('/exec', {
+    //     endpoint: 'create-user',
+    //     endpointParams: params,
+    //   }),
     updateUser: (params: any) =>
-      axiosClient.post('/exec', {
-        endpoint: 'update-user',
-        endpointParams: params,
+      axiosClientGCF.post('/TailorManagementApiGcf', {
+        method: 'updateUser',
+        param: { user: params.user },
       }),
+    // updateUser: (params: any) =>
+    //   axiosClient.post('/exec', {
+    //     endpoint: 'update-user',
+    //     endpointParams: params,
+    //   }),
     deleteUser: (params: any) =>
-      axiosClient.post('/exec', {
-        endpoint: 'delete-user',
-        endpointParams: params,
+      axiosClientGCF.post('/TailorManagementApiGcf', {
+        method: 'deleteUser',
+        param: { userId: params.userId },
       }),
+    // deleteUser: (params: any) =>
+    //   axiosClient.post('/exec', {
+    //     endpoint: 'delete-user',
+    //     endpointParams: params,
+    //   }),
   },
 };
 

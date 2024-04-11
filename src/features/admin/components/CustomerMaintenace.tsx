@@ -10,11 +10,14 @@ import { useToast } from '../../../hooks/useToast';
 import { CustomerAddEditor } from './customer/CustomerAddEditor';
 import { SearchTextField } from '../../../components/ui/SearchTextField';
 import Loading from '../../../components/ui/Loading';
+import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
 
 export const CustomerMaintenace = () => {
   const [open, setOpen] = useState(false);
   const [orgShops, setOrgShops] = useState<ShopType[]>([]);
   const [shops, setShops] = useState<ShopType[]>([]);
+  const user = useSelector((state: any) => state.user.value);
   const [newShop, setNewShop] = useState<ShopType>({
     shopId: '',
     shopName: '',
@@ -28,11 +31,11 @@ export const CustomerMaintenace = () => {
     isOwn: false,
     commonItem: {
       isDelete: false,
-      createUserId: '',
-      createDateTime: '',
-      updateUserId: '',
-      updateDateTime: '',
-    },
+      createUserId: user.userId,
+      createDateTime: dayjs(),
+      updateUserId: user.userId,
+      updateDateTime: dayjs(),
+  },
     chargePersons: [],
   });
   const [newShopOpen, setNewShopOpen] = useState(false);
@@ -109,10 +112,10 @@ export const CustomerMaintenace = () => {
       isOwn: false,
       commonItem: {
         isDelete: false,
-        createUserId: '',
-        createDateTime: '',
-        updateUserId: '',
-        updateDateTime: '',
+        createUserId: user.userId,
+        createDateTime: dayjs(),
+        updateUserId: user.userId,
+        updateDateTime: dayjs(),
       },
       chargePersons: [],
     });
