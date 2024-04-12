@@ -28,7 +28,7 @@ export const OrderPrice: FC<Props> = (props) => {
     priceCalcLoading,
   } = props;
   return (
-    <Box className="w-52 text-gray-600 text-xs">
+    <Box className="w-48 text-gray-600 text-xs">
       <Box className="flex justify-between mb-2">
         <Box>生地</Box>
         <Box>{fabricPrice}円</Box>

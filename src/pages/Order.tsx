@@ -37,7 +37,8 @@ import { GridContainer } from '../components/containers/GridContainer';
 import { RhfDatePicker } from '../components/ui/RhfDatePicker';
 import { RhfDateTimePicker } from '../components/ui/RhfDateTimePicker';
 import { OrderPrice } from '../features/order/components/OrderPrice';
-import dayjs from 'dayjs';
+import dayjs from '../utils/dayjs';
+import { RhfTextField } from '../components/ui/RhfTextField';
 
 type Props = {
   isReuse?: boolean;
@@ -89,9 +90,9 @@ export const Order: FC<Props> = (props) => {
           if (isReuse) {
             order.orderId = 'new';
             order.shopId = user.shopId;
-            order.inputDate = dayjs();
-            order.orderDateTime = dayjs();
-            order.shipDate = dayjs();
+            order.inputDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
+            order.orderDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
+            order.shipDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.createDateTime = dayjs();
             order.createUserId = user.userId;
             order.updateDateTime = dayjs();
@@ -143,8 +144,8 @@ export const Order: FC<Props> = (props) => {
 
         const order: OrderBasisType = setOrderObject('保存', methods);
         if (!isNew) {
-          order.orderDateTime = dayjs();
-          order.shipDate = dayjs();
+          order.orderDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
+          order.shipDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
           order.updateDateTime = dayjs();
           order.updateUserId = user.userId;
           order.jaket.updateDateTime = dayjs();
@@ -256,7 +257,9 @@ export const Order: FC<Props> = (props) => {
   };
 
   const handleReuse = () => {
-    confirmYesNo('流用しますか？', () => navigate(`/order-reuse/${currentOrderId}`));
+    confirmYesNo('流用しますか？', () =>
+      navigate(`/order-reuse/${currentOrderId}`)
+    );
   };
 
   const handleDelete = () => {
@@ -298,7 +301,7 @@ export const Order: FC<Props> = (props) => {
 
     try {
       setPriceCalcLoading(true);
-      
+
       const res: any = await orderApi.getPrice({
         shopNo: '',
         shopGroup: '',
@@ -312,7 +315,9 @@ export const Order: FC<Props> = (props) => {
         setButtonPrice(res.payload.price.buttonPrice.toLocaleString());
         setTotalPrice(res.payload.price.totalPrice.toLocaleString());
         setTax(res.payload.price.tax.toLocaleString());
-        setTotalPriceWithTax(res.payload.price.totalPriceWithTax.toLocaleString());
+        setTotalPriceWithTax(
+          res.payload.price.totalPriceWithTax.toLocaleString()
+        );
       }
     } catch (error: any) {
       showMessage('エラー', 'error', error);
@@ -328,88 +333,115 @@ export const Order: FC<Props> = (props) => {
           <CheckroomIcon className="mr-3" />
           <Typography variant="h6">発注</Typography>
         </Box>
-        <Button onClick={handleBack} startIcon={<ReplyIcon />} color="info" size="small">
+        <Button
+          onClick={handleBack}
+          startIcon={<ReplyIcon />}
+          color="info"
+          size="small"
+        >
           ホーム
         </Button>
       </Box>
       <Divider />
       <FormProvider {...methods}>
-        <Box className="flex items-center justify-between my-5">
-          <Box>
-            <Box className="flex items-center mb-3">
-              <Typography sx={{ marginRight: '10px' }}>
-                {orderStatus &&
-                  (orderStatus === '保存' ? (
-                    <Tooltip title="保存済み" arrow>
-                      <SaveIcon fontSize="large" sx={{ color: green[500] }} />
-                    </Tooltip>
-                  ) : (
-                    <Tooltip title="発注済み" arrow>
-                      <CloudUploadIcon fontSize="large" sx={{ color: pink[500] }} />
-                    </Tooltip>
-                  ))}
-              </Typography>
-              <Typography variant="body1">{`オーダーID：${isNew ? '(新規)' : currentOrderId}`}</Typography>
-            </Box>
-            <Box className="ml-3 mb-5">
-              <Button
-                type="submit"
-                variant="outlined"
-                onClick={handleOrder}
-                sx={{ marginRight: '3px' }}
-                disabled={orderStatus === '発注済み' ? true : false}
-                startIcon={<CloudUploadIcon />}
-              >
-                発注
-              </Button>
-              <Button
-                variant="outlined"
-                onClick={handleSave}
-                sx={{ marginRight: '3px' }}
-                disabled={orderStatus === '発注済み' ? true : false}
-                startIcon={<SaveIcon />}
-              >
-                保存
-              </Button>
-              <Button
-                // variant="outlined"
-                onClick={handleReuse}
-                // onClick={() => {
-                //   setYesNoDialogMessage('流用しますか？');
-                //   setYesNoDialogOpen(true);
-                // }}
-                startIcon={<FileCopyIcon />}
-              >
-                流用
-              </Button>
-              <Button
-                // variant="outlined"
-                onClick={handleDelete}
-                // onClick={() => yesNoDialog.showMessage('削除しますか？')}
-                disabled={orderStatus === '発注済み' ? true : false}
-                startIcon={<ClearIcon />}
-              >
-                削除
-              </Button>
-            </Box>
-            <Box className="flex ml-3 mb-2">
+        <Box className="items-center my-5">
+          <Box className="flex items-center mb-3">
+            <Typography sx={{ marginRight: '10px' }}>
+              {orderStatus &&
+                (orderStatus === '保存' ? (
+                  <Tooltip title="保存済み" arrow>
+                    <SaveIcon fontSize="large" sx={{ color: green[500] }} />
+                  </Tooltip>
+                ) : (
+                  <Tooltip title="発注済み" arrow>
+                    <CloudUploadIcon
+                      fontSize="large"
+                      sx={{ color: pink[500] }}
+                    />
+                  </Tooltip>
+                ))}
+            </Typography>
+            <Typography variant="body1">{`オーダーID：${
+              isNew ? '(新規)' : currentOrderId
+            }`}</Typography>
+          </Box>
+          <Box className="ml-3 mb-5">
+            <Button
+              type="submit"
+              variant="outlined"
+              onClick={handleOrder}
+              sx={{ marginRight: '3px' }}
+              disabled={orderStatus === '発注済み' ? true : false}
+              startIcon={<CloudUploadIcon />}
+            >
+              発注
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={handleSave}
+              sx={{ marginRight: '3px' }}
+              disabled={orderStatus === '発注済み' ? true : false}
+              startIcon={<SaveIcon />}
+            >
+              保存
+            </Button>
+            <Button
+              // variant="outlined"
+              onClick={handleReuse}
+              // onClick={() => {
+              //   setYesNoDialogMessage('流用しますか？');
+              //   setYesNoDialogOpen(true);
+              // }}
+              startIcon={<FileCopyIcon />}
+            >
+              流用
+            </Button>
+            <Button
+              // variant="outlined"
+              onClick={handleDelete}
+              // onClick={() => yesNoDialog.showMessage('削除しますか？')}
+              disabled={orderStatus === '発注済み' ? true : false}
+              startIcon={<ClearIcon />}
+            >
+              削除
+            </Button>
+          </Box>
+          <Box className="flex ml-3 mb-2 justify-between">
+            <Box>
               <GridContainer>
-                <RhfDatePicker label="入力日" name="basis-inputDate" readOnly={true} />
-                <RhfDateTimePicker label="発注日時" name="basis-orderDateTime" readOnly={true} />
-                <RhfDatePicker label="工場出荷日" name="basis-shipDate" readOnly={true} />
+                <RhfDatePicker
+                  label="入力日"
+                  name="basis-inputDate"
+                  readOnly={true}
+                />
+                <RhfDateTimePicker
+                  label="発注日時"
+                  name="basis-orderDateTime"
+                  readOnly={true}
+                />
+                <RhfDatePicker
+                  label="工場出荷日"
+                  name="basis-shipDate"
+                  readOnly={true}
+                />
               </GridContainer>
-              <OrderPrice
-                fabricPrice={fabricPrice}
-                wagesPrice={wagesPrice}
-                customPrice={customPrice}
-                buttonPrice={buttonPrice}
-                totalPrice={totalPrice}
-                tax={tax}
-                totalPriceWithTax={totalPriceWithTax}
-                priceCalcLoading={priceCalcLoading}
-                handlePriceCalc={handlePriceCalc}
+              <RhfTextField
+                label="入力者"
+                name="basis-inputUserName"
+                readOnly={true}
               />
             </Box>
+            <OrderPrice
+              fabricPrice={fabricPrice}
+              wagesPrice={wagesPrice}
+              customPrice={customPrice}
+              buttonPrice={buttonPrice}
+              totalPrice={totalPrice}
+              tax={tax}
+              totalPriceWithTax={totalPriceWithTax}
+              priceCalcLoading={priceCalcLoading}
+              handlePriceCalc={handlePriceCalc}
+            />
           </Box>
         </Box>
         <Box className="mt-5">
@@ -417,12 +449,22 @@ export const Order: FC<Props> = (props) => {
             tabItems={[
               {
                 label: 'オーダー',
-                component: <OrderBasis methods={methods} readOnly={orderStatus === '発注済み'} />,
+                component: (
+                  <OrderBasis
+                    methods={methods}
+                    readOnly={orderStatus === '発注済み'}
+                  />
+                ),
                 errorCount: basisErrorCount,
               },
               {
                 label: 'ジャケット',
-                component: <OrderJaket methods={methods} readOnly={orderStatus === '発注済み'} />,
+                component: (
+                  <OrderJaket
+                    methods={methods}
+                    readOnly={orderStatus === '発注済み'}
+                  />
+                ),
                 errorCount: jaketErrorCount,
               },
               {

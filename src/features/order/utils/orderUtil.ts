@@ -1,6 +1,6 @@
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 import { OrderBasisType, OrderJaketType, OrderPantsType, OrderVestType } from '../types/order';
-import dayjs from 'dayjs';
+import dayjs from '../../../utils/dayjs';
 // import { toDateTimeString } from '../../../utils/util';
 
 export const bindOrderBasisValues = (
@@ -33,6 +33,7 @@ export const bindOrderBasisValues = (
   methods.setValue('basis-createUserId', order.createUserId || '');
   methods.setValue('basis-updateDateTime', dayjs(order.updateDateTime) || dayjs());
   methods.setValue('basis-updateUserId', order.updateUserId || '');
+  methods.setValue('basis-inputUserName', order.inputUserName || '');
 };
 
 export const bindOrderJaketValues = (
@@ -430,6 +431,7 @@ export const createDefaultOrderValues = (user: any) => {
     createUserId: user.loginId,
     updateDateTime: dayjs(),
     updateUserId: user.loginId,
+    inputUserName: user.userName,
     jaket: defaultOrderJaket,
     pants: defaultOrderPants,
     vest: defaultOrderVest,
@@ -446,11 +448,11 @@ export const setOrderObject = (
     shopId: methods.getValues('basis-shopId'),
     seq: methods.getValues('basis-seq'),
     orderStatus: orderStatus,
-    inputDate: methods.getValues('basis-inputDate'),
+    inputDate: methods.getValues('basis-inputDate').format('YYYY-MM-DDTHH:mm:ss'),
     // inputDate: toDateTimeString(methods.getValues('basis-inputDate')),
-    orderDateTime: methods.getValues('basis-orderDateTime'),
+    orderDateTime: methods.getValues('basis-orderDateTime').format('YYYY-MM-DDTHH:mm:ss'),
     // orderDateTime: toDateTimeString(methods.getValues('basis-orderDateTime')),
-    shipDate: methods.getValues('basis-shipDate'),
+    shipDate: methods.getValues('basis-shipDate').format('YYYY-MM-DDTHH:mm:ss'),
     // shipDate: toDateTimeString(methods.getValues('basis-shipDate')),
     customerName: methods.getValues('basis-customerName'),
     productName: methods.getValues('basis-productName'),
@@ -468,12 +470,13 @@ export const setOrderObject = (
     inputUserId: methods.getValues('basis-inputUserId'),
     remark: methods.getValues('basis-remark'),
     isDelete: methods.getValues('basis-isDelete'),
-    createDateTime: methods.getValues('basis-createDateTime'),
+    createDateTime: methods.getValues('basis-createDateTime').format('YYYY-MM-DDTHH:mm:ss'),
     // createDateTime: toDateTimeString(methods.getValues('basis-createDateTime')),
     createUserId: methods.getValues('basis-createUserId'),
-    updateDateTime: methods.getValues('basis-updateDateTime'),
+    updateDateTime: methods.getValues('basis-updateDateTime').format('YYYY-MM-DDTHH:mm:ss'),
     // updateDateTime: toDateTimeString(methods.getValues('basis-updateDateTime')),
     updateUserId: methods.getValues('basis-updateUserId'),
+    inputUserName: methods.getValues('basis-inputUserName'),
     jaket: {
       jaketOrderId: methods.getValues('jaket-jaketOrderId'),
       orderId: methods.getValues('jaket-orderId'),
@@ -558,10 +561,10 @@ export const setOrderObject = (
       sleeveBack: toValue(methods.getValues('jaket-sleeveBack')),
       remark: methods.getValues('jaket-remark'),
       isDelete: methods.getValues('jaket-isDelete'),
-      createDateTime: methods.getValues('jaket-createDateTime'),
+      createDateTime: methods.getValues('jaket-createDateTime').format('YYYY-MM-DDTHH:mm:ss'),
       // createDateTime: toDateTimeString(methods.getValues('jaket-createDateTime')),
       createUserId: methods.getValues('jaket-createUserId'),
-      updateDateTime: methods.getValues('jaket-updateDateTime'),
+      updateDateTime: methods.getValues('jaket-updateDateTime').format('YYYY-MM-DDTHH:mm:ss'),
       // updateDateTime: toDateTimeString(methods.getValues('jaket-updateDateTime')),
       updateUserId: methods.getValues('jaket-updateUserId'),
     },
@@ -612,10 +615,10 @@ export const setOrderObject = (
       buttholeTape: toValue(methods.getValues('pants-buttholeTape')),
       remark: methods.getValues('pants-remark'),
       isDelete: methods.getValues('pants-isDelete'),
-      createDateTime: methods.getValues('pants-createDateTime'),
+      createDateTime: methods.getValues('pants-createDateTime').format('YYYY-MM-DDTHH:mm:ss'),
       // createDateTime: toDateTimeString(methods.getValues('pants-createDateTime')),
       createUserId: methods.getValues('pants-createUserId'),
-      updateDateTime: methods.getValues('pants-updateDateTime'),
+      updateDateTime: methods.getValues('pants-updateDateTime').format('YYYY-MM-DDTHH:mm:ss'),
       // updateDateTime: toDateTimeString(methods.getValues('pants-updateDateTime')),
       updateUserId: methods.getValues('pants-updateUserId'),
     },
@@ -651,10 +654,10 @@ export const setOrderObject = (
       frontLength: toNumericValue(methods.getValues('vest-frontLength')),
       remark: methods.getValues('vest-remark'),
       isDelete: methods.getValues('vest-isDelete'),
-      createDateTime: methods.getValues('vest-createDateTime'),
+      createDateTime: methods.getValues('vest-createDateTime').format('YYYY-MM-DDTHH:mm:ss'),
       // createDateTime: toDateTimeString(methods.getValues('vest-createDateTime')),
       createUserId: methods.getValues('vest-createUserId'),
-      updateDateTime: methods.getValues('vest-updateDateTime'),
+      updateDateTime: methods.getValues('vest-updateDateTime').format('YYYY-MM-DDTHH:mm:ss'),
       // updateDateTime: toDateTimeString(methods.getValues('vest-updateDateTime')),
       updateUserId: methods.getValues('vest-updateUserId'),
     },

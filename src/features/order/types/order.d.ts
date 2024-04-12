@@ -26,6 +26,7 @@ export type OrderBasisType = {
   createUserId: string;
   updateDateTime: datetime;
   updateUserId: string;
+  inputUserName: string;
   jaket: OrderJaketType;
   pants: OrderPantsType;
   vest: OrderVestType;

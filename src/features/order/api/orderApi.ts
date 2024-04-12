@@ -5,7 +5,16 @@ const orderApi = {
   getOrders: (params: any) =>
     axiosClientGCF.post('/TailorManagementApiGcf', {
       method: 'getOrders',
-      param: { roleId: params.roleId, shopId: params.shopId },
+      param: {
+        roleId: params.roleId,
+        shopId: params.shopId,
+        dateType: params.dateType,
+        dateFrom: params.dateFrom,
+        dateTo: params.dateTo,
+        orderId: params.orderId,
+        customerName: params.customerName,
+        orderStatausType: params.orderStatausType,
+      },
     }),
   // getOrders: (params: any) => axiosClient.post('/exec', { endpoint: 'orders', endpointParams: params }),
   getOrder: (params: any) =>

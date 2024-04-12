@@ -24,6 +24,7 @@ import { useSearchPanel } from '../features/order/hooks/useSearchPanel';
 import { useToast } from '../hooks/useToast';
 import { Toast } from 'primereact/toast';
 import Loading from '../components/ui/Loading';
+import dayjs from '../utils/dayjs';
 
 export const OrderList = () => {
   const searchStates = useSearchPanel();
@@ -98,13 +99,22 @@ export const OrderList = () => {
         shopId: user.shopId,
         roleId: user.roleId,
         dateType: searchStates.dateType,
-        dateFrom: searchStates.dateFrom?.toISOString(),
-        dateTo: searchStates.dateTo?.toISOString(),
+        dateFrom: searchStates.dateFrom
+          ? dayjs(searchStates.dateFrom).format('YYYY-MM-DDTHH:mm:ss')
+          : '',
+        dateTo: searchStates.dateTo
+          ? dayjs(searchStates.dateTo).format('YYYY-MM-DDTHH:mm:ss')
+          : '',
         orderId: searchStates.orderId,
         customerName: searchStates.customerName,
         orderStatausType: searchStates.orderStatausType,
       });
       dispatch(setOrder(res.payload.orders));
+
+      // ページ数を設定する
+      const pageCount = Math.ceil(res.payload.orders.length / maxPageCount);
+      setPageCount(pageCount);
+      
       setDrawerOpen(false);
     } catch (error: any) {
       showMessage('エラー', 'error', error);
@@ -141,7 +151,7 @@ export const OrderList = () => {
         <GradingIcon className="mr-3" />
         <Typography variant="h6">発注リスト</Typography>
       </Box>
-      
+
       <Box display="flex" justifyContent="space-between">
         <Button
           onClick={toggleDrawer(true)}
