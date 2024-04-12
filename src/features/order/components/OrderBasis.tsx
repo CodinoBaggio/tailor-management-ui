@@ -24,8 +24,7 @@ const style = {
 
 export const OrderBasis: FC<Props> = (props) => {
   const { methods, readOnly } = props;
-  const [fabricProductNoSearchDialogOpen, setFabricProductNoSearchDialogOpen] =
-    useState(false);
+  const [fabricProductNoSearchDialogOpen, setFabricProductNoSearchDialogOpen] = useState(false);
   const [productNos, setProductNos] = useState([]);
   const [loading, setLoading] = useState(false);
   const { toast, showMessage } = useToast();
@@ -88,6 +87,16 @@ export const OrderBasis: FC<Props> = (props) => {
               { value: '3P', label: '3P：ジャケット+パンツ+ベスト' },
               { value: '2PP', label: '2PP：ジャケット+パンツ+パンツ' },
               { value: '3PP', label: '3PP：ジャケット+パンツ+パンツ+ベスト' },
+              { value: '2P(SK)', label: '2P(SK)：ジャケット+スカート' },
+              {
+                value: '2P(SK)＋SK',
+                label: '2P(SK)＋SK：ジャケット+スカート+スカート',
+              },
+              { value: '3P(SK)', label: '3P(SK)：ジャケット+スカート+ベスト' },
+              {
+                value: '3P(SK)＋SK',
+                label: '3P(SK)＋SK：ジャケット+スカート+スカート+ベスト',
+              },
             ]}
             width={300}
             readOnly={readOnly}
@@ -99,16 +108,8 @@ export const OrderBasis: FC<Props> = (props) => {
             message="生地メーカーを入力してください"
           /> */}
           <Box>
-            <RhfTextField
-              label="生地品番 *"
-              name="basis-fabricProductNo"
-              readOnly={readOnly}
-            />
-            <Button
-              startIcon={<FactCheckIcon />}
-              onClick={handleFabricProductNoSearchDialogOpen}
-              disabled={readOnly}
-            >
+            <RhfTextField label="生地品番 *" name="basis-fabricProductNo" readOnly={readOnly} />
+            <Button startIcon={<FactCheckIcon />} onClick={handleFabricProductNoSearchDialogOpen} disabled={readOnly}>
               生地品番選択
             </Button>
           </Box>
@@ -198,12 +199,7 @@ export const OrderBasis: FC<Props> = (props) => {
       </Box>
       <Box className={style.boxMargin}>
         <GridContainer>
-          <RhfTextField
-            label="混率生地③"
-            name="basis-blendRateFabric3"
-            width={200}
-            readOnly={readOnly}
-          />
+          <RhfTextField label="混率生地③" name="basis-blendRateFabric3" width={200} readOnly={readOnly} />
           <RhfTextField
             label="混率③"
             name="basis-blendRate3"
@@ -216,12 +212,7 @@ export const OrderBasis: FC<Props> = (props) => {
       </Box>
       <Box className={style.boxMargin}>
         <GridContainer>
-          <RhfTextField
-            label="混率生地④"
-            name="basis-blendRateFabric4"
-            width={200}
-            readOnly={readOnly}
-          />
+          <RhfTextField label="混率生地④" name="basis-blendRateFabric4" width={200} readOnly={readOnly} />
           <RhfTextField
             label="混率④"
             name="basis-blendRate4"
@@ -233,14 +224,7 @@ export const OrderBasis: FC<Props> = (props) => {
         </GridContainer>
       </Box>
       <Box>
-        <RhfTextField
-          label="備考"
-          name="basis-remark"
-          width="100%"
-          multiline
-          variant="outlined"
-          readOnly={readOnly}
-        />
+        <RhfTextField label="備考" name="basis-remark" width="100%" multiline variant="outlined" readOnly={readOnly} />
       </Box>
       <FabricProductNoSearchDialog
         open={fabricProductNoSearchDialogOpen}

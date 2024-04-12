@@ -170,6 +170,7 @@ export const Order: FC<Props> = (props) => {
           // 更新フラグを設定する
           dispatch(setUpdated(true));
 
+          order.vest.updateUserId = user.userId;
           showMessage('保存しました。', 'info');
           // navigate('/');
         } else {
@@ -208,7 +209,8 @@ export const Order: FC<Props> = (props) => {
           // 更新フラグを設定する
           dispatch(setUpdated(true));
 
-          showMessage('発注処理を実行しました。', 'info');
+          const isSkirt = order.productName.includes('SK');
+          showMessage('発注処理を実行しました。', 'info', isSkirt ? 'スカートの情報は発注明細に記入してください' : '');
           // navigate('/');
         } else {
           showMessage('エラー', 'error', res.message);
@@ -257,9 +259,7 @@ export const Order: FC<Props> = (props) => {
   };
 
   const handleReuse = () => {
-    confirmYesNo('流用しますか？', () =>
-      navigate(`/order-reuse/${currentOrderId}`)
-    );
+    confirmYesNo('流用しますか？', () => navigate(`/order-reuse/${currentOrderId}`));
   };
 
   const handleDelete = () => {
@@ -315,9 +315,7 @@ export const Order: FC<Props> = (props) => {
         setButtonPrice(res.payload.price.buttonPrice.toLocaleString());
         setTotalPrice(res.payload.price.totalPrice.toLocaleString());
         setTax(res.payload.price.tax.toLocaleString());
-        setTotalPriceWithTax(
-          res.payload.price.totalPriceWithTax.toLocaleString()
-        );
+        setTotalPriceWithTax(res.payload.price.totalPriceWithTax.toLocaleString());
       }
     } catch (error: any) {
       showMessage('エラー', 'error', error);
@@ -333,12 +331,7 @@ export const Order: FC<Props> = (props) => {
           <CheckroomIcon className="mr-3" />
           <Typography variant="h6">発注</Typography>
         </Box>
-        <Button
-          onClick={handleBack}
-          startIcon={<ReplyIcon />}
-          color="info"
-          size="small"
-        >
+        <Button onClick={handleBack} startIcon={<ReplyIcon />} color="info" size="small">
           ホーム
         </Button>
       </Box>
@@ -354,16 +347,11 @@ export const Order: FC<Props> = (props) => {
                   </Tooltip>
                 ) : (
                   <Tooltip title="発注済み" arrow>
-                    <CloudUploadIcon
-                      fontSize="large"
-                      sx={{ color: pink[500] }}
-                    />
+                    <CloudUploadIcon fontSize="large" sx={{ color: pink[500] }} />
                   </Tooltip>
                 ))}
             </Typography>
-            <Typography variant="body1">{`オーダーID：${
-              isNew ? '(新規)' : currentOrderId
-            }`}</Typography>
+            <Typography variant="body1">{`オーダーID：${isNew ? '(新規)' : currentOrderId}`}</Typography>
           </Box>
           <Box className="ml-3 mb-5">
             <Button
@@ -409,27 +397,11 @@ export const Order: FC<Props> = (props) => {
           <Box className="flex ml-3 mb-2 justify-between">
             <Box>
               <GridContainer>
-                <RhfDatePicker
-                  label="入力日"
-                  name="basis-inputDate"
-                  readOnly={true}
-                />
-                <RhfDateTimePicker
-                  label="発注日時"
-                  name="basis-orderDateTime"
-                  readOnly={true}
-                />
-                <RhfDatePicker
-                  label="工場出荷日"
-                  name="basis-shipDate"
-                  readOnly={true}
-                />
+                <RhfDatePicker label="入力日" name="basis-inputDate" readOnly={true} />
+                <RhfDateTimePicker label="発注日時" name="basis-orderDateTime" readOnly={true} />
+                <RhfDatePicker label="工場出荷日" name="basis-shipDate" readOnly={true} />
               </GridContainer>
-              <RhfTextField
-                label="入力者"
-                name="basis-inputUserName"
-                readOnly={true}
-              />
+              <RhfTextField label="入力者" name="basis-inputUserName" readOnly={true} />
             </Box>
             <OrderPrice
               fabricPrice={fabricPrice}
@@ -449,22 +421,12 @@ export const Order: FC<Props> = (props) => {
             tabItems={[
               {
                 label: 'オーダー',
-                component: (
-                  <OrderBasis
-                    methods={methods}
-                    readOnly={orderStatus === '発注済み'}
-                  />
-                ),
+                component: <OrderBasis methods={methods} readOnly={orderStatus === '発注済み'} />,
                 errorCount: basisErrorCount,
               },
               {
                 label: 'ジャケット',
-                component: (
-                  <OrderJaket
-                    methods={methods}
-                    readOnly={orderStatus === '発注済み'}
-                  />
-                ),
+                component: <OrderJaket methods={methods} readOnly={orderStatus === '発注済み'} />,
                 errorCount: jaketErrorCount,
               },
               {

@@ -1,49 +1,21 @@
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 import orderApi from '../api/orderApi';
 
-export const validateOrder = async (methods: UseFormReturn<FieldValues, any, undefined>) => {
+export const validateOrder = (
+  methods: UseFormReturn<FieldValues, any, undefined>
+) => {
   const { getValues } = methods;
 
   // 品名
   const productName = getValues('basis-productName');
 
-  // チェックに必要なリソースを取得する
-  const res: any = await orderApi.getBodySize({
-    jaket: {
-      selectPattern2: getValues('jaket-selectPattern2'),
-      selectPattern3: getValues('jaket-selectPattern3'),
-    },
-    pants: {
-      selectPattern2: getValues('pants-selectPattern2'),
-      selectPattern3: getValues('pants-selectPattern3'),
-    },
-    vest: {
-      selectPattern2: getValues('vest-selectPattern2'),
-      selectPattern3: getValues('vest-selectPattern3'),
-    },
-  });
-  const bodySize = {
-    jaket: {
-      shoulderWidth: res.payload.jaket.shoulderWidth,
-      jaketLength: res.payload.jaket.jaketLength,
-    },
-    // pants: {
-    //   shoulderWidth: res.payload.pants.shoulderWidth,
-    //   jaketLength: res.payload.pants.jaketLength,
-    // },
-    // vest: {
-    //   shoulderWidth: res.payload.vest.shoulderWidth,
-    //   jaketLength: res.payload.vest.jaketLength,
-    // },
-  };
-
   // 発注基本情報のチェック
   const basisError = validateOrderBasis(methods);
 
   // チェック実行対象の品名
-  const jaketValidationProductNames = ['2P', 'JK', '3P', '2PP', '3PP'];
+  const jaketValidationProductNames = ['2P', 'JK', '3P', '2PP', '3PP', '2P(SK)', '2P（SK)＋SK', '3P(SK)', '3P（SK)＋SK'];
   const pantsValidationProductNames = ['2P', 'PT', '3P', '2PP', '3PP'];
-  const vestValidationProductNames = ['VT', '3P', '3PP'];
+  const vestValidationProductNames = ['VT', '3P', '3PP', '3P(SK)', '3P（SK)＋SK'];
 
   // ジャケットのチェック
   let jaketError = {
@@ -53,7 +25,7 @@ export const validateOrder = async (methods: UseFormReturn<FieldValues, any, und
     vestErrorCount: 0,
   };
   if (jaketValidationProductNames.includes(productName)) {
-    jaketError = validateOrderJaket(methods, bodySize.jaket);
+    jaketError = validateOrderJaket(methods);
   }
 
   // パンツのチェック
@@ -128,7 +100,9 @@ export const validateOrder = async (methods: UseFormReturn<FieldValues, any, und
   };
 };
 
-export const validateOrderBasis = (methods: UseFormReturn<FieldValues, any, undefined>) => {
+export const validateOrderBasis = (
+  methods: UseFormReturn<FieldValues, any, undefined>
+) => {
   const errorCounts = {
     basisErrorCount: 0,
     jaketErrorCount: 0,
@@ -139,7 +113,11 @@ export const validateOrderBasis = (methods: UseFormReturn<FieldValues, any, unde
 
   //#region 必須入力チェック
   {
-    const requiredFields = ['basis-customerName', 'basis-productName', 'basis-fabricProductNo'];
+    const requiredFields = [
+      'basis-customerName',
+      'basis-productName',
+      'basis-fabricProductNo',
+    ];
     requiredFields.forEach((field) => {
       if (!getValues(field) || getValues(field) === 'empty') {
         methods.setError(field, {
@@ -302,11 +280,7 @@ export const validateOrderBasis = (methods: UseFormReturn<FieldValues, any, unde
 };
 
 export const validateOrderJaket = (
-  methods: UseFormReturn<FieldValues, any, undefined>,
-  bodySize: {
-    shoulderWidth: any;
-    jaketLength: any;
-  }
+  methods: UseFormReturn<FieldValues, any, undefined>
 ) => {
   const errorCounts = {
     basisErrorCount: 0,
@@ -370,22 +344,46 @@ export const validateOrderJaket = (
   }
   //#endregion
 
+  // 寸法表を取得する
+  const getBodySize = async () => {
+    const res: any = await orderApi.getBodySize({
+      jaket: {
+        selectPattern2: getValues('jaket-selectPattern2'),
+        selectPattern3: getValues('jaket-selectPattern3'),
+      },
+      pants: {
+        selectPattern2: getValues('pants-selectPattern2'),
+        selectPattern3: getValues('pants-selectPattern3'),
+      },
+      vest: {
+        selectPattern2: getValues('vest-selectPattern2'),
+        selectPattern3: getValues('vest-selectPattern3'),
+      },
+    });
+    return {
+      shoulderWidth: res.payload.jaket.shoulderWidth,
+      jaketLength: res.payload.jaket.jaketLength,
+    };
+  };
+
   //#region No.34
-  {
-    const value = methods.getValues('jaket-shoulderWidth');
-    if (
-      !(
-        bodySize.shoulderWidth - 4 <= parseFloat(value) &&
-        parseFloat(value) <= bodySize.shoulderWidth + 4
-      )
-    ) {
-      methods.setError('jaket-shoulderWidth', {
-        type: 'custom',
-        message: `指定型紙(${bodySize.shoulderWidth}cm)の±4cm以内を入力してください`,
-      });
-      errorCounts.jaketErrorCount++;
+  getBodySize().then((res) => {
+    {
+      const value = methods.getValues('jaket-shoulderWidth');
+      if (
+        !(
+          res.shoulderWidth - 4 <= parseFloat(value) &&
+          parseFloat(value) <= res.shoulderWidth + 4
+        )
+      ) {
+        methods.setError('jaket-shoulderWidth', {
+          type: 'custom',
+          message: `指定型紙(${res.shoulderWidth}cm)の±4cm以内を入力してください`,
+        });
+        errorCounts.jaketErrorCount++;
+      }
     }
-  }
+  });
   //#endregion
 
   //#region No.39
@@ -697,7 +695,19 @@ export const validateOrderJaket = (
 
   //#region No.81
   {
-    const tests = ['ENKC', 'ATW', 'STW', 'BT', 'CT', 'TRD', 'PT', 'TBW', 'D', 'P', 'X'];
+    const tests = [
+      'ENKC',
+      'ATW',
+      'STW',
+      'BT',
+      'CT',
+      'TRD',
+      'PT',
+      'TBW',
+      'D',
+      'P',
+      'X',
+    ];
 
     const value = methods.getValues('basis-fabricProductNo');
     if (tests.some((s) => value.startsWith(s))) {
@@ -815,7 +825,9 @@ export const validateOrderJaket = (
   return errorCounts;
 };
 
-export const validateOrderPants = (methods: UseFormReturn<FieldValues, any, undefined>) => {
+export const validateOrderPants = (
+  methods: UseFormReturn<FieldValues, any, undefined>
+) => {
   const errorCounts = {
     basisErrorCount: 0,
     jaketErrorCount: 0,
@@ -1000,11 +1012,26 @@ export const validateOrderPants = (methods: UseFormReturn<FieldValues, any, unde
 
   //#region No.152
   {
-    const tests = ['ENKC', 'ATW', 'STW', 'BT', 'CT', 'TRD', 'PT', 'TBW', 'D', 'P', 'X'];
+    const tests = [
+      'ENKC',
+      'ATW',
+      'STW',
+      'BT',
+      'CT',
+      'TRD',
+      'PT',
+      'TBW',
+      'D',
+      'P',
+      'X',
+    ];
     const ngs = ['ATJ1709', 'ATJ1710', 'ATJ1711', 'ATJ1712'];
 
     const value = methods.getValues('basis-fabricProductNo');
-    if (tests.some((s) => value.startsWith(s)) || ngs.some((s) => value === s)) {
+    if (
+      tests.some((s) => value.startsWith(s)) ||
+      ngs.some((s) => value === s)
+    ) {
       const targetValue = methods.getValues('pants-setFinishing');
       if (targetValue !== '無') {
         methods.setError('pants-setFinishing', {
@@ -1036,7 +1063,9 @@ export const validateOrderPants = (methods: UseFormReturn<FieldValues, any, unde
   return errorCounts;
 };
 
-export const validateOrderVest = (methods: UseFormReturn<FieldValues, any, undefined>) => {
+export const validateOrderVest = (
+  methods: UseFormReturn<FieldValues, any, undefined>
+) => {
   const errorCounts = {
     basisErrorCount: 0,
     jaketErrorCount: 0,
