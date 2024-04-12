@@ -11,7 +11,7 @@ import { useToast } from '../../../hooks/useToast';
 import { CustomerAddEditor } from './customer/CustomerAddEditor';
 import { SearchTextField } from '../../../components/ui/SearchTextField';
 import Loading from '../../../components/ui/Loading';
-import dayjs from '../../../utils/dayjs';
+import dayjs from 'dayjs';
 
 export const CustomerMaintenace = () => {
   const [open, setOpen] = useState(false);

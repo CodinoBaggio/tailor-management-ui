@@ -1,6 +1,11 @@
 import { FieldValues, UseFormReturn } from 'react-hook-form';
-import { OrderBasisType, OrderJaketType, OrderPantsType, OrderVestType } from '../types/order';
-import dayjs from '../../../utils/dayjs';
+import {
+  OrderBasisType,
+  OrderJaketType,
+  OrderPantsType,
+  OrderVestType,
+} from '../types/order';
+import dayjs from 'dayjs';
 // import { toDateTimeString } from '../../../utils/util';
 
 export const bindOrderBasisValues = (
@@ -12,7 +17,10 @@ export const bindOrderBasisValues = (
   methods.setValue('basis-seq', order.seq || NaN);
   methods.setValue('basis-orderStatus', order.orderStatus || '');
   methods.setValue('basis-inputDate', dayjs(order.inputDate) || dayjs());
-  methods.setValue('basis-orderDateTime', dayjs(order.orderDateTime) || dayjs());
+  methods.setValue(
+    'basis-orderDateTime',
+    dayjs(order.orderDateTime) || dayjs()
+  );
   methods.setValue('basis-shipDate', dayjs(order.shipDate) || dayjs());
   methods.setValue('basis-customerName', order.customerName || '');
   methods.setValue('basis-productName', order.productName || '');
@@ -29,9 +37,15 @@ export const bindOrderBasisValues = (
   methods.setValue('basis-blendRate4', order.blendRate4 || NaN);
   methods.setValue('basis-inputUserId', order.inputUserId || '');
   methods.setValue('basis-isDelete', order.isDelete || false);
-  methods.setValue('basis-createDateTime', dayjs(order.createDateTime) || dayjs());
+  methods.setValue(
+    'basis-createDateTime',
+    dayjs(order.createDateTime) || dayjs()
+  );
   methods.setValue('basis-createUserId', order.createUserId || '');
-  methods.setValue('basis-updateDateTime', dayjs(order.updateDateTime) || dayjs());
+  methods.setValue(
+    'basis-updateDateTime',
+    dayjs(order.updateDateTime) || dayjs()
+  );
   methods.setValue('basis-updateUserId', order.updateUserId || '');
   methods.setValue('basis-inputUserName', order.inputUserName || '');
 };
@@ -68,8 +82,14 @@ export const bindOrderJaketValues = (
   methods.setValue('jaket-stitch', order.stitch || '');
   methods.setValue('jaket-stitchLocation', order.stitchLocation || '');
   methods.setValue('jaket-pinpointStitch', order.pinpointStitch || '');
-  methods.setValue('jaket-pinpointStitchThreadColor', order.pinpointStitchThreadColor || '');
-  methods.setValue('jaket-chestBoxSatinFabric', order.chestBoxSatinFabric || '');
+  methods.setValue(
+    'jaket-pinpointStitchThreadColor',
+    order.pinpointStitchThreadColor || ''
+  );
+  methods.setValue(
+    'jaket-chestBoxSatinFabric',
+    order.chestBoxSatinFabric || ''
+  );
   methods.setValue('jaket-waistPocket', order.waistPocket || '');
   methods.setValue('jaket-flapWidth', order.flapWidth || NaN);
   methods.setValue('jaket-changePocket', order.changePocket || '');
@@ -91,22 +111,40 @@ export const bindOrderJaketValues = (
   methods.setValue('jaket-labelHole', order.labelHole || '');
   methods.setValue('jaket-stitchThreadColor', order.stitchThreadColor || '');
   methods.setValue('jaket-labelThreadColor', order.labelThreadColor || '');
-  methods.setValue('jaket-frontButtonThreadColor', order.frontButtonThreadColor || '');
-  methods.setValue('jaket-sleeveButtonThreadColor', order.sleeveButtonThreadColor || '');
+  methods.setValue(
+    'jaket-frontButtonThreadColor',
+    order.frontButtonThreadColor || ''
+  );
+  methods.setValue(
+    'jaket-sleeveButtonThreadColor',
+    order.sleeveButtonThreadColor || ''
+  );
   methods.setValue('jaket-brandName', order.brandName || '');
   methods.setValue('jaket-fabricMark', order.fabricMark || '');
   methods.setValue('jaket-buttonProductNo', order.buttonProductNo || '');
   methods.setValue('jaket-sleeveOpeningTape', order.sleeveOpeningTape || '');
   methods.setValue('jaket-sleeveElbowPatch', order.sleeveElbowPatch || '');
   methods.setValue('jaket-hole', order.hole || '');
-  methods.setValue('jaket-sleeveButtonHoleColor', order.sleeveButtonHoleColor || '');
+  methods.setValue(
+    'jaket-sleeveButtonHoleColor',
+    order.sleeveButtonHoleColor || ''
+  );
   methods.setValue('jaket-uchiai', order.uchiai || NaN);
   methods.setValue('jaket-hanmi', order.hanmi || NaN);
   methods.setValue('jaket-kutsumi', order.kutsumi || NaN);
   methods.setValue('jaket-squareShoulderLeft', order.squareShoulderLeft || NaN);
-  methods.setValue('jaket-squareShoulderRight', order.squareShoulderRight || NaN);
-  methods.setValue('jaket-slopingShoulderLeft', order.slopingShoulderLeft || NaN);
-  methods.setValue('jaket-slopingShoulderRight', order.slopingShoulderRight || NaN);
+  methods.setValue(
+    'jaket-squareShoulderRight',
+    order.squareShoulderRight || NaN
+  );
+  methods.setValue(
+    'jaket-slopingShoulderLeft',
+    order.slopingShoulderLeft || NaN
+  );
+  methods.setValue(
+    'jaket-slopingShoulderRight',
+    order.slopingShoulderRight || NaN
+  );
   methods.setValue('jaket-totsuRyo', order.totsuRyo || NaN);
   methods.setValue('jaket-hip', order.hip || NaN);
   methods.setValue('jaket-frontLength', order.frontLength || NaN);
@@ -122,9 +160,15 @@ export const bindOrderJaketValues = (
   methods.setValue('jaket-backWidth', order.backWidth || NaN);
   methods.setValue('jaket-sleeveBack', order.sleeveBack || '');
   methods.setValue('jaket-isDelete', order.isDelete || false);
-  methods.setValue('jaket-createDateTime', dayjs(order.createDateTime) || dayjs());
+  methods.setValue(
+    'jaket-createDateTime',
+    dayjs(order.createDateTime) || dayjs()
+  );
   methods.setValue('jaket-createUserId', order.createUserId || '');
-  methods.setValue('jaket-updateDateTime', dayjs(order.updateDateTime) || dayjs());
+  methods.setValue(
+    'jaket-updateDateTime',
+    dayjs(order.updateDateTime) || dayjs()
+  );
   methods.setValue('jaket-updateUserId', order.updateUserId || '');
 };
 
@@ -177,9 +221,15 @@ export const bindOrderPantsValues = (
   methods.setValue('pants-creaseWire', order.creaseWire || '');
   methods.setValue('pants-buttholeTape', order.buttholeTape || '');
   methods.setValue('pants-isDelete', order.isDelete || false);
-  methods.setValue('pants-createDateTime', dayjs(order.createDateTime) || dayjs());
+  methods.setValue(
+    'pants-createDateTime',
+    dayjs(order.createDateTime) || dayjs()
+  );
   methods.setValue('pants-createUserId', order.createUserId || '');
-  methods.setValue('pants-updateDateTime', dayjs(order.updateDateTime) || dayjs());
+  methods.setValue(
+    'pants-updateDateTime',
+    dayjs(order.updateDateTime) || dayjs()
+  );
   methods.setValue('pants-updateUserId', order.updateUserId || '');
 };
 
@@ -198,7 +248,10 @@ export const bindOrderVestValues = (
   methods.setValue('vest-collar', order.collar || '');
   methods.setValue('vest-chestPocket', order.chestPocket || '');
   methods.setValue('vest-frontButton', order.frontButton || '');
-  methods.setValue('vest-frontButtonHolePosition', order.frontButtonHolePosition || '');
+  methods.setValue(
+    'vest-frontButtonHolePosition',
+    order.frontButtonHolePosition || ''
+  );
   methods.setValue('vest-waistPocket', order.waistPocket || '');
   methods.setValue('vest-backSide', order.backSide || '');
   methods.setValue('vest-buckle', order.buckle || '');
@@ -209,17 +262,32 @@ export const bindOrderVestValues = (
   methods.setValue('vest-hanmi', order.hanmi || NaN);
   methods.setValue('vest-kutsumi', order.kutsumi || NaN);
   methods.setValue('vest-squareShoulderLeft', order.squareShoulderLeft || NaN);
-  methods.setValue('vest-squareShoulderRight', order.squareShoulderRight || NaN);
-  methods.setValue('vest-slopingShoulderLeft', order.slopingShoulderLeft || NaN);
-  methods.setValue('vest-slopingShoulderRight', order.slopingShoulderRight || NaN);
+  methods.setValue(
+    'vest-squareShoulderRight',
+    order.squareShoulderRight || NaN
+  );
+  methods.setValue(
+    'vest-slopingShoulderLeft',
+    order.slopingShoulderLeft || NaN
+  );
+  methods.setValue(
+    'vest-slopingShoulderRight',
+    order.slopingShoulderRight || NaN
+  );
   methods.setValue('vest-sickleRaising', order.sickleRaising || NaN);
   methods.setValue('vest-shoulderWidth', order.shoulderWidth || NaN);
   methods.setValue('vest-buttonPosition', order.buttonPosition || NaN);
   methods.setValue('vest-frontLength', order.frontLength || NaN);
   methods.setValue('vest-isDelete', order.isDelete || false);
-  methods.setValue('vest-createDateTime', dayjs(order.createDateTime) || dayjs());
+  methods.setValue(
+    'vest-createDateTime',
+    dayjs(order.createDateTime) || dayjs()
+  );
   methods.setValue('vest-createUserId', order.createUserId || '');
-  methods.setValue('vest-updateDateTime', dayjs(order.updateDateTime) || dayjs());
+  methods.setValue(
+    'vest-updateDateTime',
+    dayjs(order.updateDateTime) || dayjs()
+  );
   methods.setValue('vest-updateUserId', order.updateUserId || '');
 };
 
@@ -448,9 +516,13 @@ export const setOrderObject = (
     shopId: methods.getValues('basis-shopId'),
     seq: methods.getValues('basis-seq'),
     orderStatus: orderStatus,
-    inputDate: methods.getValues('basis-inputDate').format('YYYY-MM-DDTHH:mm:ss'),
+    inputDate: methods
+      .getValues('basis-inputDate')
+      .format('YYYY-MM-DDTHH:mm:ss'),
     // inputDate: toDateTimeString(methods.getValues('basis-inputDate')),
-    orderDateTime: methods.getValues('basis-orderDateTime').format('YYYY-MM-DDTHH:mm:ss'),
+    orderDateTime: methods
+      .getValues('basis-orderDateTime')
+      .format('YYYY-MM-DDTHH:mm:ss'),
     // orderDateTime: toDateTimeString(methods.getValues('basis-orderDateTime')),
     shipDate: methods.getValues('basis-shipDate').format('YYYY-MM-DDTHH:mm:ss'),
     // shipDate: toDateTimeString(methods.getValues('basis-shipDate')),
@@ -470,10 +542,14 @@ export const setOrderObject = (
     inputUserId: methods.getValues('basis-inputUserId'),
     remark: methods.getValues('basis-remark'),
     isDelete: methods.getValues('basis-isDelete'),
-    createDateTime: methods.getValues('basis-createDateTime').format('YYYY-MM-DDTHH:mm:ss'),
+    createDateTime: methods
+      .getValues('basis-createDateTime')
+      .format('YYYY-MM-DDTHH:mm:ss'),
     // createDateTime: toDateTimeString(methods.getValues('basis-createDateTime')),
     createUserId: methods.getValues('basis-createUserId'),
-    updateDateTime: methods.getValues('basis-updateDateTime').format('YYYY-MM-DDTHH:mm:ss'),
+    updateDateTime: methods
+      .getValues('basis-updateDateTime')
+      .format('YYYY-MM-DDTHH:mm:ss'),
     // updateDateTime: toDateTimeString(methods.getValues('basis-updateDateTime')),
     updateUserId: methods.getValues('basis-updateUserId'),
     inputUserName: methods.getValues('basis-inputUserName'),
@@ -486,8 +562,12 @@ export const setOrderObject = (
       totalLength: toNumericValue(methods.getValues('jaket-totalLength')),
       jaketLength: toNumericValue(methods.getValues('jaket-jaketLength')),
       shoulderWidth: toNumericValue(methods.getValues('jaket-shoulderWidth')),
-      sleeveLengthLeft: toNumericValue(methods.getValues('jaket-sleeveLengthLeft')),
-      sleeveLengthRight: toNumericValue(methods.getValues('jaket-sleeveLengthRight')),
+      sleeveLengthLeft: toNumericValue(
+        methods.getValues('jaket-sleeveLengthLeft')
+      ),
+      sleeveLengthRight: toNumericValue(
+        methods.getValues('jaket-sleeveLengthRight')
+      ),
       bust: toNumericValue(methods.getValues('jaket-bust')),
       waist: toNumericValue(methods.getValues('jaket-waist')),
       bustTop: toNumericValue(methods.getValues('jaket-bustTop')),
@@ -506,8 +586,12 @@ export const setOrderObject = (
       stitch: toValue(methods.getValues('jaket-stitch')),
       stitchLocation: toValue(methods.getValues('jaket-stitchLocation')),
       pinpointStitch: toValue(methods.getValues('jaket-pinpointStitch')),
-      pinpointStitchThreadColor: toValue(methods.getValues('jaket-pinpointStitchThreadColor')),
-      chestBoxSatinFabric: toValue(methods.getValues('jaket-chestBoxSatinFabric')),
+      pinpointStitchThreadColor: toValue(
+        methods.getValues('jaket-pinpointStitchThreadColor')
+      ),
+      chestBoxSatinFabric: toValue(
+        methods.getValues('jaket-chestBoxSatinFabric')
+      ),
       waistPocket: toValue(methods.getValues('jaket-waistPocket')),
       flapWidth: toNumericValue(methods.getValues('jaket-flapWidth')),
       changePocket: toValue(methods.getValues('jaket-changePocket')),
@@ -529,28 +613,44 @@ export const setOrderObject = (
       labelHole: toValue(methods.getValues('jaket-labelHole')),
       stitchThreadColor: toValue(methods.getValues('jaket-stitchThreadColor')),
       labelThreadColor: toValue(methods.getValues('jaket-labelThreadColor')),
-      frontButtonThreadColor: toValue(methods.getValues('jaket-frontButtonThreadColor')),
-      sleeveButtonThreadColor: toValue(methods.getValues('jaket-sleeveButtonThreadColor')),
+      frontButtonThreadColor: toValue(
+        methods.getValues('jaket-frontButtonThreadColor')
+      ),
+      sleeveButtonThreadColor: toValue(
+        methods.getValues('jaket-sleeveButtonThreadColor')
+      ),
       brandName: toValue(methods.getValues('jaket-brandName')),
       fabricMark: toValue(methods.getValues('jaket-fabricMark')),
       buttonProductNo: toValue(methods.getValues('jaket-buttonProductNo')),
       sleeveOpeningTape: toValue(methods.getValues('jaket-sleeveOpeningTape')),
       sleeveElbowPatch: toValue(methods.getValues('jaket-sleeveElbowPatch')),
       hole: toValue(methods.getValues('jaket-hole')),
-      sleeveButtonHoleColor: toValue(methods.getValues('jaket-sleeveButtonHoleColor')),
+      sleeveButtonHoleColor: toValue(
+        methods.getValues('jaket-sleeveButtonHoleColor')
+      ),
       uchiai: toNumericValue(methods.getValues('jaket-uchiai')),
       hanmi: toNumericValue(methods.getValues('jaket-hanmi')),
       kutsumi: toNumericValue(methods.getValues('jaket-kutsumi')),
-      squareShoulderLeft: toNumericValue(methods.getValues('jaket-squareShoulderLeft')),
-      squareShoulderRight: toNumericValue(methods.getValues('jaket-squareShoulderRight')),
-      slopingShoulderLeft: toNumericValue(methods.getValues('jaket-slopingShoulderLeft')),
-      slopingShoulderRight: toNumericValue(methods.getValues('jaket-slopingShoulderRight')),
+      squareShoulderLeft: toNumericValue(
+        methods.getValues('jaket-squareShoulderLeft')
+      ),
+      squareShoulderRight: toNumericValue(
+        methods.getValues('jaket-squareShoulderRight')
+      ),
+      slopingShoulderLeft: toNumericValue(
+        methods.getValues('jaket-slopingShoulderLeft')
+      ),
+      slopingShoulderRight: toNumericValue(
+        methods.getValues('jaket-slopingShoulderRight')
+      ),
       totsuRyo: toNumericValue(methods.getValues('jaket-totsuRyo')),
       hip: toNumericValue(methods.getValues('jaket-hip')),
       frontLength: toNumericValue(methods.getValues('jaket-frontLength')),
       frontSleeveHem: toNumericValue(methods.getValues('jaket-frontSleeveHem')),
       ahFrontOpening: toNumericValue(methods.getValues('jaket-ahFrontOpening')),
-      sleeveOpeningWidth: toNumericValue(methods.getValues('jaket-sleeveOpeningWidth')),
+      sleeveOpeningWidth: toNumericValue(
+        methods.getValues('jaket-sleeveOpeningWidth')
+      ),
       collarMitsu: toNumericValue(methods.getValues('jaket-collarMitsu')),
       collarShift: toNumericValue(methods.getValues('jaket-collarShift')),
       buttonPosition: toNumericValue(methods.getValues('jaket-buttonPosition')),
@@ -561,10 +661,14 @@ export const setOrderObject = (
       sleeveBack: toValue(methods.getValues('jaket-sleeveBack')),
       remark: methods.getValues('jaket-remark'),
       isDelete: methods.getValues('jaket-isDelete'),
-      createDateTime: methods.getValues('jaket-createDateTime').format('YYYY-MM-DDTHH:mm:ss'),
+      createDateTime: methods
+        .getValues('jaket-createDateTime')
+        .format('YYYY-MM-DDTHH:mm:ss'),
       // createDateTime: toDateTimeString(methods.getValues('jaket-createDateTime')),
       createUserId: methods.getValues('jaket-createUserId'),
-      updateDateTime: methods.getValues('jaket-updateDateTime').format('YYYY-MM-DDTHH:mm:ss'),
+      updateDateTime: methods
+        .getValues('jaket-updateDateTime')
+        .format('YYYY-MM-DDTHH:mm:ss'),
       // updateDateTime: toDateTimeString(methods.getValues('jaket-updateDateTime')),
       updateUserId: methods.getValues('jaket-updateUserId'),
     },
@@ -595,7 +699,9 @@ export const setOrderObject = (
       kneepadColor: toValue(methods.getValues('pants-kneepadColor')),
       tackSpec: toValue(methods.getValues('pants-tackSpec')),
       sideSatinFabric: toValue(methods.getValues('pants-sideSatinFabric')),
-      pisPocketJadeGreen: toValue(methods.getValues('pants-pisPocketJadeGreen')),
+      pisPocketJadeGreen: toValue(
+        methods.getValues('pants-pisPocketJadeGreen')
+      ),
       pisPocket: toValue(methods.getValues('pants-pisPocket')),
       plaket: toValue(methods.getValues('pants-plaket')),
       buttocks: toNumericValue(methods.getValues('pants-buttocks')),
@@ -615,10 +721,14 @@ export const setOrderObject = (
       buttholeTape: toValue(methods.getValues('pants-buttholeTape')),
       remark: methods.getValues('pants-remark'),
       isDelete: methods.getValues('pants-isDelete'),
-      createDateTime: methods.getValues('pants-createDateTime').format('YYYY-MM-DDTHH:mm:ss'),
+      createDateTime: methods
+        .getValues('pants-createDateTime')
+        .format('YYYY-MM-DDTHH:mm:ss'),
       // createDateTime: toDateTimeString(methods.getValues('pants-createDateTime')),
       createUserId: methods.getValues('pants-createUserId'),
-      updateDateTime: methods.getValues('pants-updateDateTime').format('YYYY-MM-DDTHH:mm:ss'),
+      updateDateTime: methods
+        .getValues('pants-updateDateTime')
+        .format('YYYY-MM-DDTHH:mm:ss'),
       // updateDateTime: toDateTimeString(methods.getValues('pants-updateDateTime')),
       updateUserId: methods.getValues('pants-updateUserId'),
     },
@@ -634,7 +744,9 @@ export const setOrderObject = (
       collar: toValue(methods.getValues('vest-collar')),
       chestPocket: toValue(methods.getValues('vest-chestPocket')),
       frontButton: toValue(methods.getValues('vest-frontButton')),
-      frontButtonHolePosition: toValue(methods.getValues('vest-frontButtonHolePosition')),
+      frontButtonHolePosition: toValue(
+        methods.getValues('vest-frontButtonHolePosition')
+      ),
       waistPocket: toValue(methods.getValues('vest-waistPocket')),
       backSide: toValue(methods.getValues('vest-backSide')),
       buckle: toValue(methods.getValues('vest-buckle')),
@@ -644,20 +756,32 @@ export const setOrderObject = (
       uchiai: toNumericValue(methods.getValues('vest-uchiai')),
       hanmi: toNumericValue(methods.getValues('vest-hanmi')),
       kutsumi: toNumericValue(methods.getValues('vest-kutsumi')),
-      squareShoulderLeft: toNumericValue(methods.getValues('vest-squareShoulderLeft')),
-      squareShoulderRight: toNumericValue(methods.getValues('vest-squareShoulderRight')),
-      slopingShoulderLeft: toNumericValue(methods.getValues('vest-slopingShoulderLeft')),
-      slopingShoulderRight: toNumericValue(methods.getValues('vest-slopingShoulderRight')),
+      squareShoulderLeft: toNumericValue(
+        methods.getValues('vest-squareShoulderLeft')
+      ),
+      squareShoulderRight: toNumericValue(
+        methods.getValues('vest-squareShoulderRight')
+      ),
+      slopingShoulderLeft: toNumericValue(
+        methods.getValues('vest-slopingShoulderLeft')
+      ),
+      slopingShoulderRight: toNumericValue(
+        methods.getValues('vest-slopingShoulderRight')
+      ),
       sickleRaising: toNumericValue(methods.getValues('vest-sickleRaising')),
       shoulderWidth: toNumericValue(methods.getValues('vest-shoulderWidth')),
       buttonPosition: toNumericValue(methods.getValues('vest-buttonPosition')),
       frontLength: toNumericValue(methods.getValues('vest-frontLength')),
       remark: methods.getValues('vest-remark'),
       isDelete: methods.getValues('vest-isDelete'),
-      createDateTime: methods.getValues('vest-createDateTime').format('YYYY-MM-DDTHH:mm:ss'),
+      createDateTime: methods
+        .getValues('vest-createDateTime')
+        .format('YYYY-MM-DDTHH:mm:ss'),
       // createDateTime: toDateTimeString(methods.getValues('vest-createDateTime')),
       createUserId: methods.getValues('vest-createUserId'),
-      updateDateTime: methods.getValues('vest-updateDateTime').format('YYYY-MM-DDTHH:mm:ss'),
+      updateDateTime: methods
+        .getValues('vest-updateDateTime')
+        .format('YYYY-MM-DDTHH:mm:ss'),
       // updateDateTime: toDateTimeString(methods.getValues('vest-updateDateTime')),
       updateUserId: methods.getValues('vest-updateUserId'),
     },

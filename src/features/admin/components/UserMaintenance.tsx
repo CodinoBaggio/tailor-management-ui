@@ -12,7 +12,7 @@ import { UserAddEditor } from './user/UserAddEditor';
 import { useSelector } from 'react-redux';
 // import { toDateTimeString } from '../../../utils/util';
 import Loading from '../../../components/ui/Loading';
-import dayjs from '../../../utils/dayjs';
+import dayjs from 'dayjs';
 
 export const UserMaintenance = () => {
   const [open, setOpen] = useState(false);
