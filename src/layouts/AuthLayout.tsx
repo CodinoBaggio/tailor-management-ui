@@ -8,16 +8,17 @@ export const AuthLayout = () => {
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 6,
+          // marginTop: 6,
           display: 'flex',
           alignItems: 'center',
           flexDirection: 'column',
         }}
+        className="text-2xl"
       >
         <img
           src={Logo}
           alt=""
-          style={{ height: 100, width: 100, marginBottom: 3 }}
+          style={{ height: 300, width: 300 }}
         />
         EN-ARQ発注管理
       </Box>

@@ -32,7 +32,7 @@ import adminApi from '../../api/adminApi';
 import { confirmYesNo } from '../../../../utils/confirm';
 import { Toast } from 'primereact/toast';
 import { useToast } from '../../../../hooks/useToast';
-import dayjs from 'dayjs';
+import dayjs from '../../../../utils/dayjs';
 import { useSelector } from 'react-redux';
 
 const style = {
@@ -72,6 +72,13 @@ export const CustomerEditor: FC<Props> = (props) => {
       city: shop.city,
       address: shop.address,
       building: shop.building,
+      commonItem: {
+        isDelete: false,
+        createUserId: user.userId,
+        createDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+        updateUserId: user.userId,
+        updateDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+      },
     },
   });
   const prefecturesItems = prefectures();
@@ -95,8 +102,9 @@ export const CustomerEditor: FC<Props> = (props) => {
       setOpen(true);
 
       // 顧客情報を更新する
-      data.updateTime = dayjs();
-      data.updateUserId = user.userId;
+      data.isOwn = checked;
+      data.commonItem.updateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
+      data.commonItem.updateUserId = user.userId;
       const res: any = await adminApi.shop.updateShop({
         shop: data,
       });
@@ -136,6 +144,13 @@ export const CustomerEditor: FC<Props> = (props) => {
       city: shop.city,
       address: shop.address,
       building: shop.building,
+      commonItem: {
+        isDelete: false,
+        createUserId: user.userId,
+        createDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+        updateUserId: user.userId,
+        updateDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+      },
     });
     setChecked(shop.isOwn);
     setSelectedShopGroup(shop.shopGroup);

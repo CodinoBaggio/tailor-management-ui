@@ -1,4 +1,4 @@
-import axiosClient from '../../../api/axiosClient';
+// import axiosClient from '../../../api/axiosClient';
 import axiosClientGCF from '../../../api/axiosClientGCF';
 
 const adminApi = {
@@ -23,7 +23,7 @@ const adminApi = {
     updateShop: (params: any) =>
       axiosClientGCF.post('/TailorManagementApiGcf', {
         method: 'updateShop',
-        param: {shop: params.shop},
+        param: { shop: params.shop },
       }),
     // updateShop: (params: any) =>
     //   axiosClient.post('/exec', {
@@ -31,10 +31,15 @@ const adminApi = {
     //     endpointParams: params,
     //   }),
     deleteShop: (params: any) =>
-      axiosClient.post('/exec', {
-        endpoint: 'delete-shop',
-        endpointParams: params,
+      axiosClientGCF.post('/TailorManagementApiGcf', {
+        method: 'deleteShop',
+        param: { shopId: params.shopId },
       }),
+    // deleteShop: (params: any) =>
+    //   axiosClient.post('/exec', {
+    //     endpoint: 'delete-shop',
+    //     endpointParams: params,
+    //   }),
   },
   user: {
     getUsers: (params: any) =>

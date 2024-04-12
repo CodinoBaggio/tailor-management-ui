@@ -10,13 +10,15 @@ import { SearchTextField } from '../../../components/ui/SearchTextField';
 import { UserEditor } from './user/UserEditor';
 import { UserAddEditor } from './user/UserAddEditor';
 import { useSelector } from 'react-redux';
-import { toDateTimeString } from '../../../utils/util';
+// import { toDateTimeString } from '../../../utils/util';
 import Loading from '../../../components/ui/Loading';
+import dayjs from '../../../utils/dayjs';
 
 export const UserMaintenance = () => {
   const [open, setOpen] = useState(false);
   const [orgUsers, setOrgUsers] = useState<UserType[]>([]);
   const [users, setUsers] = useState<UserType[]>([]);
+  const loginUser = useSelector((state: any) => state.user.value);
   const [newUser, setNewUser] = useState<UserType>({
     userId: '',
     password: '',
@@ -26,16 +28,34 @@ export const UserMaintenance = () => {
     roleId: '',
     commonItem: {
       isDelete: false,
-      createUserId: '',
-      createDateTime: '',
-      updateUserId: '',
-      updateDateTime: '',
+      createUserId: loginUser.userId,
+      createDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+      updateUserId: loginUser.userId,
+      updateDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+    },
+    shop: {
+      shopId: '',
+      shopName: '',
+      shopGroup: '',
+      shopNo: '',
+      postalCode: '',
+      prefecture: '',
+      city: '',
+      address: '',
+      building: '',
+      isOwn: false,
+      commonItem: {
+        isDelete: false,
+        createUserId: loginUser.userId,
+        createDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+        updateUserId: loginUser.userId,
+        updateDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+      },
     },
   });
   const [newUserOpen, setNewUserOpen] = useState(false);
   const [shops, setShops] = useState<ShopType[]>([]);
   const { toast, showMessage } = useToast();
-  const loginUser = useSelector((state: any) => state.user.value);
 
   useEffect(() => {
     // ユーザー情報を取得する
@@ -114,9 +134,9 @@ export const UserMaintenance = () => {
       commonItem: {
         isDelete: false,
         createUserId: loginUser.userId,
-        createDateTime: toDateTimeString(new Date()),
+        createDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
         updateUserId: loginUser.userId,
-        updateDateTime: toDateTimeString(new Date()),
+        updateDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
       },
       shop: {
         shopId: 'empty',
@@ -132,9 +152,9 @@ export const UserMaintenance = () => {
         commonItem: {
           isDelete: false,
           createUserId: loginUser.userId,
-          createDateTime: toDateTimeString(new Date()),
+          createDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
           updateUserId: loginUser.userId,
-          updateDateTime: toDateTimeString(new Date()),
+          updateDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
         },
       },
     });
@@ -156,7 +176,7 @@ export const UserMaintenance = () => {
         return;
       }
 
-      // shopsに追加する
+      // usersに追加する
       const newUsers = [...users, res.payload.user];
       setUsers(newUsers);
       setOrgUsers(newUsers);

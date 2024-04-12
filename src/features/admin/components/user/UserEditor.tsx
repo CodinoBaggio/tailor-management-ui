@@ -24,6 +24,7 @@ import adminApi from '../../api/adminApi';
 import { confirmYesNo } from '../../../../utils/confirm';
 import { Toast } from 'primereact/toast';
 import { useToast } from '../../../../hooks/useToast';
+import dayjs from '../../../../utils/dayjs';
 
 const style = {
   boxMargin: 'mb-2',
@@ -56,7 +57,32 @@ export const UserEditor: FC<Props> = (props) => {
       userNameKana: user.userNameKana,
       allowLogin: user.allowLogin,
       roleId: user.roleId,
-      shopId: shop ? shop.shopId : 'empty',
+      commonItem: {
+        isDelete: user.commonItem.isDelete,
+        createUserId: user.commonItem.createUserId,
+        createDateTime: user.commonItem.createDateTime,
+        updateUserId: user.commonItem.updateUserId,
+        updateDateTime: user.commonItem.updateDateTime,
+      },
+      shop: {
+        shopId: shop!.shopId,
+        shopName: shop!.shopName,
+        shopGroup: shop!.shopGroup,
+        shopNo: shop!.shopNo,
+        postalCode: shop!.postalCode,
+        prefecture: shop!.prefecture,
+        city: shop!.city,
+        address: shop!.address,
+        building: shop!.building,
+        isOwn: shop!.isOwn,
+        commonItem: {
+          isDelete: shop!.commonItem.isDelete,
+          createUserId: shop!.commonItem.createUserId,
+          createDateTime: shop!.commonItem.createDateTime,
+          updateUserId: shop!.commonItem.updateUserId,
+          updateDateTime: shop!.commonItem.updateDateTime,
+        },
+      },
     },
   });
   const { toast, showMessage } = useToast();
@@ -79,6 +105,9 @@ export const UserEditor: FC<Props> = (props) => {
       setOpen(true);
 
       // 顧客情報を更新する
+      data.allowLogin = checked;
+      data.commonItem.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
+      data.commonItem.updateUserId = user.userId;
       const res: any = await adminApi.user.updateUser({
         user: data,
       });
@@ -115,7 +144,32 @@ export const UserEditor: FC<Props> = (props) => {
       userNameKana: user.userNameKana,
       allowLogin: user.allowLogin,
       roleId: user.roleId,
-      shopId: shop ? shop.shopId : 'empty',
+      commonItem: {
+        isDelete: user.commonItem.isDelete,
+        createUserId: user.commonItem.createUserId,
+        createDateTime: user.commonItem.createDateTime,
+        updateUserId: user.commonItem.updateUserId,
+        updateDateTime: user.commonItem.updateDateTime,
+      },
+      shop: {
+        shopId: shop!.shopId,
+        shopName: shop!.shopName,
+        shopGroup: shop!.shopGroup,
+        shopNo: shop!.shopNo,
+        postalCode: shop!.postalCode,
+        prefecture: shop!.prefecture,
+        city: shop!.city,
+        address: shop!.address,
+        building: shop!.building,
+        isOwn: shop!.isOwn,
+        commonItem: {
+          isDelete: shop!.commonItem.isDelete,
+          createUserId: shop!.commonItem.createUserId,
+          createDateTime: shop!.commonItem.createDateTime,
+          updateUserId: shop!.commonItem.updateUserId,
+          updateDateTime: shop!.commonItem.updateDateTime,
+        },
+      },
     });
     setChecked(user.allowLogin);
     setSelectedShopId(shop ? shop.shopId : 'empty');
@@ -193,7 +247,7 @@ export const UserEditor: FC<Props> = (props) => {
                         readOnly={readOnlyState}
                         value={selectedShopId}
                         sx={{ width: 200 }}
-                        {...register('shopId')}
+                        {...register('shop.shopId')}
                         onChange={handleChange}
                         size="small"
                       >

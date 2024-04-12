@@ -3,6 +3,7 @@ import { CustomerEditor } from './customer/CustomerEditor';
 import { Backdrop, Box, Button } from '@mui/material';
 import { Toast } from 'primereact/toast';
 import AddIcon from '@mui/icons-material/Add';
+import { useSelector } from 'react-redux';
 
 import adminApi from '../api/adminApi';
 import { ShopType } from '../types/admin';
@@ -10,8 +11,7 @@ import { useToast } from '../../../hooks/useToast';
 import { CustomerAddEditor } from './customer/CustomerAddEditor';
 import { SearchTextField } from '../../../components/ui/SearchTextField';
 import Loading from '../../../components/ui/Loading';
-import dayjs from 'dayjs';
-import { useSelector } from 'react-redux';
+import dayjs from '../../../utils/dayjs';
 
 export const CustomerMaintenace = () => {
   const [open, setOpen] = useState(false);
@@ -32,10 +32,10 @@ export const CustomerMaintenace = () => {
     commonItem: {
       isDelete: false,
       createUserId: user.userId,
-      createDateTime: dayjs(),
+      createDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
       updateUserId: user.userId,
-      updateDateTime: dayjs(),
-  },
+      updateDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+    },
     chargePersons: [],
   });
   const [newShopOpen, setNewShopOpen] = useState(false);
@@ -113,9 +113,9 @@ export const CustomerMaintenace = () => {
       commonItem: {
         isDelete: false,
         createUserId: user.userId,
-        createDateTime: dayjs(),
+        createDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
         updateUserId: user.userId,
-        updateDateTime: dayjs(),
+        updateDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
       },
       chargePersons: [],
     });
