@@ -1,7 +1,7 @@
 // import React from 'react';
 import { Container, Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-// import Logo from '../assets/images/cool_logo.png';
+import Logo from '../assets/images/cool_logo.png';
 
 export const AuthLayout = () => {
   return (
@@ -16,7 +16,7 @@ export const AuthLayout = () => {
         className="text-2xl"
       >
         <img
-          // src={Logo}
+          src={Logo}
           alt=""
           style={{ height: 300, width: 300 }}
         />
