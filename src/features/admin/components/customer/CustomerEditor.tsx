@@ -32,7 +32,7 @@ import adminApi from '../../api/adminApi';
 import { confirmYesNo } from '../../../../utils/confirm';
 import { Toast } from 'primereact/toast';
 import { useToast } from '../../../../hooks/useToast';
-import dayjs from '../../../../utils/dayjs';
+import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 
 const style = {

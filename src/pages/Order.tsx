@@ -37,7 +37,7 @@ import { GridContainer } from '../components/containers/GridContainer';
 import { RhfDatePicker } from '../components/ui/RhfDatePicker';
 import { RhfDateTimePicker } from '../components/ui/RhfDateTimePicker';
 import { OrderPrice } from '../features/order/components/OrderPrice';
-import dayjs from '../utils/dayjs';
+import dayjs from 'dayjs';
 import { RhfTextField } from '../components/ui/RhfTextField';
 
 type Props = {

@@ -24,7 +24,7 @@ import { useSearchPanel } from '../features/order/hooks/useSearchPanel';
 import { useToast } from '../hooks/useToast';
 import { Toast } from 'primereact/toast';
 import Loading from '../components/ui/Loading';
-import dayjs from '../utils/dayjs';
+import dayjs from 'dayjs';
 
 export const OrderList = () => {
   const searchStates = useSearchPanel();
