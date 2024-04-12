@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 import { Box, Button } from '@mui/material';
 import 'dayjs/locale/ja';
@@ -28,6 +28,20 @@ export const OrderBasis: FC<Props> = (props) => {
   const [productNos, setProductNos] = useState([]);
   const [loading, setLoading] = useState(false);
   const { toast, showMessage } = useToast();
+
+  useEffect(() => {
+    const numberInputs = document.querySelectorAll('input[type=number]');
+    numberInputs.forEach((input) => {
+      input.addEventListener('wheel', (event) => event.preventDefault());
+    });
+
+    // コンポーネントのアンマウント時にイベントリスナーをクリーンアップ
+    return () => {
+      numberInputs.forEach((input) => {
+        input.removeEventListener('wheel', (event) => event.preventDefault());
+      });
+    };
+  }, []);
 
   const handleFabricProductNoSearchDialogOpen = () => {
     // 配列クリア

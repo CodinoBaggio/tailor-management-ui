@@ -5,7 +5,7 @@ import { RhfTextField } from '../../../components/ui/RhfTextField';
 import { useSelectPattern } from '../hooks/useSelectPattern';
 import { GridContainer } from '../../../components/containers/GridContainer';
 import { Box } from '@mui/material';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 const style = {
   boxMargin: 'mb-5',
@@ -28,6 +28,20 @@ export const OrderPants: FC<Props> = (props) => {
     handleSelectPattern1Change,
     handleSelectPattern2Change,
   } = useSelectPattern('pants', 'TR1P');
+
+  useEffect(() => {
+    const numberInputs = document.querySelectorAll('input[type=number]');
+    numberInputs.forEach((input) => {
+      input.addEventListener('wheel', (event) => event.preventDefault());
+    });
+
+    // コンポーネントのアンマウント時にイベントリスナーをクリーンアップ
+    return () => {
+      numberInputs.forEach((input) => {
+        input.removeEventListener('wheel', (event) => event.preventDefault());
+      });
+    };
+  }, []);
 
   return (
     <>

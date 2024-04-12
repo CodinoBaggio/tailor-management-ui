@@ -22,12 +22,12 @@ export const LoginPage = () => {
     try {
       setLoading(true);
 
-      const userId = getValues('userId');
+      const loginId = getValues('loginId');
       const password = getValues('password') as string;
 
       // ログインAPIを叩く
       const res: any = await authApi.login({
-        userId,
+        loginId,
         password,
       });
       if (res.status === 'error') {
@@ -55,7 +55,7 @@ export const LoginPage = () => {
       <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <TextField
           fullWidth
-          id="userId"
+          id="loginId"
           label="ログインID"
           margin="normal"
           required
@@ -64,7 +64,7 @@ export const LoginPage = () => {
           }
           // error={errors.loginId?.message !== ''}
           disabled={loading}
-          {...register('userId', { required: 'ユーザーIDを入力してください' })}
+          {...register('loginId', { required: 'ログインIDを入力してください' })}
         />
         <TextField
           fullWidth

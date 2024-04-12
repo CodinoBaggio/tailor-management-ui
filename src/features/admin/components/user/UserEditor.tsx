@@ -52,6 +52,7 @@ export const UserEditor: FC<Props> = (props) => {
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       userId: user.userId,
+      loginId: user.loginId,
       password: user.password,
       userName: user.userName,
       userNameKana: user.userNameKana,
@@ -139,6 +140,7 @@ export const UserEditor: FC<Props> = (props) => {
   const handleUndo = () => {
     reset({
       userId: user.userId,
+      loginId: user.loginId,
       password: user.password,
       userName: user.userName,
       userNameKana: user.userNameKana,
@@ -274,8 +276,16 @@ export const UserEditor: FC<Props> = (props) => {
                     />
                     <TextField
                       variant="standard"
+                      label="ログインID"
+                      size="small"
+                      InputLabelProps={{ shrink: true }}
+                      {...register('loginId')}
+                      InputProps={{ readOnly: readOnlyState }}
+                    />
+                    <TextField
+                      variant="standard"
                       label="パスワード"
-                      type="password"
+                      // type="password"
                       size="small"
                       InputLabelProps={{ shrink: true }}
                       {...register('password')}

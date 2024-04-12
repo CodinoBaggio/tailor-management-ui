@@ -21,6 +21,7 @@ export const UserMaintenance = () => {
   const loginUser = useSelector((state: any) => state.user.value);
   const [newUser, setNewUser] = useState<UserType>({
     userId: '',
+    loginId: '',
     password: '',
     userName: '',
     userNameKana: '',
@@ -126,6 +127,7 @@ export const UserMaintenance = () => {
   const handleAddUserOpen = () => {
     setNewUser({
       userId: '(新規)',
+      loginId: '',
       password: '',
       userName: '',
       userNameKana: '',

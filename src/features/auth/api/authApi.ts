@@ -5,7 +5,7 @@ const authApi = {
   login: (params: any) =>
     axiosClientGCF.post('/TailorManagementApiGcf', {
       method: 'login',
-      param: { userId: params.userId, password: params.password },
+      param: { loginId: params.loginId, password: params.password },
     }),
   // login: (params: any) => axiosClient.post('/exec', params),
   verifyToken: (params: any) =>

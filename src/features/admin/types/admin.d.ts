@@ -22,6 +22,7 @@ export type ChargePersonType = {
 
 export type UserType = {
   userId: string;
+  loginId: string;
   password: string;
   userName: string;
   userNameKana: string;

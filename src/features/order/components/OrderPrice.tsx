@@ -1,5 +1,5 @@
 import { Box, Divider } from '@mui/material';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import CurrencyYenIcon from '@mui/icons-material/CurrencyYen';
 import { LoadingButton } from '@mui/lab';
 
@@ -27,6 +27,21 @@ export const OrderPrice: FC<Props> = (props) => {
     totalPriceWithTax,
     priceCalcLoading,
   } = props;
+
+  useEffect(() => {
+    const numberInputs = document.querySelectorAll('input[type=number]');
+    numberInputs.forEach((input) => {
+      input.addEventListener('wheel', (event) => event.preventDefault());
+    });
+
+    // コンポーネントのアンマウント時にイベントリスナーをクリーンアップ
+    return () => {
+      numberInputs.forEach((input) => {
+        input.removeEventListener('wheel', (event) => event.preventDefault());
+      });
+    };
+  }, []);
+
   return (
     <Box className="w-48 text-gray-600 text-xs">
       <Box className="flex justify-between mb-2">

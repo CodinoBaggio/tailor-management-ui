@@ -95,7 +95,7 @@ export const AppLayout = () => {
         <AppBar position="static" className="h-12 justify-center">
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              ロゴ
+              EN-ARQ
             </Typography>
             <Box>
               <IconButton
@@ -125,9 +125,7 @@ export const AppLayout = () => {
               >
                 {user.roleId === '00' && (
                   <MenuItem>
-                    <Typography>
-                      {`${user.shopGroup} ${user.shopNo}`}
-                    </Typography>
+                    <Typography>{`${user.shopGroup} ${user.shopNo}`}</Typography>
                   </MenuItem>
                 )}
                 <MenuItem>

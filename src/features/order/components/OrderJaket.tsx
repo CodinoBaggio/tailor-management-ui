@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 
@@ -38,6 +38,20 @@ export const OrderJaket: FC<Props> = (props) => {
     handleSelectPattern2Change,
   } = useSelectPattern('jaket', 'TR1');
   const { toast, showMessage } = useToast();
+
+  useEffect(() => {
+    const numberInputs = document.querySelectorAll('input[type=number]');
+    numberInputs.forEach((input) => {
+      input.addEventListener('wheel', (event) => event.preventDefault());
+    });
+
+    // コンポーネントのアンマウント時にイベントリスナーをクリーンアップ
+    return () => {
+      numberInputs.forEach((input) => {
+        input.removeEventListener('wheel', (event) => event.preventDefault());
+      });
+    };
+  }, []);
 
   const handleLiningSearchDialogOpen = () => {
     // 配列クリア
@@ -112,27 +126,9 @@ export const OrderJaket: FC<Props> = (props) => {
       </Box>
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor2}>
-          <RhfTextField
-            label="総丈"
-            name="jaket-totalLength"
-            type="number"
-            defaultValue={0}
-            readOnly={readOnly}
-          />
-          <RhfTextField
-            label="上着丈 *"
-            name="jaket-jaketLength"
-            type="number"
-            defaultValue={0}
-            readOnly={readOnly}
-          />
-          <RhfTextField
-            label="肩幅 *"
-            name="jaket-shoulderWidth"
-            type="number"
-            defaultValue={0}
-            readOnly={readOnly}
-          />
+          <RhfTextField label="総丈" name="jaket-totalLength" type="number" defaultValue={0} readOnly={readOnly} />
+          <RhfTextField label="上着丈 *" name="jaket-jaketLength" type="number" defaultValue={0} readOnly={readOnly} />
+          <RhfTextField label="肩幅 *" name="jaket-shoulderWidth" type="number" defaultValue={0} readOnly={readOnly} />
           <RhfTextField
             label="袖丈左 *"
             name="jaket-sleeveLengthLeft"
@@ -147,34 +143,10 @@ export const OrderJaket: FC<Props> = (props) => {
             defaultValue={0}
             readOnly={readOnly}
           />
-          <RhfTextField
-            label="バスト実寸"
-            name="jaket-bust"
-            type="number"
-            defaultValue={0}
-            readOnly={readOnly}
-          />
-          <RhfTextField
-            label="中胴実寸"
-            name="jaket-waist"
-            type="number"
-            defaultValue={0}
-            readOnly={readOnly}
-          />
-          <RhfTextField
-            label="バスト上り *"
-            name="jaket-bustTop"
-            type="number"
-            defaultValue={0}
-            readOnly={readOnly}
-          />
-          <RhfTextField
-            label="中胴上り *"
-            name="jaket-waistTop"
-            type="number"
-            defaultValue={0}
-            readOnly={readOnly}
-          />
+          <RhfTextField label="バスト実寸" name="jaket-bust" type="number" defaultValue={0} readOnly={readOnly} />
+          <RhfTextField label="中胴実寸" name="jaket-waist" type="number" defaultValue={0} readOnly={readOnly} />
+          <RhfTextField label="バスト上り *" name="jaket-bustTop" type="number" defaultValue={0} readOnly={readOnly} />
+          <RhfTextField label="中胴上り *" name="jaket-waistTop" type="number" defaultValue={0} readOnly={readOnly} />
         </GridContainer>
       </Box>
       <Box className={style.boxMargin}>
@@ -897,11 +869,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfTextField label="裏地 *" name="jaket-lining" disabled={true} />
-          <Button
-            startIcon={<FactCheckIcon />}
-            onClick={handleLiningSearchDialogOpen}
-            disabled={readOnly}
-          >
+          <Button startIcon={<FactCheckIcon />} onClick={handleLiningSearchDialogOpen} disabled={readOnly}>
             裏地選択
           </Button>
           {/* <RhfSelect
@@ -1009,11 +977,7 @@ export const OrderJaket: FC<Props> = (props) => {
             ]}
             readOnly={readOnly}
           />
-          <RhfTextField
-            label="ネーム内容"
-            name="jaket-name"
-            readOnly={readOnly}
-          />
+          <RhfTextField label="ネーム内容" name="jaket-name" readOnly={readOnly} />
           <RhfSelect
             label="ラベル穴 *"
             name="jaket-labelHole"
@@ -1615,14 +1579,7 @@ export const OrderJaket: FC<Props> = (props) => {
         </GridContainer>
       </Box>
       <Box>
-        <RhfTextField
-          label="備考"
-          name="jaket-remark"
-          width="100%"
-          multiline
-          variant="outlined"
-          readOnly={readOnly}
-        />
+        <RhfTextField label="備考" name="jaket-remark" width="100%" multiline variant="outlined" readOnly={readOnly} />
       </Box>
       <LiningSearchDialog
         open={liningSearchDialogOpen}
