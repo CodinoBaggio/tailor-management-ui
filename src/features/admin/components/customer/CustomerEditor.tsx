@@ -54,12 +54,8 @@ export const CustomerEditor: FC<Props> = (props) => {
   const [readOnlyState, setReadOnlyState] = useState(readOnly);
   const [checked, setChecked] = useState(shop.isOwn);
   const user = useSelector((state: any) => state.user.value);
-  const [selectedPrefecture, setSelectedPrefecture] = React.useState(
-    shop.prefecture
-  );
-  const [selectedShopGroup, setSelectedShopGroup] = React.useState(
-    shop.shopGroup
-  );
+  const [selectedPrefecture, setSelectedPrefecture] = React.useState(shop.prefecture);
+  const [selectedShopGroup, setSelectedShopGroup] = React.useState(shop.shopGroup);
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       shopId: shop.shopId,
@@ -136,6 +132,7 @@ export const CustomerEditor: FC<Props> = (props) => {
   const handleUndo = () => {
     reset({
       isOwn: shop.isOwn,
+      shopId: shop.shopId,
       shopGroup: shop.shopGroup,
       shopNo: shop.shopNo,
       shopName: shop.shopName,
@@ -163,17 +160,10 @@ export const CustomerEditor: FC<Props> = (props) => {
     <>
       <Box position="relative">
         <form onSubmit={handleSubmit(handleUpdate)}>
-          <Box
-            className={`p-4 m-2 border rounded-md shadow-md border-blue-200 ${
-              readOnlyState || 'bg-red-50'
-            }`}
-          >
+          <Box className={`p-4 m-2 border rounded-md shadow-md border-blue-200 ${readOnlyState || 'bg-red-50'}`}>
             {!readOnlyState || (
               <>
-                <IconButton
-                  color="primary"
-                  onClick={() => setReadOnlyState(!readOnlyState)}
-                >
+                <IconButton color="primary" onClick={() => setReadOnlyState(!readOnlyState)}>
                   <EditIcon />
                 </IconButton>
                 <IconButton color="primary" onClick={handleDelete}>
@@ -196,13 +186,7 @@ export const CustomerEditor: FC<Props> = (props) => {
                 <Box className={style.boxMargin}>
                   <FormControlLabel
                     disabled={readOnlyState}
-                    control={
-                      <Switch
-                        checked={checked}
-                        {...register('isOwn')}
-                        onChange={handleCheckChange}
-                      />
-                    }
+                    control={<Switch checked={checked} {...register('isOwn')} onChange={handleCheckChange} />}
                     className="text-gray-500"
                     label="自社"
                   />
@@ -221,7 +205,11 @@ export const CustomerEditor: FC<Props> = (props) => {
                       >
                         <MenuItem value="empty"></MenuItem>
                         <MenuItem value="JV">JV</MenuItem>
+                        <MenuItem value="JV1">JV1</MenuItem>
                         <MenuItem value="HH">HH</MenuItem>
+                        <MenuItem value="HH1">HH1</MenuItem>
+                        <MenuItem value="HH2">HH2</MenuItem>
+                        <MenuItem value="HH3">HH3</MenuItem>
                       </Select>
                     </FormControl>
                     <TextField
@@ -239,9 +227,7 @@ export const CustomerEditor: FC<Props> = (props) => {
                       InputLabelProps={{ shrink: true }}
                       {...register('shopName')}
                       InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">様</InputAdornment>
-                        ),
+                        endAdornment: <InputAdornment position="end">様</InputAdornment>,
                         readOnly: readOnlyState,
                       }}
                     />
@@ -307,6 +293,7 @@ export const CustomerEditor: FC<Props> = (props) => {
                       placeholder="xxxビル、yyyマンション"
                       {...register('building')}
                       InputProps={{ readOnly: readOnlyState }}
+                      className="w-80"
                     />
                   </GridContainer>
                 </Box>
@@ -339,10 +326,7 @@ export const CustomerEditor: FC<Props> = (props) => {
                     {chargePersons.map((chargePerson) => {
                       if (chargePerson.user) {
                         return (
-                          <ListItem
-                            key={chargePerson.user.userId}
-                            sx={{ py: 0, minHeight: 32 }}
-                          >
+                          <ListItem key={chargePerson.user.userId} sx={{ py: 0, minHeight: 32 }}>
                             <ListItemIcon>
                               <PersonIcon />
                             </ListItemIcon>

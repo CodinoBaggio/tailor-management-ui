@@ -47,7 +47,7 @@ const orderApi = {
   upsert: (params: any) =>
     axiosClientGCF.post('/TailorManagementApiGcf', {
       method: 'upsertOrder',
-      param: { order: params.order },
+      param: params,
     }),
   // upsert: (params: any) =>
   //   axiosClient.post('/exec', {
@@ -90,12 +90,7 @@ const orderApi = {
   getPrice: (params: any) =>
     axiosClientGCF.post('/TailorManagementApiGcf', {
       method: 'getPrice',
-      param: {
-        shopNo: params.shopNo,
-        shopGroup: params.shopGroup,
-        fabricProductNo: params.fabricProductNo,
-        productName: params.productName,
-      },
+      param: params,
     }),
   // getPrice: (params: any) =>
   //   axiosClient.post('/exec', {

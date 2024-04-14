@@ -13,6 +13,7 @@ type Props = {
   totalPriceWithTax: string;
   priceCalcLoading: boolean;
   handlePriceCalc: () => void;
+  buttonDisabled: boolean;
 };
 
 export const OrderPrice: FC<Props> = (props) => {
@@ -26,6 +27,7 @@ export const OrderPrice: FC<Props> = (props) => {
     tax,
     totalPriceWithTax,
     priceCalcLoading,
+    buttonDisabled,
   } = props;
 
   useEffect(() => {
@@ -81,6 +83,7 @@ export const OrderPrice: FC<Props> = (props) => {
         loading={priceCalcLoading}
         color="primary"
         variant="outlined"
+        disabled={buttonDisabled}
       >
         価格計算
       </LoadingButton>

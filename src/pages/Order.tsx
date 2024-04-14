@@ -67,7 +67,7 @@ export const Order: FC<Props> = (props) => {
   const [fabricPrice, setFabricPrice] = useState('-');
   const [wagesPrice, setWagesPrice] = useState('-');
   const [customPrice, setCustomPrice] = useState('-');
-  const [buttonPrice, setButtonPrice] = useState('-');
+  const [buttonLiningPrice, setButtonLiningPrice] = useState('-');
   const [totalPrice, setTotalPrice] = useState('-');
   const [tax, setTax] = useState('-');
   const [totalPriceWithTax, setTotalPriceWithTax] = useState('-');
@@ -118,6 +118,22 @@ export const Order: FC<Props> = (props) => {
             order.orderStatus = '保存';
             setCurrentOrderId('new');
             setIsNew(true);
+
+            setFabricPrice('-');
+            setWagesPrice('-');
+            setCustomPrice('-');
+            setButtonLiningPrice('-');
+            setTotalPrice('-');
+            setTax('-');
+            setTotalPriceWithTax('-');
+          } else {
+            setFabricPrice(res.payload.invoice.fabricPrice.toLocaleString());
+            setWagesPrice(res.payload.invoice.wagesPrice.toLocaleString());
+            setCustomPrice(res.payload.invoice.customFeaturePrice.toLocaleString());
+            setButtonLiningPrice(res.payload.invoice.buttonLiningPrice.toLocaleString());
+            setTotalPrice(res.payload.invoice.totalPrice.toLocaleString());
+            setTax(res.payload.invoice.tax.toLocaleString());
+            setTotalPriceWithTax(res.payload.invoice.totalPriceWithTax.toLocaleString());
           }
         }
         bindOrderBasisValues(methods, order);
@@ -196,6 +212,15 @@ export const Order: FC<Props> = (props) => {
         const order: OrderBasisType = setOrderObject('発注済み', methods);
         const res: any = await orderApi.upsert({
           order: order,
+          invoice: {
+            fabricPrice: fabricPrice,
+            wagesPrice: wagesPrice,
+            customPrice: customPrice,
+            buttonLiningPrice: buttonLiningPrice,
+            totalPrice: totalPrice,
+            tax: tax,
+            totalPriceWithTax: totalPriceWithTax,
+          },
         });
         if (res.status === 'success') {
           bindOrderBasisValues(methods, res.payload.order);
@@ -249,6 +274,9 @@ export const Order: FC<Props> = (props) => {
           return;
         }
       }
+
+      await handlePriceCalc();
+
       confirmYesNo('発注します。よろしいですか？', fire);
     } catch (error: any) {
       showMessage('エラー', 'error', error);
@@ -296,26 +324,30 @@ export const Order: FC<Props> = (props) => {
     setFabricPrice('-');
     setWagesPrice('-');
     setCustomPrice('-');
-    setButtonPrice('-');
+    setButtonLiningPrice('-');
     setTotalPrice('-');
+    setTax('-');
+    setTotalPriceWithTax('-');
 
     try {
       setPriceCalcLoading(true);
 
+      const order: OrderBasisType = setOrderObject('発注済み', methods);
       const res: any = await orderApi.getPrice({
-        shopNo: '',
-        shopGroup: '',
-        fabricProductNo: '',
-        productName: '',
+        shopNo: user.shopNo,
+        shopGroup: user.shopGroup,
+        order,
       });
       if (res.status === 'success') {
         setFabricPrice(res.payload.price.fabricPrice.toLocaleString());
-        setWagesPrice(res.payload.price.wages.toLocaleString());
+        setWagesPrice(res.payload.price.wagesPrice.toLocaleString());
         setCustomPrice(res.payload.price.customPrice.toLocaleString());
-        setButtonPrice(res.payload.price.buttonPrice.toLocaleString());
+        setButtonLiningPrice(res.payload.price.buttonLiningPrice.toLocaleString());
         setTotalPrice(res.payload.price.totalPrice.toLocaleString());
         setTax(res.payload.price.tax.toLocaleString());
         setTotalPriceWithTax(res.payload.price.totalPriceWithTax.toLocaleString());
+      } else {
+        showMessage('エラー', 'error', res.message);
       }
     } catch (error: any) {
       showMessage('エラー', 'error', error);
@@ -407,12 +439,13 @@ export const Order: FC<Props> = (props) => {
               fabricPrice={fabricPrice}
               wagesPrice={wagesPrice}
               customPrice={customPrice}
-              buttonPrice={buttonPrice}
+              buttonPrice={buttonLiningPrice}
               totalPrice={totalPrice}
               tax={tax}
               totalPriceWithTax={totalPriceWithTax}
               priceCalcLoading={priceCalcLoading}
               handlePriceCalc={handlePriceCalc}
+              buttonDisabled={orderStatus === '発注済み' ? true : false}
             />
           </Box>
         </Box>

@@ -124,7 +124,11 @@ export const CustomerAddEditor: FC<Props> = (props) => {
                     >
                       <MenuItem value="empty"></MenuItem>
                       <MenuItem value="JV">JV</MenuItem>
+                      <MenuItem value="JV1">JV1</MenuItem>
                       <MenuItem value="HH">HH</MenuItem>
+                      <MenuItem value="HH1">HH1</MenuItem>
+                      <MenuItem value="HH2">HH2</MenuItem>
+                      <MenuItem value="HH3">HH3</MenuItem>
                     </Select>
                   </FormControl>
                   <TextField
@@ -205,7 +209,8 @@ export const CustomerAddEditor: FC<Props> = (props) => {
                     InputLabelProps={{ shrink: true }}
                     placeholder="xxxビル、yyyマンション"
                     {...register('building')}
-                  />
+                    className="w-80"
+                    />
                 </GridContainer>
               </Box>
             </Box>
