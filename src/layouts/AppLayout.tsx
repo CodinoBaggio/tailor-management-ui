@@ -97,6 +97,11 @@ export const AppLayout = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               EN-ARQ
             </Typography>
+            {import.meta.env.MODE !== 'prod' && (
+              <Box className="text-xs">{`モード：${import.meta.env.MODE},VITE_PUBLIC_URL：${
+                import.meta.env.VITE_PUBLIC_URL
+              },VITE_API_URL：${import.meta.env.VITE_API_URL}`}</Box>
+            )}
             <Box>
               <IconButton
                 size="large"
