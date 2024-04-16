@@ -4,10 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "dev:staging": "vite --mode staging",
+    "dev": "vite --mode dev",
+    "stage": "vite --mode stage",
+    "prod": "vite --mode prod",
+    "build:dev": "tsc && vite build --mode dev",
+    "build:stage": "tsc && vite build --mode stage",
     "build": "tsc && vite build",
-    "build:gas": "tsc && vite build --mode gas",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -22,6 +24,7 @@
     "@types/google-apps-script": "^1.0.78",
     "axios": "^1.6.3",
     "dayjs": "^1.11.10",
+    "firebase": "^10.11.0",
     "primeicons": "^6.0.1",
     "primereact": "^10.5.0",
     "react": "^18.2.0",
