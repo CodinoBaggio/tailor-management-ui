@@ -98,6 +98,7 @@ export const OrderBasis: FC<Props> = (props) => {
               { value: 'JK', label: 'JK：ジャケット' },
               { value: 'PT', label: 'PT：パンツ' },
               { value: 'VT', label: 'VT：ベスト' },
+              { value: 'SK', label: 'SK：スカート' },
               { value: '3P', label: '3P：ジャケット+パンツ+ベスト' },
               { value: '2PP', label: '2PP：ジャケット+パンツ+パンツ' },
               { value: '3PP', label: '3PP：ジャケット+パンツ+パンツ+ベスト' },
