@@ -483,7 +483,7 @@ export const createDefaultOrderValues = (user: any) => {
     productName: 'empty',
     fabricMaker: '',
     fabricProductNo: '',
-    yield: NaN,
+    yield: 0,
     blendRateFabric1: 'empty',
     blendRate1: NaN,
     blendRateFabric2: 'empty',

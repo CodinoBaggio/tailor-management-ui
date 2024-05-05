@@ -171,8 +171,20 @@ export const Order: FC<Props> = (props) => {
           order.vest.updateDateTime = dayjs();
           order.vest.updateUserId = user.userId;
         }
+
+        order.seq = order.seq || 0;
+        order.yield = order.yield || 0;
         const res: any = await orderApi.upsert({
           order: order,
+          invoice: {
+            fabricPrice: fabricPrice,
+            wagesPrice: wagesPrice,
+            customPrice: customPrice,
+            buttonLiningPrice: buttonLiningPrice,
+            totalPrice: totalPrice,
+            tax: tax,
+            totalPriceWithTax: totalPriceWithTax,
+          },
         });
         if (res.status === 'success') {
           bindOrderBasisValues(methods, res.payload.order);
