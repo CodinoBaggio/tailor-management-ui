@@ -93,27 +93,27 @@ export const Order: FC<Props> = (props) => {
             order.inputDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.orderDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.shipDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
-            order.createDateTime = dayjs();
+            order.createDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.createUserId = user.userId;
-            order.updateDateTime = dayjs();
+            order.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.updateUserId = user.userId;
             order.jaket.orderId = 'new';
             order.jaket.jaketOrderId = '';
-            order.jaket.createDateTime = dayjs();
+            order.jaket.createDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.jaket.createUserId = user.userId;
-            order.jaket.updateDateTime = dayjs();
+            order.jaket.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.jaket.updateUserId = user.userId;
             order.pants.orderId = 'new';
             order.pants.pantsOrderId = '';
-            order.pants.createDateTime = dayjs();
+            order.pants.createDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.pants.createUserId = user.userId;
-            order.pants.updateDateTime = dayjs();
+            order.pants.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.pants.updateUserId = user.userId;
             order.vest.orderId = 'new';
             order.vest.vestOrderId = '';
-            order.vest.createDateTime = dayjs();
+            order.vest.createDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.vest.createUserId = user.userId;
-            order.vest.updateDateTime = dayjs();
+            order.vest.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.vest.updateUserId = user.userId;
             order.orderStatus = '保存';
             setCurrentOrderId('new');
@@ -168,13 +168,13 @@ export const Order: FC<Props> = (props) => {
         if (!isNew) {
           order.orderDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
           order.shipDate = user.roleId === '00' ? order.shipDate : dayjs().format('YYYY-MM-DDTHH:mm:ss');
-          order.updateDateTime = dayjs();
+          order.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
           order.updateUserId = user.userId;
-          order.jaket.updateDateTime = dayjs();
+          order.jaket.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
           order.jaket.updateUserId = user.userId;
-          order.pants.updateDateTime = dayjs();
+          order.pants.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
           order.pants.updateUserId = user.userId;
-          order.vest.updateDateTime = dayjs();
+          order.vest.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
           order.vest.updateUserId = user.userId;
         }
 
