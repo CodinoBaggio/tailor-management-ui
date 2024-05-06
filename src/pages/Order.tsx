@@ -167,7 +167,7 @@ export const Order: FC<Props> = (props) => {
         const order: OrderBasisType = setOrderObject('保存', methods);
         if (!isNew) {
           order.orderDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
-          order.shipDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
+          order.shipDate = user.roleId === '00' ? order.shipDate : dayjs().format('YYYY-MM-DDTHH:mm:ss');
           order.updateDateTime = dayjs();
           order.updateUserId = user.userId;
           order.jaket.updateDateTime = dayjs();
@@ -486,7 +486,7 @@ export const Order: FC<Props> = (props) => {
                 <RhfDatePicker
                   label="工場出荷日"
                   name="basis-shipDate"
-                  readOnly={true}
+                  readOnly={orderStatus === '発注済み' || user.roleId !== '00'}
                 />
               </GridContainer>
               <RhfTextField
@@ -505,7 +505,7 @@ export const Order: FC<Props> = (props) => {
               totalPriceWithTax={totalPriceWithTax}
               priceCalcLoading={priceCalcLoading}
               handlePriceCalc={handlePriceCalc}
-              buttonDisabled={orderStatus === '発注済み' ? true : false}
+              buttonDisabled={orderStatus === '発注済み'}
             />
           </Box>
         </Box>

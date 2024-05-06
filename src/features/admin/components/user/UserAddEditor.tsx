@@ -39,6 +39,7 @@ export const UserAddEditor: FC<Props> = (props) => {
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       userId: user.userId,
+      loginId: user.loginId,
       password: user.password,
       userName: user.userName,
       userNameKana: user.userNameKana,
@@ -164,6 +165,13 @@ export const UserAddEditor: FC<Props> = (props) => {
                     InputLabelProps={{ shrink: true }}
                     {...register('userId')}
                     InputProps={{ readOnly: true }}
+                  />
+                  <TextField
+                    variant="standard"
+                    label="ログインID"
+                    size="small"
+                    InputLabelProps={{ shrink: true }}
+                    {...register('loginId')}
                   />
                   <TextField
                     variant="standard"
