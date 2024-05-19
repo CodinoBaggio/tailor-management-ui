@@ -17,6 +17,7 @@ import {
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import SecurityIcon from '@mui/icons-material/Security';
+import DownloadIcon from '@mui/icons-material/Download';
 import { ConfirmDialog } from 'primereact/confirmdialog';
 import 'primereact/resources/themes/mdc-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -85,6 +86,11 @@ export const AppLayout = () => {
     navigate('/admin');
   };
 
+  const handleInvoice = () => {
+    handleClose();
+    navigate('/invoice');
+  };
+
   return loading ? (
     <>
       <Loading />
@@ -98,7 +104,9 @@ export const AppLayout = () => {
               EN-ARQ
             </Typography>
             {import.meta.env.MODE !== 'prod' && (
-              <Box className="text-xs">{`モード：${import.meta.env.MODE},VITE_PUBLIC_URL：${
+              <Box className="text-xs">{`モード：${
+                import.meta.env.MODE
+              },VITE_PUBLIC_URL：${
                 import.meta.env.VITE_PUBLIC_URL
               },VITE_API_URL：${import.meta.env.VITE_API_URL}`}</Box>
             )}
@@ -129,16 +137,14 @@ export const AppLayout = () => {
                 onClose={handleClose}
               >
                 {user.roleId === '00' && (
-                  <MenuItem>
+                  <Box className="ml-4">
                     <Typography>{`${user.shopGroup} ${user.shopNo}`}</Typography>
-                  </MenuItem>
+                  </Box>
                 )}
-                <MenuItem>
-                  <Typography>
-                    <Box>{user.shopName}</Box>
-                    <Box>{`${user.userName}様`}</Box>
-                  </Typography>
-                </MenuItem>
+                <Box className="ml-4 mb-2">
+                  <Box>{user.shopName}</Box>
+                  <Box>{`${user.userName}様`}</Box>
+                </Box>
                 <Divider />
                 <MenuItem onClick={handleAdmin}>
                   <ListItemIcon>
@@ -146,6 +152,13 @@ export const AppLayout = () => {
                   </ListItemIcon>
                   <ListItemText>管理者メニュー</ListItemText>
                 </MenuItem>
+                <MenuItem onClick={handleInvoice}>
+                  <ListItemIcon>
+                    <DownloadIcon />
+                  </ListItemIcon>
+                  <ListItemText>請求書データダウンロード</ListItemText>
+                </MenuItem>
+                <Divider />
                 <MenuItem
                   onClick={() => {
                     setYesNoDialogMessage('ログアウトしますか？');

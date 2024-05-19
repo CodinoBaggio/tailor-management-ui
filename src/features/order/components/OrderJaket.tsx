@@ -199,6 +199,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '1×1（拝み釦）', label: '1×1（拝み釦）' },
               { value: 'W2×1', label: 'W2×1' },
               { value: 'W4×1', label: 'W4×1' },
+              { value: 'W4×2', label: 'W4×2' },
               { value: 'W6×1', label: 'W6×1' },
               { value: 'W6×2', label: 'W6×2' },
             ]}

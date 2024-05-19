@@ -5,6 +5,7 @@ import { AppLayout } from '../layouts/AppLayout';
 import { OrderList } from '../pages/OrderList';
 import { Order } from '../pages/Order';
 import { AdminPage } from '../pages/AdminPage';
+import { InvoicePage } from '../pages/InvoicePage';
 
 export const router = createBrowserRouter(
   [
@@ -41,6 +42,10 @@ export const router = createBrowserRouter(
         {
           path: 'admin',
           element: <AdminPage />,
+        },
+        {
+          path: 'invoice',
+          element: <InvoicePage />,
         },
       ],
     },

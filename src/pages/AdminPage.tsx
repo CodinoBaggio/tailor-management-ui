@@ -2,11 +2,11 @@ import React from 'react';
 import { Box, Button, Divider, Typography } from '@mui/material';
 import SecurityIcon from '@mui/icons-material/Security';
 import ReplyIcon from '@mui/icons-material/Reply';
+import { useNavigate } from 'react-router-dom';
 
 import { ProductMaintenance } from '../features/admin/components/ProductMaintenance';
 import { CustomerMaintenace } from '../features/admin/components/CustomerMaintenace';
 import { PriceMaintenance } from '../features/admin/components/PriceMaintenance';
-import { useNavigate } from 'react-router-dom';
 import { HorizontalTabs } from '../components/ui/HorizontalTabs';
 import { UserMaintenance } from '../features/admin/components/UserMaintenance';
 

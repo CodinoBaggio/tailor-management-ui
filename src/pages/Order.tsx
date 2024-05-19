@@ -167,7 +167,10 @@ export const Order: FC<Props> = (props) => {
         const order: OrderBasisType = setOrderObject('保存', methods);
         if (!isNew) {
           order.orderDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
-          order.shipDate = user.roleId === '00' ? order.shipDate : dayjs().format('YYYY-MM-DDTHH:mm:ss');
+          order.shipDate =
+            user.roleId === '00'
+              ? order.shipDate
+              : dayjs().format('YYYY-MM-DDTHH:mm:ss');
           order.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
           order.updateUserId = user.userId;
           order.jaket.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
@@ -362,7 +365,7 @@ export const Order: FC<Props> = (props) => {
       const order: OrderBasisType = setOrderObject('発注済み', methods);
       order.seq = order.seq || 0;
       order.yield = order.yield || 0;
-      
+
       const res: any = await orderApi.getPrice({
         shopNo: user.shopNo,
         shopGroup: user.shopGroup,
@@ -489,11 +492,19 @@ export const Order: FC<Props> = (props) => {
                   readOnly={orderStatus === '発注済み' || user.roleId !== '00'}
                 />
               </GridContainer>
-              <RhfTextField
-                label="入力者"
-                name="basis-inputUserName"
-                readOnly={true}
-              />
+              <GridContainer>
+                <RhfTextField
+                  label="ショップ連番 *"
+                  name="basis-seq"
+                  type="number"
+                  readOnly={orderStatus === '発注済み' || user.roleId !== '00'}
+                />
+                <RhfTextField
+                  label="入力者"
+                  name="basis-inputUserName"
+                  readOnly={true}
+                />
+              </GridContainer>
             </Box>
             <OrderPrice
               fabricPrice={fabricPrice}
