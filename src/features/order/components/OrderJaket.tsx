@@ -57,12 +57,18 @@ export const OrderJaket: FC<Props> = (props) => {
     // 配列クリア
     setLinings([]);
 
-    const productName = methods.getValues('basis-fabricProductNo');
-    if (productName !== 'empty' && productName !== '') {
-      setLiningSearchDialogOpen(true);
-    } else {
-      showMessage('エラー', 'warn', '生地品番を選択してください。');
+    const productName = methods.getValues('basis-productName');
+    const fabricProductNo = methods.getValues('basis-fabricProductNo');
+    if (productName === 'empty' || productName === '') {
+      showMessage('エラー', 'warn', '品名を選択してください。');
+      return;
     }
+    if (fabricProductNo === 'empty' || fabricProductNo === '') {
+      showMessage('エラー', 'warn', '生地品番を選択してください。');
+      return;
+    }
+    
+    setLiningSearchDialogOpen(true);
   };
 
   const handleListItemClick = (_: any, index: number) => {
