@@ -192,10 +192,10 @@ export const Order: FC<Props> = (props) => {
         const res: any = await orderApi.upsert({
           order: order,
           invoice: {
-            fabricPrice: fabricPrice,
-            wagesPrice: wagesPrice,
-            customPrice: customPrice,
-            buttonLiningPrice: buttonLiningPrice,
+            fabricPrice: fabricPrice || 0,
+            wagesPrice: wagesPrice || 0,
+            customPrice: customPrice || 0,
+            buttonLiningPrice: buttonLiningPrice || 0,
             totalPrice: totalPrice,
             tax: tax,
             totalPriceWithTax: totalPriceWithTax,
@@ -243,10 +243,10 @@ export const Order: FC<Props> = (props) => {
         const res: any = await orderApi.upsert({
           order: order,
           invoice: {
-            fabricPrice: fabricPrice,
-            wagesPrice: wagesPrice,
-            customPrice: customPrice,
-            buttonLiningPrice: buttonLiningPrice,
+            fabricPrice: fabricPrice || 0,
+            wagesPrice: wagesPrice || 0,
+            customPrice: customPrice || 0,
+            buttonLiningPrice: buttonLiningPrice || 0,
             totalPrice: totalPrice,
             tax: tax,
             totalPriceWithTax: totalPriceWithTax,
