@@ -64,13 +64,17 @@ export const Order: FC<Props> = (props) => {
   const [currentOrderId, setCurrentOrderId] = useState(orderId);
   const [isNew, setIsNew] = useState(Boolean(currentOrderId) === false);
   const { toast, showMessage } = useToast();
-  const [fabricPrice, setFabricPrice] = useState('-');
-  const [wagesPrice, setWagesPrice] = useState('-');
-  const [customPrice, setCustomPrice] = useState('-');
-  const [buttonLiningPrice, setButtonLiningPrice] = useState('-');
-  const [totalPrice, setTotalPrice] = useState('-');
-  const [tax, setTax] = useState('-');
-  const [totalPriceWithTax, setTotalPriceWithTax] = useState('-');
+  const [fabricPrice, setFabricPrice] = useState<number | undefined>();
+  const [wagesPrice, setWagesPrice] = useState<number | undefined>();
+  const [customPrice, setCustomPrice] = useState<number | undefined>();
+  const [buttonLiningPrice, setButtonLiningPrice] = useState<
+    number | undefined
+  >();
+  const [totalPrice, setTotalPrice] = useState<number | undefined>();
+  const [tax, setTax] = useState<number | undefined>();
+  const [totalPriceWithTax, setTotalPriceWithTax] = useState<
+    number | undefined
+  >();
   const [priceCalcLoading, setPriceCalcLoading] = useState(false);
 
   useEffect(() => {
@@ -119,27 +123,29 @@ export const Order: FC<Props> = (props) => {
             setCurrentOrderId('new');
             setIsNew(true);
 
-            setFabricPrice('-');
-            setWagesPrice('-');
-            setCustomPrice('-');
-            setButtonLiningPrice('-');
-            setTotalPrice('-');
-            setTax('-');
-            setTotalPriceWithTax('-');
+            // setFabricPrice('-');
+            // setWagesPrice('-');
+            // setCustomPrice('-');
+            // setButtonLiningPrice('-');
+            // setTotalPrice('-');
+            // setTax('-');
+            // setTotalPriceWithTax('-');
           } else {
-            setFabricPrice(res.payload.invoice.fabricPrice.toLocaleString());
-            setWagesPrice(res.payload.invoice.wagesPrice.toLocaleString());
-            setCustomPrice(
-              res.payload.invoice.customFeaturePrice.toLocaleString()
-            );
-            setButtonLiningPrice(
-              res.payload.invoice.buttonLiningPrice.toLocaleString()
-            );
-            setTotalPrice(res.payload.invoice.totalPrice.toLocaleString());
-            setTax(res.payload.invoice.tax.toLocaleString());
-            setTotalPriceWithTax(
-              res.payload.invoice.totalPriceWithTax.toLocaleString()
-            );
+            setFabricPrice(res.payload.invoice.fabricPrice);
+            setWagesPrice(res.payload.invoice.wagesPrice);
+            setCustomPrice(res.payload.invoice.customFeaturePrice);
+            setButtonLiningPrice(res.payload.invoice.buttonLiningPrice);
+            // setFabricPrice(res.payload.invoice.fabricPrice.toLocaleString());
+            // setWagesPrice(res.payload.invoice.wagesPrice.toLocaleString());
+            // setCustomPrice(
+            //   res.payload.invoice.customFeaturePrice.toLocaleString()
+            // );
+            // setButtonLiningPrice(
+            //   res.payload.invoice.buttonLiningPrice.toLocaleString()
+            // );
+            setTotalPrice(res.payload.invoice.totalPrice);
+            setTax(res.payload.invoice.tax);
+            setTotalPriceWithTax(res.payload.invoice.totalPriceWithTax);
           }
         }
         bindOrderBasisValues(methods, order);
@@ -351,13 +357,13 @@ export const Order: FC<Props> = (props) => {
   };
 
   const handlePriceCalc = async () => {
-    setFabricPrice('-');
-    setWagesPrice('-');
-    setCustomPrice('-');
-    setButtonLiningPrice('-');
-    setTotalPrice('-');
-    setTax('-');
-    setTotalPriceWithTax('-');
+    // setFabricPrice('-');
+    // setWagesPrice('-');
+    // setCustomPrice('-');
+    // setButtonLiningPrice('-');
+    // setTotalPrice('-');
+    // setTax('-');
+    // setTotalPriceWithTax('-');
 
     try {
       setPriceCalcLoading(true);
@@ -372,12 +378,16 @@ export const Order: FC<Props> = (props) => {
         order,
       });
       if (res.status === 'success') {
-        setFabricPrice(res.payload.price.fabricPrice.toLocaleString());
-        setWagesPrice(res.payload.price.wagesPrice.toLocaleString());
-        setCustomPrice(res.payload.price.customPrice.toLocaleString());
-        setButtonLiningPrice(
-          res.payload.price.buttonLiningPrice.toLocaleString()
-        );
+        setFabricPrice(res.payload.price.fabricPrice);
+        setWagesPrice(res.payload.price.wagesPrice);
+        setCustomPrice(res.payload.price.customPrice);
+        setButtonLiningPrice(res.payload.price.buttonLiningPrice);
+        // setFabricPrice(res.payload.price.fabricPrice.toLocaleString());
+        // setWagesPrice(res.payload.price.wagesPrice.toLocaleString());
+        // setCustomPrice(res.payload.price.customPrice.toLocaleString());
+        // setButtonLiningPrice(
+        //   res.payload.price.buttonLiningPrice.toLocaleString()
+        // );
         setTotalPrice(res.payload.price.totalPrice.toLocaleString());
         setTax(res.payload.price.tax.toLocaleString());
         setTotalPriceWithTax(
@@ -392,6 +402,38 @@ export const Order: FC<Props> = (props) => {
       setPriceCalcLoading(false);
     }
   };
+
+  const onChangeFabricPrice = (e: any) => {
+    setFabricPrice(parseInt(e.target.value));
+  };
+
+  const onChangeWagesPrice = (e: any) => {
+    setWagesPrice(parseInt(e.target.value));
+  };
+  
+    const onChangeCustomPrice = (e: any) => {
+      setCustomPrice(parseInt(e.target.value));
+    };
+
+  const onChangeButtonLiningPrice = (e: any) => {
+    setButtonLiningPrice(parseInt(e.target.value));
+  };
+
+  const clacTotalPrice = () => {
+    const totalPrice =
+      (fabricPrice || 0) +
+      (wagesPrice || 0) +
+      (customPrice || 0) +
+      (buttonLiningPrice || 0);
+    setTotalPrice(totalPrice);
+    setTax(Math.round(totalPrice * 0.1));
+    setTotalPriceWithTax(Math.round(totalPrice * 1.1));
+  };
+
+  useEffect(() => {
+    clacTotalPrice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fabricPrice, wagesPrice, customPrice, buttonLiningPrice]);
 
   return (
     <>
@@ -517,6 +559,11 @@ export const Order: FC<Props> = (props) => {
               priceCalcLoading={priceCalcLoading}
               handlePriceCalc={handlePriceCalc}
               buttonDisabled={orderStatus === '発注済み'}
+              onChangeFabricPrice={onChangeFabricPrice}
+              onChangeWagesPrice={onChangeWagesPrice}
+              onChangeCustomPrice={onChangeCustomPrice}
+              onChangeButtonPrice={onChangeButtonLiningPrice}
+              disabled={orderStatus === '発注済み' ? true : false}
             />
           </Box>
         </Box>
