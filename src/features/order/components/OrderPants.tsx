@@ -411,7 +411,8 @@ export const OrderPants: FC<Props> = (props) => {
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor4}>
           <RhfSelect
-            label="出尻 *"
+            label="出尻"
+            // label="出尻 *"
             name="pants-buttocks"
             menuItems={[
               { value: 'empty', label: '' },
@@ -421,7 +422,8 @@ export const OrderPants: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="平尻 *"
+            label="平尻"
+            // label="平尻 *"
             name="pants-flatButt"
             menuItems={[
               { value: 'empty', label: '' },
@@ -431,7 +433,8 @@ export const OrderPants: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="前股上 *"
+            label="前股上"
+            // label="前股上 *"
             name="pants-frontRise"
             menuItems={[
               { value: 'empty', label: '' },
@@ -450,7 +453,8 @@ export const OrderPants: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="後股上 *"
+            label="後股上"
+            // label="後股上 *"
             name="pants-backRise"
             menuItems={[
               { value: 'empty', label: '' },
@@ -469,7 +473,8 @@ export const OrderPants: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="食い込み *"
+            label="食い込み"
+            // label="食い込み *"
             name="pants-wedgie"
             menuItems={[
               { value: 'empty', label: '' },
