@@ -155,6 +155,45 @@ export const InvoiceData = () => {
     }
   };
 
+  const handleRpaDataDownload = async () => {
+    const selectedRows = items.filter((item) =>
+      rowSelectionModel.includes(item.id)
+    );
+    if (selectedRows.length === 0) {
+      showMessage(
+        'エラー',
+        'error',
+        'ダウンロードするデータを選択してください'
+      );
+      return;
+    }
+
+    // オーダーIDをAPIに送信して、請求書データを作成する
+    setOpen(true);
+    try {
+      // APIコール
+      const orderIds = selectedRows.map((row) => row.orderId);
+      const res: any = await invoiceApi.createRpaData({ orderIds });
+
+      if (res.status === 'success') {
+        // ダウンロード処理
+        const a = document.createElement('a');
+        const file = new Blob([JSON.stringify(res.payload.invoiceData)], {
+          type: 'text/plain',
+        });
+        a.href = URL.createObjectURL(file);
+        a.download = `invoice_${dayjs().format('YYYYMMDDHHmmss')}.json`;
+        a.click();
+      } else {
+        showMessage('エラー', 'error', res.message);
+      }
+    } catch (error: any) {
+      showMessage('エラー', 'error', error);
+    } finally {
+      setOpen(false);
+    }
+  };
+
   return (
     <>
       <Box className="flex justify-between items-end mb-5">
@@ -201,14 +240,26 @@ export const InvoiceData = () => {
           </Button>
         </Box>
         <Box>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<DownloadIcon />}
-            onClick={handleDownload}
-          >
-            ダウンロード
-          </Button>
+          <Box className="flex flex-col items-end">
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<DownloadIcon />}
+              onClick={handleDownload}
+            >
+              請求書データ
+            </Button>
+          </Box>
+          <Box className="mt-2">
+            <Button
+              variant="outlined"
+              color="primary"
+              startIcon={<DownloadIcon />}
+              onClick={handleRpaDataDownload}
+            >
+              自動入力データ
+            </Button>
+          </Box>
         </Box>
       </Box>
       <Box className="w-full">

@@ -16,6 +16,13 @@ const invoiceApi = {
         orderIds: params.orderIds,
       },
     }),
+  createRpaData: (params: any) =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'createRpaData',
+      param: {
+        orderIds: params.orderIds,
+      },
+    }),
 };
 
 export default invoiceApi;
