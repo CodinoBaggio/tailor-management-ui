@@ -182,7 +182,7 @@ export const InvoiceData = () => {
           type: 'text/plain',
         });
         a.href = URL.createObjectURL(file);
-        a.download = `invoice_${dayjs().format('YYYYMMDDHHmmss')}.json`;
+        a.download = `auto_${dayjs().format('YYYYMMDDHHmmss')}.json`;
         a.click();
       } else {
         showMessage('エラー', 'error', res.message);
