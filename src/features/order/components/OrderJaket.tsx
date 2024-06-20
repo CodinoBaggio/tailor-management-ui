@@ -475,10 +475,10 @@ export const OrderJaket: FC<Props> = (props) => {
             name="jaket-kutsumi"
             menuItems={[
               { value: 'empty', label: '' },
-              { value: '-0.5', label: '-0.5' },
-              { value: '-1', label: '-1' },
-              { value: '-1.5', label: '-1.5' },
-              { value: '-2', label: '-2' },
+              { value: '0.5', label: '0.5' },
+              { value: '1', label: '1' },
+              { value: '1.5', label: '1.5' },
+              { value: '2', label: '2' },
             ]}
             readOnly={readOnly}
           />
