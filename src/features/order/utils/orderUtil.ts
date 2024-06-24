@@ -514,7 +514,7 @@ export const setOrderObject = (
   const order: OrderBasisType = {
     orderId: methods.getValues('basis-orderId'),
     shopId: methods.getValues('basis-shopId'),
-    seq: methods.getValues('basis-seq'),
+    seq: toNumericValue(methods.getValues('basis-seq')),
     orderStatus: orderStatus,
     inputDate: methods
       .getValues('basis-inputDate')

@@ -239,6 +239,7 @@ export const Order: FC<Props> = (props) => {
         const order: OrderBasisType = setOrderObject('発注済み', methods);
         order.seq = order.seq || 0;
         order.yield = order.yield || 0;
+        order.shopId = order.shopId || user.shopId;
 
         const res: any = await orderApi.upsert({
           order: order,
@@ -371,6 +372,7 @@ export const Order: FC<Props> = (props) => {
       const order: OrderBasisType = setOrderObject('発注済み', methods);
       order.seq = order.seq || 0;
       order.yield = order.yield || 0;
+      order.shopId = order.shopId || user.shopId;
 
       const res: any = await orderApi.getPrice({
         shopNo: user.shopNo,
