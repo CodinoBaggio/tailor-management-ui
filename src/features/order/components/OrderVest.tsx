@@ -144,7 +144,7 @@ export const OrderVest: FC<Props> = (props) => {
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor4}>
           <RhfSelect
-            label="打ち合い *"
+            label="打ち合い"
             name="vest-uchiai"
             menuItems={[
               { value: 'empty', label: '' },
@@ -160,7 +160,7 @@ export const OrderVest: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="反身 *"
+            label="反身"
             name="vest-hanmi"
             menuItems={[
               { value: 'empty', label: '' },
@@ -172,7 +172,7 @@ export const OrderVest: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="屈身 *"
+            label="屈身"
             name="vest-kutsumi"
             menuItems={[
               { value: 'empty', label: '' },
@@ -184,7 +184,7 @@ export const OrderVest: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="怒肩左 *"
+            label="怒肩左"
             name="vest-squareShoulderLeft"
             menuItems={[
               { value: 'empty', label: '' },
@@ -195,7 +195,7 @@ export const OrderVest: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="怒肩右 *"
+            label="怒肩右"
             name="vest-squareShoulderRight"
             menuItems={[
               { value: 'empty', label: '' },
@@ -206,7 +206,7 @@ export const OrderVest: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="撫肩左 *"
+            label="撫肩左"
             name="vest-slopingShoulderLeft"
             menuItems={[
               { value: 'empty', label: '' },
@@ -217,7 +217,7 @@ export const OrderVest: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="撫肩右 *"
+            label="撫肩右"
             name="vest-slopingShoulderRight"
             menuItems={[
               { value: 'empty', label: '' },
@@ -228,7 +228,7 @@ export const OrderVest: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="鎌上げ *"
+            label="鎌上げ"
             name="vest-sickleRaising"
             menuItems={[
               { value: 'empty', label: '' },
@@ -241,7 +241,7 @@ export const OrderVest: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="肩幅 *"
+            label="肩幅"
             name="vest-shoulderWidth"
             menuItems={[
               { value: 'empty', label: '' },
@@ -257,7 +257,7 @@ export const OrderVest: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="ボタン位置 *"
+            label="ボタン位置"
             name="vest-buttonPosition"
             menuItems={[
               { value: 'empty', label: '' },
@@ -273,7 +273,7 @@ export const OrderVest: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="前丈 *"
+            label="前丈"
             name="vest-frontLength"
             menuItems={[
               { value: 'empty', label: '' },
