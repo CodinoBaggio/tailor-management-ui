@@ -148,7 +148,7 @@ export const OrderPants: FC<Props> = (props) => {
       <Box className={style.boxMargin}>
         <GridContainer bgColor={style.blockColor3}>
           <RhfSelect
-            label="タック *"
+            label="タック"
             name="pants-tack"
             menuItems={[
               { value: 'empty', label: '' },
@@ -326,7 +326,7 @@ export const OrderPants: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="タック仕様 *"
+            label="タック仕様"
             name="pants-tackSpec"
             menuItems={[
               { value: 'empty', label: '' },

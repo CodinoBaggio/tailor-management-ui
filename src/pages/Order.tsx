@@ -93,6 +93,7 @@ export const Order: FC<Props> = (props) => {
           // 流用の場合はオーダーIDを新規にする
           if (isReuse) {
             order.orderId = 'new';
+            order.seq = undefined;
             order.shopId = user.shopId;
             order.inputDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.orderDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
@@ -147,6 +148,8 @@ export const Order: FC<Props> = (props) => {
             setTax(res.payload.invoice.tax);
             setTotalPriceWithTax(res.payload.invoice.totalPriceWithTax);
           }
+        } else {
+          order.shopId = user.shopId;
         }
         bindOrderBasisValues(methods, order);
         bindOrderJaketValues(methods, order.jaket);
@@ -412,10 +415,10 @@ export const Order: FC<Props> = (props) => {
   const onChangeWagesPrice = (e: any) => {
     setWagesPrice(parseInt(e.target.value));
   };
-  
-    const onChangeCustomPrice = (e: any) => {
-      setCustomPrice(parseInt(e.target.value));
-    };
+
+  const onChangeCustomPrice = (e: any) => {
+    setCustomPrice(parseInt(e.target.value));
+  };
 
   const onChangeButtonLiningPrice = (e: any) => {
     setButtonLiningPrice(parseInt(e.target.value));
@@ -482,16 +485,16 @@ export const Order: FC<Props> = (props) => {
               variant="outlined"
               onClick={handleOrder}
               sx={{ marginRight: '3px' }}
-              disabled={orderStatus === '発注済み' ? true : false}
+              disabled={orderStatus === '発注済み' && user.roleId !== '00'}
               startIcon={<CloudUploadIcon />}
             >
-              発注
+              {orderStatus === '発注済み' ? '更新' : '発注'}
             </Button>
             <Button
               variant="outlined"
               onClick={handleSave}
               sx={{ marginRight: '3px' }}
-              disabled={orderStatus === '発注済み' ? true : false}
+              disabled={orderStatus === '発注済み'}
               startIcon={<SaveIcon />}
             >
               保存
@@ -511,7 +514,7 @@ export const Order: FC<Props> = (props) => {
               // variant="outlined"
               onClick={handleDelete}
               // onClick={() => yesNoDialog.showMessage('削除しますか？')}
-              disabled={orderStatus === '発注済み' ? true : false}
+              disabled={orderStatus === '発注済み'}
               startIcon={<ClearIcon />}
             >
               削除
@@ -533,15 +536,15 @@ export const Order: FC<Props> = (props) => {
                 <RhfDatePicker
                   label="工場出荷日"
                   name="basis-shipDate"
-                  readOnly={orderStatus === '発注済み' || user.roleId !== '00'}
+                  readOnly={orderStatus === '発注済み' && user.roleId !== '00'}
                 />
               </GridContainer>
               <GridContainer>
                 <RhfTextField
-                  label="ショップ連番 *"
+                  label="ショップ連番"
                   name="basis-seq"
                   type="number"
-                  readOnly={orderStatus === '発注済み' || user.roleId !== '00'}
+                  readOnly={true}
                 />
                 <RhfTextField
                   label="入力者"
@@ -560,12 +563,14 @@ export const Order: FC<Props> = (props) => {
               totalPriceWithTax={totalPriceWithTax}
               priceCalcLoading={priceCalcLoading}
               handlePriceCalc={handlePriceCalc}
-              buttonDisabled={orderStatus === '発注済み'}
+              buttonDisabled={
+                orderStatus === '発注済み' && user.roleId !== '00'
+              }
               onChangeFabricPrice={onChangeFabricPrice}
               onChangeWagesPrice={onChangeWagesPrice}
               onChangeCustomPrice={onChangeCustomPrice}
               onChangeButtonPrice={onChangeButtonLiningPrice}
-              disabled={orderStatus === '発注済み' ? true : false}
+              disabled={orderStatus === '発注済み' && user.roleId !== '00'}
             />
           </Box>
         </Box>
@@ -577,7 +582,9 @@ export const Order: FC<Props> = (props) => {
                 component: (
                   <OrderBasis
                     methods={methods}
-                    readOnly={orderStatus === '発注済み'}
+                    readOnly={
+                      orderStatus === '発注済み' && user.roleId !== '00'
+                    }
                   />
                 ),
                 errorCount: basisErrorCount,
@@ -587,19 +594,33 @@ export const Order: FC<Props> = (props) => {
                 component: (
                   <OrderJaket
                     methods={methods}
-                    readOnly={orderStatus === '発注済み'}
+                    readOnly={
+                      orderStatus === '発注済み' && user.roleId !== '00'
+                    }
                   />
                 ),
                 errorCount: jaketErrorCount,
               },
               {
                 label: 'パンツ',
-                component: <OrderPants readOnly={orderStatus === '発注済み'} />,
+                component: (
+                  <OrderPants
+                    readOnly={
+                      orderStatus === '発注済み' && user.roleId !== '00'
+                    }
+                  />
+                ),
                 errorCount: pantsErrorCount,
               },
               {
                 label: 'ベスト',
-                component: <OrderVest readOnly={orderStatus === '発注済み'} />,
+                component: (
+                  <OrderVest
+                    readOnly={
+                      orderStatus === '発注済み' && user.roleId !== '00'
+                    }
+                  />
+                ),
                 errorCount: vestErrorCount,
               },
             ]}

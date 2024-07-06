@@ -1,7 +1,7 @@
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 import orderApi from '../api/orderApi';
 
-export const validateOrder = (
+export const validateOrder = async (
   methods: UseFormReturn<FieldValues, any, undefined>
 ) => {
   const { getValues } = methods;
@@ -13,9 +13,25 @@ export const validateOrder = (
   const basisError = validateOrderBasis(methods);
 
   // チェック実行対象の品名
-  const jaketValidationProductNames = ['2P', 'JK', '3P', '2PP', '3PP', '2P(SK)', '2P（SK)＋SK', '3P(SK)', '3P（SK)＋SK'];
+  const jaketValidationProductNames = [
+    '2P',
+    'JK',
+    '3P',
+    '2PP',
+    '3PP',
+    '2P(SK)',
+    '2P（SK)＋SK',
+    '3P(SK)',
+    '3P（SK)＋SK',
+  ];
   const pantsValidationProductNames = ['2P', 'PT', '3P', '2PP', '3PP'];
-  const vestValidationProductNames = ['VT', '3P', '3PP', '3P(SK)', '3P（SK)＋SK'];
+  const vestValidationProductNames = [
+    'VT',
+    '3P',
+    '3PP',
+    '3P(SK)',
+    '3P（SK)＋SK',
+  ];
 
   // ジャケットのチェック
   let jaketError = {
@@ -25,7 +41,7 @@ export const validateOrder = (
     vestErrorCount: 0,
   };
   if (jaketValidationProductNames.includes(productName)) {
-    jaketError = validateOrderJaket(methods);
+    jaketError = await validateOrderJaket(methods);
   }
 
   // パンツのチェック
@@ -127,6 +143,7 @@ export const validateOrderBasis = (
         errorCounts.basisErrorCount++;
       }
     });
+    if (0 < errorCounts.basisErrorCount) return errorCounts;
   }
   //#endregion
 
@@ -148,15 +165,15 @@ export const validateOrderBasis = (
           type: 'custom',
           message: '品名にPTが選択されているため、空白を選択してください',
         });
-        errorCounts.pantsErrorCount++;
+        errorCounts.jaketErrorCount++;
       }
-      const inName = methods.getValues('jaket-inName');
-      if (inName !== 'empty') {
-        methods.setError('jaket-inName', {
+      const inName = methods.getValues('jaket-lining');
+      if (inName !== '') {
+        methods.setError('jaket-lining', {
           type: 'custom',
           message: '品名にPTが選択されているため、空白を選択してください',
         });
-        errorCounts.pantsErrorCount++;
+        errorCounts.jaketErrorCount++;
       }
     }
     if (productName === 'VT') {
@@ -279,7 +296,7 @@ export const validateOrderBasis = (
   return errorCounts;
 };
 
-export const validateOrderJaket = (
+export const validateOrderJaket = async (
   methods: UseFormReturn<FieldValues, any, undefined>
 ) => {
   const errorCounts = {
@@ -341,11 +358,13 @@ export const validateOrderJaket = (
         errorCounts.jaketErrorCount++;
       }
     });
+    if (0 < errorCounts.jaketErrorCount) return errorCounts;
   }
   //#endregion
 
-  // 寸法表を取得する
-  const getBodySize = async () => {
+  //#region No.34
+  {
+    // 寸法表を取得する
     const res: any = await orderApi.getBodySize({
       jaket: {
         selectPattern2: getValues('jaket-selectPattern2'),
@@ -360,30 +379,20 @@ export const validateOrderJaket = (
         selectPattern3: getValues('vest-selectPattern3'),
       },
     });
-    return {
-      shoulderWidth: res.payload.jaket.shoulderWidth,
-      jaketLength: res.payload.jaket.jaketLength,
-    };
-  };
-
-  //#region No.34
-  getBodySize().then((res) => {
-    {
-      const value = methods.getValues('jaket-shoulderWidth');
-      if (
-        !(
-          res.shoulderWidth - 4 <= parseFloat(value) &&
-          parseFloat(value) <= res.shoulderWidth + 4
-        )
-      ) {
-        methods.setError('jaket-shoulderWidth', {
-          type: 'custom',
-          message: `指定型紙(${res.shoulderWidth}cm)の±4cm以内を入力してください`,
-        });
-        errorCounts.jaketErrorCount++;
-      }
+    const value = methods.getValues('jaket-shoulderWidth');
+    if (
+      !(
+        res.payload.jaket.shoulderWidth - 4 <= parseFloat(value) &&
+        parseFloat(value) <= res.payload.jaket.shoulderWidth + 4
+      )
+    ) {
+      methods.setError('jaket-shoulderWidth', {
+        type: 'custom',
+        message: `指定型紙(${res.shoulderWidth}cm)の±4cm以内を入力してください`,
+      });
+      errorCounts.jaketErrorCount++;
     }
-  });
+  }
   //#endregion
 
   //#region No.39
@@ -612,6 +621,15 @@ export const validateOrderJaket = (
         });
         errorCounts.jaketErrorCount++;
       }
+    } else {
+      const targetValue = methods.getValues('jaket-nameFont');
+      if (targetValue !== 'empty') {
+        methods.setError('jaket-nameFont', {
+          type: 'custom',
+          message: `ネ-ム入れが${value}のため、空白を選択してください`,
+        });
+        errorCounts.jaketErrorCount++;
+      }
     }
   }
   //#endregion
@@ -641,6 +659,15 @@ export const validateOrderJaket = (
           errorCounts.jaketErrorCount++;
         }
       }
+    } else {
+      const targetValue = methods.getValues('jaket-namePosition');
+      if (targetValue !== 'empty') {
+        methods.setError('jaket-namePosition', {
+          type: 'custom',
+          message: `ネ-ム入れが${value}のため、空白を選択してください`,
+        });
+        errorCounts.jaketErrorCount++;
+      }
     }
   }
   //#endregion
@@ -657,6 +684,15 @@ export const validateOrderJaket = (
         });
         errorCounts.jaketErrorCount++;
       }
+    } else {
+      const targetValue = methods.getValues('jaket-nameColor');
+      if (targetValue !== 'empty') {
+        methods.setError('jaket-nameColor', {
+          type: 'custom',
+          message: `ネ-ム入れが${value}のため、空白を選択してください`,
+        });
+        errorCounts.jaketErrorCount++;
+      }
     }
   }
   //#endregion
@@ -670,6 +706,32 @@ export const validateOrderJaket = (
         methods.setError('jaket-name', {
           type: 'custom',
           message: `ネ-ム入れが${value}のため、いずれかを選択してください`,
+        });
+        errorCounts.jaketErrorCount++;
+      } else {
+        if (methods.getValues('jaket-nameFont') === "漢字" 
+          && !/^[\u4E00-\u9FFF\u3040-\u309F\u30A0-\u30FF\u3000\u0020]+$/.test(targetValue)){
+          methods.setError('jaket-name', {
+            type: 'custom',
+            message: `ネーム字体が漢字のため、ネーム内容を漢字のみにしてください`,
+          });
+          errorCounts.jaketErrorCount++;
+        }
+        if ((methods.getValues('jaket-nameFont') === "ローマ字（筆）" || methods.getValues('jaket-nameFont') === "ローマ字（活字）") 
+          && !/^[A-Za-z.]+$/.test(targetValue)){
+          methods.setError('jaket-name', {
+            type: 'custom',
+            message: `ネーム字体がローマ字のため、ネーム内容を英字かピリオドのみにしてください`,
+          });
+          errorCounts.jaketErrorCount++;
+        }
+      }
+    } else {
+      const targetValue = methods.getValues('jaket-name');
+      if (targetValue !== 'empty') {
+        methods.setError('jaket-name', {
+          type: 'custom',
+          message: `ネ-ム入れが${value}のため、空白を選択してください`,
         });
         errorCounts.jaketErrorCount++;
       }
@@ -850,7 +912,7 @@ export const validateOrderPants = (
       'pants-crossingWidth',
       'pants-kneeWidth',
       'pants-hemOpening',
-      'pants-tack',
+      // 'pants-tack',
       'pants-sidePocket',
       'pants-foldedHem',
       'pants-kneeBack',
@@ -858,7 +920,7 @@ export const validateOrderPants = (
       'pants-amfStitch',
       'pants-sideAmf',
       'pants-kneepadColor',
-      'pants-tackSpec',
+      // 'pants-tackSpec',
       'pants-sideSatinFabric',
       'pants-pisPocketJadeGreen',
       'pants-pisPocket',
@@ -886,6 +948,7 @@ export const validateOrderPants = (
         errorCounts.pantsErrorCount++;
       }
     });
+    if (0 < errorCounts.pantsErrorCount) return errorCounts;
   }
   //#endregion
 
@@ -1113,6 +1176,7 @@ export const validateOrderVest = (
         errorCounts.vestErrorCount++;
       }
     });
+    if (0 < errorCounts.vestErrorCount) return errorCounts;
   }
   //#endregion
 
