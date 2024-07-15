@@ -1579,6 +1579,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '4個目', label: '4個目' },
               { value: '3個目', label: '3個目' },
               { value: '2個目', label: '2個目' },
+              { value: '1個目', label: '1個目' },
               { value: '無', label: '無' },
             ]}
             readOnly={readOnly}
