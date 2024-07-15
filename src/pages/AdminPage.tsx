@@ -4,11 +4,10 @@ import SecurityIcon from '@mui/icons-material/Security';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { useNavigate } from 'react-router-dom';
 
-import { ProductMaintenance } from '../features/admin/components/ProductMaintenance';
 import { CustomerMaintenace } from '../features/admin/components/CustomerMaintenace';
-import { PriceMaintenance } from '../features/admin/components/PriceMaintenance';
 import { HorizontalTabs } from '../components/ui/HorizontalTabs';
 import { UserMaintenance } from '../features/admin/components/UserMaintenance';
+import { MasterMaintenance } from '../features/master/components/MasterMaintenance';
 
 export const AdminPage = () => {
   const navigate = useNavigate();
@@ -47,12 +46,8 @@ export const AdminPage = () => {
               component: <UserMaintenance />,
             },
             {
-              label: '商品',
-              component: <ProductMaintenance />,
-            },
-            {
-              label: '価格',
-              component: <PriceMaintenance />,
+              label: '各種マスタ',
+              component: <MasterMaintenance />,
             },
           ]}
         />

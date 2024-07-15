@@ -2,6 +2,7 @@ import { FC, useRef, useState } from 'react';
 import { TextField } from '@mui/material';
 
 interface Props {
+  placeholder?: string;
   onSearch?: (text: string) => void;
 }
 
@@ -13,7 +14,7 @@ interface Props {
  * 例えば、`onChange` は IME 変換中にも呼び出されてしまいますが、
  * `onSearch` はユーザーが入力を確定したときにしか呼び出されないようになっています。
  */
-export const SearchTextField: FC<Props> = ({ onSearch }) => {
+export const SearchTextField: FC<Props> = ({ placeholder='検索', onSearch }) => {
   // 現在 IME ON（変換中）かどうかのフラグ
   const isImeOn = useRef(false);
 
@@ -41,7 +42,7 @@ export const SearchTextField: FC<Props> = ({ onSearch }) => {
       type="search"
       // label="Search"
       variant="standard"
-      placeholder="検索"
+      placeholder={placeholder}
       onChange={(e) => handleChange(e.target.value)}
       onCompositionStart={() => {
         isImeOn.current = true; // IME 入力中フラグを ON

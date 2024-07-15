@@ -270,7 +270,7 @@ export const Order: FC<Props> = (props) => {
 
           const isSkirt = order.productName.includes('SK');
           showMessage(
-            '発注処理を実行しました。',
+            orderStatus === '発注済み' ? '更新しました' : '発注処理を実行しました',
             'info',
             isSkirt ? 'スカートの情報は発注明細に記入してください' : ''
           );
@@ -315,7 +315,7 @@ export const Order: FC<Props> = (props) => {
 
       await handlePriceCalc();
 
-      confirmYesNo('発注します。よろしいですか？', fire);
+      confirmYesNo(orderStatus === '発注済み' ? '更新します。よろしいですか？' : '発注します。よろしいですか？', fire);
     } catch (error: any) {
       showMessage('エラー', 'error', error);
     } finally {

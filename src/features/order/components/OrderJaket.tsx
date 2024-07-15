@@ -90,7 +90,7 @@ export const OrderJaket: FC<Props> = (props) => {
         searchPattern: searchPattern,
       });
       if (res.status === 'success') {
-        setLinings(res.payload.linings);
+        setLinings(res.payload.liningProductNo);
       } else {
         showMessage('エラー', 'error', res.message);
       }
