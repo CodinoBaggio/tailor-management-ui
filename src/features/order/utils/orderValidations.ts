@@ -178,7 +178,7 @@ export const validateOrderBasis = (
     }
     if (productName === 'VT') {
       const brandName = methods.getValues('jaket-brandName');
-      if (brandName !== 'empty') {
+      if (brandName !== 'empty' && brandName !== '') {
         methods.setError('jaket-brandName', {
           type: 'custom',
           message: '品名にVTが選択されているため、空白を選択してください',
@@ -186,7 +186,7 @@ export const validateOrderBasis = (
         errorCounts.vestErrorCount++;
       }
       const fabricMark = methods.getValues('jaket-fabricMark');
-      if (fabricMark !== 'empty') {
+      if (fabricMark !== 'empty' && fabricMark !== '') {
         methods.setError('jaket-fabricMark', {
           type: 'custom',
           message: '品名にVTが選択されているため、空白を選択してください',
@@ -341,7 +341,6 @@ export const validateOrderJaket = async (
       'jaket-lining',
       'jaket-vents',
       'jaket-inName',
-      'jaket-name',
       'jaket-labelHole',
       'jaket-brandName',
       'jaket-fabricMark',
@@ -388,7 +387,7 @@ export const validateOrderJaket = async (
     ) {
       methods.setError('jaket-shoulderWidth', {
         type: 'custom',
-        message: `指定型紙(${res.shoulderWidth}cm)の±4cm以内を入力してください`,
+        message: `指定型紙(${res.payload.jaket.shoulderWidth}cm)の±4cm以内を入力してください`,
       });
       errorCounts.jaketErrorCount++;
     }
@@ -534,7 +533,7 @@ export const validateOrderJaket = async (
     const value = methods.getValues('jaket-stitch');
     if (value.includes('0.2') || value.includes('0.6')) {
       const targetValue = methods.getValues('jaket-stitchLocation');
-      if (targetValue === 'empty') {
+      if (targetValue === 'empty' || targetValue === '') {
         methods.setError('jaket-stitchLocation', {
           type: 'custom',
           message: `${value}のため、空白以外を選択してください`,
@@ -614,7 +613,7 @@ export const validateOrderJaket = async (
     const value = methods.getValues('jaket-inName');
     if (value === '有') {
       const targetValue = methods.getValues('jaket-nameFont');
-      if (targetValue === 'empty') {
+      if (targetValue === 'empty' || targetValue === '') {
         methods.setError('jaket-nameFont', {
           type: 'custom',
           message: `ネ-ム入れが${value}のため、いずれかを選択してください`,
@@ -623,7 +622,7 @@ export const validateOrderJaket = async (
       }
     } else {
       const targetValue = methods.getValues('jaket-nameFont');
-      if (targetValue !== 'empty') {
+      if (targetValue !== 'empty' && targetValue !== '') {
         methods.setError('jaket-nameFont', {
           type: 'custom',
           message: `ネ-ム入れが${value}のため、空白を選択してください`,
@@ -661,7 +660,7 @@ export const validateOrderJaket = async (
       }
     } else {
       const targetValue = methods.getValues('jaket-namePosition');
-      if (targetValue !== 'empty') {
+      if (targetValue !== 'empty' && targetValue !== '') {
         methods.setError('jaket-namePosition', {
           type: 'custom',
           message: `ネ-ム入れが${value}のため、空白を選択してください`,
@@ -677,7 +676,7 @@ export const validateOrderJaket = async (
     const value = methods.getValues('jaket-inName');
     if (value === '有') {
       const targetValue = methods.getValues('jaket-nameColor');
-      if (targetValue === 'empty') {
+      if (targetValue === 'empty' || targetValue === '') {
         methods.setError('jaket-nameColor', {
           type: 'custom',
           message: `ネ-ム入れが${value}のため、いずれかを選択してください`,
@@ -686,7 +685,7 @@ export const validateOrderJaket = async (
       }
     } else {
       const targetValue = methods.getValues('jaket-nameColor');
-      if (targetValue !== 'empty') {
+      if (targetValue !== 'empty' && targetValue !== '') {
         methods.setError('jaket-nameColor', {
           type: 'custom',
           message: `ネ-ム入れが${value}のため、空白を選択してください`,
@@ -702,7 +701,7 @@ export const validateOrderJaket = async (
     const value = methods.getValues('jaket-inName');
     if (value === '有') {
       const targetValue = methods.getValues('jaket-name');
-      if (targetValue === 'empty') {
+      if (targetValue === '') {
         methods.setError('jaket-name', {
           type: 'custom',
           message: `ネ-ム入れが${value}のため、いずれかを選択してください`,
@@ -728,7 +727,7 @@ export const validateOrderJaket = async (
       }
     } else {
       const targetValue = methods.getValues('jaket-name');
-      if (targetValue !== 'empty') {
+      if (targetValue !== '') {
         methods.setError('jaket-name', {
           type: 'custom',
           message: `ネ-ム入れが${value}のため、空白を選択してください`,
@@ -742,9 +741,9 @@ export const validateOrderJaket = async (
   //#region No.76
   {
     const value = methods.getValues('jaket-stitch');
-    if (value === 'empty') {
+    if (value === 'empty' || value === '') {
       const targetValue = methods.getValues('jaket-stitchThreadColor');
-      if (targetValue !== 'empty') {
+      if (targetValue !== 'empty' && targetValue !== '') {
         methods.setError('jaket-stitchThreadColor', {
           type: 'custom',
           message: `ステッチが無のため、空白を選択してください`,
