@@ -19,24 +19,21 @@ const columns: GridColDef[] = [
   {
     field: 'liningProductNo',
     headerName: '裏地品番',
-    width: 200,
+    width: 150,
   },
   {
     field: 'stock',
     headerName: '在庫量',
     type: 'number',
-    width: 200,
+    width: 150,
   },
   {
-    field: 'orderableNumber',
-    headerName: '発注可能数',
-    type: 'number',
-    width: 200,
-  },
-  {
-    field: 'usage',
-    headerName: '1着あたりの使用量',
-    type: 'number',
+    field: 'importDateTime',
+    headerName: 'データ取込日時',
+    valueGetter: (value) => {
+      return new Date(value);
+    },
+    type: 'dateTime',
     width: 200,
   },
 ];

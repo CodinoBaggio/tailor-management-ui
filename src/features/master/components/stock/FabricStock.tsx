@@ -28,15 +28,12 @@ const columns: GridColDef[] = [
     width: 200,
   },
   {
-    field: 'orderableNumber',
-    headerName: '発注可能数',
-    type: 'number',
-    width: 200,
-  },
-  {
-    field: 'usage',
-    headerName: '1着あたりの使用量',
-    type: 'number',
+    field: 'importDateTime',
+    headerName: 'データ取込日時',
+    valueGetter: (value) => {
+      return new Date(value);
+    },
+    type: 'dateTime',
     width: 200,
   },
 ];

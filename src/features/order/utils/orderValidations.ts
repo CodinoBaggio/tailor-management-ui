@@ -1,5 +1,6 @@
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 import orderApi from '../api/orderApi';
+import masterApi from '../../master/api/materApi';
 
 export const validateOrder = async (
   methods: UseFormReturn<FieldValues, any, undefined>
@@ -1223,3 +1224,17 @@ export const validateOrderVest = (
 
   return errorCounts;
 };
+
+export const validateFabricStock = async (fabricProductNo: string) => {
+  const res: any = await masterApi.validateFabricStocks({
+    fabricProductNo,
+  });
+  return res.payload;
+}
+
+export const validateLiningStocks = async (fabricProductNo: string) => {
+  const res: any = await masterApi.validateLiningStocks({
+    fabricProductNo,
+  });
+  return res.payload;
+}
