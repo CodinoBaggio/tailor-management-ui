@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import { Toast } from 'primereact/toast';
+import { Dialog } from 'primereact/dialog';
+import dayjs from 'dayjs';
 
 import orderApi from '../features/order/api/orderApi';
 import { OrderBasis } from '../features/order/components/OrderBasis';
@@ -27,17 +29,15 @@ import {
   createDefaultOrderValues,
   setOrderObject,
 } from '../features/order/utils/orderUtil';
-import { validateOrder } from '../features/order/utils/orderValidations';
+import { validateFabricStock, validateOrder } from '../features/order/utils/orderValidations';
 import { confirmYesNo } from '../utils/confirm';
 import { useToast } from '../hooks/useToast';
 import Loading from '../components/ui/Loading';
 import { OrderBasisType } from '../features/order/types/order';
-// import { toDateTimeString } from '../utils/util';
 import { GridContainer } from '../components/containers/GridContainer';
 import { RhfDatePicker } from '../components/ui/RhfDatePicker';
 import { RhfDateTimePicker } from '../components/ui/RhfDateTimePicker';
 import { OrderPrice } from '../features/order/components/OrderPrice';
-import dayjs from 'dayjs';
 import { RhfTextField } from '../components/ui/RhfTextField';
 
 type Props = {
@@ -67,16 +67,15 @@ export const Order: FC<Props> = (props) => {
   const [fabricPrice, setFabricPrice] = useState<number | undefined>();
   const [wagesPrice, setWagesPrice] = useState<number | undefined>();
   const [customPrice, setCustomPrice] = useState<number | undefined>();
-  const [buttonLiningPrice, setButtonLiningPrice] = useState<
-    number | undefined
-  >();
+  const [buttonLiningPrice, setButtonLiningPrice] = useState<number | undefined>();
   const [totalPrice, setTotalPrice] = useState<number | undefined>();
   const [tax, setTax] = useState<number | undefined>();
-  const [totalPriceWithTax, setTotalPriceWithTax] = useState<
-    number | undefined
-  >();
+  const [totalPriceWithTax, setTotalPriceWithTax] = useState<number | undefined>();
   const [priceCalcLoading, setPriceCalcLoading] = useState(false);
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const [stockValidationMessage, setStockValidationMessage] = useState('');
 
+  //]
   useEffect(() => {
     const getOrder = async () => {
       // スピナーを表示する
@@ -176,10 +175,7 @@ export const Order: FC<Props> = (props) => {
         const order: OrderBasisType = setOrderObject('保存', methods);
         if (!isNew) {
           order.orderDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
-          order.shipDate =
-            user.roleId === '00'
-              ? order.shipDate
-              : dayjs().format('YYYY-MM-DDTHH:mm:ss');
+          order.shipDate = user.roleId === '00' ? order.shipDate : dayjs().format('YYYY-MM-DDTHH:mm:ss');
           order.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
           order.updateUserId = user.userId;
           order.jaket.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
@@ -313,9 +309,46 @@ export const Order: FC<Props> = (props) => {
         }
       }
 
-      await handlePriceCalc();
-
-      confirmYesNo(orderStatus === '発注済み' ? '更新します。よろしいですか？' : '発注します。よろしいですか？', fire);
+      // 生地在庫のバリデーションを実行する
+      const stockResult = await validateFabricStock(methods.getValues('basis-fabricProductNo'));
+      if (stockResult.stockStatus === 'OK') {
+        confirmYesNo(
+          orderStatus === '発注済み' ? '更新します。よろしいですか？' : '発注します。よろしいですか？',
+          fire
+        );
+      } else if (stockResult.stockStatus === 'WARN') {
+        confirmYesNo(
+          orderStatus === '発注済み' ? (
+            <div>
+              更新します。よろしいですか？
+              <br />
+              注意：在庫量が20mを下回っています
+            </div>
+          ) : (
+            <div>
+              発注します。よろしいですか？
+              <br />
+              注意：在庫量が20mを下回っています
+            </div>
+          ),
+          fire
+        );
+      } else if (stockResult.stockStatus === 'SELECT_OTHER') {
+        confirmYesNo(
+          <div>
+            在庫量が10mを下回っています。このまま{orderStatus === '発注済み' ? '発注' : '更新'}しますか？
+            <br />
+            はい：{orderStatus === '発注済み' ? '発注' : '更新'}処理を行います
+            <br />
+            いいえ：前の画面に戻ります
+          </div>,
+          fire
+        );
+      } else if (stockResult.stockStatus === 'NG') {
+        setStockValidationMessage('在庫量が5mを下回っています。他の生地品番を選択してください。');
+        setDialogVisible(true);
+        return;
+      }
     } catch (error: any) {
       showMessage('エラー', 'error', error);
     } finally {
@@ -325,9 +358,7 @@ export const Order: FC<Props> = (props) => {
   };
 
   const handleReuse = () => {
-    confirmYesNo('流用しますか？', () =>
-      navigate(`/order-reuse/${currentOrderId}`)
-    );
+    confirmYesNo('流用しますか？', () => navigate(`/order-reuse/${currentOrderId}`));
   };
 
   const handleDelete = () => {
@@ -361,14 +392,6 @@ export const Order: FC<Props> = (props) => {
   };
 
   const handlePriceCalc = async () => {
-    // setFabricPrice('-');
-    // setWagesPrice('-');
-    // setCustomPrice('-');
-    // setButtonLiningPrice('-');
-    // setTotalPrice('-');
-    // setTax('-');
-    // setTotalPriceWithTax('-');
-
     try {
       setPriceCalcLoading(true);
 
@@ -387,17 +410,9 @@ export const Order: FC<Props> = (props) => {
         setWagesPrice(res.payload.price.wagesPrice);
         setCustomPrice(res.payload.price.customPrice);
         setButtonLiningPrice(res.payload.price.buttonLiningPrice);
-        // setFabricPrice(res.payload.price.fabricPrice.toLocaleString());
-        // setWagesPrice(res.payload.price.wagesPrice.toLocaleString());
-        // setCustomPrice(res.payload.price.customPrice.toLocaleString());
-        // setButtonLiningPrice(
-        //   res.payload.price.buttonLiningPrice.toLocaleString()
-        // );
         setTotalPrice(res.payload.price.totalPrice.toLocaleString());
         setTax(res.payload.price.tax.toLocaleString());
-        setTotalPriceWithTax(
-          res.payload.price.totalPriceWithTax.toLocaleString()
-        );
+        setTotalPriceWithTax(res.payload.price.totalPriceWithTax.toLocaleString());
       } else {
         showMessage('エラー', 'error', res.message);
       }
@@ -425,11 +440,7 @@ export const Order: FC<Props> = (props) => {
   };
 
   const clacTotalPrice = () => {
-    const totalPrice =
-      (fabricPrice || 0) +
-      (wagesPrice || 0) +
-      (customPrice || 0) +
-      (buttonLiningPrice || 0);
+    const totalPrice = (fabricPrice || 0) + (wagesPrice || 0) + (customPrice || 0) + (buttonLiningPrice || 0);
     setTotalPrice(totalPrice);
     setTax(Math.round(totalPrice * 0.1));
     setTotalPriceWithTax(Math.round(totalPrice * 1.1));
@@ -447,12 +458,7 @@ export const Order: FC<Props> = (props) => {
           <CheckroomIcon className="mr-3" />
           <Typography variant="h6">発注</Typography>
         </Box>
-        <Button
-          onClick={handleBack}
-          startIcon={<ReplyIcon />}
-          color="info"
-          size="small"
-        >
+        <Button onClick={handleBack} startIcon={<ReplyIcon />} color="info" size="small">
           ホーム
         </Button>
       </Box>
@@ -468,16 +474,11 @@ export const Order: FC<Props> = (props) => {
                   </Tooltip>
                 ) : (
                   <Tooltip title="発注済み" arrow>
-                    <CloudUploadIcon
-                      fontSize="large"
-                      sx={{ color: pink[500] }}
-                    />
+                    <CloudUploadIcon fontSize="large" sx={{ color: pink[500] }} />
                   </Tooltip>
                 ))}
             </Typography>
-            <Typography variant="body1">{`オーダーID：${
-              isNew ? '(新規)' : currentOrderId
-            }`}</Typography>
+            <Typography variant="body1">{`オーダーID：${isNew ? '(新規)' : currentOrderId}`}</Typography>
           </Box>
           <Box className="ml-3 mb-5">
             <Button
@@ -523,16 +524,8 @@ export const Order: FC<Props> = (props) => {
           <Box className="flex ml-3 mb-2 justify-between">
             <Box>
               <GridContainer>
-                <RhfDatePicker
-                  label="入力日"
-                  name="basis-inputDate"
-                  readOnly={true}
-                />
-                <RhfDateTimePicker
-                  label="発注日時"
-                  name="basis-orderDateTime"
-                  readOnly={true}
-                />
+                <RhfDatePicker label="入力日" name="basis-inputDate" readOnly={true} />
+                <RhfDateTimePicker label="発注日時" name="basis-orderDateTime" readOnly={true} />
                 <RhfDatePicker
                   label="工場出荷日"
                   name="basis-shipDate"
@@ -540,17 +533,8 @@ export const Order: FC<Props> = (props) => {
                 />
               </GridContainer>
               <GridContainer>
-                <RhfTextField
-                  label="ショップ連番"
-                  name="basis-seq"
-                  type="number"
-                  readOnly={true}
-                />
-                <RhfTextField
-                  label="入力者"
-                  name="basis-inputUserName"
-                  readOnly={true}
-                />
+                <RhfTextField label="ショップ連番" name="basis-seq" type="number" readOnly={true} />
+                <RhfTextField label="入力者" name="basis-inputUserName" readOnly={true} />
               </GridContainer>
             </Box>
             <OrderPrice
@@ -563,9 +547,7 @@ export const Order: FC<Props> = (props) => {
               totalPriceWithTax={totalPriceWithTax}
               priceCalcLoading={priceCalcLoading}
               handlePriceCalc={handlePriceCalc}
-              buttonDisabled={
-                orderStatus === '発注済み' && user.roleId !== '00'
-              }
+              buttonDisabled={orderStatus === '発注済み' && user.roleId !== '00'}
               onChangeFabricPrice={onChangeFabricPrice}
               onChangeWagesPrice={onChangeWagesPrice}
               onChangeCustomPrice={onChangeCustomPrice}
@@ -580,47 +562,25 @@ export const Order: FC<Props> = (props) => {
               {
                 label: 'オーダー',
                 component: (
-                  <OrderBasis
-                    methods={methods}
-                    readOnly={
-                      orderStatus === '発注済み' && user.roleId !== '00'
-                    }
-                  />
+                  <OrderBasis methods={methods} readOnly={orderStatus === '発注済み' && user.roleId !== '00'} />
                 ),
                 errorCount: basisErrorCount,
               },
               {
                 label: 'ジャケット',
                 component: (
-                  <OrderJaket
-                    methods={methods}
-                    readOnly={
-                      orderStatus === '発注済み' && user.roleId !== '00'
-                    }
-                  />
+                  <OrderJaket methods={methods} readOnly={orderStatus === '発注済み' && user.roleId !== '00'} />
                 ),
                 errorCount: jaketErrorCount,
               },
               {
                 label: 'パンツ',
-                component: (
-                  <OrderPants
-                    readOnly={
-                      orderStatus === '発注済み' && user.roleId !== '00'
-                    }
-                  />
-                ),
+                component: <OrderPants readOnly={orderStatus === '発注済み' && user.roleId !== '00'} />,
                 errorCount: pantsErrorCount,
               },
               {
                 label: 'ベスト',
-                component: (
-                  <OrderVest
-                    readOnly={
-                      orderStatus === '発注済み' && user.roleId !== '00'
-                    }
-                  />
-                ),
+                component: <OrderVest readOnly={orderStatus === '発注済み' && user.roleId !== '00'} />,
                 errorCount: vestErrorCount,
               },
             ]}
@@ -629,6 +589,17 @@ export const Order: FC<Props> = (props) => {
         <Loading open={open} />
       </FormProvider>
       <Toast ref={toast} position="center" />
+      <Dialog
+        header="確認"
+        visible={dialogVisible}
+        // style={{ width: '50vw' }}
+        onHide={() => {
+          if (!dialogVisible) return;
+          setDialogVisible(false);
+        }}
+      >
+        <p className="m-0">{stockValidationMessage}</p>
+      </Dialog>
     </>
   );
 };

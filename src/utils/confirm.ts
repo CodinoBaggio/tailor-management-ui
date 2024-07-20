@@ -1,7 +1,8 @@
-import { confirmDialog } from 'primereact/confirmdialog';
+import { ConfirmDialogOptions, confirmDialog } from 'primereact/confirmdialog';
 import { locale, addLocale } from 'primereact/api';
+import { ReactNode } from 'react';
 
-export const confirmYesNo = (message: string, accept: any) => {
+export const confirmYesNo = (message: ReactNode | ((options: ConfirmDialogOptions) => ReactNode), accept: any, reject?: any) => {
   addLocale('ja', {
     accept: 'はい',
     reject: 'いいえ',
@@ -12,6 +13,7 @@ export const confirmYesNo = (message: string, accept: any) => {
     header: '確認',
     icon: 'pi pi-exclamation-triangle',
     accept: accept,
+    reject: reject,
     acceptClassName: 'border border-blue-500 text-blue-700',
     // className: 'z-40',
     appendTo: 'self',
