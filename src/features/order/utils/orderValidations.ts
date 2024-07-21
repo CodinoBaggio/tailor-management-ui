@@ -1,6 +1,6 @@
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 import orderApi from '../api/orderApi';
-import masterApi from '../../master/api/materApi';
+import { ContainsJaket, ContainsPants, ContainsVest } from './orderUtil';
 
 export const validateOrder = async (
   methods: UseFormReturn<FieldValues, any, undefined>
@@ -13,27 +13,6 @@ export const validateOrder = async (
   // 発注基本情報のチェック
   const basisError = validateOrderBasis(methods);
 
-  // チェック実行対象の品名
-  const jaketValidationProductNames = [
-    '2P',
-    'JK',
-    '3P',
-    '2PP',
-    '3PP',
-    '2P(SK)',
-    '2P（SK)＋SK',
-    '3P(SK)',
-    '3P（SK)＋SK',
-  ];
-  const pantsValidationProductNames = ['2P', 'PT', '3P', '2PP', '3PP'];
-  const vestValidationProductNames = [
-    'VT',
-    '3P',
-    '3PP',
-    '3P(SK)',
-    '3P（SK)＋SK',
-  ];
-
   // ジャケットのチェック
   let jaketError = {
     basisErrorCount: 0,
@@ -41,7 +20,7 @@ export const validateOrder = async (
     pantsErrorCount: 0,
     vestErrorCount: 0,
   };
-  if (jaketValidationProductNames.includes(productName)) {
+  if (ContainsJaket(productName)) {
     jaketError = await validateOrderJaket(methods);
   }
 
@@ -52,7 +31,7 @@ export const validateOrder = async (
     pantsErrorCount: 0,
     vestErrorCount: 0,
   };
-  if (pantsValidationProductNames.includes(productName)) {
+  if (ContainsPants(productName)) {
     pantsError = validateOrderPants(methods);
   }
 
@@ -63,7 +42,7 @@ export const validateOrder = async (
     pantsErrorCount: 0,
     vestErrorCount: 0,
   };
-  if (vestValidationProductNames.includes(productName)) {
+  if (ContainsVest(productName)) {
     vestError = validateOrderVest(methods);
   }
   // const jaketError = validateOrderJaket(methods, bodySize.jaket);
@@ -1224,17 +1203,3 @@ export const validateOrderVest = (
 
   return errorCounts;
 };
-
-export const validateFabricStock = async (fabricProductNo: string) => {
-  const res: any = await masterApi.validateFabricStocks({
-    fabricProductNo,
-  });
-  return res.payload;
-}
-
-export const validateLiningStocks = async (fabricProductNo: string) => {
-  const res: any = await masterApi.validateLiningStocks({
-    fabricProductNo,
-  });
-  return res.payload;
-}

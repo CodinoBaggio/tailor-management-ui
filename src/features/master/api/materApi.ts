@@ -21,14 +21,14 @@ const masterApi = {
       method: 'upsertLiningStocks',
       param: params,
     }),
-  validateFabricStocks: (params: any) =>
+  validateFabricStock: (params: any) =>
     axiosClientGCF.post('/TailorManagementApiGcf', {
-      method: 'validateFabricStocks',
+      method: 'validateFabricStock',
       param: params,
     }),
-  validateLiningStocks: (params: any) =>
+  validateLiningStock: (params: any) =>
     axiosClientGCF.post('/TailorManagementApiGcf', {
-      method: 'validateLiningStocks',
+      method: 'validateLiningStock',
       param: params,
     }),
 };

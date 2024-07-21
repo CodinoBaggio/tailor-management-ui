@@ -29,7 +29,7 @@ import {
   createDefaultOrderValues,
   setOrderObject,
 } from '../features/order/utils/orderUtil';
-import { validateFabricStock, validateOrder } from '../features/order/utils/orderValidations';
+import { validateOrder } from '../features/order/utils/orderValidations';
 import { confirmYesNo } from '../utils/confirm';
 import { useToast } from '../hooks/useToast';
 import Loading from '../components/ui/Loading';
@@ -39,6 +39,7 @@ import { RhfDatePicker } from '../components/ui/RhfDatePicker';
 import { RhfDateTimePicker } from '../components/ui/RhfDateTimePicker';
 import { OrderPrice } from '../features/order/components/OrderPrice';
 import { RhfTextField } from '../components/ui/RhfTextField';
+import { validateStock } from '../features/order/utils/stockValidations';
 
 type Props = {
   isReuse?: boolean;
@@ -310,7 +311,11 @@ export const Order: FC<Props> = (props) => {
       }
 
       // 生地在庫のバリデーションを実行する
-      const stockResult = await validateFabricStock(methods.getValues('basis-fabricProductNo'));
+      const stockResult: any = await validateStock(
+        methods.getValues('basis-productName'),
+        methods.getValues('basis-fabricProductNo'),
+        methods.getValues('jaket-lining')
+      );
       if (stockResult.stockStatus === 'OK') {
         confirmYesNo(
           orderStatus === '発注済み' ? '更新します。よろしいですか？' : '発注します。よろしいですか？',
@@ -322,13 +327,13 @@ export const Order: FC<Props> = (props) => {
             <div>
               更新します。よろしいですか？
               <br />
-              注意：在庫量が20mを下回っています
+              注意：{stockResult.productType}の在庫量が20mを下回っています
             </div>
           ) : (
             <div>
               発注します。よろしいですか？
               <br />
-              注意：在庫量が20mを下回っています
+              注意：{stockResult.productType}の在庫量が20mを下回っています
             </div>
           ),
           fire
@@ -336,16 +341,24 @@ export const Order: FC<Props> = (props) => {
       } else if (stockResult.stockStatus === 'SELECT_OTHER') {
         confirmYesNo(
           <div>
-            在庫量が10mを下回っています。このまま{orderStatus === '発注済み' ? '発注' : '更新'}しますか？
+            {stockResult.productType}の在庫量が10mを下回っています。このまま
+            {orderStatus === '発注済み' ? '更新' : '発注'}しますか？
             <br />
-            はい：{orderStatus === '発注済み' ? '発注' : '更新'}処理を行います
+            <br />
+            はい：{orderStatus === '発注済み' ? '更新' : '発注'}処理を行います
             <br />
             いいえ：前の画面に戻ります
           </div>,
           fire
         );
       } else if (stockResult.stockStatus === 'NG') {
-        setStockValidationMessage('在庫量が5mを下回っています。他の生地品番を選択してください。');
+        setStockValidationMessage(
+          `${stockResult.productType}の在庫量が5mを下回っています。他の${stockResult.productType}を選択してください。`
+        );
+        setDialogVisible(true);
+        return;
+      } else if (stockResult.stockStatus === 'NON') {
+        setStockValidationMessage(`${stockResult.productType}の登録がありません`);
         setDialogVisible(true);
         return;
       }
@@ -590,7 +603,7 @@ export const Order: FC<Props> = (props) => {
       </FormProvider>
       <Toast ref={toast} position="center" />
       <Dialog
-        header="確認"
+        header="エラー"
         visible={dialogVisible}
         // style={{ width: '50vw' }}
         onHide={() => {

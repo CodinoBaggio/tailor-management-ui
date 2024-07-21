@@ -796,3 +796,34 @@ const toValue = (value: any) => {
 const toNumericValue = (value: any) => {
   return value === 'empty' ? NaN : Number(value) || NaN;
 };
+
+export const ContainsJaket = (productName: string) => {
+  const jaketValidationProductNames = [
+    '2P',
+    'JK',
+    '3P',
+    '2PP',
+    '3PP',
+    '2P(SK)',
+    '2P（SK)＋SK',
+    '3P(SK)',
+    '3P（SK)＋SK',
+  ];
+  return jaketValidationProductNames.includes(productName);
+}
+
+export const ContainsPants = (productName: string) => {
+  const pantsValidationProductNames = ['2P', 'PT', '3P', '2PP', '3PP'];
+  return pantsValidationProductNames.includes(productName);
+}
+
+export const ContainsVest = (productName: string) => {
+  const vestValidationProductNames = [
+    'VT',
+    '3P',
+    '3PP',
+    '3P(SK)',
+    '3P（SK)＋SK',
+  ];
+  return vestValidationProductNames.includes(productName);
+}
