@@ -98,8 +98,8 @@ export const LiningStock = () => {
           return false;
         }
 
-        if (results.data[0][0] !== 'liningProductNo' || results.data[0][1] !== 'stock') {
-          showMessage('エラー', 'error', `ヘッダ行の形式を「liningProductNo,stock」にしてください`);
+        if (results.data[0][0] !== '裏地品番' || results.data[0][1] !== '在庫量') {
+          showMessage('エラー', 'error', `ヘッダ行の形式を「裏地品番,在庫量」にしてください`);
           return false;
         }
 
