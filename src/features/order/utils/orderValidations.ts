@@ -847,15 +847,15 @@ export const validateOrderJaket = async (
     ];
 
     const value = methods.getValues('basis-fabricProductNo');
-    if (tests.some((s) => s === value)) {
+    if (tests.some((s) => s !== value)) {
       const targetValue = methods.getValues('jaket-buttonProductNo');
       const inc = ['EZ10', 'EZ20', 'EZ30', 'EZ60', 'EZ150'].some((s) =>
         targetValue.startsWith(s)
       );
-      if (!inc) {
+      if (inc) {
         methods.setError('jaket-buttonProductNo', {
           type: 'custom',
-          message: `生地品番が${value}のため、EZ10、EZ20、EZ30、EZ60、EZ150のいづれかを選択してください`,
+          message: `生地品番が${value}のため、EZ10、EZ20、EZ30、EZ60、EZ150は選択できません`,
         });
         errorCounts.jaketErrorCount++;
       }
