@@ -31,6 +31,21 @@ const masterApi = {
       method: 'validateLiningStock',
       param: params,
     }),
+  getAllFabricProductNos: () =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getAllFabricProductNos',
+      param: {},
+    }),
+  getAllLinings: () =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getAllLinings',
+      param: {},
+    }),
+  getAllButtons: () =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getAllButtons',
+      param: {},
+    }),
 };
 
 export default masterApi;

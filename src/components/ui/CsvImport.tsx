@@ -6,10 +6,11 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 type Props = {
   onDrop: (acceptedFiles: any) => void;
   onDropRejected: (fileRejections: FileRejection[], event: DropEvent) => void;
+  buttonText?: string;
 };
 
 export const CsvImport: FC<Props> = (props) => {
-  const { onDrop, onDropRejected } = props;
+  const { onDrop, onDropRejected, buttonText = '在庫データ' } = props;
 
   // // CSVをドロップしたときに呼び出される処理
   // const onDrop = useCallback((acceptedFiles: any) => {
@@ -48,7 +49,7 @@ export const CsvImport: FC<Props> = (props) => {
             startIcon={<FileUploadIcon />}
             // onClick={handleDownload}
           >
-            在庫データ
+            {buttonText}
           </Button>
         )}
       </div>

@@ -6,6 +6,7 @@ export type OrderBasisType = {
   inputDate: datetime;
   orderDateTime: datetime;
   shipDate: datetime;
+  deliveryDate: datetime;
   customerName: string;
   productName: string;
   fabricMaker: string;
