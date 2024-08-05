@@ -963,7 +963,7 @@ export const OrderJaket: FC<Props> = (props) => {
               { value: '漢字', label: '漢字' },
               { value: 'ローマ字（筆）', label: 'ローマ字（筆）' },
               { value: 'ローマ字（活字）', label: 'ローマ字（活字）' },
-              { value: '花文字', label: '花文字' },
+              // { value: '花文字', label: '花文字' },
             ]}
             readOnly={readOnly}
           />

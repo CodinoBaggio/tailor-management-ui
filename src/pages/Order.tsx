@@ -98,6 +98,7 @@ export const Order: FC<Props> = (props) => {
             order.inputDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.orderDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.shipDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
+            order.deliveryDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.createDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.createUserId = user.userId;
             order.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
@@ -352,11 +353,21 @@ export const Order: FC<Props> = (props) => {
           fire
         );
       } else if (stockResult.stockStatus === 'NG') {
-        setStockValidationMessage(
-          `${stockResult.productType}の在庫量が5mを下回っています。他の${stockResult.productType}を選択してください。`
+        confirmYesNo(
+          <div>
+            {stockResult.productType}
+            の在庫量が5mを下回っています。
+            <br />
+            在庫切れになりスーツが作成できない可能性がありますが、このまま
+            {orderStatus === '発注済み' ? '更新' : '発注'}しますか？
+            <br />
+            <br />
+            はい：{orderStatus === '発注済み' ? '更新' : '発注'}処理を行います
+            <br />
+            いいえ：前の画面に戻ります
+          </div>,
+          fire
         );
-        setDialogVisible(true);
-        return;
       } else if (stockResult.stockStatus === 'NON') {
         setStockValidationMessage(`${stockResult.productType}の登録がありません`);
         setDialogVisible(true);
@@ -542,6 +553,11 @@ export const Order: FC<Props> = (props) => {
                 <RhfDatePicker
                   label="工場出荷日"
                   name="basis-shipDate"
+                  readOnly={orderStatus === '発注済み' && user.roleId !== '00'}
+                />
+                <RhfDatePicker
+                  label="納品日"
+                  name="basis-deliveryDate"
                   readOnly={orderStatus === '発注済み' && user.roleId !== '00'}
                 />
               </GridContainer>

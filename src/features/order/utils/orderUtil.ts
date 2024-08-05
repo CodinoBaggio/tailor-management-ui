@@ -22,6 +22,7 @@ export const bindOrderBasisValues = (
     dayjs(order.orderDateTime) || dayjs()
   );
   methods.setValue('basis-shipDate', dayjs(order.shipDate) || dayjs());
+  methods.setValue('basis-deliveryDate', dayjs(order.deliveryDate) || dayjs());
   methods.setValue('basis-customerName', order.customerName || '');
   methods.setValue('basis-productName', order.productName || '');
   methods.setValue('basis-fabricMaker', order.fabricMaker || '');
@@ -479,6 +480,7 @@ export const createDefaultOrderValues = (user: any) => {
     inputDate: dayjs(),
     orderDateTime: dayjs(),
     shipDate: dayjs(),
+    deliveryDate: dayjs(),
     customerName: '',
     productName: 'empty',
     fabricMaker: '',
@@ -526,6 +528,7 @@ export const setOrderObject = (
     // orderDateTime: toDateTimeString(methods.getValues('basis-orderDateTime')),
     shipDate: methods.getValues('basis-shipDate').format('YYYY-MM-DDTHH:mm:ss'),
     // shipDate: toDateTimeString(methods.getValues('basis-shipDate')),
+    deliveryDate: methods.getValues('basis-deliveryDate').format('YYYY-MM-DDTHH:mm:ss'),
     customerName: methods.getValues('basis-customerName'),
     productName: methods.getValues('basis-productName'),
     fabricMaker: methods.getValues('basis-fabricMaker'),
