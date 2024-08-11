@@ -6,6 +6,7 @@ import { Toast } from 'primereact/toast';
 import { jaJP } from '@mui/x-data-grid/locales';
 import SearchIcon from '@mui/icons-material/Search';
 import { readString } from 'react-papaparse';
+import Encoding from 'encoding-japanese';
 
 import Loading from '../../../../components/ui/Loading';
 import masterApi from '../../api/materApi';
@@ -48,23 +49,24 @@ export const LiningStock = () => {
   const [liningProductNo, setLiningProductNo] = useState<string>('');
   const user = useSelector((state: any) => state.user.value);
 
-  useEffect(() => {
-    const getStocks = async () => {
-      setOpen(true);
-      try {
-        const res: any = await masterApi.getLiningStocks({ liningProductNo: '' });
-        if (res.status === 'success') {
-          setItems(res.payload.stocks);
-        } else {
-          showMessage('エラー', 'error', res.message);
-        }
-      } catch (error: any) {
-        showMessage('エラー', 'error', error);
-      } finally {
-        setOpen(false);
+  const getData = useCallback(async () => {
+    setOpen(true);
+    try {
+      const res: any = await masterApi.getLiningStocks({ liningProductNo: '' });
+      if (res.status === 'success') {
+        setItems(res.payload.stocks);
+      } else {
+        showMessage('エラー', 'error', res.message);
       }
-    };
-    getStocks();
+    } catch (error: any) {
+      showMessage('エラー', 'error', error);
+    } finally {
+      setOpen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -105,12 +107,12 @@ export const LiningStock = () => {
 
         for (let i = 1; i < results.data.length; i++) {
           if (!results.data[i][0] || !results.data[i][1]) {
-            showMessage('エラー', 'error', `${i + 1}行目の品番もしくは在庫量が入力されていません`);
+            showMessage('エラー', 'error', `${i + 2}行目の品番もしくは在庫量が入力されていません`);
             return false;
           } else {
             // 在庫量が数値かどうか
             if (isNaN(results.data[i][1])) {
-              showMessage('エラー', 'error', `${i + 1}行目の在庫量が数値ではありません`);
+              showMessage('エラー', 'error', `${i + 2}行目の在庫量が数値ではありません`);
               return false;
             }
           }
@@ -123,6 +125,7 @@ export const LiningStock = () => {
 
           const res: any = await masterApi.upsertLiningStocks({ userId: user.userId, stocks: results.data.slice(1) });
           if (res.status === 'success') {
+            getData();
             showMessage('登録しました');
           } else {
             showMessage('エラー', 'error', res.message);
@@ -142,14 +145,30 @@ export const LiningStock = () => {
       const reader = new FileReader();
       reader.onabort = () => console.log('file reading was aborted');
       reader.onerror = () => console.log('file reading has failed');
-      reader.onload = () => {
-        const binaryStr = reader.result;
-        console.log(binaryStr);
-        if (typeof binaryStr === 'string') {
-          handleFileRead(binaryStr.replace(/\n$/, ''));
+      reader.onload = async (e: any) => {
+        const binaryStr = e.target.result;
+        const codes = new Uint8Array(binaryStr);
+        const encoding = Encoding.detect(codes) || 'UTF8';
+        const text = Encoding.convert(codes, {
+          to: 'UNICODE',
+          from: encoding,
+          type: 'string',
+        });
+
+        // 不正な文字が含まれていないかチェック
+        const res: any = await masterApi.includesUnusableCharacter({ fileContents: codes });
+        if (res.status === 'success') {
+          if (res.payload) {
+            showMessage('エラー', 'error', `ファイルに不正な文字（${res.payload}）が含まれています。`);
+            return;
+          }
         }
+
+        handleFileRead(text.replace(/\n$/, ''));
       };
-      reader.readAsText(file);
+
+      // ファイルの読み込み ※readAsTextでは文字化けするため、readAsArrayBufferを使用
+      reader.readAsArrayBuffer(file);
     });
   }, []);
 
