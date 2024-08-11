@@ -204,13 +204,22 @@ export const FabricPrice = () => {
           type: 'string',
         });
 
-        // 不正な文字が含まれていないかチェック
-        const res: any = await masterApi.includesUnusableCharacter({ fileContents: codes });
-        if (res.status === 'success') {
-          if (res.payload) {
-            showMessage('エラー', 'error', `ファイルに不正な文字（${res.payload}）が含まれています。`);
-            return;
+        try {
+          // スピナーを表示する
+          setOpen(true);
+
+          // 不正な文字が含まれていないかチェック
+          const res: any = await masterApi.includesUnusableCharacter({ fileContents: codes });
+          if (res.status === 'success') {
+            if (res.payload) {
+              showMessage('エラー', 'error', `ファイルに不正な文字（${res.payload}）が含まれています。`);
+              return;
+            }
           }
+        } catch (error: any) {
+          showMessage('エラー', 'error', error);
+        } finally {
+          setOpen(false);
         }
 
         handleFileRead(text.replace(/\n$/, ''));
