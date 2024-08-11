@@ -80,12 +80,12 @@ export const MasterMaintenance = () => {
             <TreeItem itemId="fabricStock" label="生地在庫" />
             <TreeItem itemId="liningStock" label="裏地在庫" />
           </TreeItem>
-          <TreeItem itemId="product" label="品番メンテナンス" className='bg-green-50'>
+          <TreeItem itemId="product" label="品番マスター" className='bg-green-50'>
             <TreeItem itemId="fabricProduct" label="生地品番" />
             <TreeItem itemId="liningProduct" label="裏地品番" />
             <TreeItem itemId="buttonProduct" label="ボタン品番" />
           </TreeItem>
-          <TreeItem itemId="price" label="価格メンテナンス" className='bg-blue-50'>
+          <TreeItem itemId="price" label="価格マスター" className='bg-blue-50'>
             <TreeItem itemId="fabricPrice" label="生地品番価格" />
             <TreeItem itemId="liningPrice" label="裏地品番価格" />
             <TreeItem itemId="buttonPrice" label="ボタン品番価格" />
