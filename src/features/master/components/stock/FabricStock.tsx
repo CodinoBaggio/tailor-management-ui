@@ -7,6 +7,7 @@ import { jaJP } from '@mui/x-data-grid/locales';
 import SearchIcon from '@mui/icons-material/Search';
 import { readString } from 'react-papaparse';
 import Encoding from 'encoding-japanese';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 import Loading from '../../../../components/ui/Loading';
 import masterApi from '../../api/materApi';
@@ -168,7 +169,7 @@ export const FabricStock = () => {
 
         handleFileRead(text.replace(/\n$/, ''));
       };
-      
+
       // ファイルの読み込み ※readAsTextでは文字化けするため、readAsArrayBufferを使用
       reader.readAsArrayBuffer(file);
     });
@@ -202,6 +203,28 @@ export const FabricStock = () => {
     0 < message.length && showMessage('エラー', 'error', message.join('\n'));
   }, []);
 
+  const handleDownload = async () => {
+    setOpen(true);
+    try {
+      const res: any = await masterApi.getFablicStocksForDownload();
+      if (res.status === 'success') {
+        const sjisData = Encoding.convert(res.payload.csv, { to: 'SJIS', from: 'UNICODE', type: 'arraybuffer' });
+        const uint8Array = new Uint8Array(sjisData);
+        const blob = new Blob([uint8Array], { type: 'text/csv;charset=shift-jis;' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = '生地在庫.csv';
+        a.click();
+      } else {
+        showMessage('エラー', 'error', res.message);
+      }
+    } catch (error: any) {
+      showMessage('エラー', 'error', error);
+    } finally {
+      setOpen(false);
+    }
+  };
+
   return (
     <>
       <Box className="flex justify-between items-end mb-5">
@@ -213,7 +236,17 @@ export const FabricStock = () => {
             検索
           </Button>
         </Box>
-        <Box>
+        <Box className="flex">
+          <Box className="flex flex-col items-end mr-3">
+            <Button
+              variant="outlined"
+              onClick={handleDownload}
+              sx={{ marginRight: '3px' }}
+              startIcon={<FileDownloadIcon />}
+            >
+              ダウンロード
+            </Button>
+          </Box>
           <Box className="flex flex-col items-end">
             <CsvImport onDrop={onDrop} onDropRejected={onDropRejected} />
           </Box>

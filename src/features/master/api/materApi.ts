@@ -156,6 +156,46 @@ const masterApi = {
       method: 'includesUnusableCharacter',
       param: params,
     }),
+  getFablicStocksForDownload: () =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getFablicStocksForDownload',
+      param: {},
+    }),
+  getLiningStocksForDownload: () =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getLiningStocksForDownload',
+      param: {},
+    }),
+  getAllFabricProductNosForDownload: () =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getAllFabricProductNosForDownload',
+      param: {},
+    }),
+  getAllLiningProductNosForDownload: () =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getAllLiningProductNosForDownload',
+      param: {},
+    }),
+  getAllButtonProductNosForDownload: () =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getAllButtonProductNosForDownload',
+      param: {},
+    }),
+  getFabricProductNosByCondition: (params: any) =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getFabricProductNosByCondition',
+      param: params,
+    }),
+  getLiningByCondition: (params: any) =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getLiningByCondition',
+      param: params,
+    }),
+  getButtonByCondition: (params: any) =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getButtonByCondition',
+      param: params,
+    }),
 };
 
 export default masterApi;
