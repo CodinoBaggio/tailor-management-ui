@@ -1,10 +1,20 @@
 import axiosClientGCF from '../../../api/axiosClientGCF';
 
 const masterApi = {
+  getAllFablicStocks: () =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getAllFablicStocks',
+      param: {},
+    }),
   getFabricStocks: (params: any) =>
     axiosClientGCF.post('/TailorManagementApiGcf', {
       method: 'getFabricStocks',
       param: params,
+    }),
+  getAllLiningStocks: () =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getAllLiningStocks',
+      param: {},
     }),
   getLiningStocks: (params: any) =>
     axiosClientGCF.post('/TailorManagementApiGcf', {
