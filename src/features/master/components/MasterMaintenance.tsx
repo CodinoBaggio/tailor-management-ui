@@ -14,7 +14,7 @@ import { WagesPrice } from './price/WagesPrice';
 
 export const MasterMaintenance = () => {
   const apiRef = useTreeViewApiRef();
-  const [selectedComponent, setSelectedComponent] = useState<string | null>('fabric');
+  const [selectedComponent, setSelectedComponent] = useState<string | null>('fabricProduct');
 
   useEffect(() => {
     apiRef.current?.selectItem({
