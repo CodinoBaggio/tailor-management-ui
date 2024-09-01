@@ -188,9 +188,10 @@ export const Order: FC<Props> = (props) => {
           order.vest.updateUserId = user.userId;
         }
 
-        order.seq = order.seq || 0;
+        // order.seq = order.seq || 0;
         order.yield = order.yield || 0;
         const res: any = await orderApi.upsert({
+          seqHead: user.seqHead,
           order: order,
           invoice: {
             fabricPrice: fabricPrice || 0,
@@ -238,11 +239,12 @@ export const Order: FC<Props> = (props) => {
 
         // 発注登録
         const order: OrderBasisType = setOrderObject('発注済み', methods);
-        order.seq = order.seq || 0;
+        // order.seq = order.seq || 0;
         order.yield = order.yield || 0;
         order.shopId = order.shopId || user.shopId;
 
         const res: any = await orderApi.upsert({
+          seqHead: user.seqHead,
           order: order,
           invoice: {
             fabricPrice: fabricPrice || 0,
@@ -420,7 +422,7 @@ export const Order: FC<Props> = (props) => {
       setPriceCalcLoading(true);
 
       const order: OrderBasisType = setOrderObject('発注済み', methods);
-      order.seq = order.seq || 0;
+      // order.seq = order.seq || 0;
       order.yield = order.yield || 0;
       order.shopId = order.shopId || user.shopId;
 
@@ -562,7 +564,7 @@ export const Order: FC<Props> = (props) => {
                 />
               </GridContainer>
               <GridContainer>
-                <RhfTextField label="ショップ連番" name="basis-seq" type="number" readOnly={true} />
+                <RhfTextField label="ショップ連番" name="basis-seq" readOnly={true} />
                 <RhfTextField label="入力者" name="basis-inputUserName" readOnly={true} />
               </GridContainer>
             </Box>

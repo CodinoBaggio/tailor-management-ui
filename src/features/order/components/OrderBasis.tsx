@@ -69,7 +69,7 @@ export const OrderBasis: FC<Props> = (props) => {
         searchPattern: searchPattern,
       });
       if (res.status === 'success') {
-        setProductNos(res.payload.productNos);
+        setProductNos(res.payload.items);
       } else {
         showMessage('エラー', 'error', res.message);
       }

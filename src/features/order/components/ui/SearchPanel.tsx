@@ -30,8 +30,8 @@ type Props = {
     setDateType: React.Dispatch<React.SetStateAction<string>>;
     orderStatausType: string;
     setOrderStatausType: React.Dispatch<React.SetStateAction<string>>;
-    orderId: string;
-    setOrderId: React.Dispatch<React.SetStateAction<string>>;
+    seq: string;
+    setSeq: React.Dispatch<React.SetStateAction<string>>;
     customerName: string;
     setCustomerName: React.Dispatch<React.SetStateAction<string>>;
   };
@@ -103,11 +103,11 @@ export const SearchPanel: FC<Props> = (props) => {
         </Box>
         <Box mb={2}>
           <TextField
-            label="オーダーID"
-            placeholder="オーダーID"
-            value={searchStates.orderId}
+            label="連番"
+            placeholder="連番"
+            value={searchStates.seq}
             onChange={(event) => {
-              searchStates.setOrderId(event.target.value);
+              searchStates.setSeq(event.target.value);
             }}
             size='small'
           />

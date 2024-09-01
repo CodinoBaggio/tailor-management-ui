@@ -46,9 +46,7 @@ export const UserEditor: FC<Props> = (props) => {
   const [readOnlyState, setReadOnlyState] = useState(readOnly);
   const [checked, setChecked] = useState(user.allowLogin);
   const [selectedRoleId, setSelectedRoleId] = React.useState(user.roleId);
-  const [selectedShopId, setSelectedShopId] = React.useState(
-    shop ? shop.shopId : 'empty'
-  );
+  const [selectedShopId, setSelectedShopId] = React.useState(shop ? shop.shopId : 'empty');
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       userId: user.userId,
@@ -58,6 +56,7 @@ export const UserEditor: FC<Props> = (props) => {
       userNameKana: user.userNameKana,
       allowLogin: user.allowLogin,
       roleId: user.roleId,
+      seqHead: user.seqHead,
       commonItem: {
         isDelete: user.commonItem.isDelete,
         createUserId: user.commonItem.createUserId,
@@ -101,6 +100,36 @@ export const UserEditor: FC<Props> = (props) => {
   };
 
   const handleUpdate = async (data: any) => {
+    // 入力チェック
+    if (data.loginId === '') {
+      showMessage('エラー', 'error', 'ログインIDを入力してください');
+      return;
+    }
+    if (data.password === '') {
+      showMessage('エラー', 'error', 'パスワードを入力してください');
+      return;
+    }
+    if (data.userName === '') {
+      showMessage('エラー', 'error', 'ユーザー名を入力してください');
+      return;
+    }
+    if (data.userNameKana === '') {
+      showMessage('エラー', 'error', 'ユーザー名カナを入力してください');
+      return;
+    }
+    if (!data.roleId || data.roleId === 'empty') {
+      showMessage('エラー', 'error', '権限を選択してください');
+      return;
+    }
+    if (!data.seqHead || data.seqHead === '') {
+      showMessage('エラー', 'error', '連番頭文字を入力してください');
+      return;
+    }
+    if (!data.shop?.shopId || data.shop?.shopId === 'empty') {
+      showMessage('エラー', 'error', '卸先を選択してください');
+      return;
+    }
+
     try {
       // スピナーを表示する
       setOpen(true);
@@ -184,17 +213,10 @@ export const UserEditor: FC<Props> = (props) => {
     <>
       <Box position="relative">
         <form onSubmit={handleSubmit(handleUpdate)}>
-          <Box
-            className={`p-4 m-2 border rounded-md shadow-md border-blue-200 ${
-              readOnlyState || 'bg-red-50'
-            }`}
-          >
+          <Box className={`p-4 m-2 border rounded-md shadow-md border-blue-200 ${readOnlyState || 'bg-red-50'}`}>
             {!readOnlyState || (
               <>
-                <IconButton
-                  color="primary"
-                  onClick={() => setReadOnlyState(!readOnlyState)}
-                >
+                <IconButton color="primary" onClick={() => setReadOnlyState(!readOnlyState)}>
                   <EditIcon />
                 </IconButton>
                 <IconButton color="primary" onClick={handleDelete}>
@@ -218,13 +240,7 @@ export const UserEditor: FC<Props> = (props) => {
                   <GridContainer>
                     <FormControlLabel
                       disabled={readOnlyState}
-                      control={
-                        <Switch
-                          checked={checked}
-                          {...register('allowLogin')}
-                          onChange={handleCheckChange}
-                        />
-                      }
+                      control={<Switch checked={checked} {...register('allowLogin')} onChange={handleCheckChange} />}
                       className="text-gray-500"
                       label="ログイン可"
                     />
@@ -262,6 +278,14 @@ export const UserEditor: FC<Props> = (props) => {
                         })}
                       </Select>
                     </FormControl>
+                    <TextField
+                      variant="standard"
+                      label="連番頭文字"
+                      size="small"
+                      InputLabelProps={{ shrink: true }}
+                      {...register('seqHead')}
+                      InputProps={{ readOnly: readOnlyState }}
+                    />
                   </GridContainer>
                 </Box>
                 <Box className={style.boxMargin}>

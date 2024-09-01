@@ -28,6 +28,7 @@ export type UserType = {
   userNameKana: string;
   allowLogin: boolean;
   roleId: string;
+  seqHead: string;
   commonItem?: CommonItemType;
   shop?: ShopType;
 };
