@@ -105,7 +105,7 @@ export const OrderList = () => {
         dateTo: searchStates.dateTo
           ? dayjs(searchStates.dateTo).format('YYYY-MM-DDTHH:mm:ss')
           : '',
-        orderId: searchStates.orderId,
+        seq: searchStates.seq,
         customerName: searchStates.customerName,
         orderStatausType: searchStates.orderStatausType,
       });

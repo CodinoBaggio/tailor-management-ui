@@ -5,7 +5,7 @@ export const useSearchPanel = () => {
   const [dateTo, setDateTo] = useState<Date | null>(null);
   const [dateType, setDateType] = useState<string>('inputDate');
   const [orderStatausType, setOrderStatausType] = useState<string>('all');
-  const [orderId, setOrderId] = useState<string>('');
+  const [seq, setSeq] = useState<string>('');
   const [customerName, setCustomerName] = useState<string>('');
 
   return {
@@ -17,8 +17,8 @@ export const useSearchPanel = () => {
     setDateType,
     orderStatausType,
     setOrderStatausType,
-    orderId,
-    setOrderId,
+    seq,
+    setSeq,
     customerName,
     setCustomerName,
   };

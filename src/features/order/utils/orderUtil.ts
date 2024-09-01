@@ -14,7 +14,7 @@ export const bindOrderBasisValues = (
 ) => {
   methods.setValue('basis-orderId', order.orderId || '');
   methods.setValue('basis-shopId', order.shopId || '');
-  methods.setValue('basis-seq', order.seq || NaN);
+  methods.setValue('basis-seq', order.seq || '');
   methods.setValue('basis-orderStatus', order.orderStatus || '');
   methods.setValue('basis-inputDate', dayjs(order.inputDate) || dayjs());
   methods.setValue(
@@ -475,7 +475,7 @@ export const createDefaultOrderValues = (user: any) => {
   const defaultOrderBasis: OrderBasisType = {
     orderId: 'new',
     shopId: '',
-    seq: 0,
+    seq: '',
     orderStatus: '保存',
     inputDate: dayjs(),
     orderDateTime: dayjs(),
@@ -516,7 +516,7 @@ export const setOrderObject = (
   const order: OrderBasisType = {
     orderId: methods.getValues('basis-orderId'),
     shopId: methods.getValues('basis-shopId'),
-    seq: toNumericValue(methods.getValues('basis-seq')),
+    seq: methods.getValues('basis-seq'),
     orderStatus: orderStatus,
     inputDate: methods
       .getValues('basis-inputDate')

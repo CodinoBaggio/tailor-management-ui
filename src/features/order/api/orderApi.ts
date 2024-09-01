@@ -11,7 +11,7 @@ const orderApi = {
         dateType: params.dateType,
         dateFrom: params.dateFrom,
         dateTo: params.dateTo,
-        orderId: params.orderId,
+        seq: params.seq,
         customerName: params.customerName,
         orderStatausType: params.orderStatausType,
       },

@@ -132,7 +132,7 @@ export const validateOrderBasis = (
     const productName = getValues('basis-productName');
     if (productName === 'PT') {
       const brandName = methods.getValues('jaket-brandName');
-      if (brandName !== 'empty') {
+      if (brandName !== 'empty' && brandName !== '') {
         methods.setError('jaket-brandName', {
           type: 'custom',
           message: '品名にPTが選択されているため、空白を選択してください',
@@ -140,7 +140,7 @@ export const validateOrderBasis = (
         errorCounts.jaketErrorCount++;
       }
       const fabricMark = methods.getValues('jaket-fabricMark');
-      if (fabricMark !== 'empty') {
+      if (fabricMark !== 'empty' && fabricMark !== '') {
         methods.setError('jaket-fabricMark', {
           type: 'custom',
           message: '品名にPTが選択されているため、空白を選択してください',

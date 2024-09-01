@@ -33,9 +33,7 @@ export const UserAddEditor: FC<Props> = (props) => {
   const { shop } = user;
   const [checked, setChecked] = useState(user.allowLogin);
   const [selectedRoleId, setSelectedRoleId] = React.useState(user.roleId);
-  const [selectedShopId, setSelectedShopId] = React.useState(
-    shop ? shop.shopId : 'empty'
-  );
+  const [selectedShopId, setSelectedShopId] = React.useState(shop ? shop.shopId : 'empty');
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       userId: user.userId,
@@ -45,6 +43,7 @@ export const UserAddEditor: FC<Props> = (props) => {
       userNameKana: user.userNameKana,
       allowLogin: user.allowLogin,
       roleId: user.roleId,
+      seqHead: user.seqHead,
       shop: {
         shopId: shop ? shop.shopId : 'empty',
         commonItem: user.shop?.commonItem,
@@ -112,13 +111,7 @@ export const UserAddEditor: FC<Props> = (props) => {
               <Box className={style.boxMargin}>
                 <GridContainer>
                   <FormControlLabel
-                    control={
-                      <Switch
-                        checked={checked}
-                        {...register('allowLogin')}
-                        onChange={handleCheckChange}
-                      />
-                    }
+                    control={<Switch checked={checked} {...register('allowLogin')} onChange={handleCheckChange} />}
                     className="text-gray-500"
                     label="ログイン可"
                   />
@@ -154,6 +147,13 @@ export const UserAddEditor: FC<Props> = (props) => {
                       })}
                     </Select>
                   </FormControl>
+                  <TextField
+                    variant="standard"
+                    label="連番頭文字"
+                    size="small"
+                    InputLabelProps={{ shrink: true }}
+                    {...register('seqHead')}
+                  />
                 </GridContainer>
               </Box>
               <Box className={style.boxMargin}>

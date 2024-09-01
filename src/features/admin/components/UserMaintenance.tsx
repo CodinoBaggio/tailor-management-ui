@@ -27,6 +27,7 @@ export const UserMaintenance = () => {
     userNameKana: '',
     allowLogin: false,
     roleId: '',
+    seqHead: '',
     commonItem: {
       isDelete: false,
       createUserId: loginUser.userId,
@@ -133,6 +134,7 @@ export const UserMaintenance = () => {
       userNameKana: '',
       allowLogin: false,
       roleId: 'empty',
+      seqHead: '',
       commonItem: {
         isDelete: false,
         createUserId: loginUser.userId,
@@ -164,6 +166,36 @@ export const UserMaintenance = () => {
   };
 
   const handleCreateUser = async (user: UserType) => {
+    // 入力チェック
+    if (user.loginId === '') {
+      showMessage('エラー', 'error', 'ログインIDを入力してください');
+      return;
+    }
+    if (user.password === '') {
+      showMessage('エラー', 'error', 'パスワードを入力してください');
+      return;
+    }
+    if (user.userName === '') {
+      showMessage('エラー', 'error', 'ユーザー名を入力してください');
+      return;
+    }
+    if (user.userNameKana === '') {
+      showMessage('エラー', 'error', 'ユーザー名カナを入力してください');
+      return;
+    }
+    if (!user.roleId || user.roleId === 'empty') {
+      showMessage('エラー', 'error', '権限を選択してください');
+      return;
+    }
+    if (!user.shop?.shopId || user.shop?.shopId === 'empty') {
+      showMessage('エラー', 'error', '卸先を選択してください');
+      return;
+    }
+    if (!user.seqHead || user.seqHead === '') {
+      showMessage('エラー', 'error', '連番頭文字を入力してください');
+      return;
+    }
+
     try {
       // スピナーを表示する
       setOpen(true);

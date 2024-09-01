@@ -48,7 +48,7 @@ export const OrderCard: FC<Props> = (props) => {
               //   </IconButton>
               // }
               title={`オーダーID：${order.orderId}`}
-              subheader={<Box>{`入力日：${toDateTimeString(order.inputDate, 'YYYY/MM/DD')}`}</Box>}
+              subheader={<Box>{`連番：${order.seq}`}</Box>}
               titleTypographyProps={{ variant: 'body1', color: grey[700] }}
               sx={{ bgcolor: blue[50] }}
             />
