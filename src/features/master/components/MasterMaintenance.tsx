@@ -11,6 +11,7 @@ import { LiningPrice } from './price/LiningPrice';
 import { ButtonPrice } from './price/ButtonPrice';
 import { CustomFeaturePrice } from './price/CustomFeaturePrice';
 import { WagesPrice } from './price/WagesPrice';
+import { DeliveryCalendar } from './calendar/DeliveryCalendar';
 
 export const MasterMaintenance = () => {
   const apiRef = useTreeViewApiRef();
@@ -49,6 +50,8 @@ export const MasterMaintenance = () => {
         return <FabricStock />;
       case 'liningStock':
         return <LiningStock />;
+      case 'deliveryCalendar':
+        return <DeliveryCalendar />;
       default:
         return <FabricStock />;
     }
@@ -74,23 +77,28 @@ export const MasterMaintenance = () => {
             'stock',
             'fabricStock',
             'liningStock',
+            'calendar',
+            'deliveryCalendar',
           ]}
         >
-          <TreeItem itemId="stock" label="在庫確認" className='bg-red-50'>
+          <TreeItem itemId="stock" label="在庫確認" className="bg-red-50">
             <TreeItem itemId="fabricStock" label="生地在庫" />
             <TreeItem itemId="liningStock" label="裏地在庫" />
           </TreeItem>
-          <TreeItem itemId="product" label="品番マスター" className='bg-green-50'>
+          <TreeItem itemId="product" label="品番マスター" className="bg-green-50">
             <TreeItem itemId="fabricProduct" label="生地品番" />
             <TreeItem itemId="liningProduct" label="裏地品番" />
             <TreeItem itemId="buttonProduct" label="ボタン品番" />
           </TreeItem>
-          <TreeItem itemId="price" label="価格マスター" className='bg-blue-50'>
+          <TreeItem itemId="price" label="価格マスター" className="bg-blue-50">
             <TreeItem itemId="fabricPrice" label="生地品番価格" />
             <TreeItem itemId="liningPrice" label="裏地品番価格" />
             <TreeItem itemId="buttonPrice" label="ボタン品番価格" />
             <TreeItem itemId="wagesPrice" label="工賃価格" />
             <TreeItem itemId="customFeaturePrice" label="仕様変更価格" />
+          </TreeItem>
+          <TreeItem itemId="calendar" label="カレンダー" className="bg-red-50">
+            <TreeItem itemId="deliveryCalendar" label="納品日" />
           </TreeItem>
         </SimpleTreeView>
       </Box>

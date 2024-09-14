@@ -76,7 +76,6 @@ export const Order: FC<Props> = (props) => {
   const [dialogVisible, setDialogVisible] = useState(false);
   const [stockValidationMessage, setStockValidationMessage] = useState('');
 
-  //]
   useEffect(() => {
     const getOrder = async () => {
       // スピナーを表示する
@@ -99,6 +98,9 @@ export const Order: FC<Props> = (props) => {
             order.orderDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.shipDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.deliveryDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
+            order.inputUserId = user.userId;
+            order.inputUserName = user.userName;
+            order.shopId;
             order.createDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.createUserId = user.userId;
             order.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
@@ -176,8 +178,6 @@ export const Order: FC<Props> = (props) => {
 
         const order: OrderBasisType = setOrderObject('保存', methods);
         if (!isNew) {
-          order.orderDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
-          order.shipDate = user.roleId === '00' ? order.shipDate : dayjs().format('YYYY-MM-DDTHH:mm:ss');
           order.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
           order.updateUserId = user.userId;
           order.jaket.updateDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
@@ -246,6 +246,7 @@ export const Order: FC<Props> = (props) => {
         const res: any = await orderApi.upsert({
           seqHead: user.seqHead,
           order: order,
+          orderExec: orderStatus === '保存',
           invoice: {
             fabricPrice: fabricPrice || 0,
             wagesPrice: wagesPrice || 0,

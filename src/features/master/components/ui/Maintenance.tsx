@@ -29,6 +29,7 @@ type Props = {
   validateHeader?: (header: string[], columnCount: number) => string | null;
   validateRows?: (row: object[][]) => string | null;
   uploadButtonText?: string;
+  downloadButtonText?: string;
 };
 
 const theme = createTheme(undefined, jaJP);
@@ -46,6 +47,7 @@ export const Maintenance: FC<Props> = (props) => {
     validateHeader,
     validateRows,
     uploadButtonText = '在庫データ',
+    downloadButtonText = 'ダウンロード',
   } = props;
   const [open, setOpen] = useState(false);
   const { toast, showMessage } = useToast();
@@ -252,7 +254,7 @@ export const Maintenance: FC<Props> = (props) => {
                 sx={{ marginRight: '3px' }}
                 startIcon={<FileDownloadIcon />}
               >
-                ダウンロード
+                {downloadButtonText}
               </Button>
             </Box>
             <Box className="flex flex-col items-end">
