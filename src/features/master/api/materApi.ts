@@ -206,6 +206,26 @@ const masterApi = {
       method: 'getButtonByCondition',
       param: params,
     }),
+  getAllDeliveryCalendar: () =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getAllDeliveryCalendar',
+      param: {},
+    }),
+  getDeliveryCaledarTemplate: () =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getDeliveryCaledarTemplate',
+      param: {},
+    }),
+  getDeliveryCalendarByDue: (params: any) =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getDeliveryCalendarByDue',
+      param: params,
+    }),
+  upsertDeliveryCalendar: (params: any) =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'upsertDeliveryCalendar',
+      param: params,
+    }),
 };
 
 export default masterApi;
