@@ -183,7 +183,7 @@ export const CustomerMaintenace = () => {
           key={shop.shopId}
           shop={shop}
           readOnly={true}
-          deleteShop={deleteShop}
+          deleteShop={(shopId: string) => deleteShop(shopId)}
         />
       ))}
       <Loading open={open} zOrderDrawerIncrement={2} />
