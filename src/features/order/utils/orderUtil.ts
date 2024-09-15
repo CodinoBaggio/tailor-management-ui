@@ -6,6 +6,7 @@ import {
   OrderVestType,
 } from '../types/order';
 import dayjs from 'dayjs';
+import { isValidDate } from '../../../utils/util';
 // import { toDateTimeString } from '../../../utils/util';
 
 export const bindOrderBasisValues = (
@@ -479,8 +480,10 @@ export const createDefaultOrderValues = (user: any) => {
     orderStatus: '保存',
     inputDate: dayjs(),
     orderDateTime: dayjs(),
-    shipDate: dayjs(),
-    deliveryDate: dayjs(),
+    shipDate: undefined,
+    deliveryDate: undefined,
+    // shipDate: dayjs(),
+    // deliveryDate: dayjs(),
     customerName: '',
     productName: 'empty',
     fabricMaker: '',
@@ -526,9 +529,9 @@ export const setOrderObject = (
       .getValues('basis-orderDateTime')
       .format('YYYY-MM-DDTHH:mm:ss'),
     // orderDateTime: toDateTimeString(methods.getValues('basis-orderDateTime')),
-    shipDate: methods.getValues('basis-shipDate').format('YYYY-MM-DDTHH:mm:ss'),
+    shipDate: isValidDate(methods.getValues('basis-shipDate')) ? methods.getValues('basis-shipDate').format('YYYY-MM-DDTHH:mm:ss') : null,
     // shipDate: toDateTimeString(methods.getValues('basis-shipDate')),
-    deliveryDate: methods.getValues('basis-deliveryDate').format('YYYY-MM-DDTHH:mm:ss'),
+    deliveryDate: isValidDate(methods.getValues('basis-deliveryDate')) ? methods.getValues('basis-deliveryDate').format('YYYY-MM-DDTHH:mm:ss') : null,
     customerName: methods.getValues('basis-customerName'),
     productName: methods.getValues('basis-productName'),
     fabricMaker: methods.getValues('basis-fabricMaker'),

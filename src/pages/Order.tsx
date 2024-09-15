@@ -96,8 +96,10 @@ export const Order: FC<Props> = (props) => {
             order.shopId = user.shopId;
             order.inputDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.orderDateTime = dayjs().format('YYYY-MM-DDTHH:mm:ss');
-            order.shipDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
-            order.deliveryDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
+            order.shipDate = undefined;
+            order.deliveryDate = undefined;
+            // order.shipDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
+            // order.deliveryDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
             order.inputUserId = user.userId;
             order.inputUserName = user.userName;
             order.shopId;
