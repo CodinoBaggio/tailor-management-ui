@@ -1,0 +1,16 @@
+1.ビルドする
+  本番
+  npm run build
+
+  ステージ
+  npm run build:staging
+
+2.デプロイするプロジェクトに切り替える
+  本番
+  firebase use heroic-district-413108
+
+  ステージ
+  firebase use en-arq-4d4a1
+
+3.デプロイ実行
+  firebase deploy
