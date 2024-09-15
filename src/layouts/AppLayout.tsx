@@ -136,14 +136,16 @@ export const AppLayout = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
+                <Box className="ml-2">ログイン情報</Box>
                 {user.roleId === '00' && (
                   <Box className="ml-4">
-                    <Typography>{`${user.shopGroup} ${user.shopNo}`}</Typography>
+                    <Typography>{`仲間分け：${user.shopGroup}`}</Typography>
+                    <Typography>{`顧客カテゴリ：${user.shopNo}`}</Typography>
                   </Box>
                 )}
                 <Box className="ml-4 mb-2">
-                  <Box>{user.shopName}</Box>
-                  <Box>{`${user.userName}様`}</Box>
+                  <Box>{`卸先様名：${user.shopName}`}</Box>
+                  <Box>{`ユーザー名：${user.userName}`}</Box>
                 </Box>
                 <Divider />
                 <MenuItem onClick={handleAdmin}>

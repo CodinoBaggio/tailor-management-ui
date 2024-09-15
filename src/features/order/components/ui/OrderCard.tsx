@@ -1,18 +1,9 @@
 import { FC } from 'react';
-import {
-  Box,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardHeader,
-  Divider,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Card, CardActionArea, CardContent, CardHeader, Divider, Tooltip, Typography } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import { grey, pink, green, blue } from '@mui/material/colors';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { toDateTimeString } from '../../../../utils/util';
+import { toDateTimeString, isValidDate } from '../../../../utils/util';
 
 type Props = {
   order: any;
@@ -35,10 +26,7 @@ export const OrderCard: FC<Props> = (props) => {
                   </Tooltip>
                 ) : (
                   <Tooltip title="発注済み" arrow>
-                    <CloudUploadIcon
-                      fontSize="large"
-                      sx={{ color: pink[500] }}
-                    />
+                    <CloudUploadIcon fontSize="large" sx={{ color: pink[500] }} />
                   </Tooltip>
                 )
               }
@@ -54,10 +42,7 @@ export const OrderCard: FC<Props> = (props) => {
             />
             <CardContent>
               <Box className="flex justify-around">
-                <Typography
-                  variant="h6"
-                  color={grey[700]}
-                >{`${order.customerName} 様`}</Typography>
+                <Typography variant="h6" color={grey[700]}>{`${order.customerName} 様`}</Typography>
                 <Box>
                   <Typography variant="body2" color={grey[700]}>
                     {order.productName}
@@ -78,7 +63,7 @@ export const OrderCard: FC<Props> = (props) => {
                   toDateTimeString(order.orderDateTime) || '-'
                 }`}</Typography>
                 <Typography variant="body2" color={grey[700]}>{`工場出荷日：${
-                  toDateTimeString(order.shipDate, 'YYYY/MM/DD') || '-'
+                  isValidDate(order.shipDate) ? toDateTimeString(order.shipDate, 'YYYY/MM/DD') : '-'
                 }`}</Typography>
               </Box>
             </CardContent>
