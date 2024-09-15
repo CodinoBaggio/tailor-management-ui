@@ -41,24 +41,25 @@ export const CustomerMaintenace = () => {
   const [newShopOpen, setNewShopOpen] = useState(false);
   const { toast, showMessage } = useToast();
 
-  useEffect(() => {
-    // 顧客情報を取得する
-    const getShops = async () => {
-      try {
-        // スピナーを表示する
-        setOpen(true);
+  // 顧客情報を取得する
+  const getShops = async () => {
+    try {
+      // スピナーを表示する
+      setOpen(true);
 
-        // 顧客リスト取得
-        const res: any = await adminApi.shop.getShops({});
-        setShops(res.payload.shops);
-        setOrgShops(res.payload.shops);
-      } catch (error: any) {
-        showMessage('エラー', 'error', error);
-      } finally {
-        // スピナーを非表示にする
-        setOpen(false);
-      }
-    };
+      // 顧客リスト取得
+      const res: any = await adminApi.shop.getShops({});
+      setShops(res.payload.shops);
+      setOrgShops(res.payload.shops);
+    } catch (error: any) {
+      showMessage('エラー', 'error', error);
+    } finally {
+      // スピナーを非表示にする
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
     getShops();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -80,11 +81,11 @@ export const CustomerMaintenace = () => {
         }
 
         // shopsから削除する
-        const newShops = shops.filter(
-          (shop: ShopType) => shop.shopId !== shopId
-        );
+        const newShops = shops.filter((shop: ShopType) => shop.shopId !== shopId);
         setShops(newShops);
         setOrgShops(newShops);
+
+        getShops();
 
         showMessage('削除しました');
       } catch (error: any) {
@@ -142,6 +143,8 @@ export const CustomerMaintenace = () => {
       setShops(newShops);
       setOrgShops(newShops);
 
+      getShops();
+
       showMessage('登録しました');
       setNewShopOpen(false);
     } catch (error: any) {
@@ -187,15 +190,8 @@ export const CustomerMaintenace = () => {
         />
       ))}
       <Loading open={open} zOrderDrawerIncrement={2} />
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={newShopOpen}
-      >
-        <CustomerAddEditor
-          shop={newShop}
-          createShop={handleCreateShop}
-          backToShopList={handleBackToShopList}
-        />
+      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={newShopOpen}>
+        <CustomerAddEditor shop={newShop} createShop={handleCreateShop} backToShopList={handleBackToShopList} />
       </Backdrop>
       <Toast ref={toast} position="center" />
     </>
