@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   IconButton,
   Box,
@@ -20,6 +21,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import UndoIcon from '@mui/icons-material/Undo';
 import { useForm } from 'react-hook-form';
 import AddIcon from '@mui/icons-material/Add';
+import dayjs from 'dayjs';
 
 import { prefectures } from '../../utils/util';
 import { GridContainer } from '../../../../components/containers/GridContainer';
@@ -45,6 +47,7 @@ export const CustomerAddEditor: FC<Props> = (props) => {
   const [selectedShopGroup, setSelectedShopGroup] = React.useState(
     shop.shopGroup
   );
+  const user = useSelector((state: any) => state.user.value);
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       isOwn: shop.isOwn,
@@ -56,6 +59,13 @@ export const CustomerAddEditor: FC<Props> = (props) => {
       city: shop.city,
       address: shop.address,
       building: shop.building,
+      commonItem: {
+        isDelete: false,
+        createUserId: user.userId,
+        createDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+        updateUserId: user.userId,
+        updateDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+      },
     },
   });
   const prefecturesItems = prefectures();
@@ -71,6 +81,13 @@ export const CustomerAddEditor: FC<Props> = (props) => {
       city: shop.city,
       address: shop.address,
       building: shop.building,
+      commonItem: {
+        isDelete: false,
+        createUserId: user.userId,
+        createDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+        updateUserId: user.userId,
+        updateDateTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+      },
     });
     setChecked(shop.isOwn);
     setSelectedPrefecture(shop.prefecture);
