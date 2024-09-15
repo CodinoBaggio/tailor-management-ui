@@ -59,33 +59,34 @@ export const UserMaintenance = () => {
   const [shops, setShops] = useState<ShopType[]>([]);
   const { toast, showMessage } = useToast();
 
-  useEffect(() => {
-    // ユーザー情報を取得する
-    const initialize = async () => {
-      try {
-        // スピナーを表示する
-        setOpen(true);
+  // ユーザー情報を取得する
+  const initialize = async () => {
+    try {
+      // スピナーを表示する
+      setOpen(true);
 
-        // ユーザーリスト取得
-        const res: any = await adminApi.user.getUsers({});
-        if (res.status === 'error') {
-          showMessage('エラー', 'error', res.message);
-          return;
-        }
-        setUsers(res.payload.users);
-        setOrgUsers(res.payload.users);
-
-        // 顧客リスト取得
-        setShops([]);
-        const resShop: any = await adminApi.shop.getShops({});
-        setShops([{ shopId: 'empty', shopName: '' }, ...resShop.payload.shops]);
-      } catch (error: any) {
-        showMessage('エラー', 'error', error);
-      } finally {
-        // スピナーを非表示にする
-        setOpen(false);
+      // ユーザーリスト取得
+      const res: any = await adminApi.user.getUsers({});
+      if (res.status === 'error') {
+        showMessage('エラー', 'error', res.message);
+        return;
       }
-    };
+      setUsers(res.payload.users);
+      setOrgUsers(res.payload.users);
+
+      // 顧客リスト取得
+      setShops([]);
+      const resShop: any = await adminApi.shop.getShops({});
+      setShops([{ shopId: 'empty', shopName: '' }, ...resShop.payload.shops]);
+    } catch (error: any) {
+      showMessage('エラー', 'error', error);
+    } finally {
+      // スピナーを非表示にする
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
     initialize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -107,11 +108,11 @@ export const UserMaintenance = () => {
         }
 
         // usersから削除する
-        const newShops = users.filter(
-          (user: UserType) => user.userId !== userId
-        );
+        const newShops = users.filter((user: UserType) => user.userId !== userId);
         setUsers(newShops);
         setOrgUsers(newShops);
+
+        initialize();
 
         showMessage('削除しました');
       } catch (error: any) {
@@ -215,6 +216,8 @@ export const UserMaintenance = () => {
       setUsers(newUsers);
       setOrgUsers(newUsers);
 
+      initialize();
+
       showMessage('登録しました');
       setNewUserOpen(false);
     } catch (error: any) {
@@ -257,14 +260,11 @@ export const UserMaintenance = () => {
           shops={shops}
           user={user}
           readOnly={true}
-          deleteUser={deleteUser}
+          deleteUser={(userId: string) => deleteUser(userId)}
         />
       ))}
       <Loading open={open} zOrderDrawerIncrement={2} />
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={newUserOpen}
-      >
+      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={newUserOpen}>
         <UserAddEditor
           user={newUser}
           shops={shops}
