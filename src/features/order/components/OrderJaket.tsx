@@ -729,7 +729,7 @@ export const OrderJaket: FC<Props> = (props) => {
             readOnly={readOnly}
           />
           <RhfSelect
-            label="袖裏"
+            label="袖裏 *"
             name="jaket-sleeveBack"
             menuItems={[
               { value: 'empty', label: '' },
