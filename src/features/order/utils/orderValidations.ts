@@ -2,9 +2,7 @@ import { FieldValues, UseFormReturn } from 'react-hook-form';
 import orderApi from '../api/orderApi';
 import { ContainsJaket, ContainsPants, ContainsVest } from './orderUtil';
 
-export const validateOrder = async (
-  methods: UseFormReturn<FieldValues, any, undefined>
-) => {
+export const validateOrder = async (methods: UseFormReturn<FieldValues, any, undefined>) => {
   const { getValues } = methods;
 
   // 品名
@@ -66,10 +64,7 @@ export const validateOrder = async (
         pantsError.pantsErrorCount +
         pantsError.vestErrorCount ===
         0 &&
-      vestError.basisErrorCount +
-        vestError.jaketErrorCount +
-        vestError.pantsErrorCount +
-        vestError.vestErrorCount ===
+      vestError.basisErrorCount + vestError.jaketErrorCount + vestError.pantsErrorCount + vestError.vestErrorCount ===
         0,
     errorCounts: {
       basisErrorCount:
@@ -88,17 +83,12 @@ export const validateOrder = async (
         pantsError.pantsErrorCount +
         vestError.pantsErrorCount,
       vestErrorCount:
-        basisError.vestErrorCount +
-        jaketError.vestErrorCount +
-        pantsError.vestErrorCount +
-        vestError.vestErrorCount,
+        basisError.vestErrorCount + jaketError.vestErrorCount + pantsError.vestErrorCount + vestError.vestErrorCount,
     },
   };
 };
 
-export const validateOrderBasis = (
-  methods: UseFormReturn<FieldValues, any, undefined>
-) => {
+export const validateOrderBasis = (methods: UseFormReturn<FieldValues, any, undefined>) => {
   const errorCounts = {
     basisErrorCount: 0,
     jaketErrorCount: 0,
@@ -109,11 +99,7 @@ export const validateOrderBasis = (
 
   //#region 必須入力チェック
   {
-    const requiredFields = [
-      'basis-customerName',
-      'basis-productName',
-      'basis-fabricProductNo',
-    ];
+    const requiredFields = ['basis-customerName', 'basis-productName', 'basis-fabricProductNo'];
     requiredFields.forEach((field) => {
       if (!getValues(field) || getValues(field) === 'empty') {
         methods.setError(field, {
@@ -276,9 +262,7 @@ export const validateOrderBasis = (
   return errorCounts;
 };
 
-export const validateOrderJaket = async (
-  methods: UseFormReturn<FieldValues, any, undefined>
-) => {
+export const validateOrderJaket = async (methods: UseFormReturn<FieldValues, any, undefined>) => {
   const errorCounts = {
     basisErrorCount: 0,
     jaketErrorCount: 0,
@@ -472,7 +456,7 @@ export const validateOrderJaket = async (
     if (value.charAt(0) === 'W') {
       const targetValue = methods.getValues('jaket-collarType');
       if (targetValue !== 'ピーク' && targetValue !== 'セミピーク') {
-        methods.setError('jaket-collarWidth', {
+        methods.setError('jaket-collarType', {
           type: 'custom',
           message: `${value}のため、ピークまたはセミピークを選択してください`,
         });
@@ -688,16 +672,21 @@ export const validateOrderJaket = async (
         });
         errorCounts.jaketErrorCount++;
       } else {
-        if (methods.getValues('jaket-nameFont') === "漢字" 
-          && !/^[\u4E00-\u9FFF\u3040-\u309F\u30A0-\u30FF\u3000\u0020]+$/.test(targetValue)){
+        if (
+          methods.getValues('jaket-nameFont') === '漢字' &&
+          !/^[\u4E00-\u9FFF\u3040-\u309F\u30A0-\u30FF\u3000\u0020]+$/.test(targetValue)
+        ) {
           methods.setError('jaket-name', {
             type: 'custom',
             message: `ネーム字体が漢字のため、ネーム内容を漢字のみにしてください`,
           });
           errorCounts.jaketErrorCount++;
         }
-        if ((methods.getValues('jaket-nameFont') === "ローマ字（筆）" || methods.getValues('jaket-nameFont') === "ローマ字（活字）") 
-          && !/^[A-Za-z.]+$/.test(targetValue)){
+        if (
+          (methods.getValues('jaket-nameFont') === 'ローマ字（筆）' ||
+            methods.getValues('jaket-nameFont') === 'ローマ字（活字）') &&
+          !/^[A-Za-z.]+$/.test(targetValue)
+        ) {
           methods.setError('jaket-name', {
             type: 'custom',
             message: `ネーム字体がローマ字のため、ネーム内容を英字かピリオドのみにしてください`,
@@ -736,19 +725,7 @@ export const validateOrderJaket = async (
 
   //#region No.81
   {
-    const tests = [
-      'ENKC',
-      'ATW',
-      'STW',
-      'BT',
-      'CT',
-      'TRD',
-      'PT',
-      'TBW',
-      'D',
-      'P',
-      'X',
-    ];
+    const tests = ['ENKC', 'ATW', 'STW', 'BT', 'CT', 'TRD', 'PT', 'TBW', 'D', 'P', 'X'];
 
     const value = methods.getValues('basis-fabricProductNo');
     if (tests.some((s) => value.startsWith(s))) {
@@ -849,9 +826,7 @@ export const validateOrderJaket = async (
     const value = methods.getValues('basis-fabricProductNo');
     if (tests.some((s) => s !== value)) {
       const targetValue = methods.getValues('jaket-buttonProductNo');
-      const inc = ['EZ10', 'EZ20', 'EZ30', 'EZ60', 'EZ150'].some((s) =>
-        targetValue.startsWith(s)
-      );
+      const inc = ['EZ10', 'EZ20', 'EZ30', 'EZ60', 'EZ150'].some((s) => targetValue.startsWith(s));
       if (inc) {
         methods.setError('jaket-buttonProductNo', {
           type: 'custom',
@@ -866,9 +841,7 @@ export const validateOrderJaket = async (
   return errorCounts;
 };
 
-export const validateOrderPants = (
-  methods: UseFormReturn<FieldValues, any, undefined>
-) => {
+export const validateOrderPants = (methods: UseFormReturn<FieldValues, any, undefined>) => {
   const errorCounts = {
     basisErrorCount: 0,
     jaketErrorCount: 0,
@@ -1004,6 +977,20 @@ export const validateOrderPants = (
   }
   //#endregion
 
+  //#region No.133
+  {
+    const value = methods.getValues('pants-amfStitch');
+    const targetValue = methods.getValues('pants-stitchThreadColor');
+    if (value === '有' && (targetValue === 'empty' || targetValue === '' || targetValue === '無')) {
+      methods.setError('pants-stitchThreadColor', {
+        type: 'custom',
+        message: `AMFステッチが${value}ため、いづれかを選択してください`,
+      });
+      errorCounts.pantsErrorCount++;
+    }
+  }
+  //#endregion
+
   //#region No.136
   {
     const value = methods.getValues('pants-tack');
@@ -1013,6 +1000,15 @@ export const validateOrderPants = (
         methods.setError('pants-tackSpec', {
           type: 'custom',
           message: `タックが${value}ため、インまたはアゥトを選択してください`,
+        });
+        errorCounts.pantsErrorCount++;
+      }
+    } else if (value === '0本') {
+      const targetValue = methods.getValues('pants-tackSpec');
+      if (targetValue === 'イン' || targetValue === 'アゥト') {
+        methods.setError('pants-tackSpec', {
+          type: 'custom',
+          message: `タックが${value}ため、空白を選択してください`,
         });
         errorCounts.pantsErrorCount++;
       }
@@ -1054,26 +1050,27 @@ export const validateOrderPants = (
 
   //#region No.152
   {
-    const tests = [
-      'ENKC',
-      'ATW',
-      'STW',
-      'BT',
-      'CT',
-      'TRD',
-      'PT',
-      'TBW',
-      'D',
-      'P',
-      'X',
-    ];
+    const value = methods.getValues('pants-loopCount');
+    if (value === '脇尾錠(ループ無）') {
+      const targetValue = methods.getValues('pants-plushLoop');
+      if (targetValue !== '無') {
+        methods.setError('pants-plushLoop', {
+          type: 'custom',
+          message: `ループ数が${value}ため、無を選択してください`,
+        });
+        errorCounts.pantsErrorCount++;
+      }
+    }
+  }
+  //#endregion
+
+  //#region No.153
+  {
+    const tests = ['P', 'CT', 'X', 'PT', 'ENKC'];
     const ngs = ['ATJ1709', 'ATJ1710', 'ATJ1711', 'ATJ1712'];
 
     const value = methods.getValues('basis-fabricProductNo');
-    if (
-      tests.some((s) => value.startsWith(s)) ||
-      ngs.some((s) => value === s)
-    ) {
+    if (tests.some((s) => value.startsWith(s)) || ngs.some((s) => value === s)) {
       const targetValue = methods.getValues('pants-setFinishing');
       if (targetValue !== '無') {
         methods.setError('pants-setFinishing', {
@@ -1105,9 +1102,7 @@ export const validateOrderPants = (
   return errorCounts;
 };
 
-export const validateOrderVest = (
-  methods: UseFormReturn<FieldValues, any, undefined>
-) => {
+export const validateOrderVest = (methods: UseFormReturn<FieldValues, any, undefined>) => {
   const errorCounts = {
     basisErrorCount: 0,
     jaketErrorCount: 0,
