@@ -25,6 +25,9 @@ import { confirmYesNo } from '../../../../utils/confirm';
 import { Toast } from 'primereact/toast';
 import { useToast } from '../../../../hooks/useToast';
 import dayjs from 'dayjs';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../../../auth/stores/userSlice';
+import authUtils from '../../../auth/utils/authUtils';
 
 const style = {
   boxMargin: 'mb-2',
@@ -44,9 +47,11 @@ export const UserEditor: FC<Props> = (props) => {
   const { user, shops, readOnly, deleteUser } = props;
   const { shop } = user;
   const [readOnlyState, setReadOnlyState] = useState(readOnly);
+  const dispatch = useDispatch();
   const [checked, setChecked] = useState(user.allowLogin);
   const [selectedRoleId, setSelectedRoleId] = React.useState(user.roleId);
   const [selectedShopId, setSelectedShopId] = React.useState(shop ? shop.shopId : 'empty');
+  const loginUser = useSelector((state: any) => state.user.value);
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       userId: user.userId,
@@ -145,6 +150,16 @@ export const UserEditor: FC<Props> = (props) => {
       if (res.status === 'error') {
         showMessage('エラー', 'error', res.message);
         return;
+      }
+
+      // 修正したユーザーがログインユーザーと同じっだったらログイン情報を更新する
+      if (loginUser.userId === data.userId) {
+        // 修正したユーザーがログインユーザーと同じっだったらログイン情報を更新する
+        const user = await authUtils.isAuthenticated();
+        if (user) {
+          //ユーザーの保存
+          dispatch(setUser(user));
+        }
       }
 
       setReadOnlyState(!readOnlyState);
