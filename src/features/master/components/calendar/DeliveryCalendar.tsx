@@ -1,6 +1,6 @@
 import React from 'react';
 import { GridColDef } from '@mui/x-data-grid';
-import { Maintenance } from '../ui/Maintenance';
+import { Maintenance } from '../ui/MaintenanceWithCheckbox';
 import masterApi from '../../api/materApi';
 
 const columns: GridColDef[] = [
@@ -63,6 +63,11 @@ export const DeliveryCalendar = () => {
       }}
       uploadButtonText="データ更新"
       downloadButtonText="雛形ダウンロード"
+      deleteDataApi={(params: number[]) =>
+        masterApi.deleteDeliveryCalendar({
+          seqs: params,
+        })
+      }
     />
   );
 };
