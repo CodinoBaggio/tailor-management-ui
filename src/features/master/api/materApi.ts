@@ -226,6 +226,11 @@ const masterApi = {
       method: 'upsertDeliveryCalendar',
       param: params,
     }),
+  deleteDeliveryCalendar: (params: any) =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'deleteDeliveryCalendar',
+      param: params,
+    }),
 };
 
 export default masterApi;
