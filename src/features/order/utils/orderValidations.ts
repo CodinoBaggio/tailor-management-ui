@@ -674,7 +674,7 @@ export const validateOrderJaket = async (methods: UseFormReturn<FieldValues, any
       } else {
         if (
           methods.getValues('jaket-nameFont') === '漢字' &&
-          !/^[\u4E00-\u9FFF\u3040-\u309F\u30A0-\u30FF\u3000\u0020]+$/.test(targetValue)
+          !/^[\u4E00-\u9FFF\u3040-\u309F\u30A0-\u30FF\u3000\u0020\s\d\uFF10-\uFF19]+$/.test(targetValue)
         ) {
           methods.setError('jaket-name', {
             type: 'custom',
@@ -685,7 +685,7 @@ export const validateOrderJaket = async (methods: UseFormReturn<FieldValues, any
         if (
           (methods.getValues('jaket-nameFont') === 'ローマ字（筆）' ||
             methods.getValues('jaket-nameFont') === 'ローマ字（活字）') &&
-          !/^[A-Za-z.]+$/.test(targetValue)
+          !/^[A-Za-z0-9.\s\uFF10-\uFF19]+$/.test(targetValue)
         ) {
           methods.setError('jaket-name', {
             type: 'custom',
