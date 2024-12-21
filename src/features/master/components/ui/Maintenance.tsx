@@ -81,35 +81,32 @@ export const Maintenance: FC<Props> = (props) => {
     readString(binaryStr, {
       worker: true,
       complete: async (results: any) => {
-        // バリデーション
-        if (results.data.length === 0 || results.data.length === 1) {
-          showMessage('エラー', 'error', `ヘッダ行もしくはデータ行がありません`);
-          return false;
-        }
-
-        // ヘッダーのバリデーション
-        if (validateHeader) {
-          const errorHeaderMessage = validateHeader(results.data[0], 2);
-          if (errorHeaderMessage) {
-            showMessage('エラー', 'error', errorHeaderMessage);
-            return false;
-          }
-        }
-
-        // データ行のバリデーション
-        if (validateRows) {
-          const errorRowMessage = validateRows(results.data);
-          if (errorRowMessage) {
-            showMessage('エラー', 'error', errorRowMessage);
-            return;
-          }
-        }
-
         // オブジェクトに格納し、APIに渡す
         try {
-          // スピナーを表示する
-          setOpen(true);
-
+          // バリデーション
+          if (results.data.length === 0 || results.data.length === 1) {
+            showMessage('エラー', 'error', `ヘッダ行もしくはデータ行がありません`);
+            return false;
+          }
+  
+          // ヘッダーのバリデーション
+          if (validateHeader) {
+            const errorHeaderMessage = validateHeader(results.data[0], 2);
+            if (errorHeaderMessage) {
+              showMessage('エラー', 'error', errorHeaderMessage);
+              return false;
+            }
+          }
+  
+          // データ行のバリデーション
+          if (validateRows) {
+            const errorRowMessage = validateRows(results.data);
+            if (errorRowMessage) {
+              showMessage('エラー', 'error', errorRowMessage);
+              return;
+            }
+          }
+  
           if (upsertApi) {
             const res: any = await upsertApi({ userId: user.userId, data: results.data.slice(1) });
             if (res.status === 'success') {
@@ -131,6 +128,9 @@ export const Maintenance: FC<Props> = (props) => {
 
   // CSVをドロップしたときに呼び出される処理
   const onDrop = useCallback((acceptedFiles: any) => {
+    // ドロップ時にすぐにスピナーを表示
+    setOpen(true);
+    
     acceptedFiles.forEach((file: any) => {
       const reader = new FileReader();
       reader.onabort = () => console.log('file reading was aborted');
