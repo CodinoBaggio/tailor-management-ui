@@ -149,7 +149,7 @@ export const validateOrderBasis = (methods: UseFormReturn<FieldValues, any, unde
           type: 'custom',
           message: '品名にVTが選択されているため、空白を選択してください',
         });
-        errorCounts.vestErrorCount++;
+        errorCounts.jaketErrorCount++;
       }
       const fabricMark = methods.getValues('jaket-fabricMark');
       if (fabricMark !== 'empty' && fabricMark !== '') {
@@ -157,7 +157,7 @@ export const validateOrderBasis = (methods: UseFormReturn<FieldValues, any, unde
           type: 'custom',
           message: '品名にVTが選択されているため、空白を選択してください',
         });
-        errorCounts.vestErrorCount++;
+        errorCounts.jaketErrorCount++;
       }
     }
   }
@@ -901,6 +901,19 @@ export const validateOrderPants = (methods: UseFormReturn<FieldValues, any, unde
       }
     });
     if (0 < errorCounts.pantsErrorCount) return errorCounts;
+  }
+  //#endregion
+
+  //#region ボタン品番は必須とする
+  {
+    const value = methods.getValues('jaket-buttonProductNo');
+    if (value === 'empty' || value === '') {
+      methods.setError('jaket-buttonProductNo', {
+        type: 'custom',
+        message: `ボタン品番を選択してください`,
+      });
+      errorCounts.jaketErrorCount++;
+    }
   }
   //#endregion
 
