@@ -542,16 +542,23 @@ export const validateOrderJaket = async (methods: UseFormReturn<FieldValues, any
 
   //#region No.64
   {
-    const value = methods.getValues('jaket-daiba');
-    if (value === '切り台場') {
-      const targetValue = methods.getValues('jaket-penPocket');
-      if (targetValue !== '特殊ペンPK') {
-        methods.setError('jaket-penPocket', {
-          type: 'custom',
-          message: `${value}のため、特殊ペンPKを選択してください`,
-        });
-        errorCounts.jaketErrorCount++;
-      }
+    const daibaValue = methods.getValues('jaket-daiba');
+    const penPocketValue = methods.getValues('jaket-penPocket');
+
+    if (daibaValue === '切り台場' && penPocketValue !== '特殊ペンPK') {
+      methods.setError('jaket-penPocket', {
+        type: 'custom',
+        message: `切り台場が選択されているため、特殊ペンPKを選択してください`,
+      });
+      errorCounts.jaketErrorCount++;
+    }
+
+    if (daibaValue !== '切り台場' && penPocketValue === '特殊ペンPK') {
+      methods.setError('jaket-daiba', {
+        type: 'custom',
+        message: `特殊ペンPKが選択されているため、切り台場を選択してください`,
+      });
+      errorCounts.jaketErrorCount++;
     }
   }
   //#endregion
@@ -831,6 +838,22 @@ export const validateOrderJaket = async (methods: UseFormReturn<FieldValues, any
         methods.setError('jaket-buttonProductNo', {
           type: 'custom',
           message: `生地品番が${value}のため、EZ10、EZ20、EZ30、EZ60、EZ150は選択できません`,
+        });
+        errorCounts.jaketErrorCount++;
+      }
+    }
+  }
+  //#endregion
+
+  //#region 上着にて、セレクトパターン2＝SYorJYの時、袖幅＝D～系のものを選べないようにしてほしい(6、7、8…などのみを選べるように)
+  {
+    const value = methods.getValues('jaket-selectPattern2');
+    if (value === 'SY' || value === 'JY') {
+      const targetValue = methods.getValues('jaket-collarWidth');
+      if (targetValue.startsWith('D')) {
+        methods.setError('jaket-collarWidth', {
+          type: 'custom',
+          message: `セレクトパターン2が${value}のため、D系以外を選択してください`,
         });
         errorCounts.jaketErrorCount++;
       }
