@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   AppBar,
   Box,
@@ -31,6 +31,7 @@ import Loading from '../components/ui/Loading';
 
 export const AppLayout = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user.value);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -50,7 +51,7 @@ export const AppLayout = () => {
     };
     checkAuth();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigate]);
+  }, [navigate, location.pathname]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -104,9 +105,7 @@ export const AppLayout = () => {
               EN-ARQ
             </Typography>
             {import.meta.env.MODE !== 'prod' && (
-              <Box className="text-xs">{`モード：${
-                import.meta.env.MODE
-              },VITE_PUBLIC_URL：${
+              <Box className="text-xs">{`モード：${import.meta.env.MODE},VITE_PUBLIC_URL：${
                 import.meta.env.VITE_PUBLIC_URL
               },VITE_API_URL：${import.meta.env.VITE_API_URL}`}</Box>
             )}
@@ -148,12 +147,14 @@ export const AppLayout = () => {
                   <Box>{`ユーザー名：${user.userName}`}</Box>
                 </Box>
                 <Divider />
-                <MenuItem onClick={handleAdmin}>
-                  <ListItemIcon>
-                    <SecurityIcon />
-                  </ListItemIcon>
-                  <ListItemText>管理者メニュー</ListItemText>
-                </MenuItem>
+                {user.roleId === '00' && (
+                  <MenuItem onClick={handleAdmin}>
+                    <ListItemIcon>
+                      <SecurityIcon />
+                    </ListItemIcon>
+                    <ListItemText>管理者メニュー</ListItemText>
+                  </MenuItem>
+                )}
                 <MenuItem onClick={handleInvoice}>
                   <ListItemIcon>
                     <DownloadIcon />

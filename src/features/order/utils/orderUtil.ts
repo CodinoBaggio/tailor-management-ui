@@ -380,9 +380,9 @@ export const createDefaultOrderValues = (user: any) => {
     remark: '',
     isDelete: false,
     createDateTime: dayjs(),
-    createUserId: user.loginId,
+    createUserId: user.userId,
     updateDateTime: dayjs(),
-    updateUserId: user.loginId,
+    updateUserId: user.userId,
   };
   const defaultOrderPants: OrderPantsType = {
     pantsOrderId: '',
@@ -432,9 +432,9 @@ export const createDefaultOrderValues = (user: any) => {
     remark: '',
     isDelete: false,
     createDateTime: dayjs(),
-    createUserId: user.loginId,
+    createUserId: user.userId,
     updateDateTime: dayjs(),
-    updateUserId: user.loginId,
+    updateUserId: user.userId,
   };
   const defaultOrderVest: OrderVestType = {
     vestOrderId: '',
@@ -469,9 +469,9 @@ export const createDefaultOrderValues = (user: any) => {
     remark: '',
     isDelete: false,
     createDateTime: dayjs(),
-    createUserId: user.loginId,
+    createUserId: user.userId,
     updateDateTime: dayjs(),
-    updateUserId: user.loginId,
+    updateUserId: user.userId,
   };
   const defaultOrderBasis: OrderBasisType = {
     orderId: 'new',
@@ -501,9 +501,9 @@ export const createDefaultOrderValues = (user: any) => {
     remark: '',
     isDelete: false,
     createDateTime: dayjs(),
-    createUserId: user.loginId,
+    createUserId: user.userId,
     updateDateTime: dayjs(),
-    updateUserId: user.loginId,
+    updateUserId: user.userId,
     inputUserName: user.userName,
     jaket: defaultOrderJaket,
     pants: defaultOrderPants,
