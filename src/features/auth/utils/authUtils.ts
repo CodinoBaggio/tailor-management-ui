@@ -4,7 +4,7 @@ import authApi from '../api/authApi';
 
 const authUtils = {
   isAuthenticated: async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (!token) return false;
 
     try {
