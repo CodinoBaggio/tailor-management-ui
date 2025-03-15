@@ -36,13 +36,18 @@ export const AppLayout = () => {
   const user = useSelector((state: any) => state.user.value);
   const [anchorEl, setAnchorEl] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     // JWTを持っているのか確認する
     const checkAuth = async () => {
       const user = await authUtils.isAuthenticated();
       if (!user) {
-        navigate('/login');
+        setErrorMessage('セッションの有効期限が切れました。再度ログインしてください。');
+        setTimeout(() => {
+          handleLogout();
+          // navigate('/login');
+        }, 5000); // 5秒の遅延を追加
       } else {
         //ユーザーの保存
         dispatch(setUser(user));
@@ -54,7 +59,7 @@ export const AppLayout = () => {
   }, [navigate, location.pathname]);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     dispatch(setUser({}));
     dispatch(setOrder({}));
 
@@ -98,6 +103,7 @@ export const AppLayout = () => {
     </>
   ) : (
     <>
+      {errorMessage && <Box sx={{ color: 'red', textAlign: 'center', marginTop: 2 }}>{errorMessage}</Box>}
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" className="h-12 justify-center">
           <Toolbar>

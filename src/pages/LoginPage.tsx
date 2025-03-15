@@ -41,7 +41,7 @@ export const LoginPage = () => {
           roleId: res.payload.roleId,
         })
       );
-      localStorage.setItem('token', res.payload.token);
+      sessionStorage.setItem('token', res.payload.token);
       navigate('/');
     } catch (error) {
       alert(error);
