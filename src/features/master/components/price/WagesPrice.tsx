@@ -66,9 +66,9 @@ export const WagesPrice = () => {
           if (!rows[i][0] || !rows[i][1] || !rows[i][2] || !rows[i][3] || !rows[i][4]) {
             return `${i + 1}行目の形式が正しくありません`;
           } else {
-            // 販売価格が数値かどうか
+            // 工賃が数値かどうか
             if (isNaN(rows[i][2])) {
-              return `${i + 1}行目の販売価格が数値ではありません`;
+              return `${i + 1}行目の工賃が数値ではありません`;
             }
             // 原価が数値かどうか
             if (isNaN(rows[i][3])) {

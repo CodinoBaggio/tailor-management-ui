@@ -156,9 +156,19 @@ const masterApi = {
       method: 'getAllCustomFeaturePrice',
       param: {},
     }),
+  getAllCustomFeaturePriceForDownload: () =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'getAllCustomFeaturePriceForDownload',
+      param: {},
+    }),
   getCustomFeaturePriceByCondition: (params: any) =>
     axiosClientGCF.post('/TailorManagementApiGcf', {
       method: 'getCustomFeaturePriceByCondition',
+      param: params,
+    }),
+  upsertCustomFeaturePrice: (params: any) =>
+    axiosClientGCF.post('/TailorManagementApiGcf', {
+      method: 'upsertCustomFeaturePrice',
       param: params,
     }),
   includesUnusableCharacter: (params: any) =>
