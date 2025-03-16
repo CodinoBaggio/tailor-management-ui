@@ -748,8 +748,9 @@ export const validateOrderJaket = async (methods: UseFormReturn<FieldValues, any
   }
   //#endregion
 
-  //#region No.82
+  //#region No.67、82
   {
+    // ゼニアの生地品番リスト
     const tests = [
       'ATJ1546',
       'ATJ1547',
@@ -830,14 +831,29 @@ export const validateOrderJaket = async (methods: UseFormReturn<FieldValues, any
       'ATJ1544',
     ];
 
-    const value = methods.getValues('basis-fabricProductNo');
-    if (tests.some((s) => s !== value)) {
-      const targetValue = methods.getValues('jaket-buttonProductNo');
-      const inc = ['EZ10', 'EZ20', 'EZ30', 'EZ60', 'EZ150'].some((s) => targetValue.startsWith(s));
-      if (inc) {
+    // ゼニアの裏地チェック
+    const liningValue = methods.getValues('jaket-lining');
+    const isZeniaLining = ['FF10', 'FF20', 'FF00'].some((s) => liningValue.startsWith(s));
+    if (isZeniaLining) {
+      const fabricValue = methods.getValues('basis-fabricProductNo');
+      if (!tests.some((s) => s === fabricValue)) {
+        methods.setError('jaket-lining', {
+          type: 'custom',
+          message: `ゼニアの裏地を選択しているため、ゼニアの生地品番を選択してください`,
+        });
+        errorCounts.jaketErrorCount++;
+      }
+    }
+
+    // ゼニアのボタンチェック
+    const buttonValue = methods.getValues('jaket-buttonProductNo');
+    const isZeniaButton = ['EZ10', 'EZ20', 'EZ30', 'EZ60', 'EZ150'].some((s) => buttonValue.startsWith(s));
+    if (isZeniaButton) {
+      const fabricValue = methods.getValues('basis-fabricProductNo');
+      if (!tests.some((s) => s === fabricValue)) {
         methods.setError('jaket-buttonProductNo', {
           type: 'custom',
-          message: `生地品番が${value}のため、EZ10、EZ20、EZ30、EZ60、EZ150は選択できません`,
+          message: `ゼニアのボタンを選択しているため、ゼニアの生地品番を選択してください`,
         });
         errorCounts.jaketErrorCount++;
       }
