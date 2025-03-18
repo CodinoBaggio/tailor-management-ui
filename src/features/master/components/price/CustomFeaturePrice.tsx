@@ -84,7 +84,7 @@ export const CustomFeaturePrice = () => {
             if (isNaN(rows[i][4])) {
               return `${i + 1}行目の仕様変更価格が数値ではありません`;
             }
-            // 原価が数値かどうか
+            // 原価が数値かどうか?
             if (isNaN(rows[i][5])) {
               return `${i + 1}行目の原価が数値ではありません`;
             }
