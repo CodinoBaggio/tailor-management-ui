@@ -236,7 +236,7 @@ export const Order: FC<Props> = (props) => {
   const handleOrder = async () => {
     const fire = async () => {
       try {
-        // スピナーを表示する
+        // スピナーを表示する!
         setOpen(true);
 
         // 発注登録
