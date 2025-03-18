@@ -80,7 +80,7 @@ export const CustomFeaturePrice = () => {
           if (!rows[i][0] || !rows[i][1] || !rows[i][2] || !rows[i][3] || !rows[i][4] || !rows[i][5] || !rows[i][6]) {
             return `${i + 1}行目の形式が正しくありません`;
           } else {
-            // 仕様変更価格が数値かどうか
+            // 仕様変更価格が数値かどうか?
             if (isNaN(rows[i][4])) {
               return `${i + 1}行目の仕様変更価格が数値ではありません`;
             }
