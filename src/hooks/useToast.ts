@@ -14,6 +14,7 @@ export const useToast = () => {
       summary: summary,
       detail: detail,
       sticky: true,
+      className: 'toast-message',
     });
   };
 
