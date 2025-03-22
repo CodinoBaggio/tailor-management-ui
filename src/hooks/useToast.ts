@@ -14,7 +14,14 @@ export const useToast = () => {
       summary: summary,
       detail: detail,
       sticky: true,
-      className: 'toast-message',
+      style: {
+        maxHeight: '500px',
+        overflowY: 'auto',
+        width: 'fit-content',
+        minWidth: '700px',
+        wordBreak: 'break-all',
+        whiteSpace: 'pre-wrap',
+      },
     });
   };
 
