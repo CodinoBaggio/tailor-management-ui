@@ -75,6 +75,11 @@ export const Order: FC<Props> = (props) => {
   const [priceCalcLoading, setPriceCalcLoading] = useState(false);
   const [dialogVisible, setDialogVisible] = useState(false);
   const [stockValidationMessage, setStockValidationMessage] = useState('');
+  const [fabricCost, setFabricCost] = useState<number | undefined>();
+  const [wagesCost, setWagesCost] = useState<number | undefined>();
+  const [customCost, setCustomCost] = useState<number | undefined>();
+  const [buttonLiningCost, setButtonLiningCost] = useState<number | undefined>();
+  const [totalCost, setTotalCost] = useState<number | undefined>();
 
   useEffect(() => {
     const getOrder = async () => {
@@ -128,31 +133,20 @@ export const Order: FC<Props> = (props) => {
             order.orderStatus = '保存';
             setCurrentOrderId('new');
             setIsNew(true);
-
-            // setFabricPrice('-');
-            // setWagesPrice('-');
-            // setCustomPrice('-');
-            // setButtonLiningPrice('-');
-            // setTotalPrice('-');
-            // setTax('-');
-            // setTotalPriceWithTax('-');
           } else {
             setFabricPrice(res.payload.invoice.fabricPrice);
             setWagesPrice(res.payload.invoice.wagesPrice);
             setCustomPrice(res.payload.invoice.customFeaturePrice);
             setButtonLiningPrice(res.payload.invoice.buttonLiningPrice);
-            // setFabricPrice(res.payload.invoice.fabricPrice.toLocaleString());
-            // setWagesPrice(res.payload.invoice.wagesPrice.toLocaleString());
-            // setCustomPrice(
-            //   res.payload.invoice.customFeaturePrice.toLocaleString()
-            // );
-            // setButtonLiningPrice(
-            //   res.payload.invoice.buttonLiningPrice.toLocaleString()
-            // );
             setTotalPrice(res.payload.invoice.totalPrice);
             setTax(res.payload.invoice.tax);
             setTotalPriceWithTax(res.payload.invoice.totalPriceWithTax);
-          }
+            setFabricCost(res.payload.invoice.fabricCost);
+            setWagesCost(res.payload.invoice.wagesCost);
+            setCustomCost(res.payload.invoice.customFeatureCost);
+            setButtonLiningCost(res.payload.invoice.buttonLiningCost);
+            setTotalCost(res.payload.invoice.totalCost);
+         }
         } else {
           order.shopId = user.shopId;
         }
@@ -257,6 +251,11 @@ export const Order: FC<Props> = (props) => {
             totalPrice: totalPrice,
             tax: tax,
             totalPriceWithTax: totalPriceWithTax,
+            fabricCost: fabricCost || 0,
+            wagesCost: wagesCost || 0,
+            customCost: customCost || 0,
+            buttonLiningCost: buttonLiningCost || 0,
+            totalCost: totalCost,
           },
         });
         if (res.status === 'success') {
@@ -442,6 +441,11 @@ export const Order: FC<Props> = (props) => {
         setTotalPrice(res.payload.price.totalPrice.toLocaleString());
         setTax(res.payload.price.tax.toLocaleString());
         setTotalPriceWithTax(res.payload.price.totalPriceWithTax.toLocaleString());
+        setFabricCost(res.payload.price.fabricCost);
+        setWagesCost(res.payload.price.wagesCost);
+        setCustomCost(res.payload.price.customCost);
+        setButtonLiningCost(res.payload.price.buttonLiningCost);
+        setTotalCost(res.payload.price.totalCost.toLocaleString());
       } else {
         showMessage('エラー', 'error', res.message);
       }
