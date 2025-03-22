@@ -197,6 +197,11 @@ export const Order: FC<Props> = (props) => {
             totalPrice: totalPrice,
             tax: tax,
             totalPriceWithTax: totalPriceWithTax,
+            fabricCost: fabricCost || 0,
+            wagesCost: wagesCost || 0,
+            customCost: customCost || 0,
+            buttonLiningCost: buttonLiningCost || 0,
+            totalCost: totalCost,
           },
         });
         if (res.status === 'success') {
