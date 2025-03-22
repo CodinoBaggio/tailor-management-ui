@@ -18,6 +18,8 @@ import { Toast } from 'primereact/toast';
 import Loading from '../../../components/ui/Loading';
 import { useToast } from '../../../hooks/useToast';
 import invoiceApi from '../api/invoiceApi';
+import Encoding from 'encoding-japanese';
+import ReceiptIcon from '@mui/icons-material/Receipt';
 
 const columns: GridColDef[] = [
   // { field: 'id', headerName: 'ID', width: 90},
@@ -40,17 +42,29 @@ const columns: GridColDef[] = [
   {
     field: 'productName',
     headerName: '品名',
-    width: 150,
+    width: 100,
   },
   {
     field: 'fabricProductNo',
     headerName: '生地品番',
-    width: 150,
+    width: 130,
   },
   {
     field: 'customerName',
     headerName: '卸先名',
     width: 150,
+  },
+  {
+    field: 'totalCost',
+    headerName: '原価',
+    type: 'number',
+    width: 110,
+  },
+  {
+    field: 'totalPrice',
+    headerName: '税抜金額',
+    type: 'number',
+    width: 110,
   },
   {
     field: 'totalPriceWithTax',
@@ -68,8 +82,7 @@ export const InvoiceData = () => {
   const [open, setOpen] = useState(false);
   const { toast, showMessage } = useToast();
   const [items, setItems] = useState<any[]>([]);
-  const [rowSelectionModel, setRowSelectionModel] =
-    useState<GridRowSelectionModel>([]);
+  const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
 
   useEffect(() => {
     setFormDateValue(dayjs());
@@ -117,15 +130,9 @@ export const InvoiceData = () => {
   };
 
   const handleDownload = async () => {
-    const selectedRows = items.filter((item) =>
-      rowSelectionModel.includes(item.id)
-    );
+    const selectedRows = items.filter((item) => rowSelectionModel.includes(item.id));
     if (selectedRows.length === 0) {
-      showMessage(
-        'エラー',
-        'error',
-        'ダウンロードするデータを選択してください'
-      );
+      showMessage('エラー', 'error', 'ダウンロードするデータを選択してください');
       return;
     }
 
@@ -156,15 +163,9 @@ export const InvoiceData = () => {
   };
 
   const handleRpaDataDownload = async () => {
-    const selectedRows = items.filter((item) =>
-      rowSelectionModel.includes(item.id)
-    );
+    const selectedRows = items.filter((item) => rowSelectionModel.includes(item.id));
     if (selectedRows.length === 0) {
-      showMessage(
-        'エラー',
-        'error',
-        'ダウンロードするデータを選択してください'
-      );
+      showMessage('エラー', 'error', 'ダウンロードするデータを選択してください');
       return;
     }
 
@@ -194,6 +195,42 @@ export const InvoiceData = () => {
     }
   };
 
+  const handleCsvDownload = async () => {
+    const selectedRows = items.filter((item) => rowSelectionModel.includes(item.id));
+    if (selectedRows.length === 0) {
+      showMessage('エラー', 'error', 'ダウンロードするデータを選択してください');
+      return;
+    }
+
+    // CSVファイル出力
+    setOpen(true);
+    try {
+      // selectedRowsをCSV形式で出力する
+      const headers = columns.map((col) => col.headerName).join(',');
+      const csv: any = selectedRows.map((row) => {
+        return `${row.shipDate},${row.orderId},${row.seq},${row.productName},${row.fabricProductNo},${row.customerName},${row.totalCost},${row.totalPrice},${row.totalPriceWithTax}`;
+      });
+      // ヘッダー行を追加
+      const csvWithHeaders = [headers, ...csv];
+      // ダウンロード処理
+      const sjisData = Encoding.convert(csvWithHeaders.join('\n'), {
+        to: 'SJIS',
+        from: 'UNICODE',
+        type: 'arraybuffer',
+      });
+      const uint8Array = new Uint8Array(sjisData);
+      const blob = new Blob([uint8Array], { type: 'text/csv;charset=shift-jis;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `請求_${dayjs().format('YYYYMMDDHHmmss')}.csv`;
+      a.click();
+    } catch (error: any) {
+      showMessage('エラー', 'error', error);
+    } finally {
+      setOpen(false);
+    }
+  };
+
   return (
     <>
       <Box className="flex justify-between items-end mb-5">
@@ -203,9 +240,7 @@ export const InvoiceData = () => {
               <DatePicker
                 label="工場出荷日From"
                 value={formDateValue}
-                onChange={(newValue: Dayjs | null) =>
-                  setFormDateValue(newValue!)
-                }
+                onChange={(newValue: Dayjs | null) => setFormDateValue(newValue!)}
                 slotProps={{
                   textField: {
                     size: 'small',
@@ -239,27 +274,16 @@ export const InvoiceData = () => {
             検索
           </Button>
         </Box>
-        <Box>
-          <Box className="flex flex-col items-end">
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<DownloadIcon />}
-              onClick={handleDownload}
-            >
-              請求書データ
-            </Button>
-          </Box>
-          <Box className="mt-2">
-            <Button
-              variant="outlined"
-              color="primary"
-              startIcon={<DownloadIcon />}
-              onClick={handleRpaDataDownload}
-            >
-              自動入力データ
-            </Button>
-          </Box>
+        <Box className="flex flex-col items-end space-y-2">
+          <Button variant="contained" color="primary" startIcon={<DownloadIcon />} onClick={handleDownload}>
+            請求書データ
+          </Button>
+          <Button variant="outlined" color="primary" startIcon={<DownloadIcon />} onClick={handleRpaDataDownload}>
+            自動入力データ
+          </Button>
+          <Button variant="outlined" color="primary" startIcon={<ReceiptIcon />} onClick={handleCsvDownload}>
+            CSVファイル出力
+          </Button>
         </Box>
       </Box>
       <Box className="w-full">
