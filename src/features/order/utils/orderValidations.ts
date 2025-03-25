@@ -458,7 +458,7 @@ export const validateOrderJaket = async (methods: UseFormReturn<FieldValues, any
       if (targetValue !== 'ピーク' && targetValue !== 'セミピーク') {
         methods.setError('jaket-collarType', {
           type: 'custom',
-          message: `${value}のため、ピークまたはセミピークを選択してください`,
+          message: `前ボタンが${value}のため、ピークまたはセミピークを選択してください`,
         });
         errorCounts.jaketErrorCount++;
       }
@@ -468,7 +468,17 @@ export const validateOrderJaket = async (methods: UseFormReturn<FieldValues, any
       if (targetValue !== 'スクエア') {
         methods.setError('jaket-frontCut', {
           type: 'custom',
-          message: `${value}のため、スクエアを選択してください`,
+          message: `前ボタンが${value}のため、スクエアを選択してください`,
+        });
+        errorCounts.jaketErrorCount++;
+      }
+    }
+    if (value.charAt(0) !== 'W') {
+      const targetValue = methods.getValues('jaket-frontCut');
+      if (targetValue !== 'ユニバーサル' && targetValue !== 'カッタウェイ') {
+        methods.setError('jaket-frontCut', {
+          type: 'custom',
+          message: `前ボタンが${value}のため、ユニバーサルまたはカッタウェイを選択してください`,
         });
         errorCounts.jaketErrorCount++;
       }
