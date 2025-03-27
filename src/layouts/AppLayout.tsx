@@ -154,20 +154,22 @@ export const AppLayout = () => {
                 </Box>
                 <Divider />
                 {user.roleId === '00' && (
-                  <MenuItem onClick={handleAdmin}>
-                    <ListItemIcon>
-                      <SecurityIcon />
-                    </ListItemIcon>
-                    <ListItemText>管理者メニュー</ListItemText>
-                  </MenuItem>
+                  <>
+                    <MenuItem onClick={handleAdmin}>
+                      <ListItemIcon>
+                        <SecurityIcon />
+                      </ListItemIcon>
+                      <ListItemText>管理者メニュー</ListItemText>
+                    </MenuItem>
+                    <MenuItem onClick={handleInvoice}>
+                      <ListItemIcon>
+                        <DownloadIcon />
+                      </ListItemIcon>
+                      <ListItemText>請求書データダウンロード</ListItemText>
+                    </MenuItem>
+                    <Divider />
+                  </>
                 )}
-                <MenuItem onClick={handleInvoice}>
-                  <ListItemIcon>
-                    <DownloadIcon />
-                  </ListItemIcon>
-                  <ListItemText>請求書データダウンロード</ListItemText>
-                </MenuItem>
-                <Divider />
                 <MenuItem
                   onClick={() => {
                     setYesNoDialogMessage('ログアウトしますか？');
