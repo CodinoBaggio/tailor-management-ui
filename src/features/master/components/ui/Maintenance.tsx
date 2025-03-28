@@ -138,12 +138,24 @@ export const Maintenance: FC<Props> = (props) => {
       reader.onload = async (e: any) => {
         const binaryStr = e.target.result;
         const codes = new Uint8Array(binaryStr);
-        const encoding = Encoding.detect(codes) || 'UTF8';
-        const text = Encoding.convert(codes, {
-          to: 'UNICODE',
-          from: encoding,
-          type: 'string',
-        });
+
+        let text;
+
+        try {
+          // まずSJISとして試行
+          text = Encoding.convert(codes, {
+            to: 'UNICODE',
+            from: 'SJIS',
+            type: 'string',
+          });
+        } catch (error) {
+          // SJISで失敗した場合はUTF-8として試行
+          text = Encoding.convert(codes, {
+            to: 'UNICODE',
+            from: 'UTF8',
+            type: 'string',
+          });
+        }
 
         // 不正な文字が含まれていないかチェック
         const res: any = await masterApi.includesUnusableCharacter({ fileContents: codes });
